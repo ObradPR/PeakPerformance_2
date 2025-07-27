@@ -1,6 +1,6 @@
-﻿using PeakPerformance.Application.Dtos.User;
+﻿using PeakPerformance.Application.Dtos.Users;
 
-namespace PeakPerformance.Application.BusinessLogic.User.Queries;
+namespace PeakPerformance.Application.BusinessLogic.Users.Queries;
 
 public class GetCurrentUserQuery : IRequest<UserDto>
 {

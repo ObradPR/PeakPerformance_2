@@ -1,4 +1,4 @@
-﻿namespace PeakPerformance.Application.Dtos.User;
+﻿namespace PeakPerformance.Application.Dtos.Users;
 
 public class AuthorizationDto
 {

@@ -1,0 +1,12 @@
+﻿global using Microsoft.EntityFrameworkCore;
+global using Microsoft.EntityFrameworkCore.Migrations;
+global using Microsoft.Extensions.Logging;
+global using PeakPerformance.Common;
+global using PeakPerformance.Common.Extensions;
+global using PeakPerformance.Domain;
+global using PeakPerformance.Domain.Entities._Base;
+global using PeakPerformance.Domain.Entities._Base.Interfaces;
+global using PeakPerformance.Domain.Enums;
+global using PeakPerformance.Domain.Interfaces;
+global using System.Diagnostics;
+global using System.Reflection;

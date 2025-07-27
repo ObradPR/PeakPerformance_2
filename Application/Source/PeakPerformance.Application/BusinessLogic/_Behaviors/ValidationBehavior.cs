@@ -1,4 +1,6 @@
-﻿namespace PeakPerformance.Application.BusinessLogic._Behaviors;
+﻿using PeakPerformance.Application.Exceptions;
+
+namespace PeakPerformance.Application.BusinessLogic._Behaviors;
 
 public class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
     where TRequest : IRequest<TResponse>

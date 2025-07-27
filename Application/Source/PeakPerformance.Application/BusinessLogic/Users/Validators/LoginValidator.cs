@@ -1,6 +1,6 @@
-﻿using PeakPerformance.Application.BusinessLogic.User.Commands;
+﻿using PeakPerformance.Application.BusinessLogic.Users.Commands;
 
-namespace PeakPerformance.Application.BusinessLogic.User.Validators;
+namespace PeakPerformance.Application.BusinessLogic.Users.Validators;
 
 public class LoginValidator : AbstractValidator<LoginCommand>
 {

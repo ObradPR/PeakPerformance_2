@@ -1,6 +1,6 @@
-﻿using PeakPerformance.Application.Dtos.User;
+﻿using PeakPerformance.Application.Dtos.Users;
 
-namespace PeakPerformance.Application.BusinessLogic.User.Commands;
+namespace PeakPerformance.Application.BusinessLogic.Users.Commands;
 
 public class LoginCommand(LoginDto user) : IRequest<AuthorizationDto>
 {
