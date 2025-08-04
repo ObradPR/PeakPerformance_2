@@ -14,8 +14,4 @@
     <ProjectReference Include="..\PeakPerformance.Common\PeakPerformance.Common.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Entities\Application\" />
-  </ItemGroup>
-
 </Project>

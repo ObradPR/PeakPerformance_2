@@ -1,4 +1,5 @@
-﻿using PeakPerformance.Api.ReinforcedTypings.Generator;
+﻿using PeakPerformance.Api.Controllers._Base;
+using PeakPerformance.Api.ReinforcedTypings.Generator;
 using PeakPerformance.Common;
 using Reinforced.Typings.Ast.TypeNames;
 using Reinforced.Typings.Fluent;

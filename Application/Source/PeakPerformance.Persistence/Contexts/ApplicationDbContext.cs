@@ -29,6 +29,9 @@ public partial class ApplicationDbContext : DbContext
         modelBuilder.ApplyGlobalSoftDeleteFilter();
         modelBuilder.ApplySoftDeleteIndexes();
 
+        foreach (var entity in modelBuilder.Model.GetEntityTypes())
+            entity.SetTableName(entity.DisplayName());
+
         base.OnModelCreating(modelBuilder);
     }
 

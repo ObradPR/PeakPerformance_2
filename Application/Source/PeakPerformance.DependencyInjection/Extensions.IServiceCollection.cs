@@ -12,6 +12,9 @@ using PeakPerformance.Application.Identity.Interfaces;
 using PeakPerformance.Application.Identity.Services;
 using PeakPerformance.Common;
 using PeakPerformance.Domain.Interfaces;
+using PeakPerformance.Infrastructure.Logger;
+using PeakPerformance.Infrastructure.Storage.Interfaces;
+using PeakPerformance.Infrastructure.Storage.Services;
 using PeakPerformance.Persistence.Contexts;
 using System.Text;
 
