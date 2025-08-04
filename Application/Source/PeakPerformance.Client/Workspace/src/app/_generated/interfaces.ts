@@ -7,6 +7,15 @@ export interface ILoginDto
 	username: string;
 	password: string;
 }
+export interface IRegistrationDto
+{
+	fullName: string;
+	username: string;
+	email: string;
+	password: string;
+	confirmPassword: string;
+	dateOfBirth: Date;
+}
 export interface IUserDto
 {
 	fullName: string;
@@ -41,4 +50,18 @@ export interface ISortingOptions
 	field: string;
 	dir: string;
 	desc: boolean;
+}
+export interface IError
+{
+	code: string;
+	message: string;
+}
+export interface IResponseWrapper
+{
+	isSuccess: boolean;
+	errors: IError[];
+}
+export interface IResponseWrapper<T> extends IResponseWrapper
+{
+	data: T;
 }

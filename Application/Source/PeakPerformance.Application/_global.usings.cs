@@ -2,4 +2,8 @@
 global using MediatR;
 global using Microsoft.Extensions.Logging;
 global using PeakPerformance.Application.Extensions;
+global using PeakPerformance.Application.Identity.Interfaces;
+global using PeakPerformance.Domain.Entities.Application;
+global using PeakPerformance.Domain.Enums;
+global using System.ComponentModel.DataAnnotations;
 global using System.Diagnostics;

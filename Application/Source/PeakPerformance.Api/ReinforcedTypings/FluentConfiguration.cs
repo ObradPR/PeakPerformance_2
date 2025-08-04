@@ -90,6 +90,14 @@ public static class FluentConfiguration
         //    _interfaceConfiguration
         //    );
 
+        builder.ExportAsInterfaces(
+            Assembly.GetAssembly(typeof(Domain.Common.ResponseWrapper)).ExportedTypes
+            .Where(i => i.Namespace.StartsWith($"{Constants.SOLUTION_NAME}.Domain.Common") && i.IsClass)
+            .OrderBy(i => i.Name)
+            .ToArray(),
+            _interfaceConfiguration
+            );
+
         // Enums
 
         builder.ExportAsEnums(
@@ -101,7 +109,7 @@ public static class FluentConfiguration
 
         builder.ExportAsClasses(
             Assembly.GetAssembly(typeof(BaseController)).ExportedTypes
-            .Where(i => i.Namespace.StartsWith($"{Constants.SOLUTION_NAME}.WebApi.Controllers"))
+            .Where(i => i.Namespace.StartsWith($"{Constants.SOLUTION_NAME}.Api.Controllers"))
             .OrderBy(i => i.Name)
             .OrderBy(i => i.Name != nameof(BaseController))
             .ToArray(),
