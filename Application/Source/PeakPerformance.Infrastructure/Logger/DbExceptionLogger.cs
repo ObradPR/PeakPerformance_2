@@ -1,4 +1,5 @@
-﻿using PeakPerformance.Domain.Interfaces;
+﻿using PeakPerformance.Domain.Entities.Application;
+using PeakPerformance.Domain.Interfaces;
 using PeakPerformance.Domain.Repositories;
 
 namespace PeakPerformance.Infrastructure.Logger;
@@ -9,14 +10,12 @@ public class DbExceptionLogger(IUnitOfWork unitOfWork) : IExceptionLogger
 
     public async Task LogExceptionAsync(Exception ex)
     {
-        //var error = new ErrorLog()
-        //{
-        //    Message = ex.Message,
-        //    StackTrace = ex.StackTrace,
-        //    InnerException = ex.InnerException?.Message
-        //};
-
-        //await _unitOfWork.ErrorLogRepository.AddAsync(error);
+        _unitOfWork.Create(new ErrorLog
+        {
+            Message = ex.Message,
+            StackTrace = ex.StackTrace,
+            InnerException = ex.InnerException?.Message
+        });
 
         await _unitOfWork.SaveAsync();
     }
