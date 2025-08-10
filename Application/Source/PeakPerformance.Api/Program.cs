@@ -27,8 +27,8 @@ app.UseCors(builder => builder
 
 app.UseHttpsRedirection();
 
-app.UseAuthorization();
 app.UseAuthentication();
+app.UseAuthorization();
 
 app.UseMiddleware<ExceptionMiddleware>();
 

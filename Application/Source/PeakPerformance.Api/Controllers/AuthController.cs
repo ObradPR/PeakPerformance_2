@@ -1,10 +1,5 @@
-﻿using MediatR;
-using Microsoft.AspNetCore.Mvc;
-using PeakPerformance.Api.Controllers._Base;
-using PeakPerformance.Api.ReinforcedTypings.Generator;
-using PeakPerformance.Application.BusinessLogic.Users.Commands;
+﻿using PeakPerformance.Application.BusinessLogic.Users.Commands;
 using PeakPerformance.Application.Dtos.Users;
-using PeakPerformance.Domain.Common;
 
 namespace PeakPerformance.Api.Controllers;
 

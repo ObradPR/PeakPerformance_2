@@ -2,7 +2,7 @@
 
 namespace PeakPerformance.Domain.Common;
 
-public class ResponseWrapper
+public class BaseResponseWrapper
 {
     public bool IsSuccess => Errors.Count == 0;
 
@@ -10,11 +10,11 @@ public class ResponseWrapper
 
     public HttpStatusCode Code { get; set; } = HttpStatusCode.OK;
 
-    public ResponseWrapper()
+    public BaseResponseWrapper()
     {
     }
 
-    public ResponseWrapper(List<Error> errors, HttpStatusCode code = HttpStatusCode.BadRequest)
+    public BaseResponseWrapper(List<Error> errors, HttpStatusCode code = HttpStatusCode.BadRequest)
     {
         if (errors != null && errors.Count > 0)
         {
@@ -33,7 +33,7 @@ public class ResponseWrapper
     }
 }
 
-public class ResponseWrapper<T> : ResponseWrapper
+public class ResponseWrapper<T> : BaseResponseWrapper
 {
     public T Data { get; set; }
 

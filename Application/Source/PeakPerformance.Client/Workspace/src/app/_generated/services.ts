@@ -7,6 +7,7 @@ import { IResponseWrapper } from './interfaces';
 import { IAuthorizationDto } from './interfaces';
 import { IRegistrationDto } from './interfaces';
 import { ILoginDto } from './interfaces';
+import { IUserDto } from './interfaces';
 
 @Injectable() export abstract class BaseController
 {
@@ -34,6 +35,25 @@ import { ILoginDto } from './interfaces';
 		return this.httpClient.post<IResponseWrapper<IAuthorizationDto>>(
 		this.settingsService.createApiUrl('Auth/Login'),
 		body,
+		{
+			responseType: 'json',
+			observe: 'response',
+			withCredentials: true
+		})
+		.pipe(map(response => response.body));
+		
+	}
+	constructor (httpClient: HttpClient, settingsService: SettingsService)
+	{
+		super(httpClient, settingsService);
+	}
+}
+@Injectable() export class UserController extends BaseController
+{
+	public GetCurrent() : Observable<IResponseWrapper<IUserDto> | null>
+	{
+		return this.httpClient.get<IResponseWrapper<IUserDto>>(
+		this.settingsService.createApiUrl('User/GetCurrent'),
 		{
 			responseType: 'json',
 			observe: 'response',

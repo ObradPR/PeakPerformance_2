@@ -2,13 +2,15 @@
 
 namespace PeakPerformance.Application.BusinessLogic.Users.Queries;
 
-public class GetCurrentUserQuery : IRequest<UserDto>
+public class GetCurrentUserQuery : IRequest<ResponseWrapper<UserDto>>
 {
-    public class GetCurrentUserQueryHandler : IRequestHandler<GetCurrentUserQuery, UserDto>
+    public class GetCurrentUserQueryHandler(IUnitOfWork unitOfWork, IIdentityUser identityUser, IMapper mapper) : IRequestHandler<GetCurrentUserQuery, ResponseWrapper<UserDto>>
     {
-        public async Task<UserDto> Handle(GetCurrentUserQuery request, CancellationToken cancellationToken)
+        public async Task<ResponseWrapper<UserDto>> Handle(GetCurrentUserQuery request, CancellationToken cancellationToken)
         {
-            return new UserDto();
+            var model = await unitOfWork.GetSingleAsync<User>(identityUser.Id);
+
+            return model == null ? new() : new(mapper.Map<UserDto>(model));
         }
     }
 }

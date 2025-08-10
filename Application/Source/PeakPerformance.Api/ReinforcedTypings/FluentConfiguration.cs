@@ -91,7 +91,7 @@ public static class FluentConfiguration
         //    );
 
         builder.ExportAsInterfaces(
-            Assembly.GetAssembly(typeof(Domain.Common.ResponseWrapper)).ExportedTypes
+            Assembly.GetAssembly(typeof(Domain.Common.BaseResponseWrapper)).ExportedTypes
             .Where(i => i.Namespace.StartsWith($"{Constants.SOLUTION_NAME}.Domain.Common") && i.IsClass)
             .OrderBy(i => i.Name)
             .ToArray(),

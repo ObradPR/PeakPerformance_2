@@ -1,4 +1,5 @@
-﻿global using FluentValidation;
+﻿global using AutoMapper;
+global using FluentValidation;
 global using MediatR;
 global using Microsoft.Extensions.Logging;
 global using PeakPerformance.Application.Extensions;
@@ -8,6 +9,7 @@ global using PeakPerformance.Common.Resources;
 global using PeakPerformance.Domain.Common;
 global using PeakPerformance.Domain.Entities.Application;
 global using PeakPerformance.Domain.Enums;
+global using PeakPerformance.Domain.Interfaces;
 global using PeakPerformance.Domain.Repositories;
 global using System.ComponentModel.DataAnnotations;
 global using System.Diagnostics;

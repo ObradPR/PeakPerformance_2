@@ -1,0 +1,9 @@
+﻿@PeakPerformance.Api_HostAddress = https://localhost:7117/api/User
+@token = eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJJRCI6IjEiLCJVU0VSTkFNRSI6IlRFU1QiLCJGVUxMTkFNRSI6IlRlc3QiLCJFTUFJTCI6InRlc3RAdGVzdC5jb20iLCJJU1NVRVIiOiJodHRwczovL2xvY2FsaG9zdDo3MTE3IiwiUk9MRVMiOiJVc2VyIiwibmJmIjoxNzU0ODUzOTIwLCJleHAiOjE3NTU4OTA3MjAsImlhdCI6MTc1NDg1MzkyMCwiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NzExNyIsImF1ZCI6Imh0dHBzOi8vbG9jYWxob3N0OjQyMDAifQ.WF5SjoyBUl9ZDYUZIEZk_1dkTlJo4i3zfxWudhEcRfprBXoJwxfcxmpLaHMzSbM9w8ug8tDiiG4p413XkDHuLQ
+
+GET {{PeakPerformance.Api_HostAddress}}/GetCurrent/
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+###

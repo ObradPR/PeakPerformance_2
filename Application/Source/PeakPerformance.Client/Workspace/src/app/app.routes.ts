@@ -5,23 +5,12 @@ export const routes: Routes = [
     ///
     /// AUTH
     ///
-    // {
-    //     path: RouteConstants.ROUTE_AUTH,
-    //     canActivate: [authGuard],
-    //     children: [
-    //         {
-    //             path: '',
-    //             redirectTo: RouteConstants.ROUTE_SIGN_IN,
-    //             pathMatch: 'full'
-    //         },
-    //         {
-    //             path: ':type',
-    //             title: RouteConstants.TITLE_AUTH,
-    //             loadComponent: () =>
-    //                 import('./pages/auth/auth.component').then(_ => _.AuthComponent),
-    //         }
-    //     ],
-    // },
+    {
+        path: RouteConstants.ROUTE_LOG_IN,
+        // canActivate: [authGuard],
+        title: RouteConstants.TITLE_LOG_IN,
+        loadComponent: () => import('./pages/auth/log-in/log-in').then(_ => _.LogIn)
+    }
     ///
     /// Error Pages
     ///

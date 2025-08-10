@@ -19,6 +19,10 @@ export interface IRegistrationDto
 export interface IUserDto
 {
 	fullName: string;
+	username: string;
+	email: string;
+	dateOfBirth: Date;
+	description: string;
 }
 export interface IEnumProvider
 {
@@ -51,18 +55,18 @@ export interface ISortingOptions
 	dir: string;
 	desc: boolean;
 }
-export interface IError
-{
-	key: string;
-	value: string;
-}
-export interface IResponseWrapper
+export interface IBaseResponseWrapper
 {
 	isSuccess: boolean;
 	errors: IError[];
 	code: number;
 }
-export interface IResponseWrapper<T> extends IResponseWrapper
+export interface IError
+{
+	key: string;
+	value: string;
+}
+export interface IResponseWrapper<T> extends IBaseResponseWrapper
 {
 	data: T;
 }

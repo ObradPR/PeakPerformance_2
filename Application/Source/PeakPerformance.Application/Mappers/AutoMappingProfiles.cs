@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+﻿using PeakPerformance.Application.Dtos.Users;
 
 namespace PeakPerformance.Application.Mappers;
 
@@ -9,6 +9,7 @@ public class AutoMappingProfiles : BaseAutoMapperProfile
 {
     public AutoMappingProfiles()
     {
-        //CreateMap<User, UserDto>();
+
+        CreateMap<User, UserDto>();
     }
 }

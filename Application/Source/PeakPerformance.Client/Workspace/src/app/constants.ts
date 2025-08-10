@@ -42,11 +42,8 @@ export class RouteConstants {
   static TITLE_UNAUTHORIZED = 'Unauthorized | ' + this.TITLE;
 
   // Auth
-  static ROUTE_AUTH = 'auth';
-  static TITLE_AUTH = 'Auth | ' + this.TITLE;
-
-  static ROUTE_SIGN_IN = 'sign-in';
-  static ROUTE_SIGN_UP = 'sign-up';
+  static ROUTE_LOG_IN = 'log-in';
+  static TITLE_LOG_IN = 'Log In | ' + this.TITLE;
 
   // Pages
   static ROUTE_HOME = '/';

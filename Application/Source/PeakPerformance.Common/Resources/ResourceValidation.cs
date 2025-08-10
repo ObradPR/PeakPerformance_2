@@ -51,4 +51,6 @@ public static class ResourceValidation
     public static string Wrong_Credentials => "User credentials are wrong. Please try again.";
 
     public static string Wrong_Format => "{0} is in the wrong format.";
+
+    public static string Not_Found => "{0} not found.";
 }
