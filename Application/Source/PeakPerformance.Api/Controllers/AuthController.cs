@@ -13,9 +13,9 @@ public class AuthController(IMediator mediator)
 {
     [HttpPost]
     [AngularMethod(typeof(ResponseWrapper<AuthorizationDto>))]
-    public async Task<IActionResult> Signup([FromBody] RegistrationDto data) => Ok(await Mediator.Send(new RegistrationCommand(data)));
+    public async Task<IActionResult> Registration([FromBody] RegistrationDto data) => Ok(await Mediator.Send(new RegistrationCommand(data)));
 
-    //[HttpPost]
-    //[AngularMethod(typeof(AuthorizationDto))]
-    //public async Task<IActionResult> Signin(SigninDto data) => Ok(await Mediator.Send(new SigninCommand(data)));
+    [HttpPost]
+    [AngularMethod(typeof(ResponseWrapper<AuthorizationDto>))]
+    public async Task<IActionResult> Login([FromBody] LoginDto data) => Ok(await Mediator.Send(new LoginCommand(data)));
 }

@@ -7,12 +7,9 @@ public class LoginValidator : AbstractValidator<LoginCommand>
     public LoginValidator()
     {
         RuleFor(_ => _.User.Username)
-            .Required()
-            .MaximumLengthAuto(30)
-            .MinimumLengthAuto(2);
+            .Required();
 
         RuleFor(_ => _.User.Password)
-            .Required()
-            .MatchesPassword();
+            .Required();
     }
 }

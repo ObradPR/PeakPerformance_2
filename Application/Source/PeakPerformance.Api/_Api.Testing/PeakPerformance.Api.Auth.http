@@ -1,7 +1,6 @@
-﻿@timeout = 200000
-@PeakPerformance.Api_HostAddress = https://localhost:7117/api/Auth
+﻿@PeakPerformance.Api_HostAddress = https://localhost:7117/api/Auth
 
-POST {{PeakPerformance.Api_HostAddress}}/Signup/
+POST {{PeakPerformance.Api_HostAddress}}/Registration/
 Accept: application/json
 Content-Type: application/json
 
@@ -12,6 +11,17 @@ Content-Type: application/json
   "password": "",
   "confirmPassword": "",
   "dateOfBirth": "2002-10-10"
+}
+
+###
+
+POST {{PeakPerformance.Api_HostAddress}}/Login/
+Accept: application/json
+Content-Type: application/json
+
+{
+  "username": "TEST",
+  "password": ""
 }
 
 ###

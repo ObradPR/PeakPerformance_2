@@ -1,5 +1,4 @@
 ﻿using PeakPerformance.Application.Dtos.Users;
-using PeakPerformance.Common.Resources;
 
 namespace PeakPerformance.Application.BusinessLogic.Users.Commands;
 
@@ -15,22 +14,22 @@ public class RegistrationCommand(RegistrationDto user) : IRequest<ResponseWrappe
             if (await unitOfWork.Users.ExistsAsync(request.User.Username, request.User.Email))
                 return new(new Error(nameof(User), ResourceValidation.In_Use.FormatWith("Email or Username")));
 
-            var user = new User();
+            var model = new User();
 
-            request.User.ToModel(user, userManager);
+            request.User.ToModel(model, userManager);
 
-            unitOfWork.Create(user);
+            unitOfWork.Create(model);
 
             await unitOfWork.SaveAsync();
 
             return new(new AuthorizationDto
             {
                 Token = tokenService.GenerateJwtToken(
-                user.Id,
+                model.Id,
                 (new[] { eSystemRole.User }).GetNames(),
-                user.FullName,
-                user.Email,
-                user.Username)
+                model.FullName,
+                model.Email,
+                model.Username)
             });
         }
     }
