@@ -1,4 +1,7 @@
+using PeakPerformance.Api.Middlewares;
+using PeakPerformance.Api.Objects;
 using PeakPerformance.DependencyInjection;
+using PeakPerformance.Domain.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,7 +12,7 @@ builder.Services.AllApplicationServices();
 builder.Services.AddControllers();
 builder.Services.AddHttpContextAccessor();
 
-//builder.Services.AddScoped<IIdentityUser, IdentityUser>();
+builder.Services.AddScoped<IIdentityUser, IdentityUser>();
 
 var app = builder.Build();
 
@@ -27,7 +30,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 app.UseAuthentication();
 
-//app.UseMiddleware<ExceptionMiddleware>();
+app.UseMiddleware<ExceptionMiddleware>();
 
 app.MapControllers();
 

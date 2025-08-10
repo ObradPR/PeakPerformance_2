@@ -1,0 +1,17 @@
+﻿@timeout = 200000
+@PeakPerformance.Api_HostAddress = https://localhost:7117/api/Auth
+
+POST {{PeakPerformance.Api_HostAddress}}/Signup/
+Accept: application/json
+Content-Type: application/json
+
+{
+  "fullName": "TEST",
+  "username": "TEST",
+  "email": "test@test.com",
+  "password": "",
+  "confirmPassword": "",
+  "dateOfBirth": "2002-10-10"
+}
+
+###

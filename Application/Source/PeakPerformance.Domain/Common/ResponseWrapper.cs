@@ -1,4 +1,6 @@
-﻿namespace PeakPerformance.Domain.Common;
+﻿using System.Net;
+
+namespace PeakPerformance.Domain.Common;
 
 public class ResponseWrapper
 {
@@ -6,18 +8,46 @@ public class ResponseWrapper
 
     public List<Error> Errors { get; set; } = [];
 
+    public HttpStatusCode Code { get; set; } = HttpStatusCode.OK;
+
     public ResponseWrapper()
     {
     }
 
-    public ResponseWrapper(List<Error> errors) => Errors = errors;
+    public ResponseWrapper(List<Error> errors, HttpStatusCode code = HttpStatusCode.BadRequest)
+    {
+        if (errors != null && errors.Count > 0)
+        {
+            Errors.AddRange(errors);
+            Code = code;
+        }
+    }
 
-    public void AddError(Error error) => Errors.Add(error);
+    public void AddError(Error error, HttpStatusCode code = HttpStatusCode.BadRequest)
+    {
+        if (error != null)
+        {
+            Errors.Add(error);
+            Code = code;
+        }
+    }
 }
 
 public class ResponseWrapper<T> : ResponseWrapper
 {
     public T Data { get; set; }
 
+    public ResponseWrapper()
+    {
+    }
+
     public ResponseWrapper(T data) => Data = data;
+
+    public ResponseWrapper(List<Error> errors, HttpStatusCode code = HttpStatusCode.BadRequest) : base(errors, code)
+    {
+    }
+
+    public ResponseWrapper(Error error, HttpStatusCode code = HttpStatusCode.BadRequest) : base([error], code)
+    {
+    }
 }

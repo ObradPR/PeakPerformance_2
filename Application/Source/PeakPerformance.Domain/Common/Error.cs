@@ -1,14 +1,8 @@
 ﻿namespace PeakPerformance.Domain.Common;
 
-public class Error
+public class Error(string key, string value)
 {
-    public string Code { get; set; }
+    public string Key { get; set; } = key;
 
-    public string Message { get; set; }
-
-    public Error(string code, string message)
-    {
-        Code = code;
-        Message = message;
-    }
+    public string Value { get; set; } = value;
 }

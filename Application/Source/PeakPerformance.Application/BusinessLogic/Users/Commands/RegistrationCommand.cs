@@ -1,41 +1,29 @@
 ﻿using PeakPerformance.Application.Dtos.Users;
-using PeakPerformance.Common.Extensions;
-using PeakPerformance.Domain.Repositories;
+using PeakPerformance.Common.Resources;
 
 namespace PeakPerformance.Application.BusinessLogic.Users.Commands;
 
-public class RegistrationCommand(RegistrationDto user) : IRequest<AuthorizationDto>
+public class RegistrationCommand(RegistrationDto user) : IRequest<ResponseWrapper<AuthorizationDto>>
 {
     public RegistrationDto User { get; set; } = user;
 
     public class SignupCommandHandler(IUnitOfWork unitOfWork, ITokenService tokenService, IUserManager userManager)
-        : IRequestHandler<RegistrationCommand, AuthorizationDto>
+        : IRequestHandler<RegistrationCommand, ResponseWrapper<AuthorizationDto>>
     {
-        public async Task<AuthorizationDto> Handle(RegistrationCommand request, CancellationToken cancellationToken)
+        public async Task<ResponseWrapper<AuthorizationDto>> Handle(RegistrationCommand request, CancellationToken cancellationToken)
         {
-            //var existingUser = await unitOfWork.Users.GetExistingAsync(request.User.Email, request.User.Username, strict: false);
-
-            //if (existingUser != null)
-            //{
-            //    if (existingUser.Email == request.User.Email)
-            //    {
-            //        throw new FluentValidationException(nameof(request.User.Email), ResourceValidation.Already_Exist.AppendArgument(nameof(User)));
-            //    }
-            //    else if (existingUser.Username == request.User.Username)
-            //    {
-            //        throw new FluentValidationException(nameof(request.User.Username), ResourceValidation.Already_Exist.AppendArgument(nameof(User)));
-            //    }
-            //}
+            if (await unitOfWork.Users.ExistsAsync(request.User.Username, request.User.Email))
+                return new(new Error(nameof(User), ResourceValidation.In_Use.FormatWith("Email or Username")));
 
             var user = new User();
 
             request.User.ToModel(user, userManager);
 
-            //await unitOfWork.Users.AddAsync(user);
+            unitOfWork.Create(user);
 
             await unitOfWork.SaveAsync();
 
-            return new AuthorizationDto
+            return new(new AuthorizationDto
             {
                 Token = tokenService.GenerateJwtToken(
                 user.Id,
@@ -43,7 +31,7 @@ public class RegistrationCommand(RegistrationDto user) : IRequest<AuthorizationD
                 user.FullName,
                 user.Email,
                 user.Username)
-            };
+            });
         }
     }
 }

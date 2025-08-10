@@ -2,4 +2,5 @@
 
 public interface IUserRepository
 {
+    Task<bool> ExistsAsync(string username, string email);
 }

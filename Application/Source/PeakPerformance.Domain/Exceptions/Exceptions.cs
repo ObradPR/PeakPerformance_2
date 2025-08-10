@@ -1,9 +1,5 @@
 ﻿namespace PeakPerformance.Domain.Exceptions;
 
-public class AccountExistsException() : Exception("Account with given email or username already exists.");
-
-public class EmailValidationException() : Exception("Email does not exist.");
-
 public class ForbiddenException() : Exception("Access forbidden.");
 
 public class NotFoundException() : Exception("The requested resource was not found.");
@@ -11,10 +7,6 @@ public class NotFoundException() : Exception("The requested resource was not fou
 public class ServerErrorException() : Exception("An unexpected server error occurred.");
 
 public class UnauthorizedException() : Exception("Unauthorized access. Authentication is required.");
-
-public class ValidationException() : Exception("Validation failed for the request.");
-
-public class VerificationCodeException() : Exception("Verification code does not match the one provided.");
 
 public class UploadFileException : Exception
 {

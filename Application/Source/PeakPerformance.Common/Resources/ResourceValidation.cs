@@ -4,6 +4,8 @@ public static class ResourceValidation
 {
     public static string Already_Exist => "{0} already exist.";
 
+    public static string In_Use => "The provided {0} is already in use.";
+
     public static string Date_After => "Provided {0} must be after {1}.";
 
     public static string Date_Before => "Provided {0} must be before {1}.";

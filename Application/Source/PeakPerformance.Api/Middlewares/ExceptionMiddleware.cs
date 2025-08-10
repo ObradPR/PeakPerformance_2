@@ -1,6 +1,6 @@
-﻿using PeakPerformance.Api.Objects;
-using PeakPerformance.Application.Exceptions;
+﻿using PeakPerformance.Application.Exceptions;
 using PeakPerformance.Common.Extensions;
+using PeakPerformance.Domain.Common;
 using PeakPerformance.Domain.Exceptions;
 using PeakPerformance.Domain.Interfaces;
 using System.Net;
@@ -27,43 +27,32 @@ public class ExceptionMiddleware(RequestDelegate next)
     {
         await logger.LogExceptionAsync(ex);
 
-        context.Response.ContentType = "application/json";
-
-        context.Response.StatusCode = ex switch
+        var statusCode = ex switch
         {
-            NotFoundException _ => (int)HttpStatusCode.NotFound,
-            UnauthorizedException _ => (int)HttpStatusCode.Unauthorized,
-            ValidationException _ => (int)HttpStatusCode.BadRequest,
-            ForbiddenException _ => (int)HttpStatusCode.Forbidden,
-            FluentValidationException _ => (int)HttpStatusCode.UnprocessableEntity,
-            EmailValidationException _ => (int)HttpStatusCode.BadRequest,
-            VerificationCodeException _ => (int)HttpStatusCode.BadRequest,
-            AccountExistsException _ => (int)HttpStatusCode.BadRequest,
-            ServerErrorException _ => (int)HttpStatusCode.InternalServerError,
-            _ => (int)HttpStatusCode.InternalServerError,
+            NotFoundException _ => HttpStatusCode.NotFound,
+            UnauthorizedException _ => HttpStatusCode.Unauthorized,
+            ForbiddenException _ => HttpStatusCode.Forbidden,
+            FluentValidationException _ => HttpStatusCode.UnprocessableEntity,
+            ServerErrorException _ => HttpStatusCode.InternalServerError,
+            _ => HttpStatusCode.InternalServerError,
         };
 
-        var response = new ExceptionResponse();
+        context.Response.ContentType = "application/json";
+        context.Response.StatusCode = (int)statusCode;
+
+        var response = new ResponseWrapper<object>();
 
         if (ex is FluentValidationException validationException)
         {
-            response = new ValidationExceptionResponse
-            {
-                Message = validationException.Message,
-                Error = validationException.Failures.ToDictionary(
-                    _ => _.Key,
-                    _ => _.Value)
-            };
+            response.Code = statusCode;
+            response.Errors = validationException.Failures
+                .SelectMany(kvp => kvp.Value.Select(msg => new Error(kvp.Key, msg)))
+                .ToList();
         }
         else
         {
-            response = new ExceptionResponse
-            {
-                Message = ex.Message,
-            };
+            response.AddError(new("Error", ex.Message), statusCode);
         }
-
-        response.StatusCode = context.Response.StatusCode;
 
         await context.Response.WriteAsync(response.SerializeJsonObject());
     }

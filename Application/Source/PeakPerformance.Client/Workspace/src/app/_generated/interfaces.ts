@@ -53,13 +53,14 @@ export interface ISortingOptions
 }
 export interface IError
 {
-	code: string;
-	message: string;
+	key: string;
+	value: string;
 }
 export interface IResponseWrapper
 {
 	isSuccess: boolean;
 	errors: IError[];
+	code: number;
 }
 export interface IResponseWrapper<T> extends IResponseWrapper
 {

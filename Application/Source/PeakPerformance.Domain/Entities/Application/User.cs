@@ -61,6 +61,7 @@ public class User : BaseIndexAuditedDomain<User, long>, IConfigurableEntity
     {
         builder.Entity<User>(_ =>
         {
+            _.Property(_ => _.FullName).HasMaxLength(30).IsRequired();
             _.Property(_ => _.Username).HasMaxLength(30).IsRequired();
             _.Property(_ => _.Email).HasMaxLength(100).IsRequired();
             _.Property(_ => _.Password).IsRequired();
