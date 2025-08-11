@@ -1,15 +1,27 @@
 import { Routes } from '@angular/router';
 import { RouteConstants } from './constants';
+import { authGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
+    {
+        path: RouteConstants.ROUTE_HOME,
+        title: RouteConstants.TITLE_HOME,
+        canActivate: [authGuard],
+        loadComponent: () => import('./pages/home/home').then(_ => _.Home),
+    },
     ///
     /// AUTH
     ///
     {
-        path: RouteConstants.ROUTE_LOG_IN,
-        // canActivate: [authGuard],
-        title: RouteConstants.TITLE_LOG_IN,
-        loadComponent: () => import('./pages/auth/log-in/log-in').then(_ => _.LogIn)
+        path: RouteConstants.ROUTE_AUTH,
+        canActivate: [authGuard],
+        children: [
+            {
+                path: RouteConstants.ROUTE_LOG_IN,
+                title: RouteConstants.TITLE_LOG_IN,
+                loadComponent: () => import('./pages/auth/log-in/log-in').then(_ => _.LogIn)
+            }
+        ]
     }
     ///
     /// Error Pages

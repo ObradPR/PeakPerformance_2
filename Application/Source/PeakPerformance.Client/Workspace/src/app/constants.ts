@@ -42,11 +42,13 @@ export class RouteConstants {
   static TITLE_UNAUTHORIZED = 'Unauthorized | ' + this.TITLE;
 
   // Auth
+  static ROUTE_AUTH = 'auth';
+
   static ROUTE_LOG_IN = 'log-in';
   static TITLE_LOG_IN = 'Log In | ' + this.TITLE;
 
   // Pages
-  static ROUTE_HOME = '/';
+  static ROUTE_HOME = '';
   static TITLE_HOME = 'Home | ' + this.TITLE;
   static ROUTE_BODYWEIGHT = 'bodyweight';
   static TITLE_BODYWEIGHT = 'Bodyweight | ' + this.TITLE;
