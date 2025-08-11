@@ -5,6 +5,7 @@ import { routes } from './app.routes';
 import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
 import './extensions/observable.extension';
 import { AuthController, UserController } from './_generated/services';
+import { MessageService } from 'primeng/api';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -15,10 +16,16 @@ export const appConfig: ApplicationConfig = {
       withFetch(),
       // withInterceptors([jwtInterceptor, errorInterceptor])
     ),
+    servicesProvider(),
     controllersProvider(),
   ]
 };
 
+function servicesProvider(): Provider[] {
+  return [
+    MessageService
+  ]
+}
 
 function controllersProvider(): Provider[] {
   return [

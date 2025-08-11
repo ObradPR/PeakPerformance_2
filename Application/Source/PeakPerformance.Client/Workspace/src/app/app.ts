@@ -2,10 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { PageLoader } from './components/page-loader/page-loader'
 import { AuthService } from './services/auth.service';
+import { ToastModule } from 'primeng/toast';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet /*, ToastModule*/, PageLoader],
+  imports: [RouterOutlet, ToastModule, PageLoader],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })

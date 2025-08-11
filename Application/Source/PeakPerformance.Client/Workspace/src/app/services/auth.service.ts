@@ -1,10 +1,11 @@
 import { Injectable, signal } from '@angular/core';
-import { IUserDto } from '../_generated/interfaces';
+import { IAuthorizationDto, IUserDto } from '../_generated/interfaces';
 import { UserController } from '../_generated/services';
 import { LoaderService } from './loader.service';
 import { StorageService } from './storage.service';
-import { Constants } from '../constants';
+import { Constants, RouteConstants } from '../constants';
 import { DateTime } from 'luxon';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -13,9 +14,10 @@ export class AuthService {
   currentUserSource = signal<IUserDto | null>(null);
 
   constructor(
+    private router: Router,
+    private userController: UserController,
     private loaderService: LoaderService,
     private storageService: StorageService,
-    private userController: UserController,
   ) { }
 
   loadCurrentUser() {
@@ -28,6 +30,19 @@ export class AuthService {
       .catch(ex => { throw ex; })
       .finally(() => this.loaderService.hidePageLoader());
   }
+
+  setUser(data: IAuthorizationDto) {
+    this.setToken(data.token);
+
+    const token = this.getToken();
+
+    if (token) {
+      this.router.navigateByUrl(RouteConstants.ROUTE_HOME);
+      this.loadCurrentUser();
+    }
+  }
+
+  // JWT TOKEN
 
   getDecodedToken(token: string) {
     return JSON.parse(atob(token.split('.')[1]));
