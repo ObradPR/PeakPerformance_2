@@ -46,6 +46,8 @@ export class RouteConstants {
 
   static ROUTE_LOG_IN = 'log-in';
   static TITLE_LOG_IN = 'Log In | ' + this.TITLE;
+  static ROUTE_REGISTER = 'register';
+  static TITLE_REGISTER = 'Register | ' + this.TITLE;
 
   // Pages
   static ROUTE_HOME = '';

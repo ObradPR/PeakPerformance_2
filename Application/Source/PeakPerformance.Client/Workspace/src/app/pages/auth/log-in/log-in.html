@@ -2,7 +2,7 @@
 
     <div class="text-center mb-3">
         <h1>Log In</h1>
-        <p>Need an account? <a href="#">Register</a></p>
+        <p>Need an account? <a routerLink="/auth/register">Register</a></p>
     </div>
 
     <form [formGroup]="form" (ngSubmit)="onLogin()" class="col-xl-3 col-lg-4 col-md-5 col-sm-7 col-10">
@@ -19,7 +19,7 @@
                 <label for="password" class="form-label">Password</label>
                 <div class="input-group mb-4" validation [key]="'Password'" [errors]="errors">
                     <span class="input-group-text" id="password-addon"><i class="fa-solid fa-lock"></i></span>
-                    <input type="text" class="form-control" id="password" placeholder="Password" aria-label="Password" aria-describedby="password-addon" formControlName="password" />
+                    <input type="password" class="form-control" id="password" placeholder="Password" aria-label="Password" aria-describedby="password-addon" formControlName="password" />
                 </div>
             </div>
         </fieldset>

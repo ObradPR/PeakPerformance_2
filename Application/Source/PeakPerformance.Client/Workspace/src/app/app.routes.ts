@@ -17,9 +17,19 @@ export const routes: Routes = [
         canActivate: [authGuard],
         children: [
             {
+                path: '',
+                redirectTo: RouteConstants.ROUTE_LOG_IN,
+                pathMatch: 'full'
+            },
+            {
                 path: RouteConstants.ROUTE_LOG_IN,
                 title: RouteConstants.TITLE_LOG_IN,
                 loadComponent: () => import('./pages/auth/log-in/log-in').then(_ => _.LogIn)
+            },
+            {
+                path: RouteConstants.ROUTE_REGISTER,
+                title: RouteConstants.TITLE_REGISTER,
+                loadComponent: () => import('./pages/auth/register/register').then(_ => _.Register)
             }
         ]
     }

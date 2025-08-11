@@ -42,7 +42,7 @@ public static class ResourceValidation
 
     public static string Not_Numeric_Type => "The type {0} is not a numeric type";
 
-    public static string Password => "{0} must consist of at least one uppercase letter, one lowercase letter, one digit, one special character and must be at least 8 characters long";
+    public static string Password => "Min. 8 chars with letters, numbers & symbols";
 
     public static string Phone_Number => "{0} must be in format 333-333-3333";
 

@@ -15,7 +15,7 @@ public class RegistrationDto
     public string ConfirmPassword { get; set; }
 
     [Display(Name = "Date of birth")]
-    public DateTime DateOfBirth { get; set; }
+    public DateTime? DateOfBirth { get; set; }
 
     // methods
 
@@ -25,7 +25,7 @@ public class RegistrationDto
         user.Username = Username;
         user.Email = Email;
         user.Password = userManager.HashPassword(Password);
-        user.DateOfBirth = DateOfBirth;
+        user.DateOfBirth = DateOfBirth.Value;
 
         user.UserRoles.Add(new UserRole
         {

@@ -14,7 +14,7 @@ export interface IRegistrationDto
 	email: string;
 	password: string;
 	confirmPassword: string;
-	dateOfBirth: Date;
+	dateOfBirth?: Date | null;
 }
 export interface IUserDto
 {

@@ -1,0 +1,62 @@
+<div class="col-12 d-flex flex-column justify-content-between align-items-center">
+
+    <div class="text-center mb-3">
+        <h1>Register</h1>
+        <p>Have an account? <a routerLink="/auth/log-in">Log In</a></p>
+    </div>
+
+    <form [formGroup]="form" (ngSubmit)="onRegister()" class="col-xl-3 col-lg-4 col-md-5 col-sm-7 col-10">
+        <fieldset validation [key]="'User'" [errors]="errors">
+            <div class="position-relative">
+                <label for="username" class="form-label">Username</label>
+                <div class="input-group mb-2" validation [key]="'Username'" [errors]="errors">
+                    <span class="input-group-text" id="username-addon"><i class="fa-solid fa-user"></i></span>
+                    <input type="text" class="form-control" id="username" placeholder="Username" aria-label="Username" aria-describedby="username-addon" formControlName="username" />
+                </div>
+            </div>
+
+            <div class="position-relative">
+                <label for="fullName" class="form-label">Full Name</label>
+                <div class="input-group mb-2" validation [key]="'FullName'" [errors]="errors">
+                    <span class="input-group-text" id="fullName-addon"><i class="fa-solid fa-address-card"></i></span>
+                    <input type="text" class="form-control" id="fullName" placeholder="FullName" aria-label="FullName" aria-describedby="fullName-addon" formControlName="fullName" />
+                </div>
+            </div>
+
+             <div class="position-relative">
+                <label for="email" class="form-label">Email</label>
+                <div class="input-group mb-2" validation [key]="'Email'" [errors]="errors">
+                    <span class="input-group-text" id="email-addon"><i class="fa-solid fa-envelope"></i></span>
+                    <input type="email" class="form-control" id="email" placeholder="Email" aria-label="Email" aria-describedby="email-addon" formControlName="email" />
+                </div>
+            </div>
+
+            <div class="position-relative">
+                <label for="password" class="form-label">Password</label>
+                <div class="input-group mb-2" validation [key]="'Password'" [errors]="errors">
+                    <span class="input-group-text" id="password-addon"><i class="fa-solid fa-lock"></i></span>
+                    <input type="password" class="form-control" id="password" placeholder="Password" aria-label="Password" aria-describedby="password-addon" formControlName="password" />
+                </div>
+            </div>
+
+             <div class="position-relative">
+                <label for="confirmPassword" class="form-label">Confirm Password</label>
+                <div class="input-group mb-2" validation [key]="'ConfirmPassword'" [errors]="errors">
+                    <span class="input-group-text" id="confirmPassword-addon"><i class="fa-solid fa-lock"></i></span>
+                    <input type="password" class="form-control" id="confirmPassword" placeholder="Confirm Password" aria-label="Confirm Password" aria-describedby="confirmPassword-addon" formControlName="confirmPassword" />
+                </div>
+            </div>
+
+            <div class="position-relative">
+                <label for="dateOfBirth" class="form-label">Date Of Birth</label>
+                <div class="input-group mb-4" validation [key]="'DateOfBirth'" [errors]="errors">
+                    <span class="input-group-text" id="dateOfBirth-addon"><i class="fa-solid fa-calendar"></i></span>
+                    <input type="date" [min]="minDob" [max]="maxDob" class="form-control" id="dateOfBirth" placeholder="Date Of Birth" aria-label="Date Of Birth" aria-describedby="dateOfBirth-addon" formControlName="dateOfBirth" />
+                </div>
+            </div>
+        </fieldset>
+
+        <button type="submit" class="btn btn-primary col-12">Register</button>
+    </form>
+
+</div>
