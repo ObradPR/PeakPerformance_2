@@ -1,1 +1,29 @@
 /* You can add global styles to this file, and also import other style files */
+* {
+  font-family: "Roboto", sans-serif;;
+}
+
+body {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  color: #343a40;
+}
+
+input, form {
+    position: relative;
+}
+
+.input-error {
+  box-shadow: 0 0 5px rgb(255, 0, 0);
+  border-radius: var(--bs-border-radius);
+}
+
+.validation-error-message {
+  color: #e73b1c;
+  font-size: 0.8rem;
+  margin-top: 2px;
+  position: absolute;
+  right: 0px;
+  bottom: -20px;
+}

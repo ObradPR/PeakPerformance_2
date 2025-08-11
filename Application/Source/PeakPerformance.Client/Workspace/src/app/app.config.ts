@@ -6,16 +6,31 @@ import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/
 import './extensions/observable.extension';
 import { AuthController, UserController } from './_generated/services';
 import { MessageService } from 'primeng/api';
+import { jwtInterceptor } from './interceptors/jwt.interceptor';
+import { errorInterceptor } from './interceptors/error.interceptor';
+import { provideAnimations } from '@angular/platform-browser/animations';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { providePrimeNG } from 'primeng/config';
+import Aura from '@primeuix/themes/aura';
+
+
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
+    provideAnimations(),
+    provideAnimationsAsync(),
     provideHttpClient(
       withFetch(),
-      // withInterceptors([jwtInterceptor, errorInterceptor])
+      withInterceptors([jwtInterceptor, errorInterceptor])
     ),
+    providePrimeNG({
+      theme: {
+        preset: Aura
+      }
+    }),
     servicesProvider(),
     controllersProvider(),
   ]

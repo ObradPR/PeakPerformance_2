@@ -7,6 +7,8 @@ public static partial class Extensions
 {
     public static DefaultContractResolver DefaultContractResolver { get; } = new DefaultContractResolver();
 
+    public static CamelCasePropertyNamesContractResolver CamelCasePropertyNamesContractResolver { get; } = new CamelCasePropertyNamesContractResolver();
+
     public static JsonSerializerSettings DefaultDeserializationSettings { get; } = new JsonSerializerSettings
     {
         ContractResolver = DefaultContractResolver,
@@ -21,6 +23,14 @@ public static partial class Extensions
         ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
         DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate,
         NullValueHandling = NullValueHandling.Ignore
+    };
+
+    public static JsonSerializerSettings WebSerializationSettings { get; } = new JsonSerializerSettings
+    {
+        ContractResolver = CamelCasePropertyNamesContractResolver,
+        ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+        DefaultValueHandling = DefaultValueHandling.Include,
+        NullValueHandling = NullValueHandling.Include
     };
 
     public static T DeserializeJsonObject<T>(this string data, IContractResolver contractResolver = null, DefaultValueHandling? defaultValueHandling = null, NullValueHandling? nullValueHandling = null)
@@ -49,6 +59,9 @@ public static partial class Extensions
             NullValueHandling = nullValueHandling ?? NullValueHandling.Ignore,
             Formatting = formatting ?? Formatting.None
         });
+
+    public static string SerializeWebJson(this object data)
+        => data == null ? null : JsonConvert.SerializeObject(data, WebSerializationSettings);
 
     public static bool IsValidJson(this string json)
     {

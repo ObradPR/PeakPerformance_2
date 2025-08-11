@@ -6,17 +6,23 @@
     </div>
 
     <form [formGroup]="form" (ngSubmit)="onLogin()" class="col-xl-3 col-lg-4 col-md-5 col-sm-7 col-10">
-        <label for="username" class="form-label">Username</label>
-        <div class="input-group mb-2">
-            <span class="input-group-text" id="username-addon"><i class="fa-solid fa-user"></i></span>
-            <input type="text" class="form-control" id="username" placeholder="Username" aria-label="Username" aria-describedby="username-addon" formControlName="username" />
-        </div>
-
-        <label for="password" class="form-label">Password</label>
-        <div class="input-group mb-4">
-            <span class="input-group-text" id="password-addon"><i class="fa-solid fa-lock"></i></span>
-            <input type="text" class="form-control" id="password" placeholder="Password" aria-label="Password" aria-describedby="password-addon" formControlName="password" />
-        </div>
+        <fieldset validation [key]="'User'" [errors]="errors">
+            <div class="position-relative">
+                <label for="username" class="form-label">Username</label>
+                <div class="input-group mb-2" validation [key]="'Username'" [errors]="errors">
+                    <span class="input-group-text" id="username-addon"><i class="fa-solid fa-user"></i></span>
+                    <input type="text" class="form-control" id="username" placeholder="Username" aria-label="Username" aria-describedby="username-addon" formControlName="username" />
+                </div>
+            </div>
+    
+            <div class="position-relative">
+                <label for="password" class="form-label">Password</label>
+                <div class="input-group mb-4" validation [key]="'Password'" [errors]="errors">
+                    <span class="input-group-text" id="password-addon"><i class="fa-solid fa-lock"></i></span>
+                    <input type="text" class="form-control" id="password" placeholder="Password" aria-label="Password" aria-describedby="password-addon" formControlName="password" />
+                </div>
+            </div>
+        </fieldset>
 
         <button type="submit" class="btn btn-primary col-12">Log In</button>
     </form>

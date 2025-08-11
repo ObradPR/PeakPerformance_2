@@ -1,19 +1,22 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ILoginDto } from '../../../_generated/interfaces';
 import { AuthController } from '../../../_generated/services';
+import { ValidationDirective } from '../../../directives/validation.directive';
 import { AuthService } from '../../../services/auth.service';
 import { LoaderService } from '../../../services/loader.service';
 import { ToastService } from '../../../services/toast.service';
-import { CommonModule } from '@angular/common';
+import { BaseValidationComponent } from '../../_base/base.component/base-validation.component';
 
 @Component({
   selector: 'app-log-in',
-  imports: [CommonModule, FormsModule, ReactiveFormsModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, ValidationDirective],
   templateUrl: './log-in.html',
   styleUrl: './log-in.css'
 })
-export class LogIn implements OnInit {
+export class LogIn extends BaseValidationComponent implements OnInit {
+  override errors: Record<string, string>;
   form: FormGroup;
 
   constructor(
@@ -23,6 +26,7 @@ export class LogIn implements OnInit {
     private toastService: ToastService,
     private loaderService: LoaderService
   ) {
+    super();
     this.form = this.fb.group({});
   }
 
@@ -49,9 +53,7 @@ export class LogIn implements OnInit {
           this.toastService.showSuccess('Success', 'Successfully logged in');
         }
       })
-      .catch(ex => {
-        console.log(ex);
-      })
+      .catch(ex => this.setErrors(ex))
       .finally(() => this.loaderService.hidePageLoader());
   }
 }

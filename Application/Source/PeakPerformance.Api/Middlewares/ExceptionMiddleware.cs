@@ -1,9 +1,7 @@
 ﻿using PeakPerformance.Application.Exceptions;
 using PeakPerformance.Common.Extensions;
-using PeakPerformance.Domain.Common;
 using PeakPerformance.Domain.Exceptions;
 using PeakPerformance.Domain.Interfaces;
-using System.Net;
 
 namespace PeakPerformance.Api.Middlewares;
 
@@ -54,6 +52,6 @@ public class ExceptionMiddleware(RequestDelegate next)
             response.AddError(new("Error", ex.Message), statusCode);
         }
 
-        await context.Response.WriteAsync(response.SerializeJsonObject());
+        await context.Response.WriteAsync(response.SerializeWebJson());
     }
 }
