@@ -4,10 +4,11 @@ import { PageLoader } from './components/page-loader/page-loader'
 import { AuthService } from './services/auth.service';
 import { ToastModule } from 'primeng/toast';
 import { Header } from "./components/header/header";
+import { Footer } from "./components/footer/footer";
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, ToastModule, PageLoader, Header],
+  imports: [RouterOutlet, ToastModule, PageLoader, Header, Footer],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
