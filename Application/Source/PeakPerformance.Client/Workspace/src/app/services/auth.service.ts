@@ -1,4 +1,4 @@
-import { Injectable, signal } from '@angular/core';
+import { computed, Injectable, signal } from '@angular/core';
 import { IAuthorizationDto, IUserDto } from '../_generated/interfaces';
 import { UserController } from '../_generated/services';
 import { LoaderService } from './loader.service';
@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 })
 export class AuthService {
   currentUserSource = signal<IUserDto | null>(null);
+  isAuthenticated = computed(() => !!this.currentUserSource());
 
   constructor(
     private router: Router,
@@ -66,5 +67,11 @@ export class AuthService {
       return null;
 
     return token;
+  }
+
+  signOut() {
+    this.storageService.remove(Constants.AUTH_TOKEN);
+    this.currentUserSource.set(null);
+    this.router.navigateByUrl(RouteConstants.ROUTE_AUTH);
   }
 }

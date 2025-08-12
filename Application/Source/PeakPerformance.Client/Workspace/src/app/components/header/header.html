@@ -1,0 +1,52 @@
+<header>
+    <nav class="navbar navbar-expand-lg bg-primary navbar-dark p-lg-0 py-2">
+        <div class="container-fluid pe-0">
+            <a class="navbar-brand" routerLink="/">
+                <svg class="css-rt6ihi" viewBox="0 0 66.66666666666667 73.5957904912134" width="30" height="30"><g transform="translate(-8.204526213054253, -27.578998278753176) scale(1.687098629148699)" fill="#FFFFFF"><path d="M6.5332 40.897999999999996 c1.9043 -8.1738 3.8086 -16.377 5.7129 -24.551 l17.578 0 c10.518 0 17.871 5.4492 13.037 17.373 c-1.2305 2.959 -2.8711 5.332 -4.7461 7.1777 l2.666 0 c-4.5996 4.4238 -10.957 5.918 -18.281 5.918 l-3.0469 13.154 l-14.59 0 l4.3945 -19.072 l-2.7246 0 z M24.316 27.217 c-0.61523 2.8711 -1.3184 5.8008 -1.9629 8.7891 c7.2949 -0.38086 10.02 -8.7891 1.9629 -8.7891 z"></path></g></svg>
+                PeakPerformance
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
+                <ul class="navbar-nav">
+                    @if (authService.isAuthenticated()) {
+                        <li class="nav-item" routerLinkActive="active">
+                            <a class="nav-link" routerLink="/workouts"><i class="fa-solid fa-dumbbell"></i> Workouts</a>
+                        </li>
+                        <li class="nav-item" routerLinkActive="active">
+                            <a class="nav-link" routerLink="/exercises"><i class="fa-solid fa-chart-bar"></i> Exercises</a>
+                        </li>
+                         <li class="nav-item" >
+                            <a class="nav-link" routerLink="/bodyweight"><i class="fa-solid fa-weight-scale"></i> Bodyweight</a>
+                        </li>
+                        <li class="nav-item" routerLinkActive="active">
+                            <a class="nav-link" routerLink="/measurement"><i class="fa-solid fa-ruler"></i> Measurement</a>
+                        </li>
+                    }
+                    @else {
+                        <li class="nav-item" routerLinkActive="active">
+                            <a class="nav-link" routerLink="/auth/register">Register</a>
+                        </li>
+                        <li class="nav-item" routerLinkActive="active">
+                            <a class="nav-link" routerLink="/auth/log-in">Log In</a>
+                        </li>
+                    }
+                </ul>
+                @if (authService.isAuthenticated()) {
+                    <ul class="navbar-nav">
+                        <li class="nav-item" routerLinkActive="active">
+                            <a class="nav-link" routerLink="/find-lifters"><i class="fa-solid fa-users"></i> Find Lifters</a>
+                        </li>
+                        <li class="nav-item" routerLinkActive="active">
+                            <a class="nav-link" routerLink="/settings"><i class="fa-solid fa-gear"></i> Settings</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" (click)="signOut()" style="cursor: pointer;"><i class="fa-solid fa-right-from-bracket"></i> Sign Out</a>
+                        </li>
+                    </ul>
+                }
+            </div>
+        </div>
+    </nav>
+</header>

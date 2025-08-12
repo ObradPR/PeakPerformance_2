@@ -34,7 +34,6 @@ export class Register extends BaseValidationComponent implements OnInit {
     this.form = this.fb.group({});
     this.minDob = DateTime.now().minus({ years: 80 }).toISODate();
     this.maxDob = DateTime.now().minus({ years: 14 }).toISODate();
-    console.log(this.minDob);
   }
 
   ngOnInit(): void {
