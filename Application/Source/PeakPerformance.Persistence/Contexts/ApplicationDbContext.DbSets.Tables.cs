@@ -11,4 +11,6 @@ public partial class ApplicationDbContext
     public virtual DbSet<UserRole> UserRoles { get; set; }
 
     public virtual DbSet<Bodyweight> Bodyweights { get; set; }
+
+    public virtual DbSet<BodyweightGoal> BodyweightGoals { get; set; }
 }
