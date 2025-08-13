@@ -23,6 +23,12 @@ public class BaseResponseWrapper
         }
     }
 
+    public BaseResponseWrapper(Error error, HttpStatusCode code = HttpStatusCode.BadRequest)
+    {
+        Errors.Add(error);
+        Code = code;
+    }
+
     public void AddError(Error error, HttpStatusCode code = HttpStatusCode.BadRequest)
     {
         if (error != null)
@@ -47,7 +53,7 @@ public class ResponseWrapper<T> : BaseResponseWrapper
     {
     }
 
-    public ResponseWrapper(Error error, HttpStatusCode code = HttpStatusCode.BadRequest) : base([error], code)
+    public ResponseWrapper(Error error, HttpStatusCode code = HttpStatusCode.BadRequest) : base(error, code)
     {
     }
 }

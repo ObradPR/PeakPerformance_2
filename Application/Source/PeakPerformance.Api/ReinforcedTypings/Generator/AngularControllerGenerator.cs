@@ -1,5 +1,4 @@
-﻿using PeakPerformance.Api.Controllers._Base;
-using Reinforced.Typings;
+﻿using Reinforced.Typings;
 using Reinforced.Typings.Ast;
 using Reinforced.Typings.Ast.TypeNames;
 using Reinforced.Typings.Generators;
@@ -16,7 +15,7 @@ public class AngularControllerGenerator : ClassCodeGenerator
             return null;
         }
 
-        result.Decorators.Add(new RtDecorator("Injectable()"));
+        result.Decorators.Add(new RtDecorator("""Injectable({ providedIn: 'root' })"""));
 
         var httpServiceType = new RtSimpleTypeName("HttpClient");
         var settingsService = new RtSimpleTypeName("SettingsService");

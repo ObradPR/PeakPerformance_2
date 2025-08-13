@@ -32,7 +32,6 @@ export const appConfig: ApplicationConfig = {
       }
     }),
     servicesProvider(),
-    controllersProvider(),
   ]
 };
 
@@ -40,11 +39,4 @@ function servicesProvider(): Provider[] {
   return [
     MessageService
   ]
-}
-
-function controllersProvider(): Provider[] {
-  return [
-    AuthController,
-    UserController,
-  ];
 }

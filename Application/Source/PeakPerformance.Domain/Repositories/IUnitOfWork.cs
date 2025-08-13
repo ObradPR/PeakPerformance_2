@@ -24,5 +24,9 @@ public interface IUnitOfWork
 
     void CreateList<T>(List<T> entities) where T : BaseDomain;
 
+    void Delete<T>(T entity) where T : BaseDomain;
+
+    void DeleteList<T>(List<T> entities) where T : BaseDomain;
+
     Task SaveAsync();
 }

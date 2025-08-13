@@ -7,13 +7,14 @@ import { IResponseWrapper } from './interfaces';
 import { IAuthorizationDto } from './interfaces';
 import { IRegistrationDto } from './interfaces';
 import { ILoginDto } from './interfaces';
+import { IBaseResponseWrapper } from './interfaces';
 import { IUserDto } from './interfaces';
 
-@Injectable() export abstract class BaseController
+@Injectable({ providedIn: 'root' }) export abstract class BaseController
 {
 	constructor (protected httpClient: HttpClient, protected settingsService: SettingsService) { } 
 }
-@Injectable() export class AuthController extends BaseController
+@Injectable({ providedIn: 'root' }) export class AuthController extends BaseController
 {
 	public Registration(data: IRegistrationDto) : Observable<IResponseWrapper<IAuthorizationDto> | null>
 	{
@@ -48,7 +49,42 @@ import { IUserDto } from './interfaces';
 		super(httpClient, settingsService);
 	}
 }
-@Injectable() export class UserController extends BaseController
+@Injectable({ providedIn: 'root' }) export class BodyweightController extends BaseController
+{
+	public Delete(id: number) : Observable<IBaseResponseWrapper | null>
+	{
+		const body = <any>{'id': id};
+		return this.httpClient.delete<IBaseResponseWrapper>(
+		this.settingsService.createApiUrl('Bodyweight/Delete'),
+		{
+			params: new HttpParams({ fromObject: body }),
+			responseType: 'json',
+			observe: 'response',
+			withCredentials: true
+		})
+		.pipe(map(response => response.body));
+		
+	}
+	public DeleteGoal(id: number) : Observable<IBaseResponseWrapper | null>
+	{
+		const body = <any>{'id': id};
+		return this.httpClient.delete<IBaseResponseWrapper>(
+		this.settingsService.createApiUrl('Bodyweight/DeleteGoal'),
+		{
+			params: new HttpParams({ fromObject: body }),
+			responseType: 'json',
+			observe: 'response',
+			withCredentials: true
+		})
+		.pipe(map(response => response.body));
+		
+	}
+	constructor (httpClient: HttpClient, settingsService: SettingsService)
+	{
+		super(httpClient, settingsService);
+	}
+}
+@Injectable({ providedIn: 'root' }) export class UserController extends BaseController
 {
 	public GetCurrent() : Observable<IResponseWrapper<IUserDto> | null>
 	{

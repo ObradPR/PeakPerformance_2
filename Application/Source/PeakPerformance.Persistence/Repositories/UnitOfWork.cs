@@ -29,5 +29,9 @@ public class UnitOfWork(ApplicationDbContext context) : IUnitOfWork
 
     public void CreateList<T>(List<T> entities) where T : BaseDomain => db.Set<T>().AddRange(entities);
 
+    public void Delete<T>(T entity) where T : BaseDomain => db.Set<T>().Remove(entity);
+
+    public void DeleteList<T>(List<T> entities) where T : BaseDomain => db.Set<T>().RemoveRange(entities);
+
     public async Task SaveAsync() => await db.SaveChangesAsync();
 }
