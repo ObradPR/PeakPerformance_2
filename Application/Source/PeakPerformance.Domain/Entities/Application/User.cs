@@ -29,8 +29,11 @@ public class User : BaseIndexAuditedDomain<User, long>, IConfigurableEntity
 
     #region Relationships
 
-    [InverseProperty(nameof(User))]
+    [InverseProperty(nameof(UserRole.User))]
     public virtual ICollection<UserRole> UserRoles { get; set; } = [];
+
+    [InverseProperty(nameof(Bodyweight.User))]
+    public virtual ICollection<Bodyweight> Bodyweights { get; set; } = [];
 
     #endregion Relationships
 
