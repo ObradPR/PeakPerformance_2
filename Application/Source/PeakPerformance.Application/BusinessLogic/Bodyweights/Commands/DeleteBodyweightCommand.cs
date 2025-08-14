@@ -8,7 +8,7 @@ public class DeleteBodyweightCommand(long id) : IRequest<BaseResponseWrapper>
     {
         public async Task<BaseResponseWrapper> Handle(DeleteBodyweightCommand request, CancellationToken cancellationToken)
         {
-            var model = await unitOfWork.GetSingleAsync<Bodyweight>(_ => _.Id == request.Id);
+            var model = await unitOfWork.GetSingleAsync<Bodyweight>(request.Id);
 
             if (model == null)
                 return new(new Error(nameof(Bodyweight), ResourceValidation.Not_Found));

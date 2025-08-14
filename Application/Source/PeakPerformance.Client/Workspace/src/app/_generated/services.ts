@@ -8,6 +8,8 @@ import { IAuthorizationDto } from './interfaces';
 import { IRegistrationDto } from './interfaces';
 import { ILoginDto } from './interfaces';
 import { IBaseResponseWrapper } from './interfaces';
+import { IBodyweightDto } from './interfaces';
+import { IBodyweightGoalDto } from './interfaces';
 import { IUserDto } from './interfaces';
 
 @Injectable({ providedIn: 'root' }) export abstract class BaseController
@@ -51,6 +53,20 @@ import { IUserDto } from './interfaces';
 }
 @Injectable({ providedIn: 'root' }) export class BodyweightController extends BaseController
 {
+	public Save(data: IBodyweightDto) : Observable<IBaseResponseWrapper | null>
+	{
+		const body = <any>data;
+		return this.httpClient.post<IBaseResponseWrapper>(
+		this.settingsService.createApiUrl('Bodyweight/Save'),
+		body,
+		{
+			responseType: 'json',
+			observe: 'response',
+			withCredentials: true
+		})
+		.pipe(map(response => response.body));
+		
+	}
 	public Delete(id: number) : Observable<IBaseResponseWrapper | null>
 	{
 		const body = <any>{'id': id};
@@ -58,6 +74,20 @@ import { IUserDto } from './interfaces';
 		this.settingsService.createApiUrl('Bodyweight/Delete'),
 		{
 			params: new HttpParams({ fromObject: body }),
+			responseType: 'json',
+			observe: 'response',
+			withCredentials: true
+		})
+		.pipe(map(response => response.body));
+		
+	}
+	public SaveGoal(data: IBodyweightGoalDto) : Observable<IBaseResponseWrapper | null>
+	{
+		const body = <any>data;
+		return this.httpClient.post<IBaseResponseWrapper>(
+		this.settingsService.createApiUrl('Bodyweight/SaveGoal'),
+		body,
+		{
 			responseType: 'json',
 			observe: 'response',
 			withCredentials: true

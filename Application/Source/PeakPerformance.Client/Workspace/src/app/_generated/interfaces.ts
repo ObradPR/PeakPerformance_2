@@ -1,3 +1,5 @@
+import { eMeasurementUnit } from './enums';
+
 export interface IAuthorizationDto
 {
 	token: string;
@@ -23,6 +25,22 @@ export interface IUserDto
 	email: string;
 	dateOfBirth: Date;
 	description: string;
+}
+export interface IBodyweightDto
+{
+	id: number;
+	value: number;
+	weightUnitId: eMeasurementUnit;
+	bodyFatPercentage?: number;
+	logDate?: Date | null;
+}
+export interface IBodyweightGoalDto
+{
+	id: number;
+	target: number;
+	weightUnitId: eMeasurementUnit;
+	startDate: Date;
+	endDate: Date;
 }
 export interface IEnumProvider
 {
