@@ -1,6 +1,5 @@
 ﻿using PeakPerformance.Domain.Entities._Base;
 using PeakPerformance.Domain.Repositories.Application;
-using System.Linq.Expressions;
 
 namespace PeakPerformance.Domain.Repositories;
 
@@ -9,6 +8,10 @@ public interface IUnitOfWork
     // Repositories
 
     IUserRepository Users { get; }
+
+    IBodyweightRepository Bodyweights { get; }
+
+    IBodyweightGoalRepository BodyweightGoals { get; }
 
     // Methods
 

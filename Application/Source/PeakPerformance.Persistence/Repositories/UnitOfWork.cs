@@ -1,11 +1,4 @@
-﻿using PeakPerformance.Domain.Repositories;
-using PeakPerformance.Domain.Repositories.Application;
-using PeakPerformance.Persistence.Contexts;
-using PeakPerformance.Persistence.Extensions;
-using PeakPerformance.Persistence.Repositories.Application;
-using System.Linq.Expressions;
-
-namespace PeakPerformance.Persistence.Repositories;
+﻿namespace PeakPerformance.Persistence.Repositories;
 
 public class UnitOfWork(ApplicationDbContext context) : IUnitOfWork
 {
@@ -14,6 +7,10 @@ public class UnitOfWork(ApplicationDbContext context) : IUnitOfWork
     // Repositories
 
     public IUserRepository Users => new UserRepository(db);
+
+    public IBodyweightRepository Bodyweights => new BodyweightRepository(db);
+
+    public IBodyweightGoalRepository BodyweightGoals => new BodyweightGoalRepository(db);
 
     // Methods
 

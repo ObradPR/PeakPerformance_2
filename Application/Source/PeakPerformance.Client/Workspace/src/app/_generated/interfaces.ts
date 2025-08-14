@@ -1,4 +1,5 @@
 import { eMeasurementUnit } from './enums';
+import { eChartTimespan } from './enums';
 
 export interface IAuthorizationDto
 {
@@ -72,6 +73,20 @@ export interface ISortingOptions
 	field: string;
 	dir: string;
 	desc: boolean;
+}
+export interface IBodyweightSearchOptions extends ISearchOptions
+{
+	userId?: number;
+	fromDate?: Date | null;
+	toDate?: Date | null;
+	chartTimespanId?: eChartTimespan;
+}
+export interface IBodyweightGoalSearchOptions extends ISearchOptions
+{
+	userId?: number;
+	fromDate?: Date | null;
+	toDate?: Date | null;
+	chartTimespanId?: eChartTimespan;
 }
 export interface IBaseResponseWrapper
 {

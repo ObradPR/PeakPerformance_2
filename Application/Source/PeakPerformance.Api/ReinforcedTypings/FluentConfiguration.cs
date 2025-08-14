@@ -1,6 +1,4 @@
-﻿using PeakPerformance.Api.Controllers._Base;
-using PeakPerformance.Api.ReinforcedTypings.Generator;
-using PeakPerformance.Common;
+﻿using PeakPerformance.Common;
 using Reinforced.Typings.Ast.TypeNames;
 using Reinforced.Typings.Fluent;
 using System.Reflection;
@@ -81,14 +79,14 @@ public static class FluentConfiguration
             _interfaceConfiguration
             );
 
-        //builder.ExportAsInterfaces(
-        //    Assembly.GetAssembly(typeof(Domain.Searches.WeightSearchOptions)).ExportedTypes
-        //    .Where(i => i.Namespace.StartsWith($"{Constants.SOLUTION_NAME}.Domain.Searches") && i.IsClass)
-        //    .OrderBy(i => i.Name)
-        //    .OrderBy(i => i.Name != nameof(Domain.Searches.WeightSearchOptions))
-        //    .ToArray(),
-        //    _interfaceConfiguration
-        //    );
+        builder.ExportAsInterfaces(
+            Assembly.GetAssembly(typeof(Domain.Searches.BodyweightSearchOptions)).ExportedTypes
+            .Where(i => i.Namespace.StartsWith($"{Constants.SOLUTION_NAME}.Domain.Searches") && i.IsClass)
+            .OrderBy(i => i.Name)
+            .OrderBy(i => i.Name != nameof(Domain.Searches.BodyweightSearchOptions))
+            .ToArray(),
+            _interfaceConfiguration
+            );
 
         builder.ExportAsInterfaces(
             Assembly.GetAssembly(typeof(Domain.Common.BaseResponseWrapper)).ExportedTypes

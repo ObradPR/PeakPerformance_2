@@ -1,7 +1,4 @@
-﻿using PeakPerformance.Domain.Repositories.Application;
-using PeakPerformance.Persistence.Contexts;
-
-namespace PeakPerformance.Persistence.Repositories.Application;
+﻿namespace PeakPerformance.Persistence.Repositories.Application;
 
 public class UserRepository(ApplicationDbContext db) : IUserRepository
 {
