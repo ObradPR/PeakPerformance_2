@@ -31,5 +31,11 @@ public class RegistrationDto
         {
             RoleId = eSystemRole.User
         });
+
+        user.UserMeasurementPreferences.Add(new UserMeasurementPreference
+        {
+            WeightUnitId = eMeasurementUnit.Kilograms,
+            MeasurementUnitId = eMeasurementUnit.Centimeters,
+        });
     }
 }

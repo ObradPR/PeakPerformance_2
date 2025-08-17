@@ -2,9 +2,9 @@
 
 public enum Providers
 {
-    //[EnumProvider<eMeasurementUnit>]
-    //MeasurementUnits,
+    [EnumProvider<eMeasurementUnit>]
+    MeasurementUnits,
 
-    //[EnumProvider<eChartTimespan>]
-    //ChartTimespans,
+    [EnumProvider<eChartTimespan>]
+    ChartTimespans,
 }

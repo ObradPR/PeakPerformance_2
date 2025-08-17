@@ -27,7 +27,12 @@ export class AuthService {
 
     this.loaderService.showPageLoader();
     this.userController.GetCurrent().toPromise()
-      .then(_ => this.currentUserSource.set(_!.data))
+      .then(_ => {
+        if (_!.data == null)
+          this.signOut();
+
+        this.currentUserSource.set(_!.data);
+      })
       .catch(ex => { throw ex; })
       .finally(() => this.loaderService.hidePageLoader());
   }

@@ -1,4 +1,4 @@
-﻿using PeakPerformance.Application.Dtos.BodyweightGoalDto;
+﻿using PeakPerformance.Application.Dtos.BodyweightGoals;
 
 namespace PeakPerformance.Application.BusinessLogic.BodyweightGoals.Commands;
 

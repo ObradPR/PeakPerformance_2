@@ -8,7 +8,7 @@ public class GetCurrentUserQuery : IRequest<ResponseWrapper<UserDto>>
     {
         public async Task<ResponseWrapper<UserDto>> Handle(GetCurrentUserQuery request, CancellationToken cancellationToken)
         {
-            var model = await unitOfWork.GetSingleAsync<User>(identityUser.Id);
+            var model = await unitOfWork.GetSingleAsync<User>(_ => _.Id == identityUser.Id, [_ => _.UserMeasurementPreferences]);
 
             return model == null ? new() : new(mapper.Map<UserDto>(model));
         }

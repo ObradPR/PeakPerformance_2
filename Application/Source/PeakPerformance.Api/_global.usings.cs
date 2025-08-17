@@ -5,5 +5,6 @@ global using PeakPerformance.Api.Controllers._Base;
 global using PeakPerformance.Api.ReinforcedTypings.Generator;
 global using PeakPerformance.Domain._Grid;
 global using PeakPerformance.Domain.Common;
+global using PeakPerformance.Domain.Enums;
 global using PeakPerformance.Domain.Searches;
 global using System.Net;

@@ -1,6 +1,6 @@
 ﻿using PeakPerformance.Application.BusinessLogic.BodyweightGoals.Commands;
 using PeakPerformance.Application.BusinessLogic.BodyweightGoals.Queries;
-using PeakPerformance.Application.Dtos.BodyweightGoalDto;
+using PeakPerformance.Application.Dtos.BodyweightGoals;
 
 namespace PeakPerformance.Api.Controllers;
 

@@ -10,10 +10,12 @@ import { BodyweightController } from '../../../_generated/services';
 import { BaseValidationComponent } from '../../../pages/_base/base.component/base-validation.component';
 import { ValidationDirective } from '../../../directives/validation.directive';
 import { DateTime } from 'luxon';
+import { eMeasurementUnit } from '../../../_generated/enums';
+import { MeasurementUnitDescriptionPipe } from "../../../pipes/measurement-unit-description.pipe";
 
 @Component({
   selector: 'app-bodyweight-modal',
-  imports: [FormsModule, ReactiveFormsModule, ValidationDirective],
+  imports: [FormsModule, ReactiveFormsModule, ValidationDirective, MeasurementUnitDescriptionPipe],
   templateUrl: './bodyweight-modal.html',
   styleUrl: './bodyweight-modal.css'
 })
@@ -22,6 +24,7 @@ export class BodyweightModal extends BaseValidationComponent implements IModalMe
   closeModalEvent: OutputEmitterRef<boolean> = output<boolean>();
   form: FormGroup<any>;
 
+  userWeightPreference: eMeasurementUnit | undefined;
   selectedBodyweight: IBodyweightDto | null = null;
   modalType: string;
   minLogDate: string;
@@ -33,13 +36,14 @@ export class BodyweightModal extends BaseValidationComponent implements IModalMe
     private bodyweightController: BodyweightController,
 
     public modalService: ModalService,
-    public authService: AuthService,
+    private authService: AuthService,
     private sharedService: SharedService,
     private loaderService: LoaderService
   ) {
     super();
     this.modalType = this.modalService.bodyweightModalTypeSignal() === 'add' ? 'Add' : 'Edit';
     this.selectedBodyweight = this.modalService.selectedBodyweightSignal();
+    this.userWeightPreference = this.authService.currentUserSource()?.weightUnitId;
 
     this.minLogDate = DateTime.now().minus({ months: 3 }).toISODate();
     this.maxLogDate = DateTime.now().toISODate();
@@ -57,11 +61,15 @@ export class BodyweightModal extends BaseValidationComponent implements IModalMe
     const date = new Date(Date.now());
     const localDate = this.sharedService.getLocalDate(date);
     localDate.setHours(0, 0, 0);
+    console.log('local date', localDate);
+    const formattedDate = localDate.toLocaleDateString('en-CA');
+    console.log('formated', formattedDate);
 
     this.form = this.fb.group({
-      logDate: [localDate],
-      value: [''],
-      bodyFatPercentage: ['']
+      logDate: [formattedDate],
+      value: [0],
+      weightUnitId: [this.userWeightPreference],
+      bodyFatPercentage: [null]
     });
   }
 
@@ -72,12 +80,14 @@ export class BodyweightModal extends BaseValidationComponent implements IModalMe
       this.form.value.id = this.selectedBodyweight.id;
 
     this.bodyweightController.Save(this.form.value).toPromise()
-      .then()
+      .then(_ => {
+        if (_?.isSuccess)
+          this.modalService.hideBodyweightModal();
+      })
       .catch(ex => this.setErrors(ex))
       .finally(() => {
         this.loaderService.hidePageLoader();
         // this.bodyweightService.triggerBodyweights();
-        this.modalService.hideBodyweightModal();
       });
   }
 

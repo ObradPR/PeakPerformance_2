@@ -38,6 +38,9 @@ public class User : BaseIndexAuditedDomain<User, long>, IConfigurableEntity
     [InverseProperty(nameof(BodyweightGoal.User))]
     public virtual ICollection<BodyweightGoal> BodyweightGoals { get; set; } = [];
 
+    [InverseProperty(nameof(UserMeasurementPreference.User))]
+    public virtual ICollection<UserMeasurementPreference> UserMeasurementPreferences { get; set; } = [];
+
     #endregion Relationships
 
     //

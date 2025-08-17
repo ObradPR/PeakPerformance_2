@@ -1,4 +1,4 @@
-﻿namespace PeakPerformance.Application.Dtos.BodyweightGoalDto;
+﻿namespace PeakPerformance.Application.Dtos.BodyweightGoals;
 
 public class BodyweightGoalDto
 {

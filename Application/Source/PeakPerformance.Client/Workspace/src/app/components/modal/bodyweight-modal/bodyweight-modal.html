@@ -17,7 +17,7 @@
                 <label for="bodyweight" class="form-label">Bodyweight</label>
                 <div class="input-group mb-2" validation [key]="'Value'" [errors]="errors">
                     <input type="number" class="form-control" id="bodyweight" placeholder="0" aria-label="Bodyweight" aria-describedby="bodyweight-addon" formControlName="value" />
-                    <span class="input-group-text input-addon-static" id="bodyweight-addon">{{ 'kg' }}</span>
+                    <span class="input-group-text input-addon-static" id="bodyweight-addon">{{ userWeightPreference | measurementUnitDescription }}</span>
                 </div>
             </div>
             <div class="position-relative">
