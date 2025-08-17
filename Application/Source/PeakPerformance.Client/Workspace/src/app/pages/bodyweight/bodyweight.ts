@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ModalService } from '../../services/modal.service';
 
 @Component({
   selector: 'app-bodyweight',
@@ -7,5 +8,9 @@ import { Component } from '@angular/core';
   styleUrl: './bodyweight.css'
 })
 export class Bodyweight {
-
+  constructor(
+    public modalService: ModalService
+  ) {
+    this.modalService.showAddBodyweightModal();
+  }
 }

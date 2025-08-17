@@ -5,10 +5,11 @@ import { AuthService } from './services/auth.service';
 import { ToastModule } from 'primeng/toast';
 import { Header } from "./components/header/header";
 import { Footer } from "./components/footer/footer";
+import { Modal } from './components/modal/modal';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, ToastModule, PageLoader, Header, Footer],
+  imports: [RouterOutlet, ToastModule, PageLoader, Header, Footer, Modal],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })

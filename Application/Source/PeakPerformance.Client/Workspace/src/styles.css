@@ -28,19 +28,99 @@ input, form {
   bottom: -20px;
 }
 
+.input-addon-static {
+  width: 15%;
+  justify-content: center;
+  color: #707070;
+}
+
 .info-wrapper {
   padding: 3rem 15rem;
 }
-
 @media (max-width: 1380px) {
   .info-wrapper {
     padding: 3rem 8rem;
   }
 }
-
-
 @media (max-width: 1150px) {
   .info-wrapper {
     padding: 3rem 2rem;
   }
 }
+
+.my-modal {
+	 width: auto;
+	 height: auto;
+	 max-height: 95dvh;
+	 position: fixed;
+	 top: 50%;
+	 left: 50%;
+	 transform: translate(-50%, -50%);
+	 z-index: 1000;
+	 background-color: #fff;
+	 display: block;
+	 border-radius: 10px;
+}
+.my-modal.xs {
+  width: 350px;
+}
+.my-modal.sm {
+  width: 550px;
+}
+.my-modal.md {
+  width: 850px;
+}
+.my-modal.lg {
+  width: 1350px;
+}
+.my-modal .my-modal-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+  align-items: center;
+  border-bottom: 1px solid #9f9f9f;
+  padding: 1rem 1.2rem 0.7rem;
+  background-color: #f8f8f8;
+  border-radius: 10px 10px 0 0;
+}
+.my-modal .my-modal-header h3 {
+  font-size: 1.3em;
+  margin-bottom: 0;
+}
+.my-modal .my-modal-header i {
+  font-size: 1.1em;
+  cursor: pointer;
+  color: #a3a3a3;
+}
+.my-modal .my-modal-header i:hover {
+  color: #6c757d;
+}
+.my-modal .my-modal-body {
+  padding: 1.2rem 1.2rem;
+}
+.my-modal .my-modal-footer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+  align-items: center;
+  border-top: 1px solid #9f9f9f;
+  padding: 0.7rem 1.2rem 1rem;
+  background-color: #f8f8f8;
+  border-radius: 0 0 10px 10px;
+}
+.my-modal .my-modal-footer button {
+  width: auto;
+  font-size: 0.9em;
+}
+.my-backdrop {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 999;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+

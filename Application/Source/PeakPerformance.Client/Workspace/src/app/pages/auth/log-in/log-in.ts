@@ -28,7 +28,6 @@ export class LogIn extends BaseValidationComponent implements OnInit {
     private loaderService: LoaderService
   ) {
     super();
-    this.form = this.fb.group({});
   }
 
   ngOnInit(): void {

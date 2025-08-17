@@ -31,7 +31,6 @@ export class Register extends BaseValidationComponent implements OnInit {
     private loaderService: LoaderService
   ) {
     super();
-    this.form = this.fb.group({});
     this.minDob = DateTime.now().minus({ years: 80 }).toISODate();
     this.maxDob = DateTime.now().minus({ years: 14 }).toISODate();
   }
