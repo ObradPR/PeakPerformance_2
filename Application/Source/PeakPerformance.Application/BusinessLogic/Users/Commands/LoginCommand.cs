@@ -10,7 +10,7 @@ public class LoginCommand(LoginDto user) : IRequest<ResponseWrapper<Authorizatio
     {
         public async Task<ResponseWrapper<AuthorizationDto>> Handle(LoginCommand request, CancellationToken cancellationToken)
         {
-            var model = await unitOfWork.GetSingleAsync<User>(_ => _.Username.ToLower() == request.User.Username.ToLower(), includeProperties: [
+            var model = await unitOfWork.GetSingleAsync<User>(_ => _.Username == request.User.Username, includeProperties: [
                 _ => _.UserRoles
             ]);
 

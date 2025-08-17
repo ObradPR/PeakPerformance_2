@@ -27,3 +27,20 @@ input, form {
   right: 0px;
   bottom: -20px;
 }
+
+.info-wrapper {
+  padding: 3rem 15rem;
+}
+
+@media (max-width: 1380px) {
+  .info-wrapper {
+    padding: 3rem 8rem;
+  }
+}
+
+
+@media (max-width: 1150px) {
+  .info-wrapper {
+    padding: 3rem 2rem;
+  }
+}

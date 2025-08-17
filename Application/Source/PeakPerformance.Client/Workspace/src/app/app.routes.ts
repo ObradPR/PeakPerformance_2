@@ -5,9 +5,19 @@ import { authGuard } from './guards/auth.guard';
 export const routes: Routes = [
     {
         path: RouteConstants.ROUTE_HOME,
-        title: RouteConstants.TITLE_HOME,
         canActivate: [authGuard],
-        loadComponent: () => import('./pages/home/home').then(_ => _.Home),
+        children: [
+            {
+                path: '',
+                title: RouteConstants.TITLE_HOME,
+                loadComponent: () => import('./pages/home/home').then(_ => _.Home),
+            },
+            {
+                path: RouteConstants.ROUTE_BODYWEIGHT,
+                title: RouteConstants.TITLE_BODYWEIGHT,
+                loadComponent: () => import('./pages/bodyweight/bodyweight').then(_ => _.Bodyweight)
+            }
+        ]
     },
     ///
     /// AUTH
