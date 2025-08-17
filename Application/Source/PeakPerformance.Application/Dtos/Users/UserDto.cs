@@ -11,4 +11,8 @@ public class UserDto
     public DateTime DateOfBirth { get; set; }
 
     public string Description { get; set; }
+
+    public eMeasurementUnit? WeightUnitId { get; set; }
+
+    public eMeasurementUnit? MeasurementUnitId { get; set; }
 }

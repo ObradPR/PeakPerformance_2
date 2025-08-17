@@ -26,6 +26,8 @@ export interface IUserDto
 	email: string;
 	dateOfBirth: Date;
 	description: string;
+	weightUnitId?: eMeasurementUnit;
+	measurementUnitId?: eMeasurementUnit;
 }
 export interface IBodyweightDto
 {
