@@ -1,5 +1,5 @@
 import { Injectable, signal } from '@angular/core';
-import { IBodyweightDto } from '../_generated/interfaces';
+import { IBodyweightDto, IBodyweightGoalDto } from '../_generated/interfaces';
 
 export type TModal = 'add' | 'edit';
 
@@ -29,5 +29,30 @@ export class ModalService {
     this.bodyweightModal.set(false);
     this.bodyweightModalType.set(null);
     this.selectedBodyweight.set(null);
+  }
+
+  // Bodyweight Goal
+
+  private bodyweightGoalModal = signal<boolean>(false);
+  private bodyweightGoalModalType = signal<TModal | null>(null);
+  private selectedBodyweightGoal = signal<IBodyweightGoalDto | null>(null);
+
+  readonly bodyweightGoalModalSignal = this.bodyweightGoalModal.asReadonly();
+  readonly bodyweightGoalModalTypeSignal = this.bodyweightGoalModalType.asReadonly();
+  readonly selectedBodyweightGoalSignal = this.selectedBodyweightGoal.asReadonly();
+
+  showAddBodyweightGoalModal() {
+    this.bodyweightGoalModalType.set('add');
+    this.bodyweightGoalModal.set(true);
+  }
+  showEditBodyweightGoalModal(data: IBodyweightGoalDto) {
+    this.bodyweightGoalModalType.set('edit');
+    this.selectedBodyweightGoal.set(data);
+    this.bodyweightGoalModal.set(true);
+  }
+  hideBodyweightGoalModal() {
+    this.bodyweightGoalModal.set(false);
+    this.bodyweightGoalModalType.set(null);
+    this.selectedBodyweightGoal.set(null);
   }
 }

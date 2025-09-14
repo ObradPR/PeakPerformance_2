@@ -1,4 +1,6 @@
-﻿using PeakPerformance.Application.Dtos.Users;
+﻿using PeakPerformance.Application.Dtos.BodyweightGoals;
+using PeakPerformance.Application.Dtos.Bodyweights;
+using PeakPerformance.Application.Dtos.Users;
 
 namespace PeakPerformance.Application.Mappers;
 
@@ -9,9 +11,11 @@ public class AutoMappingProfiles : BaseAutoMapperProfile
 {
     public AutoMappingProfiles()
     {
-
         CreateMap<User, UserDto>()
             .ForMember(dest => dest.WeightUnitId, opt => opt.MapFrom(src => src.UserMeasurementPreferences.FirstOrDefault(_ => _.IsActive).WeightUnitId))
             .ForMember(dest => dest.MeasurementUnitId, opt => opt.MapFrom(src => src.UserMeasurementPreferences.FirstOrDefault(_ => _.IsActive).MeasurementUnitId));
+
+        CreateMap<Bodyweight, BodyweightDto>();
+        CreateMap<BodyweightGoal, BodyweightGoalDto>();
     }
 }

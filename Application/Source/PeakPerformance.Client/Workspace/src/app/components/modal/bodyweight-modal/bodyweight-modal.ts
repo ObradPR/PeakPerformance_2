@@ -12,6 +12,8 @@ import { ValidationDirective } from '../../../directives/validation.directive';
 import { DateTime } from 'luxon';
 import { eMeasurementUnit } from '../../../_generated/enums';
 import { MeasurementUnitDescriptionPipe } from "../../../pipes/measurement-unit-description.pipe";
+import { BodyweightService } from '../../../services/bodyweight.service';
+import { MeasurementConverterPipe } from '../../../pipes/measurement-converter.pipe';
 
 @Component({
   selector: 'app-bodyweight-modal',
@@ -38,7 +40,10 @@ export class BodyweightModal extends BaseValidationComponent implements IModalMe
     public modalService: ModalService,
     private authService: AuthService,
     private sharedService: SharedService,
-    private loaderService: LoaderService
+    private loaderService: LoaderService,
+    private bodyweightService: BodyweightService,
+
+    private mesasurementConverterPipe: MeasurementConverterPipe
   ) {
     super();
     this.modalType = this.modalService.bodyweightModalTypeSignal() === 'add' ? 'Add' : 'Edit';
@@ -61,15 +66,14 @@ export class BodyweightModal extends BaseValidationComponent implements IModalMe
     const date = new Date(Date.now());
     const localDate = this.sharedService.getLocalDate(date);
     localDate.setHours(0, 0, 0);
-    console.log('local date', localDate);
     const formattedDate = localDate.toLocaleDateString('en-CA');
-    console.log('formated', formattedDate);
 
     this.form = this.fb.group({
       logDate: [formattedDate],
-      value: [0],
+      value: [parseFloat(this.mesasurementConverterPipe.transform(this.selectedBodyweight?.value, this.selectedBodyweight?.weightUnitId))
+      ],
       weightUnitId: [this.userWeightPreference],
-      bodyFatPercentage: [null]
+      bodyFatPercentage: [this.selectedBodyweight?.bodyFatPercentage]
     });
   }
 
@@ -87,7 +91,7 @@ export class BodyweightModal extends BaseValidationComponent implements IModalMe
       .catch(ex => this.setErrors(ex))
       .finally(() => {
         this.loaderService.hidePageLoader();
-        // this.bodyweightService.triggerBodyweights();
+        this.bodyweightService.triggerBodyweights();
       });
   }
 
