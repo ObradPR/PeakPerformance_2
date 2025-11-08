@@ -22,26 +22,9 @@
                 </div>
             </div>
 
-            <div class="chart-info pt-2">
-                <div class="chart-dds d-flex justify-content-start flex-nowrap align-items-center">
-                    <!-- <div class="chart-targets-dd">
-                        <p-dropdown
-                            inputId="chart-target"
-                            [options]="chartTargets"
-                            optionLabel="description"
-                            optionValue="id"
-                            (onChange)="onTargetChange($event)"
-                        />
-                    </div> -->
-                    <div class="chart-timespans-dd">
-                        <!-- <p-dropdown
-                            inputId="chart-timespan"
-                            [options]="chartTimespans"
-                            optionLabel="description"
-                            optionValue="id"
-                            [(ngModel)]="selectedTimespan"
-                            (onChange)="onTimespanChange()"
-                        /> -->
+            <div class="pt-2">
+                <div class="d-flex justify-content-start flex-nowrap align-items-center">
+                    <div>
                         <select id="chart-timespan" class="form-select" [(ngModel)]="selectedTimespan" (change)="onTimespanChange()">
                             @for (ts of chartTimespans; track ts) {
                                 <option [ngValue]="ts.id">{{ ts.description }}</option>

@@ -25,7 +25,6 @@ enum eBodyweightInfoTab {
   Bodyweights = 0,
   Goals = 1,
 }
-type TChartTarget = 'weight' | 'bodyFatPercentage';
 
 @Component({
   selector: 'app-bodyweight',
@@ -55,7 +54,6 @@ export class Bodyweight implements OnDestroy {
       name: ''
     }
   ]
-  // selectedTarget: TChartTarget = 'weight';
 
   currentBodyFat: number;
   currentBodyweight: {
@@ -228,7 +226,6 @@ export class Bodyweight implements OnDestroy {
           this.bodyweightGoalsChart = result[1].data;
         }
 
-        // this.chartInit(this.selectedTarget);
         this.chartInit();
         this.infoInit();
       })
@@ -240,11 +237,9 @@ export class Bodyweight implements OnDestroy {
     );
 
     const earliestDate = this.sharedService.getLocalDate(earliestTimestamp);
-    // const earliestDate = new Date(earliestTimestamp.getTime() - earliestTimestamp.getTimezoneOffset() * 60000);
     return DateTime.fromJSDate(earliestDate);
   }
 
-  // private chartInit(target: TChartTarget) {
   private chartInit() {
     if (this.chart)
       this.destroyChart();
@@ -260,24 +255,11 @@ export class Bodyweight implements OnDestroy {
     let maxGoalEndDate = today;
 
     if (this.bodyweightGoalsChart?.data?.length) {
-      // if (target === 'weight') {
       const maxGoalEndDateTimespamp = new Date(
         Math.max(...this.bodyweightGoalsChart.data.map(_ => new Date(_.endDate).getTime()))
       );
       const maxGoalEndDateLocal = this.sharedService.getLocalDate(maxGoalEndDateTimespamp);
       maxGoalEndDate = DateTime.fromJSDate(maxGoalEndDateLocal) as DateTime<true>;
-      // }
-      // else if (target === 'bodyFatPercentage') {
-      //   const maxGoalEndDateTimespamp = new Date(
-      //     Math.max(
-      //       ...this.bodyweightGoalsChart.data
-      //         .filter(_ => _.targetBodyFatPercentage !== undefined && _.targetBodyFatPercentage !== null)
-      //         .map(_ => new Date(_.endDate).getTime())
-      //     )
-      //   );
-      //   const maxGoalEndDateLocal = this.sharedService.getLocalDate(maxGoalEndDateTimespamp);
-      //   maxGoalEndDate = DateTime.fromJSDate(maxGoalEndDateLocal) as DateTime<true>;
-      // }
     }
 
     maxGoalEndDate = maxGoalEndDate.plus({ days: 10 }); // padding for end of the chart
@@ -295,12 +277,10 @@ export class Bodyweight implements OnDestroy {
       });
 
       let data = null;
-      // if (target === 'weight')
+
       data = log
         ? parseFloat(this.measurementConverterPipe.transform(log['value'], log['weightUnitId']))
         : null;
-      // else
-      //   data = log ? log[target]! : null;
 
       return data;
     });
@@ -309,21 +289,11 @@ export class Bodyweight implements OnDestroy {
       .filter(_ => _['value'] !== undefined && _['value'] !== null)
       .map(_ => parseFloat(this.measurementConverterPipe.transform(_['value'], _.weightUnitId)));
 
-    // const values = this.bodyweightsChart.data
-    //   .filter(_ => target === 'weight'
-    //     ? _['value'] !== undefined && _['value'] !== null
-    //     : _[target] !== undefined && _[target] !== null)
-    //   .map(_ => parseFloat(this.measurementConverterPipe.transform(target === 'weight'
-    //     ? _['value']
-    //     : _[target]
-    //     , _.weightUnitId)));
-
     // MAP GOALS
 
     const goalDatasets: any[] = [];
     const goalValues: number[] = [];
 
-    // if (target === 'weight' && this.bodyweightGoalsChart?.data) {
     if (this.bodyweightGoalsChart?.data && this.bodyweightGoalsChart.data.length > 0) {
       const maxGoalEntry = this.bodyweightGoalsChart.data
         .reduce((max, current) => (current.target > max.target ? current : max), this.bodyweightGoalsChart.data[0]);
@@ -351,16 +321,10 @@ export class Bodyweight implements OnDestroy {
           goalStartWeight = log
             ? parseFloat(this.measurementConverterPipe.transform(log['value'], log.weightUnitId))
             : null; // setting a start of the goal to weight at that time
-
-          // goalStartWeight = log
-          //   ? parseFloat(this.measurementConverterPipe.transform(target === 'weight'
-          //     ? log['value']
-          //     : log[target]!
-          //     , log.weightUnitId))
-          //   : null; // setting a start of the goal to weight at that time
         }
 
         if (!goalStartWeight) {
+          // <
           const closestLog = [...this.bodyweightsChart.data]
             .filter(log => this.sharedService.getLocalDate(log.logDate) < this.sharedService.getLocalDate(goal.startDate))
             .sort((a, b) =>
@@ -371,15 +335,9 @@ export class Bodyweight implements OnDestroy {
           goalStartWeight = closestLog
             ? parseFloat(this.measurementConverterPipe.transform(closestLog['value'], closestLog.weightUnitId))
             : null; // setting a start of the goal to closest weight at that time
-          // goalStartWeight = closestLog
-          //   ? parseFloat(this.measurementConverterPipe.transform(target === 'weight'
-          //     ? closestLog['value']
-          //     : closestLog[target]!
-          //     , closestLog.weightUnitId))
-          //   : null; // setting a start of the goal to closest weight at that time
 
-          // ! What does this block mean , its literally the same as the one above??
           if (!goalStartWeight) {
+            // >
             const closestLog = [...this.bodyweightsChart.data]
               .filter(log => this.sharedService.getLocalDate(log.logDate) > this.sharedService.getLocalDate(goal.startDate))
               .sort((a, b) =>
@@ -388,9 +346,9 @@ export class Bodyweight implements OnDestroy {
                   .milliseconds
               )[0];
 
-            goalStartWeight = closestLog ? closestLog['value'] : null; // setting a start of the goal to closest body fat at that time
 
-            // goalStartWeight = closestLog ? (target === 'weight' ? closestLog['value'] : closestLog[target]!) : null; // setting a start of the goal to closest body fat at that time
+            goalStartWeight = closestLog ? closestLog['value'] : null; // setting a start of the goal to closest body fat at that time
+            console.log(goalStartWeight)
           }
         }
 
@@ -412,78 +370,6 @@ export class Bodyweight implements OnDestroy {
         });
       });
     }
-    // else if (target === 'bodyFatPercentage' && this.bodyweightGoalsChart?.data) {
-    // const maxGoalEntry = this.bodyweightGoalsChart.data
-    //   .filter(_ => _.targetBodyFatPercentage !== null && _.targetBodyFatPercentage !== undefined)
-    //   .reduce((max, current) => (current.targetBodyFatPercentage! > max.targetBodyFatPercentage! ? current : max), this.bodyweightGoalsChart.data[0]);
-    // const maxGoalBodyFat = maxGoalEntry.targetBodyFatPercentage!;
-    // goalValues.push(maxGoalBodyFat);
-
-    //   this.bodyweightGoalsChart.data
-    //     .filter(_ => _.targetBodyFatPercentage !== null && _.targetBodyFatPercentage !== undefined)
-    //     .forEach((goal, idx) => {
-    //       let goalData: (number | null)[] = new Array(allDates.length).fill(null);
-
-    //       // End date
-    //       const goalEndDate = DateTime.fromJSDate(new Date(goal.endDate)).toFormat('MMM dd yyyy');
-    //       const endIdx = allDates.indexOf(goalEndDate);
-    //       if (endIdx !== -1) goalData[endIdx] = goal.targetBodyFatPercentage!;
-
-    //       // Start date
-    //       let goalStartBodyFat: number | null = null;
-    //       const goalStartDate = DateTime.fromJSDate(new Date(goal.startDate)).toFormat('MMM dd yyyy');
-    //       const startIdx = allDates.indexOf(goalStartDate);
-
-    //       if (startIdx !== -1) {
-    //         const log = this.bodyweightsChart.data.find(log =>
-    //           DateTime.fromJSDate(this.sharedService.getLocalDate(log.logDate)).toFormat('MMM dd yyyy') === goalStartDate
-    //         );
-
-    //         goalStartBodyFat = log ? log[target]! : null; // setting a start of the goal to body fat at that time
-    //       }
-
-    //       if (!goalStartBodyFat) {
-    //         const closestLog = [...this.bodyweightsChart.data.filter(_ => _.bodyFatPercentage !== null && _.bodyFatPercentage !== undefined)]
-    //           .filter(log => this.sharedService.getLocalDate(log.logDate) < this.sharedService.getLocalDate(goal.startDate))
-    //           .sort((a, b) =>
-    //             DateTime.fromJSDate(this.sharedService.getLocalDate(b.logDate))
-    //               .diff(DateTime.fromJSDate(this.sharedService.getLocalDate(a.logDate)), 'milliseconds')
-    //               .milliseconds
-    //           )[0];
-
-
-    //         goalStartBodyFat = closestLog ? closestLog[target]! : null; // setting a start of the goal to closest body fat at that time
-    //         if (!goalStartBodyFat) {
-    //           const closestLog = [...this.bodyweightsChart.data.filter(_ => _.bodyFatPercentage !== null && _.bodyFatPercentage !== undefined)]
-    //             .filter(log => this.sharedService.getLocalDate(log.logDate) > this.sharedService.getLocalDate(goal.startDate))
-    //             .sort((a, b) =>
-    //               DateTime.fromJSDate(this.sharedService.getLocalDate(a.logDate))
-    //                 .diff(DateTime.fromJSDate(this.sharedService.getLocalDate(b.logDate)), 'milliseconds')
-    //                 .milliseconds
-    //             )[0];
-
-    //           goalStartBodyFat = closestLog ? closestLog[target]! : null; // setting a start of the goal to closest body fat at that time
-    //         }
-    //       }
-
-    //       if (startIdx !== -1 && goalStartBodyFat !== null) {
-    //         goalData[startIdx] = goalStartBodyFat;
-    //       }
-
-    //       // Push a separate dataset for each goal
-    //       goalDatasets.push({
-    //         label: `Goal ${idx + 1}`,
-    //         data: goalData,
-    //         backgroundColor: 'rgba(255, 0, 0, 1)',
-    //         borderColor: 'rgba(255, 0, 0, 1)',
-    //         borderWidth: 2,
-    //         borderDash: [10, 5],
-    //         fill: false,
-    //         tension: 0.3,
-    //         spanGaps: true,
-    //       });
-    //     });
-    // }
 
     Chart.register(ChartDataLabels);
 
@@ -494,7 +380,6 @@ export class Bodyweight implements OnDestroy {
         datasets: [
           {
             label: 'Bodyweight',
-            // label: target === 'weight' ? 'Bodyweight' : 'Body Fat',
             data: dataForChart,
             backgroundColor: 'rgba(0, 123, 255, 1)',
             borderColor: 'rgba(0, 123, 255, 1)',
