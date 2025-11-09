@@ -1,0 +1,37 @@
+<div class="my-backdrop"></div>
+<section class="my-modal xs">
+    <div class="my-modal-header">
+        <h3>{{ modalType }} Bodyweight</h3>
+        <i class="fa-solid fa-circle-xmark" (click)="closeModal()"></i>
+    </div>
+
+    <div class="my-modal-body">
+        <form [formGroup]="form">
+            <div class="position-relative">
+                <label for="startDate" class="form-label">Start Date</label>
+                <div class="input-group mb-2" validation [key]="'StartDate'" [errors]="errors">
+                    <!-- <input type="date" [min]="minLogDate" [max]="maxLogDate" class="form-control" id="logDate" placeholder="Date" aria-label="Date" aria-describedby="logDate-addon" formControlName="logDate" /> -->
+                     <input type="date" class="form-control" id="startDate" placeholder="Start Date" aria-label="StartDate" aria-describedby="startDate-addon" formControlName="startDate" />
+                </div>
+            </div>
+            <div class="position-relative">
+                <label for="endDate" class="form-label">End Date</label>
+                <div class="input-group mb-2" validation [key]="'EndDate'" [errors]="errors">
+                     <input type="date" class="form-control" id="endDate" placeholder="End Date" aria-label="EndDate" aria-describedby="endDate-addon" formControlName="endDate" />
+                </div>
+            </div>
+             <div class="position-relative">
+                <label for="target" class="form-label">Target Bodyweight</label>
+                <div class="input-group mb-2" validation [key]="'Target'" [errors]="errors">
+                    <input type="number" class="form-control" id="target" placeholder="0" aria-label="Target" aria-describedby="target-addon" formControlName="target" />
+                    <span class="input-group-text input-addon-static" id="target-addon">{{ userWeightPreference | measurementUnitDescription }}</span>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="my-modal-footer">
+        <button class="btn btn-primary" (click)="submit()">Save</button>
+        <button class="btn btn-secondary" (click)="closeModal()">Close</button>
+    </div>
+</section>
