@@ -40,17 +40,17 @@ public static partial class Extensions
         if (fromDate.HasValue && toDate.HasValue)
         {
             message = ResourceValidation.Date_InBetween;
-            args = [fromDate.Value.ToString(Constants.DATE_FORMAT_LONG), toDate.Value.ToString(Constants.DATE_FORMAT_LONG)];
+            args = [fromDate.Value.ToString(Constants.DATE_FORMAT_SHORT_MONTH_COMMA), toDate.Value.ToString(Constants.DATE_FORMAT_SHORT_MONTH_COMMA)];
         }
         else if (fromDate.HasValue)
         {
             message = ResourceValidation.Date_After;
-            args = [fromDate.Value.ToString(Constants.DATE_FORMAT_LONG)];
+            args = [fromDate.Value.ToString(Constants.DATE_FORMAT_SHORT_MONTH_COMMA)];
         }
         else if (toDate.HasValue)
         {
             message = ResourceValidation.Date_Before;
-            args = [toDate.Value.ToString(Constants.DATE_FORMAT_LONG)];
+            args = [toDate.Value.ToString(Constants.DATE_FORMAT_SHORT_MONTH_COMMA)];
         }
 
         // Pass calculated args to WithMessageAuto before running the validation
@@ -98,17 +98,17 @@ public static partial class Extensions
                 if (fromDate.HasValue && toDate.HasValue)
                 {
                     message = ResourceValidation.Date_InBetween;
-                    args = [fromDate.Value.ToString(Constants.DATE_FORMAT_LONG), toDate.Value.ToString(Constants.DATE_FORMAT_LONG)];
+                    args = [fromDate.Value.ToString(Constants.DATE_FORMAT_SHORT_MONTH_COMMA), toDate.Value.ToString(Constants.DATE_FORMAT_SHORT_MONTH_COMMA)];
                 }
                 else if (fromDate.HasValue)
                 {
                     message = ResourceValidation.Date_After;
-                    args = [fromDate.Value.ToString(Constants.DATE_FORMAT_LONG)];
+                    args = [fromDate.Value.ToString(Constants.DATE_FORMAT_SHORT_MONTH_COMMA)];
                 }
                 else if (toDate.HasValue)
                 {
                     message = ResourceValidation.Date_Before;
-                    args = [toDate.Value.ToString(Constants.DATE_FORMAT_LONG)];
+                    args = [toDate.Value.ToString(Constants.DATE_FORMAT_SHORT_MONTH_COMMA)];
                 }
 
                 // Perform the actual date validation
@@ -127,7 +127,7 @@ public static partial class Extensions
                 }
 
                 if (!isValid)
-                    context.AddFailure(context.PropertyName, (resourceValidation ?? message).FormatMessageAuto([ruleBuilder.GetPropertyName(), .. args]));
+                    context.AddFailure(context.PropertyPath, (resourceValidation ?? message).FormatMessageAuto([GetDisplayNameFromCommand(command, ruleBuilder.GetPropertyName()), .. args]));
             });
         })
         .When(_ => condition?.Invoke(_) ?? true);
@@ -147,17 +147,17 @@ public static partial class Extensions
         if (fromDate.HasValue && toDate.HasValue)
         {
             message = ResourceValidation.Date_InBetween;
-            args = [fromDate.Value.ToString(Constants.DATE_FORMAT_LONG), toDate.Value.ToString(Constants.DATE_FORMAT_LONG)];
+            args = [fromDate.Value.ToString(Constants.DATE_FORMAT_SHORT_MONTH_COMMA), toDate.Value.ToString(Constants.DATE_FORMAT_SHORT_MONTH_COMMA)];
         }
         else if (fromDate.HasValue)
         {
             message = ResourceValidation.Date_After;
-            args = [fromDate.Value.ToString(Constants.DATE_FORMAT_LONG)];
+            args = [fromDate.Value.ToString(Constants.DATE_FORMAT_SHORT_MONTH_COMMA)];
         }
         else if (toDate.HasValue)
         {
             message = ResourceValidation.Date_Before;
-            args = [toDate.Value.ToString(Constants.DATE_FORMAT_LONG)];
+            args = [toDate.Value.ToString(Constants.DATE_FORMAT_SHORT_MONTH_COMMA)];
         }
 
         return ruleBuilder.Must((command, date) =>
@@ -207,17 +207,17 @@ public static partial class Extensions
                 if (fromDate.HasValue && toDate.HasValue)
                 {
                     message = ResourceValidation.Date_InBetween;
-                    args = [fromDate.Value.ToString(Constants.DATE_FORMAT_LONG), toDate.Value.ToString(Constants.DATE_FORMAT_LONG)];
+                    args = [fromDate.Value.ToString(Constants.DATE_FORMAT_SHORT_MONTH_COMMA), toDate.Value.ToString(Constants.DATE_FORMAT_SHORT_MONTH_COMMA)];
                 }
                 else if (fromDate.HasValue)
                 {
                     message = ResourceValidation.Date_After;
-                    args = [fromDate.Value.ToString(Constants.DATE_FORMAT_LONG)];
+                    args = [fromDate.Value.ToString(Constants.DATE_FORMAT_SHORT_MONTH_COMMA)];
                 }
                 else if (toDate.HasValue)
                 {
                     message = ResourceValidation.Date_Before;
-                    args = [toDate.Value.ToString(Constants.DATE_FORMAT_LONG)];
+                    args = [toDate.Value.ToString(Constants.DATE_FORMAT_SHORT_MONTH_COMMA)];
                 }
 
                 // Perform the actual date validation
@@ -238,7 +238,7 @@ public static partial class Extensions
                     }
 
                     if (!isValid)
-                        context.AddFailure(context.PropertyName, (resourceValidation ?? message).FormatMessageAuto([ruleBuilder.GetPropertyName(), .. args]));
+                        context.AddFailure(context.PropertyPath, (resourceValidation ?? message).FormatMessageAuto([ruleBuilder.GetPropertyName(), .. args]));
                 }
             });
         })

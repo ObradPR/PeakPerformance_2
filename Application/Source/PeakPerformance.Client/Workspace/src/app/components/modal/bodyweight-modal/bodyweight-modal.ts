@@ -83,7 +83,12 @@ export class BodyweightModal extends BaseValidationComponent implements IModalMe
     if (this.selectedBodyweight !== null)
       this.form.value.id = this.selectedBodyweight.id;
 
-    this.bodyweightController.Save(this.form.value).toPromise()
+    const payload: IBodyweightDto = {
+      ...this.form.value,
+      value: isNaN(this.form.value.value) ? 0 : this.form.value.value
+    }
+
+    this.bodyweightController.Save(payload).toPromise()
       .then(_ => {
         if (_?.isSuccess)
           this.modalService.hideBodyweightModal();

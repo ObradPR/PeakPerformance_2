@@ -27,9 +27,7 @@ export class BodyweightGoalModal extends BaseValidationComponent implements IMod
 
   userWeightPreference: eMeasurementUnit | undefined;
   selectedBodyweightGoal: IBodyweightGoalDto | null = null;
-  modalType: string;
-  // minLogDate: string;
-  // maxLogDate: string;
+  modalType: string;;
 
   constructor(
     private fb: FormBuilder,
@@ -48,9 +46,6 @@ export class BodyweightGoalModal extends BaseValidationComponent implements IMod
     this.modalType = this.modalService.bodyweightGoalModalTypeSignal() === 'add' ? 'Add' : 'Edit';
     this.selectedBodyweightGoal = this.modalService.selectedBodyweightGoalSignal();
     this.userWeightPreference = this.authService.currentUserSource()?.weightUnitId;
-
-    // this.minLogDate = DateTime.now().minus({ months: 3 }).toISODate();
-    // this.maxLogDate = DateTime.now().toISODate();
   }
 
   ngOnInit(): void {

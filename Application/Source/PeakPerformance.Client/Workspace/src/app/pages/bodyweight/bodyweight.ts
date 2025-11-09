@@ -232,11 +232,33 @@ export class Bodyweight implements OnDestroy {
   }
 
   private getStartDate() {
-    const earliestTimestamp = new Date(
-      Math.min(...this.bodyweightsChart.data.map(_ => new Date(_.logDate!).getTime()))
-    );
+    let earliestBodyweightTimestamp: Date | null = null;
 
-    const earliestDate = this.sharedService.getLocalDate(earliestTimestamp);
+    if (this.bodyweightsChart?.data && this.bodyweightsChart.data.length > 0) {
+      earliestBodyweightTimestamp = new Date(
+        Math.min(...this.bodyweightsChart.data.map(_ => new Date(_.logDate!).getTime()))
+      );
+    }
+
+    let earliestBodyweightGoalTimestamp: Date | null = null;
+
+    if (this.bodyweightGoalsChart?.data && this.bodyweightGoalsChart.data.length > 0) {
+      earliestBodyweightGoalTimestamp = new Date(
+        Math.min(...this.bodyweightGoalsChart.data.map(_ => new Date(_.startDate!).getTime()))
+      );
+    }
+
+    const earliestDate = this.sharedService.getLocalDate(
+      earliestBodyweightTimestamp && earliestBodyweightGoalTimestamp
+        ? earliestBodyweightTimestamp < earliestBodyweightGoalTimestamp
+          ? earliestBodyweightTimestamp
+          : earliestBodyweightGoalTimestamp
+        : earliestBodyweightTimestamp !== null
+          ? earliestBodyweightTimestamp
+          : earliestBodyweightGoalTimestamp !== null
+            ? earliestBodyweightGoalTimestamp
+            : null
+    );
     return DateTime.fromJSDate(earliestDate);
   }
 
@@ -348,7 +370,6 @@ export class Bodyweight implements OnDestroy {
 
 
             goalStartWeight = closestLog ? closestLog['value'] : null; // setting a start of the goal to closest body fat at that time
-            console.log(goalStartWeight)
           }
         }
 

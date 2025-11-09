@@ -18,11 +18,7 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
         let msg = defaultMsg;
 
         if (Array.isArray(errorsArr) && errorsArr.length > 0) {
-          if (errorsArr.length === 1) {
-            msg = errorsArr[0].value;
-          } else {
-            msg = `You got ${errorsArr.length} errors`;
-          }
+          msg = `You got errors`;
         }
 
         const statusHeaders: Record<number, string> = {

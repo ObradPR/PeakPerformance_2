@@ -13,7 +13,7 @@ public class SaveBodyweightGoalValidator : AbstractValidator<SaveBodyweightGoalC
 
         RuleFor(_ => _.Data.StartDate)
             .Required()
-            .InValidRangeOfDate(Functions.GOAL_START_DATE_EARLIEST, Functions.GOAL_START_DATE_LATEST);
+            .InValidRangeOfDate(null, Functions.GOAL_START_DATE_LATEST);
 
         RuleFor(_ => _.Data.EndDate)
             .Required()

@@ -8,20 +8,20 @@
     <div class="my-modal-body">
         <form [formGroup]="form">
             <div class="position-relative">
-                <label for="logDate" class="form-label">Date</label>
-                <div class="input-group mb-2" validation [key]="'LogDate'" [errors]="errors">
+                <label for="logDate">Date</label>
+                <div class="input-group mb-3" validation [key]="'LogDate'" [errors]="errors">
                     <input type="date" [min]="minLogDate" [max]="maxLogDate" class="form-control" id="logDate" placeholder="Date" aria-label="Date" aria-describedby="logDate-addon" formControlName="logDate" />
                 </div>
             </div>
              <div class="position-relative">
-                <label for="bodyweight" class="form-label">Bodyweight</label>
-                <div class="input-group mb-2" validation [key]="'Value'" [errors]="errors">
+                <label for="bodyweight">Bodyweight</label>
+                <div class="input-group mb-3" validation [key]="'Value'" [errors]="errors">
                     <input type="number" class="form-control" id="bodyweight" placeholder="0" aria-label="Bodyweight" aria-describedby="bodyweight-addon" formControlName="value" />
                     <span class="input-group-text input-addon-static" id="bodyweight-addon">{{ userWeightPreference | measurementUnitDescription }}</span>
                 </div>
             </div>
             <div class="position-relative">
-                <label for="bodyFat" class="form-label">Body Fat</label>
+                <label for="bodyFat">Body Fat</label>
                 <div class="input-group mb-2" validation [key]="'BodyFatPercentage'" [errors]="errors">
                     <input type="number" class="form-control" id="bodyFat" placeholder="0" aria-label="BodyFat" aria-describedby="bodyFat-addon" formControlName="bodyFatPercentage" />
                     <span class="input-group-text input-addon-static" id="bodyFat-addon">%</span>
