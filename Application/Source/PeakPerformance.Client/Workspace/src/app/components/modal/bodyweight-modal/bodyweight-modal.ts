@@ -63,7 +63,7 @@ export class BodyweightModal extends BaseValidationComponent implements IModalMe
   }
 
   formInit(): void {
-    const date = new Date(Date.now());
+    const date = new Date(this.selectedBodyweight?.logDate ?? Date.now());
     const localDate = this.sharedService.getLocalDate(date);
     localDate.setHours(0, 0, 0);
     const formattedDate = localDate.toLocaleDateString('en-CA');
