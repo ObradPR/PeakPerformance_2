@@ -6,6 +6,11 @@ namespace PeakPerformance.Api.Controllers;
 
 public class BodyweightController(IMediator mediator) : BaseController(mediator)
 {
+    [HttpGet]
+    [Authorize]
+    [AngularMethod(typeof(ResponseWrapper<CurrentBodyInfoDto>))]
+    public async Task<IActionResult> GetCurrentBodyweightInfo() => Result(await Mediator.Send(new GetCurrentBodyweightInfoQuery()));
+
     [HttpPost]
     [Authorize]
     [AngularMethod(typeof(ResponseWrapper<PagingResult<BodyweightDto>>))]

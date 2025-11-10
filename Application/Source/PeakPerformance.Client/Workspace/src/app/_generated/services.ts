@@ -7,6 +7,7 @@ import { IResponseWrapper } from './interfaces';
 import { IAuthorizationDto } from './interfaces';
 import { IRegistrationDto } from './interfaces';
 import { ILoginDto } from './interfaces';
+import { ICurrentBodyInfoDto } from './interfaces';
 import { IPagingResult } from './interfaces';
 import { IBodyweightDto } from './interfaces';
 import { IBodyweightSearchOptions } from './interfaces';
@@ -56,6 +57,18 @@ import { IUserDto } from './interfaces';
 }
 @Injectable({ providedIn: 'root' }) export class BodyweightController extends BaseController
 {
+	public GetCurrentBodyweightInfo() : Observable<IResponseWrapper<ICurrentBodyInfoDto> | null>
+	{
+		return this.httpClient.get<IResponseWrapper<ICurrentBodyInfoDto>>(
+		this.settingsService.createApiUrl('Bodyweight/GetCurrentBodyweightInfo'),
+		{
+			responseType: 'json',
+			observe: 'response',
+			withCredentials: true
+		})
+		.pipe(map(response => response.body));
+		
+	}
 	public Search(options: IBodyweightSearchOptions) : Observable<IResponseWrapper<IPagingResult<IBodyweightDto>> | null>
 	{
 		const body = <any>options;

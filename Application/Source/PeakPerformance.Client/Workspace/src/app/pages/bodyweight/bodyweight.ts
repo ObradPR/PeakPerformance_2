@@ -465,39 +465,20 @@ export class Bodyweight implements OnDestroy {
 
 
   private infoInit() {
-    const today = new Date().getTime();
+    this.bodyweightController.GetCurrentBodyweightInfo().toPromise()
+      .then(_ => {
+        if (!_?.isSuccess)
+          return;
 
-    this.currentBodyweight.value = this.bodyweightsChart?.data
-      .filter(_ => _.value !== undefined && _.value !== null)
-      .reduce((latest, current) => {
-        return new Date(current.logDate!).getTime() > new Date(latest.logDate!).getTime() ? current : latest;
-      }, this.bodyweightsChart.data[0]).value!;
+        const data = _.data;
 
-    this.currentBodyweight.weightUnitId = this.bodyweightsChart?.data
-      .filter(_ => _.value !== undefined && _.value !== null)
-      .reduce((latest, current) => {
-        return new Date(current.logDate!).getTime() > new Date(latest.logDate!).getTime() ? current : latest;
-      }, this.bodyweightsChart.data[0]).weightUnitId!;
-
-    this.currentGoal.target = this.bodyweightGoalsChart?.data
-      .filter(_ => _.target !== undefined && _.target !== null && new Date(_.endDate!).getTime() > today)
-      .reduce((latest, current) => {
-        if (!latest) return current;
-        return new Date(current.endDate!).getTime() > new Date(latest.endDate!).getTime() ? current : latest;
-      }, null as typeof this.bodyweightGoalsChart.data[number] | null)?.target ?? null;
-
-    this.currentGoal.weightUnitId = this.bodyweightGoalsChart?.data
-      .filter(_ => _.target !== undefined && _.target !== null && new Date(_.endDate!).getTime() > today)
-      .reduce((latest, current) => {
-        if (!latest) return current;
-        return new Date(current.endDate!).getTime() > new Date(latest.endDate!).getTime() ? current : latest;
-      }, null as typeof this.bodyweightGoalsChart.data[number] | null)?.weightUnitId ?? null;
-
-    this.currentBodyFat = this.bodyweightsChart?.data
-      .filter(_ => _.bodyFatPercentage !== undefined && _.bodyFatPercentage !== null)
-      .reduce((latest, current) => {
-        return new Date(current.logDate!).getTime() > new Date(latest.logDate!).getTime() ? current : latest;
-      }, this.bodyweightsChart.data[0]).bodyFatPercentage!;
+        this.currentBodyweight.value = data.bodyweight ?? 0;
+        this.currentBodyweight.weightUnitId = data.bodyweightUnitId ?? 0;
+        this.currentBodyFat = data.bodyFatPercentage ?? 0;
+        this.currentGoal.target = data.bodyweightGoal ?? 0;
+        this.currentGoal.weightUnitId = data.bodyweightGoalUnitId ?? 0;
+      })
+      .catch(ex => { throw ex; })
   }
 
   private destroyChart() {

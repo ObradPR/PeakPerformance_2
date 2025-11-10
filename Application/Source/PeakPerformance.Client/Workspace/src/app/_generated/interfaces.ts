@@ -37,6 +37,14 @@ export interface IBodyweightDto
 	bodyFatPercentage?: number;
 	logDate?: Date | null;
 }
+export interface ICurrentBodyInfoDto
+{
+	bodyweight?: number;
+	bodyweightUnitId?: eMeasurementUnit;
+	bodyweightGoal?: number;
+	bodyweightGoalUnitId?: eMeasurementUnit;
+	bodyFatPercentage?: number;
+}
 export interface IBodyweightGoalDto
 {
 	id: number;
