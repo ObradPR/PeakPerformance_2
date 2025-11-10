@@ -12,12 +12,10 @@ using PeakPerformance.Application.Identity.Interfaces;
 using PeakPerformance.Application.Identity.Services;
 using PeakPerformance.Common;
 using PeakPerformance.Domain.Interfaces;
-using PeakPerformance.Domain.Repositories;
 using PeakPerformance.Infrastructure.Logger;
 using PeakPerformance.Infrastructure.Storage.Interfaces;
 using PeakPerformance.Infrastructure.Storage.Services;
 using PeakPerformance.Persistence.Contexts;
-using PeakPerformance.Persistence.Repositories;
 using System.Text;
 
 namespace PeakPerformance.DependencyInjection;
@@ -41,7 +39,8 @@ public static partial class Extensions
         services.AddDbContext<ApplicationDbContext>(
             opt => opt.UseSqlServer(Settings.ConnectionString));
 
-        services.AddScoped<IUnitOfWork, UnitOfWork>();
+        services.AddScoped<IDatabaseContext, ApplicationDbContext>();
+        //services.AddScoped<IUnitOfWork, UnitOfWork>();
 
         return services;
     }

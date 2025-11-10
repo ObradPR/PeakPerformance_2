@@ -1,21 +1,7 @@
-﻿using System.Linq.Expressions;
-
-namespace PeakPerformance.Persistence.Extensions;
+﻿namespace PeakPerformance.Domain.Extensions;
 
 public static partial class Extensions
 {
-    public static void ExecuteSqlRaw<TContext>(this TContext context, string sql)
-        where TContext : DbContext
-        => context.Database.ExecuteSql($"{sql}");
-
-    public static async Task<bool> DatabaseExistsAsync<TContext>(this TContext context)
-        where TContext : DbContext
-        => await context.Database.CanConnectAsync();
-
-    public static async Task EnsureDatabaseMigratedAsync<TContext>(this TContext context)
-        where TContext : DbContext
-        => await context.Database.MigrateAsync();
-
     public static void DetachAllTrackedChanges<TContext>(this TContext context)
         where TContext : DbContext
         => context.ChangeTracker.Entries().ForEach(_ => _.State = EntityState.Detached);

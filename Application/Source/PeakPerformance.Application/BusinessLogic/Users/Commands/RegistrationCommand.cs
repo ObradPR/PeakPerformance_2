@@ -6,21 +6,21 @@ public class RegistrationCommand(RegistrationDto user) : IRequest<ResponseWrappe
 {
     public RegistrationDto User { get; set; } = user;
 
-    public class SignupCommandHandler(IUnitOfWork unitOfWork, ITokenService tokenService, IUserManager userManager)
+    public class SignupCommandHandler(IDatabaseContext db, ITokenService tokenService, IUserManager userManager)
         : IRequestHandler<RegistrationCommand, ResponseWrapper<AuthorizationDto>>
     {
         public async Task<ResponseWrapper<AuthorizationDto>> Handle(RegistrationCommand request, CancellationToken cancellationToken)
         {
-            if (await unitOfWork.Users.ExistsAsync(request.User.Username, request.User.Email))
+            if (await db.Users.IgnoreQueryFilters().AnyAsync(_ => _.Username == request.User.Username || _.Email.ToLower() == request.User.Email.ToLower(), cancellationToken))
                 return new(new Error(nameof(User), ResourceValidation.In_Use.FormatWith("Email or Username")));
 
             var model = new User();
 
             request.User.ToModel(model, userManager);
 
-            unitOfWork.Create(model);
+            db.Users.Add(model);
 
-            await unitOfWork.SaveAsync();
+            await db.SaveChangesAsync(cancellationToken);
 
             return new(new AuthorizationDto
             {

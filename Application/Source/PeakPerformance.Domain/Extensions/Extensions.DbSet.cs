@@ -1,7 +1,6 @@
-﻿using PeakPerformance.Domain._Grid;
-using System.Linq.Expressions;
+﻿using PeakPerformance.Domain.Entities._Base;
 
-namespace PeakPerformance.Persistence.Extensions;
+namespace PeakPerformance.Domain.Extensions;
 
 public static partial class Extensions
 {
@@ -31,28 +30,6 @@ public static partial class Extensions
         return await query.AsNoTracking().FirstOrDefaultAsync(predicate);
     }
 
-    public static async Task<TEntity> GetSingleAsSplitQueryAsync<TEntity>(this DbSet<TEntity> dbSet, Expression<Func<TEntity, bool>> predicate, params Expression<Func<TEntity, object>>[] includeProperties)
-        where TEntity : class
-    {
-        if (includeProperties == null)
-            return await dbSet.FirstOrDefaultAsync(predicate);
-
-        var query = includeProperties.Aggregate(dbSet.AsQueryable(), (current, property) => current.IncludeConvert(property));
-
-        return await query.AsSplitQuery().FirstOrDefaultAsync(predicate);
-    }
-
-    public static async Task<TEntity> GetSingleAsSplitQueryNoTrackingAsync<TEntity>(this DbSet<TEntity> dbSet, Expression<Func<TEntity, bool>> predicate, params Expression<Func<TEntity, object>>[] includeProperties)
-        where TEntity : class
-    {
-        if (includeProperties == null)
-            return await dbSet.FirstOrDefaultAsync(predicate);
-
-        var query = includeProperties.Aggregate(dbSet.AsQueryable(), (current, property) => current.IncludeConvert(property));
-
-        return await query.AsSplitQuery().AsNoTracking().FirstOrDefaultAsync(predicate);
-    }
-
     public static async Task<TEntity> GetSingleOrDefaultAsync<TEntity>(this DbSet<TEntity> dbSet, IBaseDomain<long> data, params Expression<Func<TEntity, object>>[] includeProperties)
         where TEntity : BaseDomain<long>, new()
         => data.Id == 0
@@ -70,10 +47,6 @@ public static partial class Extensions
     public static async Task<List<TEntity>> GetListAsync<TEntity>(this DbSet<TEntity> dbSet, Expression<Func<TEntity, bool>> predicate, params Expression<Func<TEntity, object>>[] includeProperties)
         where TEntity : class
         => await dbSet.GetQueryable(predicate, 0, includeProperties).ToListAsync();
-
-    public static async Task<List<TEntity>> GetListAsSplitQueryAsync<TEntity>(this DbSet<TEntity> dbSet, Expression<Func<TEntity, bool>> predicate, params Expression<Func<TEntity, object>>[] includeProperties)
-        where TEntity : class
-        => await dbSet.GetQueryable(predicate, 0, includeProperties).AsSplitQuery().ToListAsync();
 
     public static async Task<List<TEntity>> GetListAsync<TEntity>(this DbSet<TEntity> dbSet, CancellationToken cancellationToken, List<Expression<Func<TEntity, bool>>> predicates, params Expression<Func<TEntity, object>>[] includeProperties)
         where TEntity : class
@@ -102,10 +75,6 @@ public static partial class Extensions
     public static async Task<List<TEntity>> GetListNoTrackingAsync<TEntity>(this DbSet<TEntity> dbSet, Expression<Func<TEntity, bool>> predicate, params Expression<Func<TEntity, object>>[] includeProperties)
         where TEntity : class
         => await dbSet.GetQueryable(predicate, 0, includeProperties).AsNoTracking().ToListAsync();
-
-    public static async Task<List<TEntity>> GetListAsSplitQueryNoTrackingAsync<TEntity>(this DbSet<TEntity> dbSet, Expression<Func<TEntity, bool>> predicate, params Expression<Func<TEntity, object>>[] includeProperties)
-        where TEntity : class
-        => await dbSet.GetQueryable(predicate, 0, includeProperties).AsSplitQuery().AsNoTracking().ToListAsync();
 
     public static async Task<List<TEntity>> GetListNoTrackingAsync<TEntity>(this DbSet<TEntity> dbSet, CancellationToken cancellationToken, List<Expression<Func<TEntity, bool>>> predicates, params Expression<Func<TEntity, object>>[] includeProperties)
         where TEntity : class

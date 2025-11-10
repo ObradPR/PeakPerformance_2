@@ -6,11 +6,11 @@ public class LoginCommand(LoginDto user) : IRequest<ResponseWrapper<Authorizatio
 {
     public LoginDto User { get; set; } = user;
 
-    public class LoginCommandHandler(IUnitOfWork unitOfWork, ITokenService tokenService, IUserManager userManager) : IRequestHandler<LoginCommand, ResponseWrapper<AuthorizationDto>>
+    public class LoginCommandHandler(IDatabaseContext db, ITokenService tokenService, IUserManager userManager) : IRequestHandler<LoginCommand, ResponseWrapper<AuthorizationDto>>
     {
         public async Task<ResponseWrapper<AuthorizationDto>> Handle(LoginCommand request, CancellationToken cancellationToken)
         {
-            var model = await unitOfWork.GetSingleAsync<User>(_ => _.Username == request.User.Username, includeProperties: [
+            var model = await db.Users.GetSingleAsync(_ => _.Username == request.User.Username, includeProperties: [
                 _ => _.UserRoles
             ]);
 

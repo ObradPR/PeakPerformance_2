@@ -1,7 +1,6 @@
-﻿using PeakPerformance.Domain._Grid;
-using System.Linq.Expressions;
+﻿using PeakPerformance.Domain.Entities._Base;
 
-namespace PeakPerformance.Persistence.Extensions;
+namespace PeakPerformance.Domain.Extensions;
 
 public static partial class Extensions
 {

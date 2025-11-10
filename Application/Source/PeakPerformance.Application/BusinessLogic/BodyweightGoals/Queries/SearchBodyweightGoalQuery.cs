@@ -6,7 +6,7 @@ public class SearchBodyweightGoalQuery(BodyweightGoalSearchOptions options) : IR
 {
     public BodyweightGoalSearchOptions Options { get; set; } = options;
 
-    public class SearchBodyweightGoalQueryHandler(IUnitOfWork unitOfWork, IIdentityUser identityUser, IMapper mapper) : IRequestHandler<SearchBodyweightGoalQuery, ResponseWrapper<PagingResult<BodyweightGoalDto>>>
+    public class SearchBodyweightGoalQueryHandler(IDatabaseContext db, IIdentityUser identityUser, IMapper mapper) : IRequestHandler<SearchBodyweightGoalQuery, ResponseWrapper<PagingResult<BodyweightGoalDto>>>
     {
         public async Task<ResponseWrapper<PagingResult<BodyweightGoalDto>>> Handle(SearchBodyweightGoalQuery request, CancellationToken cancellationToken)
         {
@@ -40,7 +40,7 @@ public class SearchBodyweightGoalQuery(BodyweightGoalSearchOptions options) : IR
                     predicates.Add(_ => _.StartDate >= today.AddMonths(-12));
             }
 
-            var result = await unitOfWork.BodyweightGoals.SearchAsync(options, predicates);
+            var result = await db.BodyweightGoals.SearchAsync(options, _ => _.StartDate, false, predicates, null);
 
             return new(new()
             {

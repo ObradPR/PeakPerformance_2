@@ -6,7 +6,7 @@ public class SearchBodyweightQuery(BodyweightSearchOptions options) : IRequest<R
 {
     public BodyweightSearchOptions Options { get; set; } = options;
 
-    public class SearchBodyweightQueryHandler(IUnitOfWork unitOfWork, IIdentityUser identityUser, IMapper mapper) : IRequestHandler<SearchBodyweightQuery, ResponseWrapper<PagingResult<BodyweightDto>>>
+    public class SearchBodyweightQueryHandler(IDatabaseContext db, IIdentityUser identityUser, IMapper mapper) : IRequestHandler<SearchBodyweightQuery, ResponseWrapper<PagingResult<BodyweightDto>>>
     {
         public async Task<ResponseWrapper<PagingResult<BodyweightDto>>> Handle(SearchBodyweightQuery request, CancellationToken cancellationToken)
         {
@@ -40,7 +40,7 @@ public class SearchBodyweightQuery(BodyweightSearchOptions options) : IRequest<R
                     predicates.Add(_ => _.LogDate >= today.AddMonths(-12));
             }
 
-            var result = await unitOfWork.Bodyweights.SearchAsync(options, predicates);
+            var result = await db.Bodyweights.SearchAsync(options, _ => _.LogDate, false, predicates, null);
 
             return new(new()
             {

@@ -6,7 +6,7 @@ public class SaveBodyweightGoalCommand(BodyweightGoalDto data) : IRequest<BaseRe
 {
     public BodyweightGoalDto Data { get; set; } = data;
 
-    public class SaveBodyweightGoalCommandHandler(IUnitOfWork unitOfWork, IIdentityUser identityUser) : IRequestHandler<SaveBodyweightGoalCommand, BaseResponseWrapper>
+    public class SaveBodyweightGoalCommandHandler(IDatabaseContext db, IIdentityUser identityUser) : IRequestHandler<SaveBodyweightGoalCommand, BaseResponseWrapper>
     {
         public async Task<BaseResponseWrapper> Handle(SaveBodyweightGoalCommand request, CancellationToken cancellationToken)
         {
@@ -14,16 +14,16 @@ public class SaveBodyweightGoalCommand(BodyweightGoalDto data) : IRequest<BaseRe
                 return new(new Error(nameof(BodyweightGoal), ResourceValidation.Required.FormatWith(nameof(BodyweightGoal))));
 
             var existingModel = request.Data.Id.IsNotEmpty()
-                ? await unitOfWork.GetSingleAsync<BodyweightGoal>(request.Data.Id)
+                ? await db.BodyweightGoals.GetSingleAsync(request.Data.Id)
                 : null;
 
             var model = existingModel ?? new();
             request.Data.ToModel(model, identityUser.Id);
 
             if (model.IsNew)
-                unitOfWork.Create(model);
+                db.BodyweightGoals.Add(model);
 
-            await unitOfWork.SaveAsync();
+            await db.SaveChangesAsync(cancellationToken);
 
             return new();
         }

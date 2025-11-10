@@ -1,8 +1,6 @@
-﻿using PeakPerformance.Persistence.Extensions;
+﻿namespace PeakPerformance.Persistence.Contexts;
 
-namespace PeakPerformance.Persistence.Contexts;
-
-public partial class ApplicationDbContext : DbContext
+public partial class ApplicationDbContext : DbContext, IDatabaseContext
 {
     public IIdentityUser CurrentUser { get; private set; }
 

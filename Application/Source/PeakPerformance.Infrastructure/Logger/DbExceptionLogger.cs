@@ -1,22 +1,19 @@
 ﻿using PeakPerformance.Domain.Entities.Application;
 using PeakPerformance.Domain.Interfaces;
-using PeakPerformance.Domain.Repositories;
 
 namespace PeakPerformance.Infrastructure.Logger;
 
-public class DbExceptionLogger(IUnitOfWork unitOfWork) : IExceptionLogger
+public class DbExceptionLogger(IDatabaseContext db) : IExceptionLogger
 {
-    private readonly IUnitOfWork _unitOfWork = unitOfWork;
-
     public async Task LogExceptionAsync(Exception ex)
     {
-        _unitOfWork.Create(new ErrorLog
+        db.ErrorLogs.Add(new ErrorLog
         {
             Message = ex.Message,
             StackTrace = ex.StackTrace,
             InnerException = ex.InnerException?.Message
         });
 
-        await _unitOfWork.SaveAsync();
+        await db.SaveChangesAsync();
     }
 }

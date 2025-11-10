@@ -1,6 +1,7 @@
 ﻿global using AutoMapper;
 global using FluentValidation;
 global using MediatR;
+global using Microsoft.EntityFrameworkCore;
 global using Microsoft.Extensions.Logging;
 global using PeakPerformance.Application.Extensions;
 global using PeakPerformance.Application.Identity.Interfaces;
@@ -11,6 +12,7 @@ global using PeakPerformance.Domain._Grid;
 global using PeakPerformance.Domain.Common;
 global using PeakPerformance.Domain.Entities.Application;
 global using PeakPerformance.Domain.Enums;
+global using PeakPerformance.Domain.Extensions;
 global using PeakPerformance.Domain.Interfaces;
 global using PeakPerformance.Domain.Repositories;
 global using PeakPerformance.Domain.Searches;

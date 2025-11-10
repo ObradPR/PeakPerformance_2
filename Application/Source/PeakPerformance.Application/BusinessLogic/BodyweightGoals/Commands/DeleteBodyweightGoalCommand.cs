@@ -4,18 +4,18 @@ public class DeleteBodyweightGoalCommand(long id) : IRequest<BaseResponseWrapper
 {
     public long Id { get; set; } = id;
 
-    public class DeleteBodyweightGoalCommandHandler(IUnitOfWork unitOfWork) : IRequestHandler<DeleteBodyweightGoalCommand, BaseResponseWrapper>
+    public class DeleteBodyweightGoalCommandHandler(IDatabaseContext db) : IRequestHandler<DeleteBodyweightGoalCommand, BaseResponseWrapper>
     {
         public async Task<BaseResponseWrapper> Handle(DeleteBodyweightGoalCommand request, CancellationToken cancellationToken)
         {
-            var model = await unitOfWork.GetSingleAsync<BodyweightGoal>(request.Id);
+            var model = await db.BodyweightGoals.GetSingleAsync(request.Id);
 
             if (model == null)
                 return new(new Error("Goal", ResourceValidation.Not_Found));
 
-            unitOfWork.Delete(model);
+            db.BodyweightGoals.Remove(model);
 
-            await unitOfWork.SaveAsync();
+            await db.SaveChangesAsync(cancellationToken);
 
             return new();
         }
