@@ -5,7 +5,6 @@ global using PeakPerformance.Domain._Grid;
 global using PeakPerformance.Domain.Entities._Base.Interfaces;
 global using PeakPerformance.Domain.Entities.Application;
 global using PeakPerformance.Domain.Enums;
-global using PeakPerformance.Domain.Searches;
 global using System.ComponentModel;
 global using System.ComponentModel.DataAnnotations;
 global using System.Linq.Expressions;

@@ -40,7 +40,6 @@ public static partial class Extensions
             opt => opt.UseSqlServer(Settings.ConnectionString));
 
         services.AddScoped<IDatabaseContext, ApplicationDbContext>();
-        //services.AddScoped<IUnitOfWork, UnitOfWork>();
 
         return services;
     }

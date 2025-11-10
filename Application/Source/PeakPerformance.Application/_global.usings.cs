@@ -14,7 +14,6 @@ global using PeakPerformance.Domain.Entities.Application;
 global using PeakPerformance.Domain.Enums;
 global using PeakPerformance.Domain.Extensions;
 global using PeakPerformance.Domain.Interfaces;
-global using PeakPerformance.Domain.Repositories;
 global using PeakPerformance.Domain.Searches;
 global using System.ComponentModel.DataAnnotations;
 global using System.Diagnostics;
