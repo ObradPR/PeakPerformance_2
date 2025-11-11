@@ -11,4 +11,16 @@ public class CurrentBodyInfo
     public eMeasurementUnit? BodyweightGoalUnitId { get; set; }
 
     public decimal? BodyFatPercentage { get; set; }
+
+    // Measurements
+
+    public decimal? Waist { get; set; }
+
+    public decimal? Chest { get; set; }
+
+    public decimal? Thighs { get; set; }
+
+    public decimal? Biceps { get; set; }
+
+    public eMeasurementUnit? MeasurementUnitId { get; set; }
 }

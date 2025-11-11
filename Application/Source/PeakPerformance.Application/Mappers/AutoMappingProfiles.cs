@@ -1,5 +1,6 @@
 ﻿using PeakPerformance.Application.Dtos.BodyweightGoals;
 using PeakPerformance.Application.Dtos.Bodyweights;
+using PeakPerformance.Application.Dtos.MeasurementGoals;
 using PeakPerformance.Application.Dtos.Users;
 using PeakPerformance.Domain.ValueObjects;
 
@@ -18,6 +19,8 @@ public class AutoMappingProfiles : BaseAutoMapperProfile
 
         CreateMap<Bodyweight, BodyweightDto>();
         CreateMap<BodyweightGoal, BodyweightGoalDto>();
+
+        CreateMap<MeasurementGoal, MeasurementGoalDto>();
 
         // Value objects
         CreateMap<CurrentBodyInfo, CurrentBodyInfoDto>();
