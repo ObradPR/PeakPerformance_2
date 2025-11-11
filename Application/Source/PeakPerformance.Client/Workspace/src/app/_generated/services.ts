@@ -14,6 +14,10 @@ import { IBodyweightSearchOptions } from './interfaces';
 import { IBaseResponseWrapper } from './interfaces';
 import { IBodyweightGoalDto } from './interfaces';
 import { IBodyweightGoalSearchOptions } from './interfaces';
+import { IMeasurementDto } from './interfaces';
+import { IMeasurementSearchOptions } from './interfaces';
+import { IMeasurementGoalDto } from './interfaces';
+import { IMeasurementGoalSearchOptions } from './interfaces';
 import { IUserDto } from './interfaces';
 
 @Injectable({ providedIn: 'root' }) export abstract class BaseController
@@ -151,6 +155,116 @@ import { IUserDto } from './interfaces';
 		const body = <any>{'id': id};
 		return this.httpClient.delete<IBaseResponseWrapper>(
 		this.settingsService.createApiUrl('BodyweightGoal/Delete'),
+		{
+			params: new HttpParams({ fromObject: body }),
+			responseType: 'json',
+			observe: 'response',
+			withCredentials: true
+		})
+		.pipe(map(response => response.body));
+		
+	}
+	constructor (httpClient: HttpClient, settingsService: SettingsService)
+	{
+		super(httpClient, settingsService);
+	}
+}
+@Injectable({ providedIn: 'root' }) export class MeasurementController extends BaseController
+{
+	public GetCurrentMeasurementInfo() : Observable<IResponseWrapper<ICurrentBodyInfoDto> | null>
+	{
+		return this.httpClient.get<IResponseWrapper<ICurrentBodyInfoDto>>(
+		this.settingsService.createApiUrl('Measurement/GetCurrentMeasurementInfo'),
+		{
+			responseType: 'json',
+			observe: 'response',
+			withCredentials: true
+		})
+		.pipe(map(response => response.body));
+		
+	}
+	public Search(options: IMeasurementSearchOptions) : Observable<IResponseWrapper<IPagingResult<IMeasurementDto>> | null>
+	{
+		const body = <any>options;
+		return this.httpClient.post<IResponseWrapper<IPagingResult<IMeasurementDto>>>(
+		this.settingsService.createApiUrl('Measurement/Search'),
+		body,
+		{
+			responseType: 'json',
+			observe: 'response',
+			withCredentials: true
+		})
+		.pipe(map(response => response.body));
+		
+	}
+	public Save(data: IMeasurementDto) : Observable<IBaseResponseWrapper | null>
+	{
+		const body = <any>data;
+		return this.httpClient.post<IBaseResponseWrapper>(
+		this.settingsService.createApiUrl('Measurement/Save'),
+		body,
+		{
+			responseType: 'json',
+			observe: 'response',
+			withCredentials: true
+		})
+		.pipe(map(response => response.body));
+		
+	}
+	public Delete(id: number) : Observable<IBaseResponseWrapper | null>
+	{
+		const body = <any>{'id': id};
+		return this.httpClient.delete<IBaseResponseWrapper>(
+		this.settingsService.createApiUrl('Measurement/Delete'),
+		{
+			params: new HttpParams({ fromObject: body }),
+			responseType: 'json',
+			observe: 'response',
+			withCredentials: true
+		})
+		.pipe(map(response => response.body));
+		
+	}
+	constructor (httpClient: HttpClient, settingsService: SettingsService)
+	{
+		super(httpClient, settingsService);
+	}
+}
+@Injectable({ providedIn: 'root' }) export class MeasurementGoalController extends BaseController
+{
+	public Search(options: IMeasurementGoalSearchOptions) : Observable<IResponseWrapper<IPagingResult<IMeasurementGoalDto>> | null>
+	{
+		const body = <any>options;
+		return this.httpClient.post<IResponseWrapper<IPagingResult<IMeasurementGoalDto>>>(
+		this.settingsService.createApiUrl('MeasurementGoal/Search'),
+		body,
+		{
+			responseType: 'json',
+			observe: 'response',
+			withCredentials: true
+		})
+		.pipe(map(response => response.body));
+		
+	}
+	public Save(data: IMeasurementGoalDto) : Observable<IBaseResponseWrapper | null>
+	{
+		const body = <any>data;
+		return this.httpClient.post<IBaseResponseWrapper>(
+		this.settingsService.createApiUrl('MeasurementGoal/Save'),
+		body,
+		{
+			responseType: 'json',
+			observe: 'response',
+			withCredentials: true
+		})
+		.pipe(map(response => response.body));
+		
+	}
+	public Delete(id: number) : Observable<IBaseResponseWrapper | null>
+	{
+		const body = <any>{'id': id};
+		return this.httpClient.delete<IBaseResponseWrapper>(
+		this.settingsService.createApiUrl('MeasurementGoal/Delete'),
 		{
 			params: new HttpParams({ fromObject: body }),
 			responseType: 'json',

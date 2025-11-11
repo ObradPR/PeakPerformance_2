@@ -12,9 +12,9 @@ public class GetCurrentBodyweightInfoQuery() : IRequest<ResponseWrapper<CurrentB
             var userId = identityUser.Id;
 
             var bodyweight = await db.Bodyweights
-            .Where(_ => _.UserId == userId)
-            .OrderByDescending(_ => _.LogDate)
-            .FirstOrDefaultAsync(cancellationToken);
+                .Where(_ => _.UserId == userId)
+                .OrderByDescending(_ => _.LogDate)
+                .FirstOrDefaultAsync(cancellationToken);
 
             var bodyweightGoal = await db.BodyweightGoals
                 .Where(_ => _.UserId == userId)

@@ -44,6 +44,11 @@ export interface ICurrentBodyInfoDto
 	bodyweightGoal?: number;
 	bodyweightGoalUnitId?: eMeasurementUnit;
 	bodyFatPercentage?: number;
+	waist?: number;
+	chest?: number;
+	thighs?: number;
+	biceps?: number;
+	measurementUnitId?: eMeasurementUnit;
 }
 export interface IBodyweightGoalDto
 {
@@ -64,6 +69,45 @@ export interface ILookupValueDto
 	id: number;
 	name: string;
 	description: string;
+}
+export interface IMeasurementDto
+{
+	id: number;
+	waist?: number;
+	hips?: number;
+	neck?: number;
+	chest?: number;
+	shoulders?: number;
+	rightBicep?: number;
+	leftBicep?: number;
+	rightForearm?: number;
+	leftForearm?: number;
+	rightThigh?: number;
+	leftThigh?: number;
+	rightCalf?: number;
+	leftCalf?: number;
+	measurementUnitId: eMeasurementUnit;
+	logDate?: Date | null;
+}
+export interface IMeasurementGoalDto
+{
+	id: number;
+	waist?: number;
+	hips?: number;
+	neck?: number;
+	chest?: number;
+	shoulders?: number;
+	rightBicep?: number;
+	leftBicep?: number;
+	rightForearm?: number;
+	leftForearm?: number;
+	rightThigh?: number;
+	leftThigh?: number;
+	rightCalf?: number;
+	leftCalf?: number;
+	measurementUnitId: eMeasurementUnit;
+	startDate: Date;
+	endDate: Date;
 }
 export interface IPagingResult<TEntity>
 {
@@ -92,6 +136,20 @@ export interface IBodyweightSearchOptions extends ISearchOptions
 	chartTimespanId?: eChartTimespan;
 }
 export interface IBodyweightGoalSearchOptions extends ISearchOptions
+{
+	userId?: number;
+	fromDate?: Date | null;
+	toDate?: Date | null;
+	chartTimespanId?: eChartTimespan;
+}
+export interface IMeasurementGoalSearchOptions extends ISearchOptions
+{
+	userId?: number;
+	fromDate?: Date | null;
+	toDate?: Date | null;
+	chartTimespanId?: eChartTimespan;
+}
+export interface IMeasurementSearchOptions extends ISearchOptions
 {
 	userId?: number;
 	fromDate?: Date | null;

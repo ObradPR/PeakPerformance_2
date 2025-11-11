@@ -35,6 +35,8 @@ public class Measurement : BaseAuditedDomain<long>, IConfigurableEntity
 
     public eMeasurementUnit MeasurementUnitId { get; set; }
 
+    public DateTime LogDate { get; set; }
+
     //
     // Relationships
     //

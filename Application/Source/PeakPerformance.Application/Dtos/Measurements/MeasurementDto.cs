@@ -41,6 +41,9 @@ public class MeasurementDto
     [Display(Name = "Measurement unit")]
     public eMeasurementUnit MeasurementUnitId { get; set; }
 
+    [Display(Name = "Log date")]
+    public DateTime? LogDate { get; set; }
+
     // methods
 
     public void ToModel(Measurement model, long userId)
@@ -59,6 +62,7 @@ public class MeasurementDto
         model.RightCalf = RightCalf;
         model.LeftCalf = LeftCalf;
         model.MeasurementUnitId = MeasurementUnitId;
+        model.LogDate = LogDate ?? DateTime.UtcNow;
         model.UserId = userId;
     }
 }
