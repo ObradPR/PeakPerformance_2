@@ -32,14 +32,20 @@ public class User : BaseIndexAuditedDomain<User, long>, IConfigurableEntity
     [InverseProperty(nameof(UserRole.User))]
     public virtual ICollection<UserRole> UserRoles { get; set; } = [];
 
+    [InverseProperty(nameof(UserMeasurementPreference.User))]
+    public virtual ICollection<UserMeasurementPreference> UserMeasurementPreferences { get; set; } = [];
+
     [InverseProperty(nameof(Bodyweight.User))]
     public virtual ICollection<Bodyweight> Bodyweights { get; set; } = [];
 
     [InverseProperty(nameof(BodyweightGoal.User))]
     public virtual ICollection<BodyweightGoal> BodyweightGoals { get; set; } = [];
 
-    [InverseProperty(nameof(UserMeasurementPreference.User))]
-    public virtual ICollection<UserMeasurementPreference> UserMeasurementPreferences { get; set; } = [];
+    [InverseProperty(nameof(Measurement.User))]
+    public virtual ICollection<Measurement> Measurements { get; set; } = [];
+
+    [InverseProperty(nameof(MeasurementGoal.User))]
+    public virtual ICollection<MeasurementGoal> MeasurementGoals { get; set; } = [];
 
     #endregion Relationships
 
