@@ -16,8 +16,10 @@ import { IBodyweightGoalDto } from './interfaces';
 import { IBodyweightGoalSearchOptions } from './interfaces';
 import { IMeasurementDto } from './interfaces';
 import { IMeasurementSearchOptions } from './interfaces';
+import { IMeasurementCreateDto } from './interfaces';
 import { IMeasurementGoalDto } from './interfaces';
 import { IMeasurementGoalSearchOptions } from './interfaces';
+import { IMeasurementGoalCreateDto } from './interfaces';
 import { IUserDto } from './interfaces';
 
 @Injectable({ providedIn: 'root' }) export abstract class BaseController
@@ -197,7 +199,7 @@ import { IUserDto } from './interfaces';
 		.pipe(map(response => response.body));
 		
 	}
-	public Save(data: IMeasurementDto) : Observable<IBaseResponseWrapper | null>
+	public Save(data: IMeasurementCreateDto) : Observable<IBaseResponseWrapper | null>
 	{
 		const body = <any>data;
 		return this.httpClient.post<IBaseResponseWrapper>(
@@ -246,7 +248,7 @@ import { IUserDto } from './interfaces';
 		.pipe(map(response => response.body));
 		
 	}
-	public Save(data: IMeasurementGoalDto) : Observable<IBaseResponseWrapper | null>
+	public Save(data: IMeasurementGoalCreateDto) : Observable<IBaseResponseWrapper | null>
 	{
 		const body = <any>data;
 		return this.httpClient.post<IBaseResponseWrapper>(

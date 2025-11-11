@@ -1,3 +1,18 @@
+export enum eBodyPart {
+	Waist = 1,
+	Hips = 2,
+	Neck = 3,
+	Chest = 4,
+	Shoulders = 5,
+	RightBicep = 6,
+	LeftBicep = 7,
+	RightForearm = 8,
+	LeftForearm = 9,
+	RightThigh = 10,
+	LeftThigh = 11,
+	RightCalf = 12,
+	LeftCalf = 13
+}
 export enum eChartTimespan {
 	Last3Months = 3,
 	Last6Months = 6,

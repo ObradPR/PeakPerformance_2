@@ -2,13 +2,13 @@
 
 namespace PeakPerformance.Application.BusinessLogic.MeasurementGoals.Queries;
 
-public class SearchMeasurementGoalQuery(MeasurementGoalSearchOptions options) : IRequest<ResponseWrapper<PagingResult<MeasurementGoalDto>>>
+public class SearchMeasurementGoalQuery(MeasurementGoalSearchOptions options) : IRequest<ResponseWrapper<PagingResult<MeasurementGoalCreateDto>>>
 {
     public MeasurementGoalSearchOptions Options { get; set; } = options;
 
-    public class SearchMeasurementGoalQueryHandler(IDatabaseContext db, IIdentityUser identityUser, IMapper mapper) : IRequestHandler<SearchMeasurementGoalQuery, ResponseWrapper<PagingResult<MeasurementGoalDto>>>
+    public class SearchMeasurementGoalQueryHandler(IDatabaseContext db, IIdentityUser identityUser, IMapper mapper) : IRequestHandler<SearchMeasurementGoalQuery, ResponseWrapper<PagingResult<MeasurementGoalCreateDto>>>
     {
-        public async Task<ResponseWrapper<PagingResult<MeasurementGoalDto>>> Handle(SearchMeasurementGoalQuery request, CancellationToken cancellationToken)
+        public async Task<ResponseWrapper<PagingResult<MeasurementGoalCreateDto>>> Handle(SearchMeasurementGoalQuery request, CancellationToken cancellationToken)
         {
             var options = request.Options;
 
@@ -44,7 +44,7 @@ public class SearchMeasurementGoalQuery(MeasurementGoalSearchOptions options) : 
 
             return new(new()
             {
-                Data = mapper.Map<IEnumerable<MeasurementGoalDto>>(result.Data),
+                Data = mapper.Map<IEnumerable<MeasurementGoalCreateDto>>(result.Data),
                 Total = result.Total
             });
         }

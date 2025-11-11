@@ -2,9 +2,9 @@
 
 namespace PeakPerformance.Application.BusinessLogic.MeasurementGoals.Commands;
 
-public class SaveMeasurementGoalCommand(MeasurementGoalDto data) : IRequest<BaseResponseWrapper>
+public class SaveMeasurementGoalCommand(MeasurementGoalCreateDto data) : IRequest<BaseResponseWrapper>
 {
-    public MeasurementGoalDto Data { get; set; } = data;
+    public MeasurementGoalCreateDto Data { get; set; } = data;
 
     public class SaveMeasurementGoalCommandHandler(IDatabaseContext db, IIdentityUser identityUser) : IRequestHandler<SaveMeasurementGoalCommand, BaseResponseWrapper>
     {
@@ -18,12 +18,12 @@ public class SaveMeasurementGoalCommand(MeasurementGoalDto data) : IRequest<Base
                 : null;
 
             var model = existingModel ?? new();
-            request.Data.ToModel(model, identityUser.Id);
+            //request.Data.ToModel(model, identityUser.Id);
 
-            if (model.IsNew)
-                db.MeasurementGoals.Add(model);
+            //if (model.IsNew)
+            //    db.MeasurementGoals.Add(model);
 
-            await db.SaveChangesAsync(cancellationToken);
+            //await db.SaveChangesAsync(cancellationToken);
 
             return new();
         }

@@ -1,4 +1,5 @@
 import { eMeasurementUnit } from './enums';
+import { eBodyPart } from './enums';
 import { eChartTimespan } from './enums';
 
 export interface IAuthorizationDto
@@ -70,7 +71,7 @@ export interface ILookupValueDto
 	name: string;
 	description: string;
 }
-export interface IMeasurementDto
+export interface IMeasurementCreateDto
 {
 	id: number;
 	waist?: number;
@@ -89,7 +90,15 @@ export interface IMeasurementDto
 	measurementUnitId: eMeasurementUnit;
 	logDate?: Date | null;
 }
-export interface IMeasurementGoalDto
+export interface IMeasurementDto
+{
+	id: string;
+	bodyPartId: eBodyPart;
+	size: number;
+	measurementUnitId: eMeasurementUnit;
+	logDate?: Date | null;
+}
+export interface IMeasurementGoalCreateDto
 {
 	id: number;
 	waist?: number;
@@ -105,6 +114,15 @@ export interface IMeasurementGoalDto
 	leftThigh?: number;
 	rightCalf?: number;
 	leftCalf?: number;
+	measurementUnitId: eMeasurementUnit;
+	startDate: Date;
+	endDate: Date;
+}
+export interface IMeasurementGoalDto
+{
+	id: string;
+	bodyPartId: eBodyPart;
+	size: number;
 	measurementUnitId: eMeasurementUnit;
 	startDate: Date;
 	endDate: Date;

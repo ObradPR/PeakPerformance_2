@@ -2,9 +2,9 @@
 
 namespace PeakPerformance.Application.BusinessLogic.Measurements.Commands;
 
-public class SaveMeasurementCommand(MeasurementDto data) : IRequest<BaseResponseWrapper>
+public class SaveMeasurementCommand(MeasurementCreateDto data) : IRequest<BaseResponseWrapper>
 {
-    public MeasurementDto Data { get; set; } = data;
+    public MeasurementCreateDto Data { get; set; } = data;
 
     public class SaveMeasurementCommandHandler(IDatabaseContext db, IIdentityUser identityUser) : IRequestHandler<SaveMeasurementCommand, BaseResponseWrapper>
     {
@@ -18,7 +18,7 @@ public class SaveMeasurementCommand(MeasurementDto data) : IRequest<BaseResponse
                 : null;
 
             var model = existingModel ?? new();
-            request.Data.ToModel(model, identityUser.Id);
+            //request.Data.ToModel(model, identityUser.Id);
 
             if (model.IsNew)
                 db.Measurements.Add(model);

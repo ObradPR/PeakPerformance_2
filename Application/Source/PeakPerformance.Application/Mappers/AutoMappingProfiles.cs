@@ -21,8 +21,8 @@ public class AutoMappingProfiles : BaseAutoMapperProfile
         CreateMap<Bodyweight, BodyweightDto>();
         CreateMap<BodyweightGoal, BodyweightGoalDto>();
 
-        CreateMap<Measurement, MeasurementDto>();
-        CreateMap<MeasurementGoal, MeasurementGoalDto>();
+        CreateMap<Measurement, MeasurementCreateDto>();
+        CreateMap<MeasurementGoal, MeasurementGoalCreateDto>();
 
         // Value objects
         CreateMap<CurrentBodyInfo, CurrentBodyInfoDto>();
