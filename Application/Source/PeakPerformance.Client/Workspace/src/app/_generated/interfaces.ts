@@ -92,7 +92,8 @@ export interface IMeasurementCreateDto
 }
 export interface IMeasurementDto
 {
-	id: string;
+	id: number;
+	userId: number;
 	bodyPartId: eBodyPart;
 	size: number;
 	measurementUnitId: eMeasurementUnit;

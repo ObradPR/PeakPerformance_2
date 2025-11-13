@@ -20,7 +20,12 @@ public class MeasurementController(IMediator mediator) : BaseController(mediator
     [HttpPost]
     [Authorize]
     [AngularMethod(typeof(BaseResponseWrapper))]
-    public async Task<IActionResult> Save([FromBody] MeasurementCreateDto data) => Result(await Mediator.Send(new SaveMeasurementCommand(data)));
+    public async Task<IActionResult> Create([FromBody] MeasurementCreateDto data) => Result(await Mediator.Send(new CreateMeasurementCommand(data)));
+
+    [HttpPost]
+    [Authorize]
+    [AngularMethod(typeof(BaseResponseWrapper))]
+    public async Task<IActionResult> Update([FromBody] MeasurementDto data) => Result(await Mediator.Send(new UpdateMeasurementCommand(data)));
 
     [HttpDelete]
     [Authorize]
