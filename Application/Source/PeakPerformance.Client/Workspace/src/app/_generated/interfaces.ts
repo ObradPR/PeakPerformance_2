@@ -121,7 +121,7 @@ export interface IMeasurementGoalCreateDto
 }
 export interface IMeasurementGoalDto
 {
-	id: string;
+	id: number;
 	bodyPartId: eBodyPart;
 	size: number;
 	measurementUnitId: eMeasurementUnit;

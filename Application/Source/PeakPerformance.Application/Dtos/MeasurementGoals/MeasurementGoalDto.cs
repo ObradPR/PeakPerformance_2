@@ -2,7 +2,7 @@
 
 public class MeasurementGoalDto
 {
-    public string Id { get; set; }
+    public long Id { get; set; }
 
     [Display(Name = "Body part")]
     public eBodyPart BodyPartId { get; set; }
@@ -17,4 +17,15 @@ public class MeasurementGoalDto
 
     [Display(Name = "End date")]
     public DateTime EndDate { get; set; }
+
+    // methods
+
+    public void ToModel(MeasurementGoal model)
+    {
+        model.BodyPartId = BodyPartId;
+        model.Size = Size;
+        model.MeasurementUnitId = MeasurementUnitId;
+        model.StartDate = StartDate;
+        model.EndDate = EndDate;
+    }
 }

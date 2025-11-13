@@ -262,11 +262,25 @@ import { IUserDto } from './interfaces';
 		.pipe(map(response => response.body));
 		
 	}
-	public Save(data: IMeasurementGoalCreateDto) : Observable<IBaseResponseWrapper | null>
+	public Create(data: IMeasurementGoalCreateDto) : Observable<IBaseResponseWrapper | null>
 	{
 		const body = <any>data;
 		return this.httpClient.post<IBaseResponseWrapper>(
-		this.settingsService.createApiUrl('MeasurementGoal/Save'),
+		this.settingsService.createApiUrl('MeasurementGoal/Create'),
+		body,
+		{
+			responseType: 'json',
+			observe: 'response',
+			withCredentials: true
+		})
+		.pipe(map(response => response.body));
+		
+	}
+	public Update(data: IMeasurementGoalDto) : Observable<IBaseResponseWrapper | null>
+	{
+		const body = <any>data;
+		return this.httpClient.post<IBaseResponseWrapper>(
+		this.settingsService.createApiUrl('MeasurementGoal/Update'),
 		body,
 		{
 			responseType: 'json',

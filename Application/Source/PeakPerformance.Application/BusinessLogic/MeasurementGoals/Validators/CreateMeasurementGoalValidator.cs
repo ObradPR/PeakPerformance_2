@@ -2,9 +2,9 @@
 
 namespace PeakPerformance.Application.BusinessLogic.MeasurementGoals.Validators;
 
-public class SaveMeasurementGoalValidator : AbstractValidator<SaveMeasurementGoalCommand>
+public class CreateMeasurementGoalValidator : AbstractValidator<CreateMeasurementGoalCommand>
 {
-    public SaveMeasurementGoalValidator()
+    public CreateMeasurementGoalValidator()
     {
         RuleFor(_ => _.Data.Waist)
            .GreaterThanAuto(10, _ => _.Data.Waist.HasValue)
