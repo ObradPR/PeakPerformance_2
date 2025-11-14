@@ -1,19 +1,19 @@
 import { Component, OnInit, output, OutputEmitterRef } from '@angular/core';
-import { IModalMethods } from '../interfaces/modal-methods.interface';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { SharedService } from '../../../services/shared.service';
-import { IBodyweightDto } from '../../../_generated/interfaces';
-import { ModalService } from '../../../services/modal.service';
-import { AuthService } from '../../../services/auth.service';
-import { LoaderService } from '../../../services/loader.service';
-import { BodyweightController } from '../../../_generated/services';
-import { BaseValidationComponent } from '../../../pages/_base/base.component/base-validation.component';
-import { ValidationDirective } from '../../../directives/validation.directive';
 import { DateTime } from 'luxon';
 import { eMeasurementUnit } from '../../../_generated/enums';
-import { MeasurementUnitDescriptionPipe } from "../../../pipes/measurement-unit-description.pipe";
-import { BodyweightService } from '../../../services/bodyweight.service';
+import { IBodyweightDto } from '../../../_generated/interfaces';
+import { BodyweightController } from '../../../_generated/services';
+import { ValidationDirective } from '../../../directives/validation.directive';
+import { BaseValidationComponent } from '../../../pages/_base/base.component/base-validation.component';
 import { MeasurementConverterPipe } from '../../../pipes/measurement-converter.pipe';
+import { MeasurementUnitDescriptionPipe } from "../../../pipes/measurement-unit-description.pipe";
+import { AuthService } from '../../../services/auth.service';
+import { BodyweightService } from '../../../services/bodyweight.service';
+import { LoaderService } from '../../../services/loader.service';
+import { ModalService } from '../../../services/modal.service';
+import { SharedService } from '../../../services/shared.service';
+import { IModalMethods } from '../interfaces/modal-methods.interface';
 
 @Component({
   selector: 'app-bodyweight-modal',
@@ -99,5 +99,4 @@ export class BodyweightModal extends BaseValidationComponent implements IModalMe
         this.bodyweightService.triggerBodyweights();
       });
   }
-
 }

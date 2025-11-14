@@ -16,6 +16,11 @@ export const routes: Routes = [
                 path: RouteConstants.ROUTE_BODYWEIGHT,
                 title: RouteConstants.TITLE_BODYWEIGHT,
                 loadComponent: () => import('./pages/bodyweight/bodyweight').then(_ => _.Bodyweight)
+            },
+            {
+                path: RouteConstants.ROUTE_MEASUREMENT,
+                title: RouteConstants.TITLE_MEASUREMENT,
+                loadComponent: () => import('./pages/measurement/measurement').then(_ => _.Measurement)
             }
         ]
     },

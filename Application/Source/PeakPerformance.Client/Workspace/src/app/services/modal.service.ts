@@ -1,5 +1,5 @@
 import { Injectable, signal } from '@angular/core';
-import { IBodyweightDto, IBodyweightGoalDto } from '../_generated/interfaces';
+import { IBodyweightDto, IBodyweightGoalDto, IMeasurementDto, IMeasurementGoalDto } from '../_generated/interfaces';
 
 export type TModal = 'add' | 'edit';
 
@@ -54,5 +54,54 @@ export class ModalService {
     this.bodyweightGoalModal.set(false);
     this.bodyweightGoalModalType.set(null);
     this.selectedBodyweightGoal.set(null);
+  }
+
+  // Measurement
+  private measurementModal = signal<boolean>(false);
+  private measurementModalType = signal<TModal | null>(null);
+  private selectedMeasurement = signal<IMeasurementDto | null>(null);
+
+  readonly measurementModalSignal = this.measurementModal.asReadonly();
+  readonly measurementModalTypeSignal = this.measurementModalType.asReadonly();
+  readonly selectedMeasurementSignal = this.selectedMeasurement.asReadonly();
+
+  showAddMeasurementModal() {
+    this.measurementModalType.set('add');
+    this.measurementModal.set(true);
+  }
+  showEditMeasurementModal(data: IMeasurementDto) {
+    this.measurementModalType.set('edit');
+    this.selectedMeasurement.set(data);
+    this.measurementModal.set(true);
+  }
+  hideMeasurementModal() {
+    this.measurementModal.set(false);
+    this.measurementModalType.set(null);
+    this.selectedMeasurement.set(null);
+  }
+
+  // Measurement Goal
+
+  private measurementGoalModal = signal<boolean>(false);
+  private measurementGoalModalType = signal<TModal | null>(null);
+  private selectedMeasurementGoal = signal<IMeasurementGoalDto | null>(null);
+
+  readonly measurementGoalModalSignal = this.measurementGoalModal.asReadonly();
+  readonly measurementGoalModalTypeSignal = this.measurementGoalModalType.asReadonly();
+  readonly selectedMeasurementGoalSignal = this.selectedMeasurementGoal.asReadonly();
+
+  showAddMeasurementGoalModal() {
+    this.measurementGoalModalType.set('add');
+    this.measurementGoalModal.set(true);
+  }
+  showEditMeasurementGoalModal(data: IMeasurementGoalDto) {
+    this.measurementGoalModalType.set('edit');
+    this.selectedMeasurementGoal.set(data);
+    this.measurementGoalModal.set(true);
+  }
+  hideMeasurementGoalModal() {
+    this.measurementGoalModal.set(false);
+    this.measurementGoalModalType.set(null);
+    this.selectedMeasurementGoal.set(null);
   }
 }

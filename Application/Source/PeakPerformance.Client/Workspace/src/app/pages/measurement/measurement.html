@@ -1,9 +1,9 @@
 <div class="col-12 info-wrapper">
-    <h1>Bodyweight</h1>
+    <h1>Measurement</h1>
 
     <div class="col-12 row justify-content-between">
         <div class="col-md-12 col-lg-7">
-            <div class="d-flex text-center border-bottom mb-3">
+            <!-- <div class="d-flex text-center border-bottom mb-3">
                 <div class="col-4">
                     <p class="text-uppercase info-header">Bodyweight</p>
                     <p class="fw-bold fs-3">
@@ -20,9 +20,9 @@
                     <p class="text-uppercase info-header">Body fat</p>
                     <p class="fw-bold fs-3">{{ currentBodyFat ? currentBodyFat + ' %' : '' }}</p>
                 </div>
-            </div>
+            </div> -->
 
-            <div class="pt-2">
+            <!-- <div class="pt-2">
                 <div class="d-flex justify-content-start flex-nowrap align-items-center">
                     <div>
                         <select id="chart-timespan" class="form-select" [(ngModel)]="selectedTimespan" (change)="onTimespanChange()">
@@ -35,13 +35,13 @@
                 <div style="display: block;">
                     <canvas id="bodyweights-line-chart"></canvas>
                 </div>
-            </div>
+            </div> -->
         </div>
 
         <div class="col-md-12 col-lg-4 ms-4 mb-3 d-flex flex-column">
             <div class="top-btns mb-3">
-                <button class="btn btn-primary" (click)="modalService.showAddBodyweightModal()"><i class="fa-solid fa-weight-scale"></i> Add Bodyweight</button>
-                <button class="btn btn-secondary ms-2" (click)="modalService.showAddBodyweightGoalModal()"><i class="fa-solid fa-chart-line"></i> Add Goal</button>
+                <button class="btn btn-primary" (click)="modalService.showAddMeasurementModal()"><i class="fa-solid fa-ruler"></i> Add Measurement</button>
+                <button class="btn btn-secondary ms-2" (click)="modalService.showAddMeasurementGoalModal()"><i class="fa-solid fa-chart-line"></i> Add Goal</button>
             </div>
 
             <div class="bottom-data">
@@ -63,27 +63,27 @@
                     <thead>
                         <tr>
                             <th>Date</th>
-                            <th>Bodyweight</th>
-                            <th>Body Fat</th>
+                            <th>Body Part</th>
+                            <th>Size</th>
                             <th></th> <!-- Empty heading for edit dots -->
                         </tr>
                     </thead>
                     <tbody>
-                        @for (row of bodyweights?.data; track row; let idx = $index) {
+                        @for (row of measurements?.data; track row; let idx = $index) {
                             <tr [ngClass]="{'odd-row': idx % 2 !== 0}">
                                 <td>{{ row.logDate! | utcToLocal }}</td>
-                                <td>{{ row.value | measurementConverter:row.weightUnitId }}</td>
-                                <td>{{ row.bodyFatPercentage ? row.bodyFatPercentage + ' %' : "" }}</td>
+                                <td>{{ row.bodyPartId | enumName:'BodyParts' }}</td>
+                                <td>{{ row.size | measurementConverter:row.measurementUnitId }}</td>
                                 <td>
                                     <span class="edit-dots" (click)="onOpenEditMenu(idx)">⋮</span>
-                                    @if (selectedBodyweightMenu === idx) {
-                                        <div class="edit-menu" appClickOutside (clickOutside)="this.selectedBodyweightMenu = null">
+                                    @if (selectedMeasurementMenu === idx) {
+                                        <div class="edit-menu" appClickOutside (clickOutside)="this.selectedMeasurementMenu = null">
                                             <ul>
-                                                <li (click)="editBodyweight(row)">
+                                                <li (click)="editMeasurement(row)">
                                                     <i class="fa-solid fa-pen"></i>
                                                     Edit
                                                 </li>
-                                                <li (click)="deleteBodyweight(row.id)" class="delete-item">
+                                                <li (click)="deleteMeasurement(row.id)" class="delete-item">
                                                    <i class="fa-solid fa-trash"></i>
                                                     Delete
                                                 </li>
@@ -97,38 +97,40 @@
                 </table>
                 <div class="flex justify-content-center">
                     <p-paginator (onPageChange)="onPageChange($event)" 
-                        [first]="bodyweightsFirst" 
+                        [first]="measurementsFirst" 
                         [rows]="rows" 
-                        [totalRecords]="bodyweights?.total"
+                        [totalRecords]="measurements?.total"
                         [showFirstLastIcon]="false" />
                 </div>
             }
             @else if (selectedTab === 1) {
-                <table class="data-table">
+                <table class="data-table data-table-2">
                     <thead>
                         <tr>
                             <th>Start</th>
                             <th>Finish</th>
-                            <th>Bodyweight</th>
+                            <th>Body Part</th>
+                            <th>Size</th>
                             <th></th> <!-- Empty heading for edit dots -->
                         </tr>
                     </thead>
                     <tbody>
-                        @for (row of bodyweightGoals?.data; track row; let idx = $index) {
+                        @for (row of measurementGoals?.data; track row; let idx = $index) {
                             <tr [ngClass]="{'odd-row': idx % 2 !== 0}">
                                 <td>{{ row.startDate! | utcToLocal }}</td>
                                 <td>{{ row.endDate! | utcToLocal }}</td>
-                                <td>{{ row.target | measurementConverter:row.weightUnitId }}</td>
+                                <td>{{ row.bodyPartId | enumName:'BodyParts' }}</td>
+                                <td>{{ row.size | measurementConverter:row.measurementUnitId }}</td>
                                 <td>
                                     <span class="edit-dots" (click)="onOpenEditMenu(idx)">⋮</span>
-                                    @if (selectedBodyweightGoalMenu === idx) {
-                                        <div class="edit-menu" appClickOutside (clickOutside)="this.selectedBodyweightGoalMenu = null">
+                                    @if (selectedMeasurementGoalMenu === idx) {
+                                        <div class="edit-menu" appClickOutside (clickOutside)="this.selectedMeasurementGoalMenu = null">
                                             <ul>
-                                                <li (click)="editBodyweightGoal(row)">
+                                                <li (click)="editMeasurementGoal(row)">
                                                     <i class="fa-solid fa-pen"></i>
                                                     Edit
                                                 </li>
-                                                <li (click)="deleteBodyweightGoal(row.id)" class="delete-item">
+                                                <li (click)="deleteMeasurementGoal(row.id)" class="delete-item">
                                                    <i class="fa-solid fa-trash"></i>
                                                     Delete
                                                 </li>
@@ -142,9 +144,9 @@
                 </table>
                 <div class="d-flex justify-content-center">
                     <p-paginator (onPageChange)="onPageChange($event)" 
-                        [first]="bodyweightGoalsFirst" 
+                        [first]="measurementGoalsFirst" 
                         [rows]="rows" 
-                        [totalRecords]="bodyweightGoals?.total"
+                        [totalRecords]="measurementGoals?.total"
                         [showFirstLastIcon]="false" />
                 </div>
             }       

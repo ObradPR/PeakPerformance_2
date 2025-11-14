@@ -4,3 +4,11 @@
 @if (modalService.bodyweightGoalModalSignal()) {
     <app-bodyweight-goal-modal (closeModalEvent)="modalService.hideBodyweightGoalModal()"></app-bodyweight-goal-modal>
 }
+
+@if (modalService.measurementModalSignal()) {
+    <app-measurement-modal (closeModalEvent)="modalService.hideMeasurementModal()"></app-measurement-modal>
+}
+
+<!-- @if (modalService.measurementGoalModalSignal()) {
+    <app-measurement-goal-modal (closeModalEvent)="modalService.hideMeasurementGoalModal()"></app-measurement-goal-modal>
+} -->

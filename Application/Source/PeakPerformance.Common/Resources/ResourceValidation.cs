@@ -53,4 +53,6 @@ public static class ResourceValidation
     public static string Wrong_Format => "{0} is in the wrong format";
 
     public static string Not_Found => "{0} not found";
+
+    public static string At_Least_One => "At least one {0} must be provided";
 }

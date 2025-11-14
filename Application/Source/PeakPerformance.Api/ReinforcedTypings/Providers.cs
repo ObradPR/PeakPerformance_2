@@ -7,4 +7,7 @@ public enum Providers
 
     [EnumProvider<eChartTimespan>]
     ChartTimespans,
+
+    [EnumProvider<eBodyPart>]
+    BodyParts,
 }

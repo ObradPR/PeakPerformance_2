@@ -22,4 +22,22 @@ import { IEnumProvider } from './interfaces';
 		    { id: 100, name: 'AllTime', description: 'All Time' }
 		];
 	}
+	getBodyParts() : IEnumProvider[]
+	{
+		return [
+		    { id: 1, name: 'Waist', description: 'Waist' },
+		    { id: 2, name: 'Hips', description: 'Hips' },
+		    { id: 3, name: 'Neck', description: 'Neck' },
+		    { id: 4, name: 'Chest', description: 'Chest' },
+		    { id: 5, name: 'Shoulders', description: 'Shoulders' },
+		    { id: 6, name: 'RightBicep', description: 'Right bicep' },
+		    { id: 7, name: 'LeftBicep', description: 'Left bicep' },
+		    { id: 8, name: 'RightForearm', description: 'Right forearm' },
+		    { id: 9, name: 'LeftForearm', description: 'Left forearm' },
+		    { id: 10, name: 'RightThigh', description: 'Right thigh' },
+		    { id: 11, name: 'LeftThigh', description: 'Left thigh' },
+		    { id: 12, name: 'RightCalf', description: 'Right calf' },
+		    { id: 13, name: 'LeftCalf', description: 'Left calf' }
+		];
+	}
 }

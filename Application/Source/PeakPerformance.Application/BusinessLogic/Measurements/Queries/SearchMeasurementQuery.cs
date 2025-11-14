@@ -42,13 +42,11 @@ public class SearchMeasurementQuery(MeasurementSearchOptions options) : IRequest
 
             var result = await db.Measurements.SearchAsync(options, _ => _.LogDate, false, predicates, null);
 
-            //return new(new()
-            //{
-            //    Data = mapper.Map<IEnumerable<MeasurementDto>>(result.Data),
-            //    Total = result.Total
-            //});
-
-            return new();
+            return new(new()
+            {
+                Data = mapper.Map<IEnumerable<MeasurementDto>>(result.Data),
+                Total = result.Total
+            });
         }
     }
 }

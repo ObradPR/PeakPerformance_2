@@ -69,7 +69,7 @@ public class MeasurementCreateDto
         foreach (var prop in typeof(MeasurementCreateDto).GetProperties())
         {
             var attr = prop.GetCustomAttribute<BodyPartAttribute>();
-            if (attr != null)
+            if (attr == null)
                 continue;
 
             var value = prop.GetValue(this) as decimal?;
