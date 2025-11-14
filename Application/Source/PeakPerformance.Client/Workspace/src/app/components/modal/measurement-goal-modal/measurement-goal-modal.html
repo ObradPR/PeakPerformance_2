@@ -1,18 +1,25 @@
 <div class="my-backdrop"></div>
 <section class="my-modal xs">
     <div class="my-modal-header">
-        <h3>{{ modalType }} Measurement</h3>
+        <h3>{{ modalType }} Measurement Goal</h3>
         <i class="fa-solid fa-circle-xmark" (click)="closeModal()"></i>
     </div>
 
     <div class="position-relative">
-        <div class="my-modal-body" validation [key]="'Measurement'" [errors]="errors">
-            @if (this.selectedMeasurement === null) {
+        <div class="my-modal-body" validation [key]="'MeasurementGoal'" [errors]="errors">
+            @if (this.selectedMeasurementGoal === null) {
                 <form [formGroup]="form">
                     <div class="position-relative">
-                        <label for="logDate">Date</label>
-                        <div class="input-group mb-3" validation [key]="'LogDate'" [errors]="errors">
-                            <input type="date" [min]="minLogDate" [max]="maxLogDate" class="form-control" id="logDate" placeholder="Date" aria-label="Date" aria-describedby="logDate-addon" formControlName="logDate" />
+                        <label for="startDate">Start Date</label>
+                        <div class="input-group mb-3" validation [key]="'StartDate'" [errors]="errors">
+                            <input type="date" class="form-control" id="startDate" placeholder="Start Date" aria-label="Start Date" aria-describedby="startDate-addon" formControlName="startDate" />
+                        </div>
+                    </div>
+
+                    <div class="position-relative">
+                        <label for="endDate">End Date</label>
+                        <div class="input-group mb-3" validation [key]="'EndDate'" [errors]="errors">
+                            <input type="date" class="form-control" id="endDate" placeholder="End Date" aria-label="End Date" aria-describedby="endDate-addon" formControlName="endDate" />
                         </div>
                     </div>
     
@@ -173,15 +180,22 @@
             @else {
                 <form [formGroup]="updateForm">
                     <div class="position-relative">
-                        <label for="logDate">Date</label>
-                        <div class="input-group mb-3" validation [key]="'LogDate'" [errors]="errors">
-                            <input type="date" [min]="minLogDate" [max]="maxLogDate" class="form-control" id="logDate" placeholder="Date" aria-label="Date" aria-describedby="logDate-addon" formControlName="logDate" />
+                        <label for="startDate">Start Date</label>
+                        <div class="input-group mb-3" validation [key]="'StartDate'" [errors]="errors">
+                            <input type="date" class="form-control" id="startDate" placeholder="Start Date" aria-label="Start Date" aria-describedby="startDate-addon" formControlName="startDate" />
+                        </div>
+                    </div>
+
+                    <div class="position-relative">
+                        <label for="endDate">End Date</label>
+                        <div class="input-group mb-3" validation [key]="'EndDate'" [errors]="errors">
+                            <input type="date" class="form-control" id="endDate" placeholder="End Date" aria-label="End Date" aria-describedby="endDate-addon" formControlName="endDate" />
                         </div>
                     </div>
                     
                     <!-- Body part -->
                     <div class="position-relative">
-                        <label for="bodyPart">{{ this.selectedMeasurement!.bodyPartId | enumName:'BodyParts' }}</label>
+                        <label for="bodyPart">{{ this.selectedMeasurementGoal!.bodyPartId | enumName:'BodyParts' }}</label>
                         <div class="input-group mb-3" validation [key]="'Size'" [errors]="errors">
                             <input type="number" class="form-control" id="bodyPart" placeholder="0" aria-label="bodyPart"
                                 aria-describedby="bodyPart-addon" formControlName="size" />
@@ -196,7 +210,7 @@
     </div>
 
     <div class="my-modal-footer">
-        <button class="btn btn-primary" (click)="this.selectedMeasurement === null ? submitCreate() : submitUpdate()">Save</button>
+        <button class="btn btn-primary" (click)="this.selectedMeasurementGoal === null ? submitCreate() : submitUpdate()">Save</button>
         <button class="btn btn-secondary" (click)="closeModal()">Close</button>
     </div>
 </section>

@@ -1,43 +1,40 @@
 import { Component, OnInit, output, OutputEmitterRef } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { DateTime } from 'luxon';
-import { eMeasurementUnit } from '../../../_generated/enums';
-import { IMeasurementDto } from '../../../_generated/interfaces';
-import { MeasurementController } from '../../../_generated/services';
-import { ValidationDirective } from '../../../directives/validation.directive';
 import { BaseValidationComponent } from '../../../pages/_base/base.component/base-validation.component';
-import { MeasurementConverterPipe } from '../../../pipes/measurement-converter.pipe';
+import { IModalMethods } from '../interfaces/modal-methods.interface';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ValidationDirective } from '../../../directives/validation.directive';
 import { MeasurementUnitDescriptionPipe } from '../../../pipes/measurement-unit-description.pipe';
+import { EnumNamePipe } from '../../../pipes/enum-name.pipe';
+import { eMeasurementUnit } from '../../../_generated/enums';
+import { IMeasurementGoalDto } from '../../../_generated/interfaces';
+import { MeasurementGoalController } from '../../../_generated/services';
+import { ModalService } from '../../../services/modal.service';
 import { AuthService } from '../../../services/auth.service';
+import { SharedService } from '../../../services/shared.service';
 import { LoaderService } from '../../../services/loader.service';
 import { MeasurementService } from '../../../services/measurement.service';
-import { ModalService } from '../../../services/modal.service';
-import { SharedService } from '../../../services/shared.service';
-import { IModalMethods } from '../interfaces/modal-methods.interface';
-import { EnumNamePipe } from "../../../pipes/enum-name.pipe";
+import { MeasurementConverterPipe } from '../../../pipes/measurement-converter.pipe';
 
 @Component({
-  selector: 'app-measurement-modal',
+  selector: 'app-measurement-goal-modal',
   imports: [FormsModule, ReactiveFormsModule, ValidationDirective, MeasurementUnitDescriptionPipe, EnumNamePipe],
-  templateUrl: './measurement-modal.html',
-  styleUrl: './measurement-modal.css'
+  templateUrl: './measurement-goal-modal.html',
+  styleUrl: './measurement-goal-modal.css'
 })
-export class MeasurementModal extends BaseValidationComponent implements IModalMethods, OnInit {
+export class MeasurementGoalModal extends BaseValidationComponent implements IModalMethods, OnInit {
   override errors: Record<string, string>;
   closeModalEvent: OutputEmitterRef<boolean> = output<boolean>();
   form: FormGroup<any>;
   updateForm: FormGroup<any>;
 
   userWeightPreference: eMeasurementUnit | undefined;
-  selectedMeasurement: IMeasurementDto | null = null;
+  selectedMeasurementGoal: IMeasurementGoalDto | null = null;
   modalType: string;
-  minLogDate: string;
-  maxLogDate: string;
 
   constructor(
     private fb: FormBuilder,
 
-    private measurementController: MeasurementController,
+    private measurementGoalController: MeasurementGoalController,
 
     public modalService: ModalService,
     private authService: AuthService,
@@ -48,19 +45,16 @@ export class MeasurementModal extends BaseValidationComponent implements IModalM
     private mesasurementConverterPipe: MeasurementConverterPipe
   ) {
     super();
-    this.modalType = this.modalService.measurementModalTypeSignal() === 'add' ? 'Add' : 'Edit';
-    this.selectedMeasurement = this.modalService.selectedMeasurementSignal();
+    this.modalType = this.modalService.measurementGoalModalTypeSignal() === 'add' ? 'Add' : 'Edit';
+    this.selectedMeasurementGoal = this.modalService.selectedMeasurementGoalSignal();
     this.userWeightPreference = this.authService.currentUserSource()?.measurementUnitId;
-
-    this.minLogDate = DateTime.now().minus({ months: 3 }).toISODate();
-    this.maxLogDate = DateTime.now().toISODate();
   }
 
   ngOnInit(): void {
-    if (this.selectedMeasurement === null) {
+    if (this.selectedMeasurementGoal === null) {
       this.formInit();
     }
-    else if (this.selectedMeasurement !== null) {
+    else if (this.selectedMeasurementGoal !== null) {
       this.updateFormInit();
     }
   }
@@ -70,16 +64,21 @@ export class MeasurementModal extends BaseValidationComponent implements IModalM
   }
 
   updateFormInit(): void {
-    const date = new Date(this.selectedMeasurement!.logDate!);
-    const localDate = this.sharedService.getLocalDate(date);
-    const formattedDate = localDate.toLocaleDateString('en-CA');
+    const startDate = new Date(this.selectedMeasurementGoal!.startDate!);
+    const localStartDate = this.sharedService.getLocalDate(startDate);
+    const formattedStartDate = localStartDate.toLocaleDateString('en-CA');
+
+    const endDate = new Date(this.selectedMeasurementGoal!.endDate!);
+    const localEndDate = this.sharedService.getLocalDate(endDate);
+    const formattedEndDate = localEndDate.toLocaleDateString('en-CA');
 
     this.updateForm = this.fb.group({
-      logDate: [formattedDate],
-      size: [parseFloat(this.mesasurementConverterPipe.transform(this.selectedMeasurement!.size, this.selectedMeasurement!.measurementUnitId))
+      startDate: [formattedStartDate],
+      endDate: [formattedEndDate],
+      size: [parseFloat(this.mesasurementConverterPipe.transform(this.selectedMeasurementGoal!.size, this.selectedMeasurementGoal!.measurementUnitId))
       ],
       measurementUnitId: [this.userWeightPreference],
-      bodyPartId: [this.selectedMeasurement!.bodyPartId]
+      bodyPartId: [this.selectedMeasurementGoal!.bodyPartId]
     });
   }
 
@@ -90,7 +89,8 @@ export class MeasurementModal extends BaseValidationComponent implements IModalM
     const formattedDate = localDate.toLocaleDateString('en-CA');
 
     this.form = this.fb.group({
-      logDate: [formattedDate],
+      startDate: [formattedDate],
+      endDate: [null],
       measurementUnitId: [this.userWeightPreference],
       waist: [null],
       hips: [null],
@@ -111,10 +111,15 @@ export class MeasurementModal extends BaseValidationComponent implements IModalM
   submitCreate() {
     this.loaderService.showPageLoader();
 
-    this.measurementController.Create(this.form.value).toPromise()
+    const payload: IMeasurementGoalDto = {
+      ...this.form.value,
+      endDate: this.form.value.endDate ?? this.form.value.startDate
+    }
+
+    this.measurementGoalController.Create(payload).toPromise()
       .then(_ => {
         if (_?.isSuccess)
-          this.modalService.hideMeasurementModal();
+          this.modalService.hideMeasurementGoalModal();
       })
       .catch(ex => this.setErrors(ex))
       .finally(() => {
@@ -126,12 +131,12 @@ export class MeasurementModal extends BaseValidationComponent implements IModalM
   submitUpdate() {
     this.loaderService.showPageLoader();
 
-    this.updateForm.value.id = this.selectedMeasurement!.id;
+    this.updateForm.value.id = this.selectedMeasurementGoal!.id;
 
-    this.measurementController.Update(this.updateForm.value).toPromise()
+    this.measurementGoalController.Update(this.updateForm.value).toPromise()
       .then(_ => {
         if (_?.isSuccess)
-          this.modalService.hideMeasurementModal();
+          this.modalService.hideMeasurementGoalModal();
       })
       .catch(ex => this.setErrors(ex))
       .finally(() => {
