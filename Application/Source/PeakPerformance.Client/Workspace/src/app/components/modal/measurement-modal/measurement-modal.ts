@@ -14,10 +14,11 @@ import { MeasurementService } from '../../../services/measurement.service';
 import { ModalService } from '../../../services/modal.service';
 import { SharedService } from '../../../services/shared.service';
 import { IModalMethods } from '../interfaces/modal-methods.interface';
+import { EnumNamePipe } from "../../../pipes/enum-name.pipe";
 
 @Component({
   selector: 'app-measurement-modal',
-  imports: [FormsModule, ReactiveFormsModule, ValidationDirective, MeasurementUnitDescriptionPipe],
+  imports: [FormsModule, ReactiveFormsModule, ValidationDirective, MeasurementUnitDescriptionPipe, EnumNamePipe],
   templateUrl: './measurement-modal.html',
   styleUrl: './measurement-modal.css'
 })
@@ -126,9 +127,9 @@ export class MeasurementModal extends BaseValidationComponent implements IModalM
   submitUpdate() {
     this.loaderService.showPageLoader();
 
-    this.form.value.id = this.selectedMeasurement!.id;
+    this.updateForm.value.id = this.selectedMeasurement!.id;
 
-    this.measurementController.Update(this.form.value).toPromise()
+    this.measurementController.Update(this.updateForm.value).toPromise()
       .then(_ => {
         if (_?.isSuccess)
           this.modalService.hideMeasurementModal();

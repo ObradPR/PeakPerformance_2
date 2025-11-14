@@ -170,6 +170,28 @@
                     </div>
                 </form>
             }
+            @else {
+                <form [formGroup]="updateForm">
+                    <div class="position-relative">
+                        <label for="logDate">Date</label>
+                        <div class="input-group mb-3" validation [key]="'LogDate'" [errors]="errors">
+                            <input type="date" [min]="minLogDate" [max]="maxLogDate" class="form-control" id="logDate" placeholder="Date" aria-label="Date" aria-describedby="logDate-addon" formControlName="logDate" />
+                        </div>
+                    </div>
+                    
+                    <!-- Body part -->
+                    <div class="position-relative">
+                        <label for="bodyPart">{{ this.selectedMeasurement!.bodyPartId | enumName:'BodyParts' }}</label>
+                        <div class="input-group mb-3" validation [key]="'Size'" [errors]="errors">
+                            <input type="number" class="form-control" id="bodyPart" placeholder="0" aria-label="bodyPart"
+                                aria-describedby="bodyPart-addon" formControlName="size" />
+                            <span class="input-group-text input-addon-static" id="bodyPart-addon">
+                                {{ userWeightPreference | measurementUnitDescription }}
+                            </span>
+                        </div>
+                    </div>
+                </form>
+            }
         </div>
     </div>
 
