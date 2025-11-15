@@ -3,24 +3,32 @@
 
     <div class="col-12 row justify-content-between">
         <div class="col-md-12 col-lg-7">
-            <!-- <div class="d-flex text-center border-bottom mb-3">
-                <div class="col-4">
-                    <p class="text-uppercase info-header">Bodyweight</p>
+            <div class="d-flex text-center border-bottom mb-3">
+                <div class="col-3">
+                    <p class="text-uppercase info-header">Waist</p>
                     <p class="fw-bold fs-3">
-                        {{ currentBodyweight.value ? (currentBodyweight.value | measurementConverter:currentBodyweight.weightUnitId) : '' }}
+                        {{ currentMeasurements?.waist ? (currentMeasurements!.waist | measurementConverter:currentMeasurements!.waistMeasurementUnitId) : '' }}
                     </p>
                 </div>
-                 <div class="col-4">
-                    <p class="text-uppercase info-header">Goal</p>
+                <div class="col-3">
+                    <p class="text-uppercase info-header">Chest</p>
                     <p class="fw-bold fs-3">
-                        {{ currentGoal.target && currentGoal.weightUnitId ? (currentGoal.target | measurementConverter:currentGoal.weightUnitId) : '' }}
+                        {{ currentMeasurements?.chest ? (currentMeasurements!.chest | measurementConverter:currentMeasurements!.chestMeasurementUnitId) : '' }}
                     </p>
                 </div>
-                 <div class="col-4">
-                    <p class="text-uppercase info-header">Body fat</p>
-                    <p class="fw-bold fs-3">{{ currentBodyFat ? currentBodyFat + ' %' : '' }}</p>
+                <div class="col-3">
+                    <p class="text-uppercase info-header">Thighs</p>
+                    <p class="fw-bold fs-3">
+                        {{ currentMeasurements?.thighs ? (currentMeasurements!.thighs | measurementConverter:currentMeasurements!.thighsMeasurementUnitId) : '' }}
+                    </p>
                 </div>
-            </div> -->
+                <div class="col-3">
+                    <p class="text-uppercase info-header">Biceps</p>
+                    <p class="fw-bold fs-3">
+                        {{ currentMeasurements?.biceps ? (currentMeasurements!.biceps | measurementConverter:currentMeasurements!.bicepsMeasurementUnitId) : '' }}
+                    </p>
+                </div>
+            </div>
 
             <!-- <div class="pt-2">
                 <div class="d-flex justify-content-start flex-nowrap align-items-center">

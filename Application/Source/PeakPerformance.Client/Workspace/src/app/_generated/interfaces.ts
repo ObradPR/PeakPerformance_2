@@ -46,10 +46,13 @@ export interface ICurrentBodyInfoDto
 	bodyweightGoalUnitId?: eMeasurementUnit;
 	bodyFatPercentage?: number;
 	waist?: number;
+	waistMeasurementUnitId?: eMeasurementUnit;
 	chest?: number;
+	chestMeasurementUnitId?: eMeasurementUnit;
 	thighs?: number;
+	thighsMeasurementUnitId?: eMeasurementUnit;
 	biceps?: number;
-	measurementUnitId?: eMeasurementUnit;
+	bicepsMeasurementUnitId?: eMeasurementUnit;
 }
 export interface IBodyweightGoalDto
 {

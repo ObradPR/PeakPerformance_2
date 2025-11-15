@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { UtcToLocalPipe } from '../../pipes/utc-to-local.pipe';
 import { MeasurementConverterPipe } from '../../pipes/measurement-converter.pipe';
 import { MeasurementController, MeasurementGoalController } from '../../_generated/services';
-import { IMeasurementDto, IMeasurementGoalDto, IMeasurementGoalSearchOptions, IMeasurementSearchOptions, IPagingResult, ISortingOptions } from '../../_generated/interfaces';
+import { ICurrentBodyInfoDto, IMeasurementDto, IMeasurementGoalDto, IMeasurementGoalSearchOptions, IMeasurementSearchOptions, IPagingResult, ISortingOptions } from '../../_generated/interfaces';
 import { MeasurementService } from '../../services/measurement.service';
 import { EnumNamePipe } from '../../pipes/enum-name.pipe';
 import { Paginator, PaginatorState } from 'primeng/paginator';
@@ -26,6 +26,7 @@ export class Measurement {
 
   measurementGoals?: IPagingResult<IMeasurementGoalDto>;
 
+  currentMeasurements: ICurrentBodyInfoDto | null = null;
 
   selectedTab: number = 0;
   tabs = [
@@ -130,6 +131,7 @@ export class Measurement {
   private getMeasurements() {
     // this.getMeasurementAndGoalsChart();
     this.getPaginatedMeasurements(this.measurementsFirst, this.rows);
+    this.infoInit();
   }
 
   private getPaginatedMeasurementGoals(skip: number, take: number) {
@@ -162,4 +164,14 @@ export class Measurement {
       .catch(ex => { throw ex; });
   }
 
+  private infoInit() {
+    this.measurementController.GetCurrentMeasurementInfo().toPromise()
+      .then(_ => {
+        if (!_?.isSuccess)
+          return;
+
+        this.currentMeasurements = _.data;
+      })
+      .catch(ex => { throw ex; })
+  }
 }

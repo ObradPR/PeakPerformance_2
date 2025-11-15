@@ -1,4 +1,5 @@
 ﻿using PeakPerformance.Application.Dtos.Bodyweights;
+using PeakPerformance.Domain.ValueObjects;
 
 namespace PeakPerformance.Application.BusinessLogic.Measurements.Queries;
 
@@ -10,27 +11,55 @@ public class GetCurrentMeasurementInfoQuery() : IRequest<ResponseWrapper<Current
         {
             var userId = identityUser.Id;
 
-            var measurement = await db.Measurements
-                .Where(_ => _.UserId == userId)
+            var waist = await db.Measurements
+                .Where(_ => _.BodyPartId == eBodyPart.Waist)
+                .Select(_ => new { _.Size, _.MeasurementUnitId, _.LogDate })
                 .OrderByDescending(_ => _.LogDate)
                 .FirstOrDefaultAsync(cancellationToken);
 
-            //var result = new CurrentBodyInfo
-            //{
-            //    Waist = measurement?.Waist,
-            //    Chest = measurement?.Chest,
-            //    Thighs = measurement?.RightThigh.HasValue == true && measurement?.LeftThigh.HasValue == true
-            //        ? new List<decimal> { measurement.RightThigh.Value, measurement.LeftThigh.Value }.Average()
-            //        : null,
-            //    Biceps = measurement?.RightBicep.HasValue == true && measurement?.LeftBicep.HasValue == true
-            //        ? new List<decimal> { measurement.RightBicep.Value, measurement.LeftBicep.Value }.Average()
-            //        : null,
-            //    MeasurementUnitId = measurement?.MeasurementUnitId
-            //};
+            var chest = await db.Measurements
+                .Where(_ => _.BodyPartId == eBodyPart.Chest)
+                .Select(_ => new { _.Size, _.MeasurementUnitId, _.LogDate })
+                .OrderByDescending(_ => _.LogDate)
+                .FirstOrDefaultAsync(cancellationToken);
 
-            //return new(mapper.Map<CurrentBodyInfoDto>(result));
+            var thighParts = new[] { eBodyPart.LeftThigh, eBodyPart.RightThigh };
 
-            return new();
+            var latestThighLog = await db.Measurements.Where(_ => thighParts.Contains(_.BodyPartId)).MaxAsync(_ => _.LogDate, cancellationToken);
+            var thighs = await db.Measurements
+                .Where(_ => thighParts.Contains(_.BodyPartId) && _.LogDate == latestThighLog)
+                .Select(_ => new { _.Size, _.MeasurementUnitId })
+                .ToListAsync(cancellationToken);
+
+            var bicepParts = new[] { eBodyPart.LeftBicep, eBodyPart.RightBicep };
+
+            var latestBicepLog = await db.Measurements.Where(_ => bicepParts.Contains(_.BodyPartId)).MaxAsync(_ => _.LogDate, cancellationToken);
+            var biceps = await db.Measurements
+                .Where(_ => bicepParts.Contains(_.BodyPartId) && _.LogDate == latestBicepLog)
+                .Select(_ => new { _.Size, _.MeasurementUnitId })
+                .ToListAsync(cancellationToken);
+
+            var result = new CurrentBodyInfo
+            {
+                Waist = waist?.Size,
+                WaistMeasurementUnitId = waist?.MeasurementUnitId,
+                Chest = chest?.Size,
+                ChestMeasurementUnitId = chest?.MeasurementUnitId,
+                Thighs = thighs.Count == 2
+                    ? Math.Round(thighs.Average(_ => _.Size), 1)
+                    : thighs.Count == 1
+                        ? thighs.First().Size
+                        : null,
+                ThighsMeasurementUnitId = thighs.FirstOrDefault()?.MeasurementUnitId,
+                Biceps = biceps.Count == 2
+                    ? Math.Round(biceps.Average(_ => _.Size), 1)
+                    : biceps.Count == 1
+                        ? biceps.First().Size
+                        : null,
+                BicepsMeasurementUnitId = biceps.FirstOrDefault()?.MeasurementUnitId
+            };
+
+            return new(mapper.Map<CurrentBodyInfoDto>(result));
         }
     }
 }

@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, effect, OnDestroy } from '@angular/core';
+import { Component, effect, OnDestroy, OnInit } from '@angular/core';
 import { Chart } from 'chart.js/auto';
 import { Paginator, PaginatorState } from 'primeng/paginator';
 import { eChartTimespan, eMeasurementUnit } from '../../_generated/enums';
-import { IBodyweightDto, IBodyweightGoalDto, IBodyweightGoalSearchOptions, IBodyweightSearchOptions, IEnumProvider, IPagingResult, ISortingOptions } from '../../_generated/interfaces';
+import { IBodyweightDto, IBodyweightGoalDto, IBodyweightGoalSearchOptions, IBodyweightSearchOptions, ICurrentBodyInfoDto, IEnumProvider, IPagingResult, ISortingOptions } from '../../_generated/interfaces';
 import { BodyweightController, BodyweightGoalController } from '../../_generated/services';
 import { ClickOutsideDirective } from '../../directives/click-outside.directive';
 import { MeasurementConverterPipe } from '../../pipes/measurement-converter.pipe';
@@ -55,15 +55,7 @@ export class Bodyweight implements OnDestroy {
     }
   ]
 
-  currentBodyFat: number;
-  currentBodyweight: {
-    value: number;
-    weightUnitId: eMeasurementUnit;
-  } = { value: 0, weightUnitId: 0 };
-  currentGoal: {
-    target: number | null;
-    weightUnitId: eMeasurementUnit | null;
-  } = { target: null, weightUnitId: null };
+  currentBodyweight: ICurrentBodyInfoDto | null = null;
 
   selectedTab: number = 0;
   tabs = [
@@ -188,6 +180,7 @@ export class Bodyweight implements OnDestroy {
   private getBodyweights() {
     this.getBodyweightsAndGoalsChart();
     this.getPaginatedBodyweights(this.bodyweightsFirst, this.rows);
+    this.infoInit();
   }
 
   private getPaginatedBodyweights(skip: number, take: number) {
@@ -227,7 +220,6 @@ export class Bodyweight implements OnDestroy {
         }
 
         this.chartInit();
-        this.infoInit();
       })
   }
 
@@ -470,13 +462,7 @@ export class Bodyweight implements OnDestroy {
         if (!_?.isSuccess)
           return;
 
-        const data = _.data;
-
-        this.currentBodyweight.value = data.bodyweight ?? 0;
-        this.currentBodyweight.weightUnitId = data.bodyweightUnitId ?? 0;
-        this.currentBodyFat = data.bodyFatPercentage ?? 0;
-        this.currentGoal.target = data.bodyweightGoal ?? 0;
-        this.currentGoal.weightUnitId = data.bodyweightGoalUnitId ?? 0;
+        this.currentBodyweight = _.data;
       })
       .catch(ex => { throw ex; })
   }

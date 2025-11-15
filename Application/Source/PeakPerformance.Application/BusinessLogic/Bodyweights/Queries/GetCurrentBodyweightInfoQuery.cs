@@ -16,9 +16,13 @@ public class GetCurrentBodyweightInfoQuery() : IRequest<ResponseWrapper<CurrentB
                 .OrderByDescending(_ => _.LogDate)
                 .FirstOrDefaultAsync(cancellationToken);
 
-            var bodyweightGoal = await db.BodyweightGoals
-                .Where(_ => _.UserId == userId)
-                .OrderByDescending(_ => _.EndDate)
+            var today = Functions.TODAY;
+
+            var activeGoal = await db.BodyweightGoals
+                .Where(_ => _.UserId == userId &&
+                            _.StartDate <= today &&
+                            _.EndDate >= today)
+                .OrderBy(_ => _.EndDate)
                 .FirstOrDefaultAsync(cancellationToken);
 
             var result = new CurrentBodyInfo
@@ -26,8 +30,8 @@ public class GetCurrentBodyweightInfoQuery() : IRequest<ResponseWrapper<CurrentB
                 Bodyweight = bodyweight?.Value,
                 BodyweightUnitId = bodyweight?.WeightUnitId,
                 BodyFatPercentage = bodyweight?.BodyFatPercentage,
-                BodyweightGoal = bodyweightGoal?.Target,
-                BodyweightGoalUnitId = bodyweightGoal?.WeightUnitId
+                BodyweightGoal = activeGoal?.Target,
+                BodyweightGoalUnitId = activeGoal?.WeightUnitId
             };
 
             return new(mapper.Map<CurrentBodyInfoDto>(result));
