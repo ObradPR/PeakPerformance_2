@@ -1,3 +1,4 @@
+import { eUserGender } from './enums';
 import { eMeasurementUnit } from './enums';
 import { eBodyPart } from './enums';
 import { eChartTimespan } from './enums';
@@ -27,6 +28,10 @@ export interface IUserDto
 	email: string;
 	dateOfBirth: Date;
 	description: string;
+	genderId?: eUserGender;
+	countryId?: number;
+	height?: number;
+	isPrivate?: boolean;
 	weightUnitId?: eMeasurementUnit;
 	measurementUnitId?: eMeasurementUnit;
 }

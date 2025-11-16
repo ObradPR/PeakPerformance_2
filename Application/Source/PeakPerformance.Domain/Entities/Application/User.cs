@@ -18,7 +18,16 @@ public class User : BaseIndexAuditedDomain<User, long>, IConfigurableEntity
 
     public string Description { get; set; }
 
+    public eUserGender? GenderId { get; set; }
+
+    public long? CountryId { get; set; }
+
+    public int? Height { get; set; }
+
+    public bool? IsPrivate { get; set; }
+
     // Image
+
     public string ProfilePictureUrl { get; set; }
 
     public string PublicId { get; set; }
@@ -28,6 +37,9 @@ public class User : BaseIndexAuditedDomain<User, long>, IConfigurableEntity
     //
 
     #region Relationships
+
+    [ForeignKey(nameof(CountryId))]
+    public virtual Country Country { get; set; }
 
     [InverseProperty(nameof(UserRole.User))]
     public virtual ICollection<UserRole> UserRoles { get; set; } = [];

@@ -30,3 +30,7 @@ export enum eSystemRole {
 	Admin = 1,
 	User = 2
 }
+export enum eUserGender {
+	Male = 1,
+	Female = 2
+}
