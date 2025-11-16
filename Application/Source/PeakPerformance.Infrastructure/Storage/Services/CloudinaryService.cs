@@ -1,23 +1,19 @@
 ﻿using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
-using Microsoft.AspNetCore.Http;
 using PeakPerformance.Common;
+using PeakPerformance.Domain.ValueObjects;
 using PeakPerformance.Infrastructure.Storage.Interfaces;
 
 namespace PeakPerformance.Infrastructure.Storage.Services;
 
-public class CloudinaryService : BaseCloudinaryService, ICloudinaryService
+public class CloudinaryService(string credentials) : BaseCloudinaryService(credentials), ICloudinaryService
 {
-    public CloudinaryService(string credentials) : base(credentials)
+    public async Task<ImageUploadResult> UploadPhotoAsync(FileInformation file)
     {
-    }
-
-    public async Task<ImageUploadResult> UploadPhotoAsync(IFormFile file)
-    {
-        if (file.Length < 1)
+        if (file == null)
             return new();
 
-        using var stream = file.OpenReadStream();
+        using var stream = new MemoryStream(file.Buffer);
         var uploadParams = new ImageUploadParams
         {
             File = new FileDescription(file.FileName, stream),

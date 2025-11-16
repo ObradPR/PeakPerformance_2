@@ -1,11 +1,11 @@
 ﻿using CloudinaryDotNet.Actions;
-using Microsoft.AspNetCore.Http;
+using PeakPerformance.Domain.ValueObjects;
 
 namespace PeakPerformance.Infrastructure.Storage.Interfaces;
 
 public interface ICloudinaryService
 {
-    Task<ImageUploadResult> UploadPhotoAsync(IFormFile file);
+    Task<ImageUploadResult> UploadPhotoAsync(FileInformation file);
 
     Task<DeletionResult> DeletePhotoAsync(string publicId);
 }

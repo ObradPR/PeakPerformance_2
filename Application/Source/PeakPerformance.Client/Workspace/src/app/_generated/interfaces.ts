@@ -74,18 +74,25 @@ export interface ICountryDto
 	isO3: string;
 	name: string;
 }
-export interface IEnumProvider
+export interface IFileInformationDto
 {
-	id: number;
-	name: string;
-	description: string;
-	bgColor: string;
+	fileName: string;
+	type: string;
+	buffer: number[];
+	size?: number;
 }
 export interface ILookupValueDto
 {
 	id: number;
 	name: string;
 	description: string;
+}
+export interface IEnumProvider
+{
+	id: number;
+	name: string;
+	description: string;
+	bgColor: string;
 }
 export interface IMeasurementCreateDto
 {

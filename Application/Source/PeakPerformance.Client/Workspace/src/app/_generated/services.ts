@@ -357,6 +357,20 @@ import { IUserDto } from './interfaces';
 		.pipe(map(response => response.body));
 		
 	}
+	public UpdateProfilePicture(userId: FormData) : Observable<IBaseResponseWrapper | null>
+	{
+		const body = <any>userId;
+		return this.httpClient.post<IBaseResponseWrapper>(
+		this.settingsService.createApiUrl('User/UpdateProfilePicture'),
+		body,
+		{
+			responseType: 'json',
+			observe: 'response',
+			withCredentials: true
+		})
+		.pipe(map(response => response.body));
+		
+	}
 	constructor (httpClient: HttpClient, settingsService: SettingsService)
 	{
 		super(httpClient, settingsService);

@@ -1,4 +1,5 @@
-﻿using PeakPerformance.Application.Dtos.BodyweightGoals;
+﻿using PeakPerformance.Application.Dtos._Base;
+using PeakPerformance.Application.Dtos.BodyweightGoals;
 using PeakPerformance.Application.Dtos.Bodyweights;
 using PeakPerformance.Application.Dtos.Countries;
 using PeakPerformance.Application.Dtos.MeasurementGoals;
@@ -29,5 +30,6 @@ public class AutoMappingProfiles : BaseAutoMapperProfile
 
         // Value objects
         CreateMap<CurrentBodyInfo, CurrentBodyInfoDto>();
+        CreateMap<FileInformation, FileInformationDto>();
     }
 }
