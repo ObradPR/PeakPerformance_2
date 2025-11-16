@@ -1,0 +1,20 @@
+﻿using PeakPerformance.Application.BusinessLogic.Users.Commands;
+
+namespace PeakPerformance.Application.BusinessLogic.Users.Validators;
+
+public class UpdatePersonalDetailsValidator : AbstractValidator<UpdatePersonalDetailsCommand>
+{
+    public UpdatePersonalDetailsValidator()
+    {
+        RuleFor(_ => _.Data.FullName)
+            .Required()
+            .MaximumLengthAuto(30);
+
+        RuleFor(_ => _.Data.Username)
+            .Required()
+            .MaximumLengthAuto(30);
+
+        RuleFor(_ => _.Data.DateOfBirth)
+            .Required();
+    }
+}

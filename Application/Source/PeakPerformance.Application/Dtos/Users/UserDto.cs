@@ -25,4 +25,17 @@ public class UserDto
     public eMeasurementUnit? WeightUnitId { get; set; }
 
     public eMeasurementUnit? MeasurementUnitId { get; set; }
+
+    // methods
+
+    public void ToModel(User model)
+    {
+        model.FullName = FullName;
+        model.Username = Username;
+        model.Email = Email;
+        model.GenderId = GenderId;
+        model.CountryId = CountryId;
+        model.Height = Height;
+        model.IsPrivate = IsPrivate;
+    }
 }
