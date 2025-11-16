@@ -22,9 +22,9 @@ public class UserDto
 
     // Units
 
-    public eMeasurementUnit? WeightUnitId { get; set; }
+    public eMeasurementUnit WeightUnitId { get; set; }
 
-    public eMeasurementUnit? MeasurementUnitId { get; set; }
+    public eMeasurementUnit MeasurementUnitId { get; set; }
 
     // methods
 

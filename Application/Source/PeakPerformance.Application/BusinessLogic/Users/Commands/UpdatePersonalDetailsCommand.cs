@@ -16,6 +16,14 @@ public class UpdatePersonalDetailsCommand(UserDto user) : IRequest<BaseResponseW
             if (model == null)
                 return new(new Error(nameof(User), ResourceValidation.Not_Found.FormatWith(nameof(User))));
 
+            if (request.Data.Email.IsNotNullOrWhiteSpace() && request.Data.Email != model.Email) // in case of updating email
+            {
+                if (await db.Users.IgnoreQueryFilters().AnyAsync(_ => _.Email == request.Data.Email, cancellationToken))
+                {
+                    return new(new Error(nameof(User.Email), ResourceValidation.In_Use.FormatWith(nameof(user.Email))));
+                }
+            }
+
             request.Data.ToModel(model);
 
             await db.SaveChangesAsync(cancellationToken);

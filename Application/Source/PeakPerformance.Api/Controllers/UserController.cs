@@ -42,4 +42,9 @@ public class UserController(IMediator mediator) : BaseController(mediator)
 
         return Result(await Mediator.Send(new UpdateProfilePictureCommand(fileDtos.FirstOrDefault())));
     }
+
+    [HttpPost]
+    [Authorize]
+    [AngularMethod(typeof(BaseResponseWrapper))]
+    public async Task<IActionResult> UpdateMeasurementUnits([FromBody] UserDto data) => Result(await Mediator.Send(new UpdateMeasurementUnitsCommand(data)));
 }
