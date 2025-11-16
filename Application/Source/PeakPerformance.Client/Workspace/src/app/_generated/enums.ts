@@ -31,6 +31,7 @@ export enum eSystemRole {
 	User = 2
 }
 export enum eUserGender {
+	NotSet = 0,
 	Male = 1,
 	Female = 2
 }

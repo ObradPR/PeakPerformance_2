@@ -10,4 +10,7 @@ public enum Providers
 
     [EnumProvider<eBodyPart>]
     BodyParts,
+
+    [EnumProvider<eUserGender>]
+    UserGenders,
 }

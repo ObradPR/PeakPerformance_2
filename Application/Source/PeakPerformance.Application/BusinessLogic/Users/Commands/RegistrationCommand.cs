@@ -6,7 +6,7 @@ public class RegistrationCommand(RegistrationDto user) : IRequest<ResponseWrappe
 {
     public RegistrationDto User { get; set; } = user;
 
-    public class SignupCommandHandler(IDatabaseContext db, ITokenService tokenService, IUserManager userManager)
+    public class RegistrationCommandHandler(IDatabaseContext db, ITokenService tokenService, IUserManager userManager)
         : IRequestHandler<RegistrationCommand, ResponseWrapper<AuthorizationDto>>
     {
         public async Task<ResponseWrapper<AuthorizationDto>> Handle(RegistrationCommand request, CancellationToken cancellationToken)

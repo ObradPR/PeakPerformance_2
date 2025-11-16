@@ -2,7 +2,7 @@
 
 public enum eUserGender
 {
-    [Description("Not Set")]
+    [Description("")]
     NotSet = 0,
 
     [Description("Male")]

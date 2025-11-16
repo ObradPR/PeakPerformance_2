@@ -67,6 +67,13 @@ export interface IBodyweightGoalDto
 	startDate: Date;
 	endDate: Date;
 }
+export interface ICountryDto
+{
+	id: number;
+	isO2: string;
+	isO3: string;
+	name: string;
+}
 export interface IEnumProvider
 {
 	id: number;

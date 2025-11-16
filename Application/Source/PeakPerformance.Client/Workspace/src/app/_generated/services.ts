@@ -14,6 +14,7 @@ import { IBodyweightSearchOptions } from './interfaces';
 import { IBaseResponseWrapper } from './interfaces';
 import { IBodyweightGoalDto } from './interfaces';
 import { IBodyweightGoalSearchOptions } from './interfaces';
+import { ICountryDto } from './interfaces';
 import { IMeasurementDto } from './interfaces';
 import { IMeasurementSearchOptions } from './interfaces';
 import { IMeasurementCreateDto } from './interfaces';
@@ -171,6 +172,25 @@ import { IUserDto } from './interfaces';
 		super(httpClient, settingsService);
 	}
 }
+@Injectable({ providedIn: 'root' }) export class CountryController extends BaseController
+{
+	public GetList() : Observable<IResponseWrapper<ICountryDto> | null>
+	{
+		return this.httpClient.get<IResponseWrapper<ICountryDto>>(
+		this.settingsService.createApiUrl('Country/GetList'),
+		{
+			responseType: 'json',
+			observe: 'response',
+			withCredentials: true
+		})
+		.pipe(map(response => response.body));
+		
+	}
+	constructor (httpClient: HttpClient, settingsService: SettingsService)
+	{
+		super(httpClient, settingsService);
+	}
+}
 @Injectable({ providedIn: 'root' }) export class MeasurementController extends BaseController
 {
 	public GetCurrentMeasurementInfo() : Observable<IResponseWrapper<ICurrentBodyInfoDto> | null>
@@ -315,6 +335,20 @@ import { IUserDto } from './interfaces';
 	{
 		return this.httpClient.get<IResponseWrapper<IUserDto>>(
 		this.settingsService.createApiUrl('User/GetCurrent'),
+		{
+			responseType: 'json',
+			observe: 'response',
+			withCredentials: true
+		})
+		.pipe(map(response => response.body));
+		
+	}
+	public UpdatePersonalDetails(data: IUserDto) : Observable<IBaseResponseWrapper | null>
+	{
+		const body = <any>data;
+		return this.httpClient.post<IBaseResponseWrapper>(
+		this.settingsService.createApiUrl('User/UpdatePersonalDetails'),
+		body,
 		{
 			responseType: 'json',
 			observe: 'response',

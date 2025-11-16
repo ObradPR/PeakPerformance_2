@@ -40,4 +40,12 @@ import { IEnumProvider } from './interfaces';
 		    { id: 13, name: 'LeftCalf', description: 'Left calf', bgColor: '#CED4DA' }
 		];
 	}
+	getUserGenders() : IEnumProvider[]
+	{
+		return [
+		    { id: 0, name: 'NotSet', description: '', bgColor: '' },
+		    { id: 1, name: 'Male', description: 'Male', bgColor: '' },
+		    { id: 2, name: 'Female', description: 'Female', bgColor: '' }
+		];
+	}
 }
