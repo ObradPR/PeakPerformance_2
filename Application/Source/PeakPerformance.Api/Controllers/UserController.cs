@@ -52,4 +52,9 @@ public class UserController(IMediator mediator) : BaseController(mediator)
     [Authorize]
     [AngularMethod(typeof(BaseResponseWrapper))]
     public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordDto data) => Result(await Mediator.Send(new ChangePasswordCommand(data)));
+
+    [HttpDelete]
+    [Authorize]
+    [AngularMethod(typeof(BaseResponseWrapper))]
+    public async Task<IActionResult> Deactivate() => Result(await Mediator.Send(new DeactivateCommand()));
 }
