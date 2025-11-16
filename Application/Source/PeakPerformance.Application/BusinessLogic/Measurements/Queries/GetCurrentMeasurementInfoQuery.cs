@@ -25,7 +25,11 @@ public class GetCurrentMeasurementInfoQuery() : IRequest<ResponseWrapper<Current
 
             var thighParts = new[] { eBodyPart.LeftThigh, eBodyPart.RightThigh };
 
-            var latestThighLog = await db.Measurements.Where(_ => thighParts.Contains(_.BodyPartId)).MaxAsync(_ => _.LogDate, cancellationToken);
+            var latestThighLog = await db.Measurements
+                .Where(_ => thighParts.Contains(_.BodyPartId))
+                .OrderByDescending(_ => _.LogDate)
+                .Select(_ => _.LogDate)
+                .FirstOrDefaultAsync(cancellationToken);
             var thighs = await db.Measurements
                 .Where(_ => thighParts.Contains(_.BodyPartId) && _.LogDate == latestThighLog)
                 .Select(_ => new { _.Size, _.MeasurementUnitId })
@@ -33,7 +37,11 @@ public class GetCurrentMeasurementInfoQuery() : IRequest<ResponseWrapper<Current
 
             var bicepParts = new[] { eBodyPart.LeftBicep, eBodyPart.RightBicep };
 
-            var latestBicepLog = await db.Measurements.Where(_ => bicepParts.Contains(_.BodyPartId)).MaxAsync(_ => _.LogDate, cancellationToken);
+            var latestBicepLog = await db.Measurements
+                .Where(_ => bicepParts.Contains(_.BodyPartId))
+                .OrderByDescending(_ => _.LogDate)
+                .Select(_ => _.LogDate)
+                .FirstOrDefaultAsync(cancellationToken);
             var biceps = await db.Measurements
                 .Where(_ => bicepParts.Contains(_.BodyPartId) && _.LogDate == latestBicepLog)
                 .Select(_ => new { _.Size, _.MeasurementUnitId })

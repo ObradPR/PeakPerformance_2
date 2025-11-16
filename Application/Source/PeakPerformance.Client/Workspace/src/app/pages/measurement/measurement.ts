@@ -38,6 +38,9 @@ export class Measurement implements OnDestroy {
   chartTimespans: IEnumProvider[] = [];
   selectedTimespan: number = eChartTimespan.Last3Months;
 
+  dataDatasets: any[] = [];
+  savedVisibility: Partial<Record<eBodyPart, boolean>> = {};
+
 
   currentMeasurements: ICurrentBodyInfoDto | null = null;
 
@@ -115,6 +118,29 @@ export class Measurement implements OnDestroy {
       else
         this.selectedMeasurementGoalMenu = idx;
     }
+  }
+
+  toggleDataset(index: number) {
+    const ds = this.chart.data.datasets[index];
+    const partId = this.dataDatasets[index].bodyPartId;
+
+    const newHidden = !ds.hidden;
+
+    // 1. Toggle the measurement dataset visually
+    ds.hidden = newHidden;
+    this.dataDatasets[index].visible = !newHidden;
+
+    // Update saved visibility immediately
+    this.savedVisibility[partId as eBodyPart] = !newHidden;
+
+    // 2. Toggle all goal datasets with same bodyPartId
+    this.chart.data.datasets.forEach((gds: any) => {
+      if (gds.bodyPartId === partId && gds !== ds) {
+        gds.hidden = newHidden;
+      }
+    });
+
+    this.chart.update();
   }
 
   // methods
@@ -259,8 +285,12 @@ export class Measurement implements OnDestroy {
       maxGoalEndDate = DateTime.fromJSDate(maxGoalEndDateLocal) as DateTime<true>;
     }
 
-    maxGoalEndDate = maxGoalEndDate.plus({ days: 10 }) // padding for end of the chart
-    let totalDays = maxGoalEndDate.diff(startDate, 'days').days;
+    const maxEndDate = (maxGoalEndDate > today
+      ? maxGoalEndDate
+      : today)
+      .plus({ days: 10 }); // padding for end of the chart
+
+    let totalDays = maxEndDate.diff(startDate, 'days').days;
     const allDates: string[] = [];
     for (let i = 0; i <= totalDays; i++) {
       const date = startDate.plus({ days: i });
@@ -303,10 +333,12 @@ export class Measurement implements OnDestroy {
                 const firstIdx = dataset.data.findIndex((_: any) => _ !== null);
                 const lastIdx = dataset.data.lastIndexOf(value);
 
+                const partName = dataset.label.replace('Goal', '');
+
                 if (dataIdx === firstIdx)
-                  return `Start`;
+                  return `Start ${partName}`;
                 else if (dataIdx === lastIdx)
-                  return `Goal ${idx + 1}`
+                  return `Goal ${partName}`
 
                 return '';
               },
@@ -346,13 +378,13 @@ export class Measurement implements OnDestroy {
   }
 
   private getDatasets(allDates: string[]) {
-    const datasets: any[] = [];
+    this.dataDatasets = [];
 
     this.referenceService.getBodyParts().forEach(_ => {
       const dataForChart = this.getBodyPartData(allDates, _.id);
 
       if (dataForChart.length > 0 && dataForChart.some(_ => _ !== null))
-        datasets.push({
+        this.dataDatasets.push({
           label: _.description,
           data: dataForChart,
           backgroundColor: _.bgColor,
@@ -360,10 +392,13 @@ export class Measurement implements OnDestroy {
           borderWidth: 2,
           tension: 0.3,
           spanGaps: true,
+          hidden: !(this.savedVisibility?.[_.id as eBodyPart] ?? true),
+          visible: this.savedVisibility?.[_.id as eBodyPart] ?? true, // <-- for legend UI
+          bodyPartId: _.id
         })
     });
 
-    return datasets;
+    return this.dataDatasets;
   }
 
   private getBodyPartData(allDates: string[], bodyPartId: eBodyPart): (number | null)[] {
@@ -374,7 +409,6 @@ export class Measurement implements OnDestroy {
       });
 
       let data = null;
-
       data = log
         ? parseFloat(this.measurementConverterPipe.transform(log['size'], log['measurementUnitId']))
         : null;
@@ -403,9 +437,9 @@ export class Measurement implements OnDestroy {
       const startIdx = allDates.indexOf(goalStartDate);
 
       if (startIdx !== -1) {
-        const log = this.measurementsChart.data.find(log => {
+        const log = this.measurementsChart.data.find(log =>
           DateTime.fromJSDate(this.sharedService.getLocalDate(log.logDate)).toFormat('MMM dd yyyy') === goalStartDate && log.bodyPartId === goal.bodyPartId
-        });
+        );
 
         goalStartMeasurement = log
           ? parseFloat(this.measurementConverterPipe.transform(log.size, log.measurementUnitId))
@@ -431,8 +465,8 @@ export class Measurement implements OnDestroy {
           const closestLog = [...this.measurementsChart.data.filter(_ => _.bodyPartId === goal.bodyPartId)]
             .filter(log => this.sharedService.getLocalDate(log.logDate) > this.sharedService.getLocalDate(goal.startDate))
             .sort((a, b) =>
-              DateTime.fromJSDate(this.sharedService.getLocalDate(b.logDate))
-                .diff(DateTime.fromJSDate(this.sharedService.getLocalDate(a.logDate)), 'milliseconds')
+              DateTime.fromJSDate(this.sharedService.getLocalDate(a.logDate))
+                .diff(DateTime.fromJSDate(this.sharedService.getLocalDate(b.logDate)), 'milliseconds')
                 .milliseconds
             )[0];
 
@@ -456,6 +490,8 @@ export class Measurement implements OnDestroy {
         fill: false,
         tension: 0.3,
         spanGaps: true,
+        hidden: !(this.savedVisibility?.[goal.bodyPartId as eBodyPart] ?? true),
+        bodyPartId: goal.bodyPartId
       });
     });
 
@@ -474,8 +510,19 @@ export class Measurement implements OnDestroy {
   }
 
   private destroyChart() {
-    if (this.chart)
-      this.chart.destroy();
+    if (!this.chart)
+      return;
+
+    this.saveDatasetVisibility();
+
+    this.chart.destroy();
+  }
+
+  private saveDatasetVisibility() {
+    this.chart.data.datasets.forEach((ds: any) => {
+      if (ds.bodyPartId != null)
+        this.savedVisibility[ds.bodyPartId as eBodyPart] = !ds.hidden as boolean; // true if visible
+    })
   }
 
   ngOnDestroy(): void {

@@ -120,3 +120,29 @@
 .data-table .edit-menu ul li.delete-item {
     color: red;
 }
+
+.custom-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  font-size: 14px;
+  user-select: none;
+}
+
+.legend-item .color-box {
+  width: 20px;
+  height: 10px;
+  border-radius: 3px;
+  margin-right: 6px;
+}
+
+.legend-item.hidden {
+  opacity: 0.3;
+}

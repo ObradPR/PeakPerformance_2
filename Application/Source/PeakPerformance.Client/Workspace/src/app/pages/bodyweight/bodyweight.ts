@@ -274,8 +274,12 @@ export class Bodyweight implements OnDestroy {
       maxGoalEndDate = DateTime.fromJSDate(maxGoalEndDateLocal) as DateTime<true>;
     }
 
-    maxGoalEndDate = maxGoalEndDate.plus({ days: 10 }); // padding for end of the chart
-    let totalDays = maxGoalEndDate.diff(startDate, 'days').days;
+    const maxEndDate = (maxGoalEndDate > today
+      ? maxGoalEndDate
+      : today)
+      .plus({ days: 10 }); // padding for end of the chart
+
+    let totalDays = maxEndDate.diff(startDate, 'days').days;
     const allDates: string[] = [];
     for (let i = 0; i <= totalDays; i++) {
       const date = startDate.plus({ days: i });
