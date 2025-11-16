@@ -1,9 +1,13 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import { Injectable, Pipe, PipeTransform } from '@angular/core';
 import { Providers } from '../_generated/providers';
 import { IEnumProvider } from '../_generated/interfaces';
 
 @Pipe({
-  name: 'enumName'
+  name: 'enumName',
+  standalone: true
+})
+@Injectable({
+  providedIn: 'root'
 })
 export class EnumNamePipe implements PipeTransform {
   private cache = new Map<string, IEnumProvider[]>();

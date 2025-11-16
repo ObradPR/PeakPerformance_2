@@ -1,4 +1,5 @@
-﻿using Reinforced.Typings;
+﻿using PeakPerformance.Domain.Attributes;
+using Reinforced.Typings;
 using Reinforced.Typings.Ast;
 using Reinforced.Typings.Ast.TypeNames;
 using Reinforced.Typings.Generators;
@@ -41,15 +42,26 @@ public class EnumProviderGenerator : ClassCodeGenerator
     {
         var enumValues = Enum.GetValues(enumType);
         var enumArray = new List<string>(); // Use a string list to build the final output
+
         foreach (var value in enumValues)
         {
             var enumName = Enum.GetName(enumType, value);
             var enumId = Convert.ToInt32(value);
+
             // Get the description if it exists
             var descriptionAttribute = enumType.GetField(enumName)?.GetCustomAttribute<DescriptionAttribute>();
             var description = descriptionAttribute != null ? descriptionAttribute.Description : enumName;
+
+            // Get the BgColor if exists
+            var bgColorAttribute = enumType.GetField(enumName)?.GetCustomAttribute<BgColorAttribute>();
+            var bgColor = bgColorAttribute != null
+                ? (bgColorAttribute.BgColor.StartsWith('#') && bgColorAttribute.BgColor.Length == 7
+                    ? bgColorAttribute.BgColor
+                    : null)
+                : null;
+
             // Create the enum object string
-            var enumObject = $@"{{ id: {enumId}, name: '{enumName}', description: '{description}' }}";
+            var enumObject = $@"{{ id: {enumId}, name: '{enumName}', description: '{description}', bgColor: '{bgColor}' }}";
             enumArray.Add(enumObject); // Add the string representation
         }
         // Join the array into a string

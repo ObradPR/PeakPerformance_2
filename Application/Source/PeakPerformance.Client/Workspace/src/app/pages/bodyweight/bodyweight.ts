@@ -42,18 +42,18 @@ export class Bodyweight implements OnDestroy {
 
   chartTimespans: IEnumProvider[] = [];
   selectedTimespan: number = eChartTimespan.Last3Months;
-  chartTargets: IEnumProvider[] = [
-    {
-      id: eChartTarget.Bodyweight,
-      description: 'Bodyweight',
-      name: ''
-    },
-    {
-      id: eChartTarget.BodyFatPercentage,
-      description: 'Body Fat',
-      name: ''
-    }
-  ]
+  // chartTargets: IEnumProvider[] = [
+  //   {
+  //     id: eChartTarget.Bodyweight,
+  //     description: 'Bodyweight',
+  //     name: ''
+  //   },
+  //   {
+  //     id: eChartTarget.BodyFatPercentage,
+  //     description: 'Body Fat',
+  //     name: ''
+  //   }
+  // ]
 
   currentBodyweight: ICurrentBodyInfoDto | null = null;
 
@@ -264,20 +264,19 @@ export class Bodyweight implements OnDestroy {
       : this.getStartDate())
       .minus({ days: 7 }); // padding for start of the chart
 
-    const allDates: string[] = [];
-    let totalDays = today.diff(startDate, 'days').days;
     let maxGoalEndDate = today;
 
     if (this.bodyweightGoalsChart?.data?.length) {
-      const maxGoalEndDateTimespamp = new Date(
+      const maxGoalEndDateTimespan = new Date(
         Math.max(...this.bodyweightGoalsChart.data.map(_ => new Date(_.endDate).getTime()))
       );
-      const maxGoalEndDateLocal = this.sharedService.getLocalDate(maxGoalEndDateTimespamp);
+      const maxGoalEndDateLocal = this.sharedService.getLocalDate(maxGoalEndDateTimespan);
       maxGoalEndDate = DateTime.fromJSDate(maxGoalEndDateLocal) as DateTime<true>;
     }
 
     maxGoalEndDate = maxGoalEndDate.plus({ days: 10 }); // padding for end of the chart
-    totalDays = maxGoalEndDate.diff(startDate, 'days').days;
+    let totalDays = maxGoalEndDate.diff(startDate, 'days').days;
+    const allDates: string[] = [];
     for (let i = 0; i <= totalDays; i++) {
       const date = startDate.plus({ days: i });
       allDates.push(date.toFormat('MMM dd yyyy'));
@@ -300,7 +299,6 @@ export class Bodyweight implements OnDestroy {
     });
 
     const values = this.bodyweightsChart.data
-      .filter(_ => _['value'] !== undefined && _['value'] !== null)
       .map(_ => parseFloat(this.measurementConverterPipe.transform(_['value'], _.weightUnitId)));
 
     // MAP GOALS
@@ -361,7 +359,12 @@ export class Bodyweight implements OnDestroy {
               )[0];
 
 
-            goalStartWeight = closestLog ? closestLog['value'] : null; // setting a start of the goal to closest body fat at that time
+            goalStartWeight = closestLog
+              ? parseFloat(this.measurementConverterPipe.transform(closestLog['value'], closestLog.weightUnitId))
+              : null; // setting a start of the goal to closest body fat at that time //#TODO
+            //? MAYBE this piece of if block was used for body fat and we don't need it anymore
+            //? check this throughly when cleanup takes place
+            //? also chekc this at measurement.ts
           }
         }
 

@@ -67,6 +67,7 @@ export interface IEnumProvider
 	id: number;
 	name: string;
 	description: string;
+	bgColor: string;
 }
 export interface ILookupValueDto
 {

@@ -1,13 +1,21 @@
-import { Component, effect } from '@angular/core';
+import { Component, effect, OnDestroy } from '@angular/core';
 import { ModalService } from '../../services/modal.service';
 import { CommonModule } from '@angular/common';
 import { UtcToLocalPipe } from '../../pipes/utc-to-local.pipe';
 import { MeasurementConverterPipe } from '../../pipes/measurement-converter.pipe';
 import { MeasurementController, MeasurementGoalController } from '../../_generated/services';
-import { ICurrentBodyInfoDto, IMeasurementDto, IMeasurementGoalDto, IMeasurementGoalSearchOptions, IMeasurementSearchOptions, IPagingResult, ISortingOptions } from '../../_generated/interfaces';
+import { ICurrentBodyInfoDto, IEnumProvider, IMeasurementDto, IMeasurementGoalDto, IMeasurementGoalSearchOptions, IMeasurementSearchOptions, IPagingResult, ISortingOptions } from '../../_generated/interfaces';
 import { MeasurementService } from '../../services/measurement.service';
 import { EnumNamePipe } from '../../pipes/enum-name.pipe';
 import { Paginator, PaginatorState } from 'primeng/paginator';
+import { eBodyPart, eChartTimespan } from '../../_generated/enums';
+import { Chart } from 'chart.js/auto';
+import { Providers } from '../../_generated/providers';
+import { SharedService } from '../../services/shared.service';
+import { QService } from '../../services/q.service';
+import { DateTime } from 'luxon';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
+import { FormsModule } from '@angular/forms';
 
 enum eMeasurementInfoTab {
   Measurements = 0,
@@ -16,15 +24,20 @@ enum eMeasurementInfoTab {
 
 @Component({
   selector: 'app-measurement',
-  imports: [CommonModule, UtcToLocalPipe, MeasurementConverterPipe, EnumNamePipe, Paginator],
+  imports: [CommonModule, UtcToLocalPipe, MeasurementConverterPipe, EnumNamePipe, Paginator, FormsModule],
   templateUrl: './measurement.html',
   styleUrl: './measurement.css'
 })
-export class Measurement {
-
+export class Measurement implements OnDestroy {
+  private chart!: Chart;
   measurements?: IPagingResult<IMeasurementDto>;
-
+  measurementsChart: IPagingResult<IMeasurementDto>;
   measurementGoals?: IPagingResult<IMeasurementGoalDto>;
+  measurementGoalsChart: IPagingResult<IMeasurementGoalDto>;
+
+  chartTimespans: IEnumProvider[] = [];
+  selectedTimespan: number = eChartTimespan.Last3Months;
+
 
   currentMeasurements: ICurrentBodyInfoDto | null = null;
 
@@ -50,10 +63,15 @@ export class Measurement {
   constructor(
     public modalService: ModalService,
     private measurementService: MeasurementService,
-
+    private referenceService: Providers,
+    private $q: QService,
+    private sharedService: SharedService,
 
     private measurementController: MeasurementController,
     private measurementGoalController: MeasurementGoalController,
+
+    private measurementConverterPipe: MeasurementConverterPipe,
+    private enumNamePipe: EnumNamePipe
   ) {
     effect(() => {
       this.measurementService.measurementsSignal();
@@ -61,12 +79,13 @@ export class Measurement {
       this.getMeasurementGoals();
     }, { allowSignalWrites: true });
 
-    // this.chartTimespans = this.referenceService.getChartTimespans();
+    this.chartTimespans = this.referenceService.getChartTimespans();
   }
 
   // events
 
   onSelectTab = (idx: number) => this.selectedTab = idx;
+  onTimespanChange = () => this.getMeasurementsAndGoalsChart();
   onPageChange(event: PaginatorState) {
     if (this.selectedTab === eMeasurementInfoTab.Measurements) {
       this.measurementsFirst = event.first ?? this.measurementsFirst;
@@ -129,7 +148,7 @@ export class Measurement {
   }
 
   private getMeasurements() {
-    // this.getMeasurementAndGoalsChart();
+    this.getMeasurementsAndGoalsChart();
     this.getPaginatedMeasurements(this.measurementsFirst, this.rows);
     this.infoInit();
   }
@@ -164,6 +183,285 @@ export class Measurement {
       .catch(ex => { throw ex; });
   }
 
+  private getMeasurementsAndGoalsChart() {
+    this.destroyChart();
+
+    const options = {} as IMeasurementSearchOptions;
+    options.chartTimespanId = this.selectedTimespan;
+
+    const goalOptions = {} as IMeasurementGoalSearchOptions;
+    goalOptions.chartTimespanId = this.selectedTimespan;
+
+    this.$q.all([
+      this.measurementController.Search(options).toPromise(),
+      this.measurementGoalController.Search(goalOptions).toPromise()
+    ])
+      .then(result => {
+        if (result[0] !== null) {
+          this.measurementsChart = result[0].data;
+        }
+        if (result[1] !== null) {
+          this.measurementGoalsChart = result[1].data;
+        }
+
+        this.chartInit();
+      })
+  }
+
+  private getStartDate() {
+    let earliestMeasurementTimestamp: Date | null = null;
+
+    if (this.measurementsChart?.data && this.measurementsChart.data.length > 0) {
+      earliestMeasurementTimestamp = new Date(
+        Math.min(...this.measurementsChart.data.map(_ => new Date(_.logDate!).getTime()))
+      );
+    }
+
+    let earliestMeasurementGoalTimestamp: Date | null = null;
+
+    if (this.measurementGoalsChart?.data && this.measurementGoalsChart.data.length > 0) {
+      earliestMeasurementGoalTimestamp = new Date(
+        Math.min(...this.measurementGoalsChart.data.map(_ => new Date(_.startDate!).getTime()))
+      );
+    }
+
+    const earliestDate = this.sharedService.getLocalDate(
+      earliestMeasurementTimestamp && earliestMeasurementGoalTimestamp
+        ? earliestMeasurementTimestamp < earliestMeasurementGoalTimestamp
+          ? earliestMeasurementTimestamp
+          : earliestMeasurementGoalTimestamp
+        : earliestMeasurementTimestamp !== null
+          ? earliestMeasurementTimestamp
+          : earliestMeasurementGoalTimestamp !== null
+            ? earliestMeasurementGoalTimestamp
+            : null
+    );
+    return DateTime.fromJSDate(earliestDate);
+  }
+
+  private chartInit() {
+    if (this.chart)
+      this.destroyChart();
+
+    const today = DateTime.local().startOf('day');
+    const startDate = (this.selectedTimespan !== eChartTimespan.AllTime
+      ? today.minus({ months: this.selectedTimespan })
+      : this.getStartDate())
+      .minus({ days: 7 }) // padding for start of the chart
+
+    let maxGoalEndDate = today; // does this mean that if the goal is later than today it will show it??
+
+    if (this.measurementGoalsChart?.data?.length) {
+      const maxGoalEndDateTimespan = new Date(
+        Math.max(...this.measurementGoalsChart.data.map(_ => new Date(_.endDate).getTime()))
+      );
+      const maxGoalEndDateLocal = this.sharedService.getLocalDate(maxGoalEndDateTimespan);
+      maxGoalEndDate = DateTime.fromJSDate(maxGoalEndDateLocal) as DateTime<true>;
+    }
+
+    maxGoalEndDate = maxGoalEndDate.plus({ days: 10 }) // padding for end of the chart
+    let totalDays = maxGoalEndDate.diff(startDate, 'days').days;
+    const allDates: string[] = [];
+    for (let i = 0; i <= totalDays; i++) {
+      const date = startDate.plus({ days: i });
+      allDates.push(date.toFormat('MMM dd yyyy'));
+    }
+
+    const dataDatasets = this.getDatasets(allDates);
+
+    const goalDatasets = this.getGoalDatasets(allDates);
+
+    Chart.register(ChartDataLabels)
+
+    const values = this.measurementsChart.data
+      .map(_ => parseFloat(this.measurementConverterPipe.transform(_.size, _.measurementUnitId)));
+    const goalValues: number[] = [];
+
+    if (this.measurementGoalsChart?.data?.length) {
+      const maxGoalEntry = this.measurementGoalsChart.data
+        .reduce((max, current) => (current.size > max.size ? current : max), this.measurementGoalsChart.data[0]);
+
+      goalValues.push(parseFloat(this.measurementConverterPipe.transform(maxGoalEntry.size, maxGoalEntry.measurementUnitId)));
+    }
+
+    this.chart = new Chart('measurements-line-chart', {
+      type: 'line',
+      data: {
+        labels: allDates,
+        datasets: [
+          ...dataDatasets,
+          ...goalDatasets.map((dataset, idx) => ({
+            ...dataset,
+            datalabels: {
+              display: true,
+              align: 'top',
+              anchor: 'end',
+              formatter: (value: any, ctx: any) => {
+                if (value === null) return '';
+
+                const dataIdx = ctx.dataIndex;
+                const firstIdx = dataset.data.findIndex((_: any) => _ !== null);
+                const lastIdx = dataset.data.lastIndexOf(value);
+
+                if (dataIdx === firstIdx)
+                  return `Start`;
+                else if (dataIdx === lastIdx)
+                  return `Goal ${idx + 1}`
+
+                return '';
+              },
+              color: 'rgba(255, 0, 0, 1)',
+              font: {
+                weight: 'bold',
+                size: 12
+              }
+            }
+          })),
+        ],
+      },
+      options: {
+        responsive: true,
+        scales: {
+          x: {
+            ticks: {
+              maxTicksLimit: 8
+            }
+          },
+          y: {
+            min: this.sharedService.roundToNearestTen(Math.max(0, Math.round(Math.min(...values) - 10))),
+            max: this.sharedService.roundToNearestTen(Math.round(Math.max(...values, ...goalValues) + 10)),
+          },
+        },
+        plugins: {
+          legend: {
+            display: false,
+          },
+          datalabels: {
+            display: false
+          }
+        }
+      },
+      plugins: [ChartDataLabels]
+    });
+  }
+
+  private getDatasets(allDates: string[]) {
+    const datasets: any[] = [];
+
+    this.referenceService.getBodyParts().forEach(_ => {
+      const dataForChart = this.getBodyPartData(allDates, _.id);
+
+      if (dataForChart.length > 0 && dataForChart.some(_ => _ !== null))
+        datasets.push({
+          label: _.description,
+          data: dataForChart,
+          backgroundColor: _.bgColor,
+          borderColor: _.bgColor,
+          borderWidth: 2,
+          tension: 0.3,
+          spanGaps: true,
+        })
+    });
+
+    return datasets;
+  }
+
+  private getBodyPartData(allDates: string[], bodyPartId: eBodyPart): (number | null)[] {
+    return allDates.map(date => {
+      const log = this.measurementsChart.data.find(_ => {
+        const localDate = this.sharedService.getLocalDate(_.logDate);
+        return DateTime.fromJSDate(localDate).toFormat('MMM dd yyyy') === date && _.bodyPartId === bodyPartId
+      });
+
+      let data = null;
+
+      data = log
+        ? parseFloat(this.measurementConverterPipe.transform(log['size'], log['measurementUnitId']))
+        : null;
+
+      return data;
+    });
+  }
+
+  private getGoalDatasets(allDates: string[]) {
+    if (!this.measurementGoalsChart?.data?.length)
+      return [];
+
+    const datasets: any[] = [];
+
+    this.measurementGoalsChart.data.forEach((goal, idx) => {
+      let goalData: (number | null)[] = new Array(allDates.length).fill(null);
+
+      // End date
+      const goalEndDate = DateTime.fromJSDate(new Date(goal.endDate)).toFormat('MMM dd yyyy');
+      const endIdx = allDates.indexOf(goalEndDate);
+      if (endIdx !== -1) goalData[endIdx] = parseFloat(this.measurementConverterPipe.transform(goal.size, goal.measurementUnitId));
+
+      // Start date
+      let goalStartMeasurement: number | null = null;
+      const goalStartDate = DateTime.fromJSDate(new Date(goal.startDate)).toFormat('MMM dd yyyy');
+      const startIdx = allDates.indexOf(goalStartDate);
+
+      if (startIdx !== -1) {
+        const log = this.measurementsChart.data.find(log => {
+          DateTime.fromJSDate(this.sharedService.getLocalDate(log.logDate)).toFormat('MMM dd yyyy') === goalStartDate && log.bodyPartId === goal.bodyPartId
+        });
+
+        goalStartMeasurement = log
+          ? parseFloat(this.measurementConverterPipe.transform(log.size, log.measurementUnitId))
+          : null; // setting a start of the goal to measurement at that time
+      }
+
+      if (!goalStartMeasurement) {
+        // <
+        const closestLog = [...this.measurementsChart.data.filter(_ => _.bodyPartId === goal.bodyPartId)]
+          .filter(log => this.sharedService.getLocalDate(log.logDate) < this.sharedService.getLocalDate(goal.startDate))
+          .sort((a, b) =>
+            DateTime.fromJSDate(this.sharedService.getLocalDate(b.logDate))
+              .diff(DateTime.fromJSDate(this.sharedService.getLocalDate(a.logDate)), 'milliseconds')
+              .milliseconds
+          )[0];
+
+        goalStartMeasurement = closestLog
+          ? parseFloat(this.measurementConverterPipe.transform(closestLog.size, closestLog.measurementUnitId))
+          : null; // setting a start of the goal to closest size at that time
+
+        if (!goalStartMeasurement) {
+          // >
+          const closestLog = [...this.measurementsChart.data.filter(_ => _.bodyPartId === goal.bodyPartId)]
+            .filter(log => this.sharedService.getLocalDate(log.logDate) > this.sharedService.getLocalDate(goal.startDate))
+            .sort((a, b) =>
+              DateTime.fromJSDate(this.sharedService.getLocalDate(b.logDate))
+                .diff(DateTime.fromJSDate(this.sharedService.getLocalDate(a.logDate)), 'milliseconds')
+                .milliseconds
+            )[0];
+
+          goalStartMeasurement = closestLog
+            ? parseFloat(this.measurementConverterPipe.transform(closestLog.size, closestLog.measurementUnitId))
+            : null; // setting a start of the goal to closest size at that time
+        }
+      }
+
+      if (startIdx !== -1 && goalStartMeasurement !== null)
+        goalData[startIdx] = goalStartMeasurement;
+
+      // Push a separate dataset for each goal
+      datasets.push({
+        label: `Goal ${this.enumNamePipe.transform(goal.bodyPartId, 'BodyParts')}`,
+        data: goalData,
+        backgroundColor: 'rgba(255, 0, 0, 1)',
+        borderColor: 'rgba(255, 0, 0, 1)',
+        borderWidth: 2,
+        borderDash: [10, 5],
+        fill: false,
+        tension: 0.3,
+        spanGaps: true,
+      });
+    });
+
+    return datasets;
+  }
+
   private infoInit() {
     this.measurementController.GetCurrentMeasurementInfo().toPromise()
       .then(_ => {
@@ -173,5 +471,14 @@ export class Measurement {
         this.currentMeasurements = _.data;
       })
       .catch(ex => { throw ex; })
+  }
+
+  private destroyChart() {
+    if (this.chart)
+      this.chart.destroy();
+  }
+
+  ngOnDestroy(): void {
+    this.destroyChart();
   }
 }
