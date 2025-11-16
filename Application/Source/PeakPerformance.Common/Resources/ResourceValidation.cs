@@ -55,4 +55,6 @@ public static class ResourceValidation
     public static string Not_Found => "{0} not found";
 
     public static string At_Least_One => "At least one {0} must be provided";
+
+    public static string Is_Wrong => "{0} is wrong";
 }

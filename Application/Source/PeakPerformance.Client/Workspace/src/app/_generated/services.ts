@@ -22,6 +22,7 @@ import { IMeasurementGoalDto } from './interfaces';
 import { IMeasurementGoalSearchOptions } from './interfaces';
 import { IMeasurementGoalCreateDto } from './interfaces';
 import { IUserDto } from './interfaces';
+import { IChangePasswordDto } from './interfaces';
 
 @Injectable({ providedIn: 'root' }) export abstract class BaseController
 {
@@ -362,6 +363,34 @@ import { IUserDto } from './interfaces';
 		const body = <any>userId;
 		return this.httpClient.post<IBaseResponseWrapper>(
 		this.settingsService.createApiUrl('User/UpdateProfilePicture'),
+		body,
+		{
+			responseType: 'json',
+			observe: 'response',
+			withCredentials: true
+		})
+		.pipe(map(response => response.body));
+		
+	}
+	public UpdateMeasurementUnits(data: IUserDto) : Observable<IBaseResponseWrapper | null>
+	{
+		const body = <any>data;
+		return this.httpClient.post<IBaseResponseWrapper>(
+		this.settingsService.createApiUrl('User/UpdateMeasurementUnits'),
+		body,
+		{
+			responseType: 'json',
+			observe: 'response',
+			withCredentials: true
+		})
+		.pipe(map(response => response.body));
+		
+	}
+	public ChangePassword(data: IChangePasswordDto) : Observable<IBaseResponseWrapper | null>
+	{
+		const body = <any>data;
+		return this.httpClient.post<IBaseResponseWrapper>(
+		this.settingsService.createApiUrl('User/ChangePassword'),
 		body,
 		{
 			responseType: 'json',

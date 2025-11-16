@@ -7,6 +7,12 @@ export interface IAuthorizationDto
 {
 	token: string;
 }
+export interface IChangePasswordDto
+{
+	oldPassword: string;
+	newPassword: string;
+	repeatPassword: string;
+}
 export interface ILoginDto
 {
 	username: string;
@@ -32,8 +38,8 @@ export interface IUserDto
 	countryId?: number;
 	height?: number;
 	isPrivate?: boolean;
-	weightUnitId?: eMeasurementUnit;
-	measurementUnitId?: eMeasurementUnit;
+	weightUnitId: eMeasurementUnit;
+	measurementUnitId: eMeasurementUnit;
 }
 export interface IBodyweightDto
 {
