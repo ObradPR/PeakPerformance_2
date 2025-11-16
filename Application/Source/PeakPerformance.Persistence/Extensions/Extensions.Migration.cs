@@ -69,6 +69,15 @@ public static partial class Extensions
         migrationBuilder.Sql($"DROP VIEW IF EXISTS {fullViewName};");
     }
 
+    // Scripts
+
+    public static void ScriptReader(this MigrationBuilder migrationBuilder, string folder, string name)
+    {
+        var sqlFile = Path.Combine("Scripts", folder, $"{name}.sql");
+
+        migrationBuilder.ReadAndExecuteQuery(sqlFile);
+    }
+
     // private
 
     private static void ReadAndExecuteQuery(this MigrationBuilder migrationBuilder, string sqlFile)

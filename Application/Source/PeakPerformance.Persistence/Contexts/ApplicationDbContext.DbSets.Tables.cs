@@ -1,6 +1,6 @@
 ﻿namespace PeakPerformance.Persistence.Contexts;
 
-public partial class ApplicationDbContext
+public partial class ApplicationDbContext : IDatabaseContext
 {
     public virtual DbSet<ErrorLog> ErrorLogs { get; set; }
 
@@ -17,4 +17,6 @@ public partial class ApplicationDbContext
     public virtual DbSet<Measurement> Measurements { get; set; }
 
     public virtual DbSet<MeasurementGoal> MeasurementGoals { get; set; }
+
+    public virtual DbSet<Country> Countries { get; set; }
 }

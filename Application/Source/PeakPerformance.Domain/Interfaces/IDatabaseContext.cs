@@ -18,6 +18,8 @@ public interface IDatabaseContext
 
     DbSet<MeasurementGoal> MeasurementGoals { get; set; }
 
+    DbSet<Country> Countries { get; set; }
+
     // methods
 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
