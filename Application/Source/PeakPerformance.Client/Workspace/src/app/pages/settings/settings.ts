@@ -19,16 +19,19 @@ import { LoaderService } from '../../services/loader.service';
 })
 export class Settings extends BaseValidationComponent implements OnInit {
   override errors: Record<string, string>;
-  form: FormGroup<any>; // Personal details
 
+  // Personal details
+  form: FormGroup<any>;
   user: IUserDto | null;
   genders: IEnumProvider[] = [];
   countries: ICountryDto[] = [];
   selectedIso2: string | null = null;
   minDob: string;
   maxDob: string;
-
   userMeasurementPreference: eMeasurementUnit | undefined;
+
+  // Email
+  formEmail: FormGroup<any>;
 
   constructor(
     private fb: FormBuilder,
@@ -54,16 +57,12 @@ export class Settings extends BaseValidationComponent implements OnInit {
   ngOnInit(): void {
     this.formInit_PersonalDetails();
 
-    this.countryController.GetList().toPromise()
-      .then(_ => {
-        if (_?.isSuccess) {
-          this.countries = _.data
-          this.selectedIso2 = this.countries.find(_ => _.id === this.user?.countryId)?.isO2 ?? null;
-        }
-      });
+    this.formInit_Email();
 
 
   }
+
+  // events
 
   onCountryChanged(event: any) {
     const selectedId = Number(event.target.value);
@@ -94,14 +93,22 @@ export class Settings extends BaseValidationComponent implements OnInit {
       countryId: [this.user?.countryId],
       height: [this.user?.height],
     });
+
+    this.countryController.GetList().toPromise()
+      .then(_ => {
+        if (_?.isSuccess) {
+          this.countries = _.data
+          this.selectedIso2 = this.countries.find(_ => _.id === this.user?.countryId)?.isO2 ?? null;
+        }
+      });
   }
 
-  submitPersonalDetails() {
+  submitPersonalDetails(form: FormGroup) {
     this.loaderService.showPageLoader();
 
     const payload = {
       ...this.user,
-      ...this.form.value
+      ...form.value
     };
 
     this.userController.UpdatePersonalDetails(payload).toPromise()
@@ -111,5 +118,13 @@ export class Settings extends BaseValidationComponent implements OnInit {
       })
       .catch(ex => this.setErrors(ex))
       .finally(() => this.loaderService.hidePageLoader());
+  }
+
+  // Email
+
+  formInit_Email() {
+    this.formEmail = this.fb.group({
+      email: [this.user?.email],
+    });
   }
 }

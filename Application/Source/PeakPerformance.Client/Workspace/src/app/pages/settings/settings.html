@@ -70,14 +70,47 @@
                     </div>
                 </form>
 
-                <button class="btn btn-primary" (click)="submitPersonalDetails()">Update Profile</button>
+                <button class="btn btn-primary" (click)="submitPersonalDetails(form)">Update Profile</button>
             </div>
         </div>
     </div>
 
-     <div class="col-12 row justify-content-between">
+    <div class="col-12 row justify-content-between">
         <div class="col-md-12 col-lg-7">
             <h3>Profile Photo</h3>
+        </div>
+    </div>
+
+    <div class="col-12 row justify-content-between">
+        <div class="col-md-12 col-lg-7">
+            <h3>Sharing Settings</h3>
+        </div>
+    </div>
+
+    <div class="col-12 row justify-content-between">
+        <div class="col-md-12 col-lg-7">
+            <h3>Units of Measure</h3>
+        </div>
+    </div>
+
+    <div class="col-12 row justify-content-between">
+        <div class="col-md-12 col-lg-7">
+            <h3>Account Email</h3>
+
+            <div class="position-relative">
+                <form [formGroup]="formEmail">
+                    <div class="position-relative">
+                        <label for="email" class="form-label">Email</label>
+                        <div class="input-group mb-4" validation [key]="'Email'" [errors]="errors">
+                            <span class="input-group-text" id="email-addon"><i class="fa-solid fa-at"></i></span>
+                            <input type="email" class="form-control" id="email" placeholder="Email" aria-label="Email" aria-describedby="email-addon" formControlName="email" />
+                        </div>
+                    </div>
+                </form>
+
+                <button class="btn btn-primary" (click)="submitPersonalDetails(formEmail)">Change Email</button>
+            </div>
+            
         </div>
     </div>
 </div>
