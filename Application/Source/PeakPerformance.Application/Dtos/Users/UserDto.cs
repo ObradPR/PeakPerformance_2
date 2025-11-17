@@ -33,6 +33,8 @@ public class UserDto
         model.FullName = FullName;
         model.Username = Username;
         model.Email = Email;
+        model.DateOfBirth = DateOfBirth;
+        model.Description = Description;
         model.GenderId = GenderId;
         model.CountryId = CountryId;
         model.Height = Height;

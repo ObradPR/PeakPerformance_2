@@ -3,23 +3,19 @@ import { eMeasurementUnit } from './enums';
 import { eBodyPart } from './enums';
 import { eChartTimespan } from './enums';
 
-export interface IAuthorizationDto
-{
+export interface IAuthorizationDto {
 	token: string;
 }
-export interface IChangePasswordDto
-{
+export interface IChangePasswordDto {
 	oldPassword: string;
 	newPassword: string;
 	repeatPassword: string;
 }
-export interface ILoginDto
-{
+export interface ILoginDto {
 	username: string;
 	password: string;
 }
-export interface IRegistrationDto
-{
+export interface IRegistrationDto {
 	fullName: string;
 	username: string;
 	email: string;
@@ -27,8 +23,7 @@ export interface IRegistrationDto
 	confirmPassword: string;
 	dateOfBirth?: Date | null;
 }
-export interface IUserDto
-{
+export interface IUserDto {
 	fullName: string;
 	username: string;
 	email: string;
@@ -41,16 +36,14 @@ export interface IUserDto
 	weightUnitId: eMeasurementUnit;
 	measurementUnitId: eMeasurementUnit;
 }
-export interface IBodyweightDto
-{
+export interface IBodyweightDto {
 	id: number;
 	value: number;
 	weightUnitId: eMeasurementUnit;
 	bodyFatPercentage?: number;
 	logDate?: Date | null;
 }
-export interface ICurrentBodyInfoDto
-{
+export interface ICurrentBodyInfoDto {
 	bodyweight?: number;
 	bodyweightUnitId?: eMeasurementUnit;
 	bodyweightGoal?: number;
@@ -65,43 +58,37 @@ export interface ICurrentBodyInfoDto
 	biceps?: number;
 	bicepsMeasurementUnitId?: eMeasurementUnit;
 }
-export interface IBodyweightGoalDto
-{
+export interface IBodyweightGoalDto {
 	id: number;
 	target: number;
 	weightUnitId: eMeasurementUnit;
 	startDate: Date;
 	endDate: Date;
 }
-export interface ICountryDto
-{
+export interface ICountryDto {
 	id: number;
 	isO2: string;
 	isO3: string;
 	name: string;
 }
-export interface IFileInformationDto
-{
+export interface IFileInformationDto {
 	fileName: string;
 	type: string;
 	buffer: number[];
 	size?: number;
 }
-export interface ILookupValueDto
-{
+export interface ILookupValueDto {
 	id: number;
 	name: string;
 	description: string;
 }
-export interface IEnumProvider
-{
+export interface IEnumProvider {
 	id: number;
 	name: string;
 	description: string;
 	bgColor: string;
 }
-export interface IMeasurementCreateDto
-{
+export interface IMeasurementCreateDto {
 	id: number;
 	waist?: number;
 	hips?: number;
@@ -119,8 +106,7 @@ export interface IMeasurementCreateDto
 	measurementUnitId: eMeasurementUnit;
 	logDate?: Date | null;
 }
-export interface IMeasurementDto
-{
+export interface IMeasurementDto {
 	id: number;
 	userId: number;
 	bodyPartId: eBodyPart;
@@ -128,8 +114,7 @@ export interface IMeasurementDto
 	measurementUnitId: eMeasurementUnit;
 	logDate?: Date | null;
 }
-export interface IMeasurementGoalCreateDto
-{
+export interface IMeasurementGoalCreateDto {
 	id: number;
 	waist?: number;
 	hips?: number;
@@ -148,8 +133,7 @@ export interface IMeasurementGoalCreateDto
 	startDate: Date;
 	endDate: Date;
 }
-export interface IMeasurementGoalDto
-{
+export interface IMeasurementGoalDto {
 	id: number;
 	bodyPartId: eBodyPart;
 	size: number;
@@ -157,65 +141,55 @@ export interface IMeasurementGoalDto
 	startDate: Date;
 	endDate: Date;
 }
-export interface IPagingResult<TEntity>
-{
+export interface IPagingResult<TEntity> {
 	data: TEntity[];
 	total: number;
 }
-export interface ISearchOptions
-{
+export interface ISearchOptions {
 	skip: number;
 	take: number;
 	sortingOptions: ISortingOptions[];
 	filter: string;
 	totalCount?: boolean;
 }
-export interface ISortingOptions
-{
+export interface ISortingOptions {
 	field: string;
 	dir: string;
 	desc: boolean;
 }
-export interface IBodyweightSearchOptions extends ISearchOptions
-{
+export interface IBodyweightSearchOptions extends ISearchOptions {
 	userId?: number;
 	fromDate?: Date | null;
 	toDate?: Date | null;
 	chartTimespanId?: eChartTimespan;
 }
-export interface IBodyweightGoalSearchOptions extends ISearchOptions
-{
+export interface IBodyweightGoalSearchOptions extends ISearchOptions {
 	userId?: number;
 	fromDate?: Date | null;
 	toDate?: Date | null;
 	chartTimespanId?: eChartTimespan;
 }
-export interface IMeasurementGoalSearchOptions extends ISearchOptions
-{
+export interface IMeasurementGoalSearchOptions extends ISearchOptions {
 	userId?: number;
 	fromDate?: Date | null;
 	toDate?: Date | null;
 	chartTimespanId?: eChartTimespan;
 }
-export interface IMeasurementSearchOptions extends ISearchOptions
-{
+export interface IMeasurementSearchOptions extends ISearchOptions {
 	userId?: number;
 	fromDate?: Date | null;
 	toDate?: Date | null;
 	chartTimespanId?: eChartTimespan;
 }
-export interface IBaseResponseWrapper
-{
+export interface IBaseResponseWrapper {
 	isSuccess: boolean;
 	errors: IError[];
 	code: number;
 }
-export interface IError
-{
+export interface IError {
 	key: string;
 	value: string;
 }
-export interface IResponseWrapper<T> extends IBaseResponseWrapper
-{
+export interface IResponseWrapper<T> extends IBaseResponseWrapper {
 	data: T;
 }

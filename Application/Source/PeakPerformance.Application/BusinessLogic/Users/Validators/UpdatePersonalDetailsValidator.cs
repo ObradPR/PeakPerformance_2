@@ -16,5 +16,8 @@ public class UpdatePersonalDetailsValidator : AbstractValidator<UpdatePersonalDe
 
         RuleFor(_ => _.Data.DateOfBirth)
             .Required();
+
+        RuleFor(_ => _.Data.Height)
+            .GreaterThanAuto(0, _ => _.Data.Height.HasValue);
     }
 }

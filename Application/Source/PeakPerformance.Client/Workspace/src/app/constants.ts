@@ -52,8 +52,13 @@ export class RouteConstants {
   // Pages
   static ROUTE_HOME = '';
   static TITLE_HOME = 'Home | ' + this.TITLE;
+
   static ROUTE_BODYWEIGHT = 'bodyweight';
   static TITLE_BODYWEIGHT = 'Bodyweight | ' + this.TITLE;
+
   static ROUTE_MEASUREMENT = 'measurement';
   static TITLE_MEASUREMENT = 'Measurement | ' + this.TITLE;
+
+  static ROUTE_SETTINGS = 'settings';
+  static TITLE_SETTINGS = 'Settings | ' + this.TITLE;
 }

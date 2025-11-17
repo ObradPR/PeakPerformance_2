@@ -21,7 +21,12 @@ export const routes: Routes = [
                 path: RouteConstants.ROUTE_MEASUREMENT,
                 title: RouteConstants.TITLE_MEASUREMENT,
                 loadComponent: () => import('./pages/measurement/measurement').then(_ => _.Measurement)
-            }
+            },
+            {
+                path: RouteConstants.ROUTE_SETTINGS,
+                title: RouteConstants.TITLE_SETTINGS,
+                loadComponent: () => import('./pages/settings/settings').then(_ => _.Settings)
+            },
         ]
     },
     ///

@@ -21,7 +21,7 @@
                         <label for="waist">Waist</label>
                         <div class="input-group mb-3" validation [key]="'Waist'" [errors]="errors">
                             <input type="number" class="form-control" id="waist" placeholder="0" aria-label="Waist" aria-describedby="waist-addon" formControlName="waist" />
-                            <span class="input-group-text input-addon-static" id="waist-addon">{{ userWeightPreference | measurementUnitDescription }}</span>
+                            <span class="input-group-text input-addon-static" id="waist-addon">{{ userMeasurementPreference | measurementUnitDescription }}</span>
                         </div>
                     </div>
     
@@ -32,7 +32,7 @@
                             <input type="number" class="form-control" id="hips" placeholder="0" aria-label="Hips"
                                 aria-describedby="hips-addon" formControlName="hips" />
                             <span class="input-group-text input-addon-static" id="hips-addon">
-                                {{ userWeightPreference | measurementUnitDescription }}
+                                {{ userMeasurementPreference | measurementUnitDescription }}
                             </span>
                         </div>
                     </div>
@@ -44,7 +44,7 @@
                             <input type="number" class="form-control" id="neck" placeholder="0" aria-label="Neck"
                                 aria-describedby="neck-addon" formControlName="neck" />
                             <span class="input-group-text input-addon-static" id="neck-addon">
-                                {{ userWeightPreference | measurementUnitDescription }}
+                                {{ userMeasurementPreference | measurementUnitDescription }}
                             </span>
                         </div>
                     </div>
@@ -56,7 +56,7 @@
                             <input type="number" class="form-control" id="chest" placeholder="0" aria-label="Chest"
                                 aria-describedby="chest-addon" formControlName="chest" />
                             <span class="input-group-text input-addon-static" id="chest-addon">
-                                {{ userWeightPreference | measurementUnitDescription }}
+                                {{ userMeasurementPreference | measurementUnitDescription }}
                             </span>
                         </div>
                     </div>
@@ -68,7 +68,7 @@
                             <input type="number" class="form-control" id="shoulders" placeholder="0" aria-label="Shoulders"
                                 aria-describedby="shoulders-addon" formControlName="shoulders" />
                             <span class="input-group-text input-addon-static" id="shoulders-addon">
-                                {{ userWeightPreference | measurementUnitDescription }}
+                                {{ userMeasurementPreference | measurementUnitDescription }}
                             </span>
                         </div>
                     </div>
@@ -80,7 +80,7 @@
                             <input type="number" class="form-control" id="rightBicep" placeholder="0" aria-label="Right bicep"
                                 aria-describedby="rightBicep-addon" formControlName="rightBicep" />
                             <span class="input-group-text input-addon-static" id="rightBicep-addon">
-                                {{ userWeightPreference | measurementUnitDescription }}
+                                {{ userMeasurementPreference | measurementUnitDescription }}
                             </span>
                         </div>
                     </div>
@@ -92,7 +92,7 @@
                             <input type="number" class="form-control" id="leftBicep" placeholder="0" aria-label="Left bicep"
                                 aria-describedby="leftBicep-addon" formControlName="leftBicep" />
                             <span class="input-group-text input-addon-static" id="leftBicep-addon">
-                                {{ userWeightPreference | measurementUnitDescription }}
+                                {{ userMeasurementPreference | measurementUnitDescription }}
                             </span>
                         </div>
                     </div>
@@ -104,7 +104,7 @@
                             <input type="number" class="form-control" id="rightForearm" placeholder="0" aria-label="Right forearm"
                                 aria-describedby="rightForearm-addon" formControlName="rightForearm" />
                             <span class="input-group-text input-addon-static" id="rightForearm-addon">
-                                {{ userWeightPreference | measurementUnitDescription }}
+                                {{ userMeasurementPreference | measurementUnitDescription }}
                             </span>
                         </div>
                     </div>
@@ -116,7 +116,7 @@
                             <input type="number" class="form-control" id="leftForearm" placeholder="0" aria-label="Left forearm"
                                 aria-describedby="leftForearm-addon" formControlName="leftForearm" />
                             <span class="input-group-text input-addon-static" id="leftForearm-addon">
-                                {{ userWeightPreference | measurementUnitDescription }}
+                                {{ userMeasurementPreference | measurementUnitDescription }}
                             </span>
                         </div>
                     </div>
@@ -128,7 +128,7 @@
                             <input type="number" class="form-control" id="rightThigh" placeholder="0" aria-label="Right thigh"
                                 aria-describedby="rightThigh-addon" formControlName="rightThigh" />
                             <span class="input-group-text input-addon-static" id="rightThigh-addon">
-                                {{ userWeightPreference | measurementUnitDescription }}
+                                {{ userMeasurementPreference | measurementUnitDescription }}
                             </span>
                         </div>
                     </div>
@@ -140,7 +140,7 @@
                             <input type="number" class="form-control" id="leftThigh" placeholder="0" aria-label="Left thigh"
                                 aria-describedby="leftThigh-addon" formControlName="leftThigh" />
                             <span class="input-group-text input-addon-static" id="leftThigh-addon">
-                                {{ userWeightPreference | measurementUnitDescription }}
+                                {{ userMeasurementPreference | measurementUnitDescription }}
                             </span>
                         </div>
                     </div>
@@ -152,7 +152,7 @@
                             <input type="number" class="form-control" id="rightCalf" placeholder="0" aria-label="Right calf"
                                 aria-describedby="rightCalf-addon" formControlName="rightCalf" />
                             <span class="input-group-text input-addon-static" id="rightCalf-addon">
-                                {{ userWeightPreference | measurementUnitDescription }}
+                                {{ userMeasurementPreference | measurementUnitDescription }}
                             </span>
                         </div>
                     </div>
@@ -164,7 +164,7 @@
                             <input type="number" class="form-control" id="leftCalf" placeholder="0" aria-label="Left calf"
                                 aria-describedby="leftCalf-addon" formControlName="leftCalf" />
                             <span class="input-group-text input-addon-static" id="leftCalf-addon">
-                                {{ userWeightPreference | measurementUnitDescription }}
+                                {{ userMeasurementPreference | measurementUnitDescription }}
                             </span>
                         </div>
                     </div>
@@ -186,7 +186,7 @@
                             <input type="number" class="form-control" id="bodyPart" placeholder="0" aria-label="bodyPart"
                                 aria-describedby="bodyPart-addon" formControlName="size" />
                             <span class="input-group-text input-addon-static" id="bodyPart-addon">
-                                {{ userWeightPreference | measurementUnitDescription }}
+                                {{ userMeasurementPreference | measurementUnitDescription }}
                             </span>
                         </div>
                     </div>

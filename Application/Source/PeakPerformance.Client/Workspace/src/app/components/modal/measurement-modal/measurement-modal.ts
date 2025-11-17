@@ -28,7 +28,7 @@ export class MeasurementModal extends BaseValidationComponent implements IModalM
   form: FormGroup<any>;
   updateForm: FormGroup<any>;
 
-  userWeightPreference: eMeasurementUnit | undefined;
+  userMeasurementPreference: eMeasurementUnit | undefined;
   selectedMeasurement: IMeasurementDto | null = null;
   modalType: string;
   minLogDate: string;
@@ -50,7 +50,7 @@ export class MeasurementModal extends BaseValidationComponent implements IModalM
     super();
     this.modalType = this.modalService.measurementModalTypeSignal() === 'add' ? 'Add' : 'Edit';
     this.selectedMeasurement = this.modalService.selectedMeasurementSignal();
-    this.userWeightPreference = this.authService.currentUserSource()?.measurementUnitId;
+    this.userMeasurementPreference = this.authService.currentUserSource()?.measurementUnitId;
 
     this.minLogDate = DateTime.now().minus({ months: 3 }).toISODate();
     this.maxLogDate = DateTime.now().toISODate();
@@ -78,7 +78,7 @@ export class MeasurementModal extends BaseValidationComponent implements IModalM
       logDate: [formattedDate],
       size: [parseFloat(this.mesasurementConverterPipe.transform(this.selectedMeasurement!.size, this.selectedMeasurement!.measurementUnitId))
       ],
-      measurementUnitId: [this.userWeightPreference],
+      measurementUnitId: [this.userMeasurementPreference],
       bodyPartId: [this.selectedMeasurement!.bodyPartId]
     });
   }
@@ -91,7 +91,7 @@ export class MeasurementModal extends BaseValidationComponent implements IModalM
 
     this.form = this.fb.group({
       logDate: [formattedDate],
-      measurementUnitId: [this.userWeightPreference],
+      measurementUnitId: [this.userMeasurementPreference],
       waist: [null],
       hips: [null],
       neck: [null],

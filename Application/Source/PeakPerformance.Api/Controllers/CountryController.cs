@@ -7,6 +7,6 @@ namespace PeakPerformance.Api.Controllers;
 public class CountryController(IMediator mediator) : BaseController(mediator)
 {
     [HttpGet]
-    [AngularMethod(typeof(ResponseWrapper<CountryDto>))]
+    [AngularMethod(typeof(ResponseWrapper<IEnumerable<CountryDto>>))]
     public async Task<IActionResult> GetList() => Result(await Mediator.Send(new GetCountriesQuery()));
 }

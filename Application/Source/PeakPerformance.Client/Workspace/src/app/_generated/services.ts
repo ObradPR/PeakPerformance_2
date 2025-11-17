@@ -175,9 +175,9 @@ import { IChangePasswordDto } from './interfaces';
 }
 @Injectable({ providedIn: 'root' }) export class CountryController extends BaseController
 {
-	public GetList() : Observable<IResponseWrapper<ICountryDto> | null>
+	public GetList() : Observable<IResponseWrapper<ICountryDto[]> | null>
 	{
-		return this.httpClient.get<IResponseWrapper<ICountryDto>>(
+		return this.httpClient.get<IResponseWrapper<ICountryDto[]>>(
 		this.settingsService.createApiUrl('Country/GetList'),
 		{
 			responseType: 'json',
