@@ -18,7 +18,7 @@ public class ChangePasswordCommand(ChangePasswordDto data) : IRequest<BaseRespon
 
             // Check old password matching before changing password
             if (!userManager.VerifyPassword(request.Data.OldPassword, model.Password))
-                return new(new Error(nameof(User), ResourceValidation.Is_Wrong.FormatWith(nameof(request.Data.OldPassword))));
+                return new(new Error(nameof(request.Data.OldPassword), ResourceValidation.Is_Wrong.FormatWith("Old password")));
 
             model.Password = userManager.HashPassword(request.Data.NewPassword);
 

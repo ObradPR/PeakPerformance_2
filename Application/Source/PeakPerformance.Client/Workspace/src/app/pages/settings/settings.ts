@@ -33,6 +33,10 @@ export class Settings extends BaseValidationComponent implements OnInit {
   // Email
   formEmail: FormGroup<any>;
 
+  // Password
+  formPassword: FormGroup<any>;
+
+
   constructor(
     private fb: FormBuilder,
 
@@ -56,9 +60,8 @@ export class Settings extends BaseValidationComponent implements OnInit {
 
   ngOnInit(): void {
     this.formInit_PersonalDetails();
-
     this.formInit_Email();
-
+    this.formInit_Password();
 
   }
 
@@ -126,5 +129,27 @@ export class Settings extends BaseValidationComponent implements OnInit {
     this.formEmail = this.fb.group({
       email: [this.user?.email],
     });
+  }
+
+  // Password
+
+  formInit_Password() {
+    this.formPassword = this.fb.group({
+      oldPassword: [],
+      newPassword: [],
+      repeatPassword: [],
+    });
+  }
+
+  submitNewPassword() {
+    this.loaderService.showPageLoader();
+
+    this.userController.ChangePassword(this.formPassword.value).toPromise()
+      .then(_ => {
+        if (_?.isSuccess)
+          this.formPassword.reset();
+      })
+      .catch(ex => this.setErrors(ex))
+      .finally(() => this.loaderService.hidePageLoader());
   }
 }

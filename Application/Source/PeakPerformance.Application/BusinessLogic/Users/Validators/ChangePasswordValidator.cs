@@ -6,6 +6,9 @@ public class ChangePasswordValidator : AbstractValidator<ChangePasswordCommand>
 {
     public ChangePasswordValidator()
     {
+        RuleFor(_ => _.Data.OldPassword)
+            .Required();
+
         RuleFor(_ => _.Data.NewPassword)
             .Required()
             .MatchesPassword();
