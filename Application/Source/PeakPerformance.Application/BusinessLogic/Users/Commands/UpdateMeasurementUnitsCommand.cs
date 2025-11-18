@@ -12,11 +12,13 @@ public class UpdateMeasurementUnitsCommand(UserDto user) : IRequest<BaseResponse
         public async Task<BaseResponseWrapper> Handle(UpdateMeasurementUnitsCommand request, CancellationToken cancellationToken)
         {
             var model = await db.UserMeasurementPreferences.IgnoreQueryFilters()
-                .FirstOrDefaultAsync(_ => _.Id == identityUser.Id &&
+                .FirstOrDefaultAsync(_ => _.UserId == identityUser.Id &&
                     _.WeightUnitId == request.Data.WeightUnitId &&
                     _.MeasurementUnitId == request.Data.MeasurementUnitId
                 , cancellationToken
                 );
+
+            var currentPreference = await db.UserMeasurementPreferences.FirstOrDefaultAsync(cancellationToken); // this will by base query filter return IsActive == true, which can only be one
 
             var newModel = (UserMeasurementPreference)null;
 
@@ -28,6 +30,8 @@ public class UpdateMeasurementUnitsCommand(UserDto user) : IRequest<BaseResponse
                     WeightUnitId = request.Data.WeightUnitId,
                     MeasurementUnitId = request.Data.MeasurementUnitId
                 };
+
+                db.UserMeasurementPreferences.Add(newModel);
             }
             else if (model != null && model.IsActive == true) // if there are no changes
             {
@@ -35,12 +39,9 @@ public class UpdateMeasurementUnitsCommand(UserDto user) : IRequest<BaseResponse
             }
             else // if there is a change but we need to active (old model) / deactivate (current model)
             {
-                var currentPreference = await db.UserMeasurementPreferences.FirstOrDefaultAsync(cancellationToken); // this will by base query filter return IsActive == true, which can only be one
-
                 model.IsActive = true;
-
-                db.UserMeasurementPreferences.Remove(currentPreference);
             }
+            db.UserMeasurementPreferences.Remove(currentPreference);
 
             await db.SaveChangesAsync(cancellationToken);
 

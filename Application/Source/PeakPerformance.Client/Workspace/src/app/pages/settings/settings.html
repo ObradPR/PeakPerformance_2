@@ -90,6 +90,47 @@
     <div class="col-12">
         <div class="col-md-12 col-lg-7">
             <h3>Units of Measure</h3>
+
+            <div class="position-relative">
+                <form [formGroup]="formMeasurements">
+                    <h4>Weight</h4>
+                    <div class="position-relative">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="weightUnitId" id="radioWeightPounds" formControlName="weightUnitId" [value]="lbsId">
+                            <label class="form-check-label" for="radioWeightPounds">
+                                Use <b>pounds (lbs)</b> for both bodyweight and lift weight
+                            </label>
+                        </div>
+                    </div>
+                    <div class="position-relative">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="weightUnitId" id="radioWeightKilos" formControlName="weightUnitId" [value]="kgId">
+                            <label class="form-check-label" for="radioWeightKilos">
+                                Use <b>kilograms (kg)</b> for both bodyweight and lift weight
+                            </label>
+                        </div>
+                    </div>
+                    <h4>Size and Height</h4>
+                    <div class="position-relative">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="measurementUnitId" id="radioMeasrurementCm" formControlName="measurementUnitId" [value]="cmId">
+                            <label class="form-check-label" for="radioMeasrurementCm">
+                                Use <b>centimeters (cm)</b> for sizes like waist circumference and height
+                            </label>
+                        </div>
+                    </div>
+                    <div class="position-relative">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="measurementUnitId" id="radioMeasrurementInch" formControlName="measurementUnitId" [value]="inId">
+                            <label class="form-check-label" for="radioMeasrurementInch">
+                                Use <b>inches (in)</b> for sizes like waist circumference and feet (ft) for height
+                            </label>
+                        </div>
+                    </div>
+                </form>
+
+                <button class="btn btn-primary" (click)="submitMeasurementUnits()">Update Unit Settings</button>
+            </div>
         </div>
     </div>
 

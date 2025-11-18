@@ -10,6 +10,7 @@ import { MeasurementUnitDescriptionPipe } from '../../pipes/measurement-unit-des
 import { eMeasurementUnit } from '../../_generated/enums';
 import { CountryController, UserController } from '../../_generated/services';
 import { LoaderService } from '../../services/loader.service';
+import { MeasurementConverterPipe } from '../../pipes/measurement-converter.pipe';
 
 @Component({
   selector: 'app-settings',
@@ -36,6 +37,13 @@ export class Settings extends BaseValidationComponent implements OnInit {
   // Password
   formPassword: FormGroup<any>;
 
+  // Units of measure
+  formMeasurements: FormGroup<any>;
+  measurementUnits: IEnumProvider[] = [];
+  lbsId: eMeasurementUnit = 0;
+  kgId: eMeasurementUnit = 0;
+  cmId: eMeasurementUnit = 0;
+  inId: eMeasurementUnit = 0;
 
   constructor(
     private fb: FormBuilder,
@@ -46,6 +54,8 @@ export class Settings extends BaseValidationComponent implements OnInit {
 
     private countryController: CountryController,
     private userController: UserController,
+
+    private measurementConverterPipe: MeasurementConverterPipe
   ) {
     super();
 
@@ -53,6 +63,13 @@ export class Settings extends BaseValidationComponent implements OnInit {
     this.userMeasurementPreference = this.user?.measurementUnitId;
 
     this.genders = this.providers.getUserGenders();
+    this.measurementUnits = this.providers.getMeasurementUnits();
+    this.lbsId = this.getMeasurementId('lbs');
+    this.kgId = this.getMeasurementId('kg');
+    this.cmId = this.getMeasurementId('cm');
+    this.inId = this.getMeasurementId('in');
+
+
 
     this.minDob = DateTime.now().minus({ years: 80 }).toISODate();
     this.maxDob = DateTime.now().minus({ years: 14 }).toISODate();
@@ -62,6 +79,7 @@ export class Settings extends BaseValidationComponent implements OnInit {
     this.formInit_PersonalDetails();
     this.formInit_Email();
     this.formInit_Password();
+    this.formInit_Measurements();
 
   }
 
@@ -94,7 +112,7 @@ export class Settings extends BaseValidationComponent implements OnInit {
       description: [this.user?.description],
       genderId: [this.user?.genderId],
       countryId: [this.user?.countryId],
-      height: [this.user?.height],
+      height: [this.measurementConverterPipe.transform(this.user?.height, this.user?.measurementUnitId)],
     });
 
     this.countryController.GetList().toPromise()
@@ -148,6 +166,31 @@ export class Settings extends BaseValidationComponent implements OnInit {
       .then(_ => {
         if (_?.isSuccess)
           this.formPassword.reset();
+      })
+      .catch(ex => this.setErrors(ex))
+      .finally(() => this.loaderService.hidePageLoader());
+  }
+
+  // Units of measure
+
+  getMeasurementId(description: string): eMeasurementUnit {
+    return this.measurementUnits.find(_ => _.description === description)?.id ?? 0;
+  }
+
+  formInit_Measurements() {
+    this.formMeasurements = this.fb.group({
+      weightUnitId: [this.user?.weightUnitId],
+      measurementUnitId: [this.user?.measurementUnitId],
+    });
+  }
+
+  submitMeasurementUnits() {
+    this.loaderService.showPageLoader();
+
+    this.userController.UpdateMeasurementUnits(this.formMeasurements.value).toPromise()
+      .then(_ => {
+        if (_?.isSuccess)
+          this.authService.loadCurrentUser();
       })
       .catch(ex => this.setErrors(ex))
       .finally(() => this.loaderService.hidePageLoader());
