@@ -11,10 +11,11 @@ import { eMeasurementUnit } from '../../_generated/enums';
 import { CountryController, UserController } from '../../_generated/services';
 import { LoaderService } from '../../services/loader.service';
 import { MeasurementConverterPipe } from '../../pipes/measurement-converter.pipe';
+import { Functions } from '../../functions';
 
 @Component({
   selector: 'app-settings',
-  imports: [FormsModule, ReactiveFormsModule, ValidationDirective, MeasurementUnitDescriptionPipe],
+  imports: [FormsModule, ReactiveFormsModule, ValidationDirective],
   templateUrl: './settings.html',
   styleUrl: './settings.css'
 })
@@ -29,7 +30,7 @@ export class Settings extends BaseValidationComponent implements OnInit {
   selectedIso2: string | null = null;
   minDob: string;
   maxDob: string;
-  userMeasurementPreference: eMeasurementUnit | undefined;
+  userHeightMeasurementPreference: string = '';
 
   // Email
   formEmail: FormGroup<any>;
@@ -60,16 +61,18 @@ export class Settings extends BaseValidationComponent implements OnInit {
     super();
 
     this.user = this.authService.currentUserSource();
-    this.userMeasurementPreference = this.user?.measurementUnitId;
 
     this.genders = this.providers.getUserGenders();
     this.measurementUnits = this.providers.getMeasurementUnits();
+
+    this.userHeightMeasurementPreference = this.measurementUnits.find(_ => _.id === this.user?.measurementUnitId)!.description;
+    if (this.userHeightMeasurementPreference === 'in')
+      this.userHeightMeasurementPreference = 'ft';
+
     this.lbsId = this.getMeasurementId('lbs');
     this.kgId = this.getMeasurementId('kg');
     this.cmId = this.getMeasurementId('cm');
     this.inId = this.getMeasurementId('in');
-
-
 
     this.minDob = DateTime.now().minus({ years: 80 }).toISODate();
     this.maxDob = DateTime.now().minus({ years: 14 }).toISODate();
@@ -112,7 +115,7 @@ export class Settings extends BaseValidationComponent implements OnInit {
       description: [this.user?.description],
       genderId: [this.user?.genderId],
       countryId: [this.user?.countryId],
-      height: [this.measurementConverterPipe.transform(this.user?.height, this.user?.heightMeasurementUnitId)],
+      height: [this.getHeightValue()],
       heightMeasurementUnitId: [this.user?.heightMeasurementUnitId]
     });
 
@@ -128,10 +131,23 @@ export class Settings extends BaseValidationComponent implements OnInit {
   submitPersonalDetails(form: FormGroup) {
     this.loaderService.showPageLoader();
 
+
     const payload = {
       ...this.user,
       ...form.value
     };
+
+    if (this.user?.heightMeasurementUnitId) {
+      if (this.user?.measurementUnitId !== this.user?.heightMeasurementUnitId) {
+        if (this.user?.heightMeasurementUnitId === eMeasurementUnit.Centimeters) {
+          payload.height = Functions.feetToInches(payload.height);
+          payload.height = Functions.toCentimeters(payload.height);
+        }
+        else if (this.user?.heightMeasurementUnitId === eMeasurementUnit.Inches) {
+          payload.height = Functions.toInches(payload.height);
+        }
+      }
+    }
 
     this.userController.UpdatePersonalDetails(payload).toPromise()
       .then(_ => {
@@ -140,6 +156,24 @@ export class Settings extends BaseValidationComponent implements OnInit {
       })
       .catch(ex => this.setErrors(ex))
       .finally(() => this.loaderService.hidePageLoader());
+  }
+
+  getHeightValue(): number | undefined {
+    let value = this.user?.height;
+
+    if (this.user?.heightMeasurementUnitId) {
+      if (this.user?.measurementUnitId !== this.user?.heightMeasurementUnitId) {
+        if (this.user?.heightMeasurementUnitId === eMeasurementUnit.Centimeters) {
+          value = Functions.toInches(value!);
+          value = Functions.inchesToFeet(value);
+        }
+        else if (this.user?.heightMeasurementUnitId === eMeasurementUnit.Inches) {
+          value = Functions.toCentimeters(value!);
+        }
+      }
+    }
+
+    return value;
   }
 
   // Email

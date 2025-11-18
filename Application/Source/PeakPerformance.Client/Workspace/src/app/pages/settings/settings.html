@@ -38,7 +38,7 @@
                         <label for="height">Height</label>
                         <div class="input-group mb-3" validation [key]="'Height'" [errors]="errors">
                             <input type="number" class="form-control" id="height" placeholder="0" aria-label="Height" aria-describedby="height-addon" formControlName="height" />
-                            <span class="input-group-text" id="height-addon">{{ this.userMeasurementPreference | measurementUnitDescription }}</span>
+                            <span class="input-group-text" id="height-addon">{{ this.userHeightMeasurementPreference }}</span>
                         </div>
                     </div>
                     <div class="position-relative">
@@ -123,7 +123,7 @@
                         <div class="form-check">
                             <input class="form-check-input" type="radio" name="measurementUnitId" id="radioMeasrurementInch" formControlName="measurementUnitId" [value]="inId">
                             <label class="form-check-label" for="radioMeasrurementInch">
-                                Use <b>inches (in)</b> for sizes like waist circumference and feet (ft) for height
+                                Use <b>inches (in)</b> for sizes like waist circumference and <b>feet (ft)</b> for height
                             </label>
                         </div>
                     </div>

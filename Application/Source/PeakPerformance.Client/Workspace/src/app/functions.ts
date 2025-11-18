@@ -14,4 +14,17 @@ export class Functions {
     static toCentimeters(inch: number): number {
         return Number((inch * 2.54).toFixed(1));
     }
+
+    static inchesToFeet(inches: number): number {
+        const feet = Math.floor(inches / 12);
+        const remainingInches = inches % 12;
+
+        // Format: feet.inches (e.g., 5.11)
+        const formatted = Number(`${feet}.${remainingInches.toFixed(0)}`);
+        return formatted;
+    }
+
+    static feetToInches(value: number): number {
+        return Number((value * 12).toFixed(2));;
+    }
 }
