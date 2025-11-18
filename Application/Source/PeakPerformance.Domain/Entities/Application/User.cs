@@ -24,6 +24,8 @@ public class User : BaseIndexAuditedDomain<User, long>, IConfigurableEntity
 
     public int? Height { get; set; }
 
+    public eMeasurementUnit? HeightMeasurementUnitId { get; set; }
+
     public bool? IsPrivate { get; set; }
 
     // Image

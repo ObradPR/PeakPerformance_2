@@ -18,6 +18,8 @@ public class UserDto
 
     public int? Height { get; set; }
 
+    public eMeasurementUnit? HeightMeasurementUnitId { get; set; }
+
     public bool? IsPrivate { get; set; }
 
     // Units
@@ -38,6 +40,7 @@ public class UserDto
         model.GenderId = GenderId;
         model.CountryId = CountryId;
         model.Height = Height;
+        model.HeightMeasurementUnitId = HeightMeasurementUnitId ?? MeasurementUnitId;
         model.IsPrivate = IsPrivate;
     }
 }

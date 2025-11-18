@@ -112,7 +112,8 @@ export class Settings extends BaseValidationComponent implements OnInit {
       description: [this.user?.description],
       genderId: [this.user?.genderId],
       countryId: [this.user?.countryId],
-      height: [this.measurementConverterPipe.transform(this.user?.height, this.user?.measurementUnitId)],
+      height: [this.measurementConverterPipe.transform(this.user?.height, this.user?.heightMeasurementUnitId)],
+      heightMeasurementUnitId: [this.user?.heightMeasurementUnitId]
     });
 
     this.countryController.GetList().toPromise()

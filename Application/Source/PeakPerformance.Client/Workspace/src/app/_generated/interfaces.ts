@@ -37,6 +37,7 @@ export interface IUserDto
 	genderId?: eUserGender;
 	countryId?: number;
 	height?: number;
+	heightMeasurementUnitId?: eMeasurementUnit;
 	isPrivate?: boolean;
 	weightUnitId: eMeasurementUnit;
 	measurementUnitId: eMeasurementUnit;
