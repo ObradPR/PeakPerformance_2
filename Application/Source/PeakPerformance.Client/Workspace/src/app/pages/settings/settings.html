@@ -84,6 +84,29 @@
     <div class="col-12">
         <div class="col-md-12 col-lg-7">
             <h3>Sharing Settings</h3>
+
+            <div class="position-relative">
+                <form [formGroup]="formSharingSettings">
+                    <div class="position-relative">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="isPrivate" id="Public" formControlName="isPrivate" [value]="0">
+                            <label class="form-check-label" for="Public">
+                                <b>Public</b> - Share my profile with everyone
+                            </label>
+                        </div>
+                    </div>
+                    <div class="position-relative">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="isPrivate" id="Private" formControlName="isPrivate" [value]="1">
+                            <label class="form-check-label" for="Private">
+                                <b>Private</b> - Do not share my profile
+                            </label>
+                        </div>
+                    </div>
+                </form>
+
+                <button class="btn btn-primary" (click)="submitPersonalDetails(formSharingSettings)">Update Sharing Settings</button>
+            </div>
         </div>
     </div>
 

@@ -46,6 +46,9 @@ export class Settings extends BaseValidationComponent implements OnInit {
   cmId: eMeasurementUnit = 0;
   inId: eMeasurementUnit = 0;
 
+  // Sharing Settings
+  formSharingSettings: FormGroup<any>;
+
   constructor(
     private fb: FormBuilder,
 
@@ -55,8 +58,6 @@ export class Settings extends BaseValidationComponent implements OnInit {
 
     private countryController: CountryController,
     private userController: UserController,
-
-    private measurementConverterPipe: MeasurementConverterPipe
   ) {
     super();
 
@@ -83,6 +84,7 @@ export class Settings extends BaseValidationComponent implements OnInit {
     this.formInit_Email();
     this.formInit_Password();
     this.formInit_Measurements();
+    this.formInit_SharingSettings();
 
   }
 
@@ -131,10 +133,10 @@ export class Settings extends BaseValidationComponent implements OnInit {
   submitPersonalDetails(form: FormGroup) {
     this.loaderService.showPageLoader();
 
-
     const payload = {
       ...this.user,
-      ...form.value
+      ...form.value,
+      isPrivate: this.formSharingSettings.value.isPrivate === 1
     };
 
     if (this.user?.heightMeasurementUnitId) {
@@ -229,5 +231,13 @@ export class Settings extends BaseValidationComponent implements OnInit {
       })
       .catch(ex => this.setErrors(ex))
       .finally(() => this.loaderService.hidePageLoader());
+  }
+
+  // Password
+
+  formInit_SharingSettings() {
+    this.formSharingSettings = this.fb.group({
+      isPrivate: [this.user?.isPrivate ? 1 : 0]
+    });
   }
 }
