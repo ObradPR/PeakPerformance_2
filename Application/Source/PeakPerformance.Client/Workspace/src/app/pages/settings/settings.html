@@ -1,8 +1,8 @@
-<div class="col-12 info-wrapper">
+<div class="col-12 col-lg-7 mx-auto info-wrapper">
     <h1>Settings</h1>
 
-    <div class="col-12">
-        <div class="col-md-12 col-lg-7">
+    <div class="col-12 my-5">
+        <div class="col-md-12">
             <h3>Personal Details</h3>
 
             <div class="position-relative">
@@ -28,7 +28,7 @@
                         </select>
                     </div>
                     <div class="position-relative">
-                        <label for="dateOfBirth" class="form-label">Date Of Birth</label>
+                        <label for="dateOfBirth">Date Of Birth</label>
                         <div class="input-group mb-4" validation [key]="'DateOfBirth'" [errors]="errors">
                             <span class="input-group-text" id="dateOfBirth-addon"><i class="fa-solid fa-calendar"></i></span>
                             <input type="date" [min]="minDob" [max]="maxDob" class="form-control" id="dateOfBirth" placeholder="Date Of Birth" aria-label="Date Of Birth" aria-describedby="dateOfBirth-addon" formControlName="dateOfBirth" />
@@ -63,8 +63,8 @@
                     </div>
 
                     <div class="position-relative">
-                        <label for="description" class="form-label">Description</label>
-                        <div class="input-group mb-4" validation [key]="'Description'" [errors]="errors">
+                        <label for="description">Description</label>
+                        <div class="input-group mb-3" validation [key]="'Description'" [errors]="errors">
                             <textarea class="form-control" id="description" placeholder="Something about yourself..." aria-label="Description" aria-describedby="description-addon" formControlName="description" rows="3"></textarea>
                         </div>
                     </div>
@@ -76,7 +76,7 @@
     </div>
 
     <div class="col-12">
-        <div class="col-md-12 col-lg-7">
+        <div class="col-md-12">
             <h3>Profile Photo</h3>
 
             <div class="position-relative">
@@ -135,12 +135,12 @@
         </div>
     </div>
 
-    <div class="col-12">
-        <div class="col-md-12 col-lg-7">
+    <div class="col-12 my-5">
+        <div class="col-md-12">
             <h3>Sharing Settings</h3>
 
             <div class="position-relative">
-                <form [formGroup]="formSharingSettings">
+                <form [formGroup]="formSharingSettings" class="mb-3">
                     <div class="position-relative">
                         <div class="form-check">
                             <input class="form-check-input" type="radio" name="isPrivate" id="Public" formControlName="isPrivate" [value]="0">
@@ -165,11 +165,11 @@
     </div>
 
     <div class="col-12">
-        <div class="col-md-12 col-lg-7">
-            <h3>Units of Measure</h3>
+        <div class="col-md-12">
+            <h3 class="mb-2">Units of Measure</h3>
 
             <div class="position-relative">
-                <form [formGroup]="formMeasurements">
+                <form [formGroup]="formMeasurements" class="mb-3">
                     <h4>Weight</h4>
                     <div class="position-relative">
                         <div class="form-check">
@@ -187,7 +187,7 @@
                             </label>
                         </div>
                     </div>
-                    <h4>Size and Height</h4>
+                    <h4 class="mt-3">Size and Height</h4>
                     <div class="position-relative">
                         <div class="form-check">
                             <input class="form-check-input" type="radio" name="measurementUnitId" id="radioMeasrurementCm" formControlName="measurementUnitId" [value]="cmId">
@@ -211,15 +211,15 @@
         </div>
     </div>
 
-    <div class="col-12">
-        <div class="col-md-12 col-lg-7">
+    <div class="col-12 my-5">
+        <div class="col-md-12">
             <h3>Account Email</h3>
 
             <div class="position-relative">
                 <form [formGroup]="formEmail">
                     <div class="position-relative">
-                        <label for="email" class="form-label">Email</label>
-                        <div class="input-group mb-4" validation [key]="'Email'" [errors]="errors">
+                        <label for="email">Email</label>
+                        <div class="input-group mb-3" validation [key]="'Email'" [errors]="errors">
                             <span class="input-group-text" id="email-addon"><i class="fa-solid fa-at"></i></span>
                             <input type="email" class="form-control" id="email" placeholder="Email" aria-label="Email" aria-describedby="email-addon" formControlName="email" />
                         </div>
@@ -233,27 +233,27 @@
     </div>
 
     <div class="col-12">
-        <div class="col-md-12 col-lg-7">
+        <div class="col-md-12">
             <h3>Change Password</h3>
 
             <div class="position-relative">
                 <form [formGroup]="formPassword">
                     <div class="position-relative">
-                        <label for="oldPassword" class="form-label">Old Password</label>
+                        <label for="oldPassword">Old Password</label>
                         <div class="input-group mb-2" validation [key]="'OldPassword'" [errors]="errors">
-                            <input type="password" class="form-control" id="password" placeholder="Old Password" aria-label="Old Password" aria-describedby="oldPassword-addon" formControlName="oldPassword" />
+                            <input type="password" class="form-control" id="password" aria-label="Old Password" aria-describedby="oldPassword-addon" formControlName="oldPassword" />
                         </div>
                     </div>
                     <div class="position-relative">
-                        <label for="newPassword" class="form-label">New Password</label>
+                        <label for="newPassword">New Password</label>
                         <div class="input-group mb-2" validation [key]="'NewPassword'" [errors]="errors">
-                            <input type="password" class="form-control" id="password" placeholder="New Password" aria-label="New Password" aria-describedby="newPassword-addon" formControlName="newPassword" />
+                            <input type="password" class="form-control" id="password" aria-label="New Password" aria-describedby="newPassword-addon" formControlName="newPassword" />
                         </div>
                     </div>
                     <div class="position-relative">
-                        <label for="repeatPassword" class="form-label">Repeat Password</label>
-                        <div class="input-group mb-2" validation [key]="'RepeatPassword'" [errors]="errors">
-                            <input type="password" class="form-control" id="password" placeholder="Repeat Password" aria-label="Repeat Password" aria-describedby="repeatPassword-addon" formControlName="repeatPassword" />
+                        <label for="repeatPassword">Repeat Password</label>
+                        <div class="input-group mb-3" validation [key]="'RepeatPassword'" [errors]="errors">
+                            <input type="password" class="form-control" id="password" aria-label="Repeat Password" aria-describedby="repeatPassword-addon" formControlName="repeatPassword" />
                         </div>
                     </div>
                 </form>
