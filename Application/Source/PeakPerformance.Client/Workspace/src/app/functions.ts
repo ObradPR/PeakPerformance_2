@@ -27,4 +27,43 @@ export class Functions {
     static feetToInches(value: number): number {
         return Number((value * 12).toFixed(2));;
     }
+
+    static formatRequestDates(data: any): void {
+        // Ignore things that aren't objects.
+        if (typeof data !== 'object')
+            return data;
+
+        for (let key in data) {
+            if (data.hasOwnProperty(key)) {
+                const value = data[key];
+
+                if (value instanceof Date) {
+                    data[key] = value.toISOString();
+                } else if (typeof value === 'object') {
+                    this.formatRequestDates(value);
+                }
+            }
+        }
+    }
+
+    static appendFormData(formData: FormData, data: any, parentKey = '') {
+        for (const key in data) {
+            if (data.hasOwnProperty(key)) {
+                const value = data[key];
+                const fullKey = parentKey ? `${parentKey}.${key}` : key;
+
+                if (value instanceof Date) {
+                    formData.append(fullKey, value.toISOString());
+                }
+                else if (typeof value === 'object' && value != null) {
+                    this.appendFormData(formData, value, fullKey);
+                }
+                else {
+                    if (value !== null && value !== undefined) {
+                        formData.append(fullKey, value as any);
+                    }
+                }
+            }
+        }
+    }
 }

@@ -57,4 +57,9 @@ public class UserController(IMediator mediator) : BaseController(mediator)
     [Authorize]
     [AngularMethod(typeof(BaseResponseWrapper))]
     public async Task<IActionResult> Deactivate() => Result(await Mediator.Send(new DeactivateCommand()));
+
+    [HttpDelete]
+    [Authorize]
+    [AngularMethod(typeof(BaseResponseWrapper))]
+    public async Task<IActionResult> DeleteProfilePicture() => Result(await Mediator.Send(new DeleteProfilePictureCommand()));
 }

@@ -2,6 +2,8 @@
 
 public class UserDto
 {
+    public long Id { get; set; }
+
     public string FullName { get; set; }
 
     public string Username { get; set; }
@@ -21,6 +23,10 @@ public class UserDto
     public eMeasurementUnit? HeightMeasurementUnitId { get; set; }
 
     public bool? IsPrivate { get; set; }
+
+    // Image
+
+    public string ProfilePictureUrl { get; set; }
 
     // Units
 

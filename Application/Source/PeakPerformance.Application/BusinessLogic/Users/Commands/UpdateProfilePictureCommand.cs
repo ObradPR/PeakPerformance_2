@@ -19,7 +19,7 @@ public class UpdateProfilePictureCommand(FileInformationDto file) : IRequest<Bas
             if (model == null)
                 return new(new Error(nameof(User), ResourceValidation.Not_Found.FormatWith(nameof(User))));
 
-            var imageUploadResult = await cloudinaryService.UploadPhotoAsync(mapper.Map<FileInformation>(model));
+            var imageUploadResult = await cloudinaryService.UploadPhotoAsync(mapper.Map<FileInformation>(request.File));
 
             if (imageUploadResult.Error != null)
                 throw new UploadFileException(imageUploadResult.Error.Message);

@@ -30,6 +30,6 @@ public class AutoMappingProfiles : BaseAutoMapperProfile
 
         // Value objects
         CreateMap<CurrentBodyInfo, CurrentBodyInfoDto>();
-        CreateMap<FileInformation, FileInformationDto>();
+        CreateMap<FileInformation, FileInformationDto>().ReverseMap();
     }
 }

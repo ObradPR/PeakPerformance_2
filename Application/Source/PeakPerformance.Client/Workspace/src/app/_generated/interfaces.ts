@@ -29,6 +29,7 @@ export interface IRegistrationDto
 }
 export interface IUserDto
 {
+	id: number;
 	fullName: string;
 	username: string;
 	email: string;
@@ -39,6 +40,7 @@ export interface IUserDto
 	height?: number;
 	heightMeasurementUnitId?: eMeasurementUnit;
 	isPrivate?: boolean;
+	profilePictureUrl: string;
 	weightUnitId: eMeasurementUnit;
 	measurementUnitId: eMeasurementUnit;
 }

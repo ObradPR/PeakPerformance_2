@@ -78,6 +78,60 @@
     <div class="col-12">
         <div class="col-md-12 col-lg-7">
             <h3>Profile Photo</h3>
+
+            <div class="position-relative">
+                <form [formGroup]="formProfilePicture">
+
+                    <div class="d-flex flex-column">
+
+                        <!-- CIRCLE IMAGE WITH HOVER PENCIL -->
+                        <div class="profile-image-wrapper mb-3" (click)="fileInput.click()">
+
+                            <!-- Real Image -->
+                             @if(previewImage) {
+                                <img [src]="previewImage" class="profile-image"/>
+                             }
+                            <!-- Default User Icon -->
+                             @else {
+                                <div class="default-icon">
+                                    <i class="fa-solid fa-user"></i>
+                                </div>
+                             }
+
+                            <!-- Pencil Overlay -->
+                            <div class="edit-overlay">
+                                <i class="fa-solid fa-pen"></i>
+                            </div>
+                        </div>
+
+                        <!-- Hidden File Input -->
+                        <input type="file" #fileInput accept="image/*" style="display:none" (change)="onFileSelected($event)" />
+
+                        <!-- ACTION BUTTONS -->
+                        <div class="mt-2 d-flex align-items-center gap-2">
+                            <button class="btn btn-primary" type="button" (click)="submitProfilePicture()">
+                                Update Profile Picture
+                            </button>
+
+                            <!-- DELETE Picture -->
+                             @if(originalImage) {
+                                 <button class="btn btn-danger" type="button" (click)="deletePicture()">
+                                     Delete Picture
+                                 </button>
+                             }
+
+                            <!-- CANCEL CHANGES (only when user selected a new image) -->
+                             @if(hasUnsavedChange) {
+                                 <button class="btn btn-outline-secondary" type="button" (click)="cancelChanges()">
+                                     Cancel Changes
+                                 </button>
+                             }
+                        </div>
+
+                    </div>
+
+                </form>
+            </div>
         </div>
     </div>
 

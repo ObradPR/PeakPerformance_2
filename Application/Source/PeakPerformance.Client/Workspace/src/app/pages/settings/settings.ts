@@ -12,6 +12,8 @@ import { CountryController, UserController } from '../../_generated/services';
 import { LoaderService } from '../../services/loader.service';
 import { MeasurementConverterPipe } from '../../pipes/measurement-converter.pipe';
 import { Functions } from '../../functions';
+import { FileUploadService } from '../../services/file-upload.service';
+import { finalize, take } from 'rxjs';
 
 @Component({
   selector: 'app-settings',
@@ -49,12 +51,20 @@ export class Settings extends BaseValidationComponent implements OnInit {
   // Sharing Settings
   formSharingSettings: FormGroup<any>;
 
+  // Profile Picture
+  formProfilePicture: FormGroup<any>;
+
+  previewImage: string | null = null;
+  originalImage: string | null = null;
+  hasUnsavedChange = false;
+
   constructor(
     private fb: FormBuilder,
 
     private authService: AuthService,
     private providers: Providers,
     private loaderService: LoaderService,
+    private fileUploadService: FileUploadService,
 
     private countryController: CountryController,
     private userController: UserController,
@@ -77,6 +87,9 @@ export class Settings extends BaseValidationComponent implements OnInit {
 
     this.minDob = DateTime.now().minus({ years: 80 }).toISODate();
     this.maxDob = DateTime.now().minus({ years: 14 }).toISODate();
+
+    this.originalImage = this.user?.profilePictureUrl ?? null;
+    this.previewImage = this.originalImage;
   }
 
   ngOnInit(): void {
@@ -85,7 +98,7 @@ export class Settings extends BaseValidationComponent implements OnInit {
     this.formInit_Password();
     this.formInit_Measurements();
     this.formInit_SharingSettings();
-
+    this.formInit_ProfilePicture();
   }
 
   // events
@@ -94,6 +107,27 @@ export class Settings extends BaseValidationComponent implements OnInit {
     const selectedId = Number(event.target.value);
     const country = this.countries.find(c => c.id === selectedId);
     this.selectedIso2 = country?.isO2 ?? null;
+  }
+
+  onFileSelected(event: any) {
+    const file: File = event.target.files[0];
+    if (!file) return;
+
+    console.log(file);
+
+    this.formProfilePicture.patchValue({ profileImage: file });
+    this.hasUnsavedChange = true;
+
+    // Load preview
+    const reader = new FileReader();
+    reader.onload = () => this.previewImage = reader.result as string;
+    reader.readAsDataURL(file);
+  }
+
+  cancelChanges() {
+    this.previewImage = this.originalImage;
+    this.formProfilePicture.patchValue({ profileImage: null });
+    this.hasUnsavedChange = false;
   }
 
   // Personal Details
@@ -239,5 +273,43 @@ export class Settings extends BaseValidationComponent implements OnInit {
     this.formSharingSettings = this.fb.group({
       isPrivate: [this.user?.isPrivate ? 1 : 0]
     });
+  }
+
+  // Profile Picture
+
+  formInit_ProfilePicture() {
+    this.formProfilePicture = this.fb.group({
+      profileImage: [null]
+    });
+  }
+
+  submitProfilePicture() {
+    const file = this.formProfilePicture.value.profileImage;
+    if (!file) return;
+
+    this.loaderService.showPageLoader();
+    this.fileUploadService.upload('/User/UpdateProfilePicture', file, { userId: this.user!.id })
+      .pipe(
+        take(1),
+        finalize(() => this.loaderService.hidePageLoader())
+      ).subscribe({
+        next: () => {
+          this.authService.loadCurrentUser();
+          this.originalImage = this.previewImage;
+          this.hasUnsavedChange = false;
+        }
+      });
+  }
+
+  deletePicture() {
+    this.loaderService.showPageLoader();
+
+    this.userController.DeleteProfilePicture().toPromise()
+      .then(_ => {
+        if (_?.isSuccess)
+          this.authService.loadCurrentUser(); // + show modal for success
+      })
+      .catch(ex => this.setErrors(ex))
+      .finally(() => this.loaderService.hidePageLoader())
   }
 }
