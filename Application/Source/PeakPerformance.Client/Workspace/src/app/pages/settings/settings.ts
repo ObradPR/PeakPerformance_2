@@ -194,8 +194,10 @@ export class Settings extends BaseValidationComponent implements OnInit {
 
     this.userController.UpdatePersonalDetails(payload).toPromise()
       .then(_ => {
-        if (_?.isSuccess)
+        if (_?.isSuccess) {
           this.authService.loadCurrentUser();
+          this.cleanErrors();
+        }
       })
       .catch(ex => this.setErrors(ex))
       .finally(() => this.loaderService.hidePageLoader());
@@ -245,8 +247,10 @@ export class Settings extends BaseValidationComponent implements OnInit {
 
     this.userController.ChangePassword(this.formPassword.value).toPromise()
       .then(_ => {
-        if (_?.isSuccess)
+        if (_?.isSuccess) {
           this.formPassword.reset();
+          this.cleanErrors();
+        }
       })
       .catch(ex => this.setErrors(ex))
       .finally(() => this.loaderService.hidePageLoader());

@@ -16,4 +16,8 @@ export abstract class BaseValidationComponent {
         this.errors[err.key] = err.value;
     }
   }
+
+  protected cleanErrors() {
+    this.errors = {};
+  }
 }
