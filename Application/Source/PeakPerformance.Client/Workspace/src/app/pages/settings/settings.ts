@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, effect, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BaseValidationComponent } from '../_base/base.component/base-validation.component';
 import { AuthService } from '../../services/auth.service';
@@ -71,14 +71,22 @@ export class Settings extends BaseValidationComponent implements OnInit {
   ) {
     super();
 
-    this.user = this.authService.currentUserSource();
+    effect(() => {
+      const user = this.authService.currentUserSource();
+
+      if (user) {
+        this.user = user;
+        this.formsInit();
+
+        this.updateHeightUnit();
+        this.updatePicture();
+
+        this.selectedIso2 = this.countries.find(_ => _.id === this.user?.countryId)?.isO2 ?? null;
+      }
+    })
 
     this.genders = this.providers.getUserGenders();
     this.measurementUnits = this.providers.getMeasurementUnits();
-
-    this.userHeightMeasurementPreference = this.measurementUnits.find(_ => _.id === this.user?.measurementUnitId)!.description;
-    if (this.userHeightMeasurementPreference === 'in')
-      this.userHeightMeasurementPreference = 'ft';
 
     this.lbsId = this.getMeasurementId('lbs');
     this.kgId = this.getMeasurementId('kg');
@@ -87,18 +95,37 @@ export class Settings extends BaseValidationComponent implements OnInit {
 
     this.minDob = DateTime.now().minus({ years: 80 }).toISODate();
     this.maxDob = DateTime.now().minus({ years: 14 }).toISODate();
-
-    this.originalImage = this.user?.profilePictureUrl ?? null;
-    this.previewImage = this.originalImage;
   }
 
   ngOnInit(): void {
+    this.countryController.GetList().toPromise()
+      .then(_ => {
+        if (_?.isSuccess) {
+          this.countries = _.data
+          this.selectedIso2 = this.countries.find(_ => _.id === this.user?.countryId)?.isO2 ?? null;
+
+        }
+      });
+  }
+
+  formsInit() {
     this.formInit_PersonalDetails();
     this.formInit_Email();
     this.formInit_Password();
     this.formInit_Measurements();
     this.formInit_SharingSettings();
     this.formInit_ProfilePicture();
+  }
+
+  updateHeightUnit() {
+    this.userHeightMeasurementPreference = this.measurementUnits.find(_ => _.id === this.user?.measurementUnitId)!.description;
+    if (this.userHeightMeasurementPreference === 'in')
+      this.userHeightMeasurementPreference = 'ft';
+  }
+
+  updatePicture() {
+    this.originalImage = this.user?.profilePictureUrl ?? null;
+    this.previewImage = this.originalImage;
   }
 
   // events
@@ -154,14 +181,6 @@ export class Settings extends BaseValidationComponent implements OnInit {
       height: [this.getHeightValue()],
       heightMeasurementUnitId: [this.user?.heightMeasurementUnitId]
     });
-
-    this.countryController.GetList().toPromise()
-      .then(_ => {
-        if (_?.isSuccess) {
-          this.countries = _.data
-          this.selectedIso2 = this.countries.find(_ => _.id === this.user?.countryId)?.isO2 ?? null;
-        }
-      });
   }
 
   submitPersonalDetails(form: FormGroup) {
