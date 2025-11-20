@@ -22,7 +22,7 @@ public class User : BaseIndexAuditedDomain<User, long>, IConfigurableEntity
 
     public long? CountryId { get; set; }
 
-    public int? Height { get; set; }
+    public decimal? Height { get; set; }
 
     public eMeasurementUnit? HeightMeasurementUnitId { get; set; }
 
@@ -96,6 +96,7 @@ public class User : BaseIndexAuditedDomain<User, long>, IConfigurableEntity
             _.Property(_ => _.Password).IsRequired();
             _.Property(_ => _.DateOfBirth).IsRequired();
             _.Property(_ => _.Description).HasMaxLength(500);
+            _.Property(_ => _.Height).HasPrecision(4, 1);
         });
     }
 }

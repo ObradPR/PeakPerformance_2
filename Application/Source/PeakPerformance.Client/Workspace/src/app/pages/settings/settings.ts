@@ -175,15 +175,22 @@ export class Settings extends BaseValidationComponent implements OnInit {
 
     if (this.user?.heightMeasurementUnitId) {
       if (this.user?.measurementUnitId !== this.user?.heightMeasurementUnitId) {
-        if (this.user?.heightMeasurementUnitId === eMeasurementUnit.Centimeters) {
-          payload.height = Functions.feetToInches(payload.height);
-          payload.height = Functions.toCentimeters(payload.height);
+        if (this.user?.measurementUnitId === eMeasurementUnit.Centimeters) {
+          // dont do anythign, since we presented this in cm (as measurementUnitId is cm)
         }
-        else if (this.user?.heightMeasurementUnitId === eMeasurementUnit.Inches) {
-          payload.height = Functions.toInches(payload.height);
+        else if (this.user?.measurementUnitId === eMeasurementUnit.Inches) {
+          // if we presented to feets just return them back to inches
+          payload.height = Functions.feetToInches(payload.height);
         }
       }
     }
+    else {
+      if (this.user?.measurementUnitId === eMeasurementUnit.Inches) {
+        payload.height = Functions.feetToInches(payload.height);
+      }
+    }
+
+    payload.height = payload.height <= 0 ? null : payload.height;
 
     this.userController.UpdatePersonalDetails(payload).toPromise()
       .then(_ => {
@@ -199,13 +206,16 @@ export class Settings extends BaseValidationComponent implements OnInit {
 
     if (this.user?.heightMeasurementUnitId) {
       if (this.user?.measurementUnitId !== this.user?.heightMeasurementUnitId) {
-        if (this.user?.heightMeasurementUnitId === eMeasurementUnit.Centimeters) {
+        if (this.user?.measurementUnitId === eMeasurementUnit.Inches) {
           value = Functions.toInches(value!);
           value = Functions.inchesToFeet(value);
         }
-        else if (this.user?.heightMeasurementUnitId === eMeasurementUnit.Inches) {
+        else if (this.user?.measurementUnitId === eMeasurementUnit.Centimeters) {
           value = Functions.toCentimeters(value!);
         }
+      }
+      else if (this.user?.measurementUnitId === eMeasurementUnit.Inches) {
+        value = Functions.inchesToFeet(value!);
       }
     }
 

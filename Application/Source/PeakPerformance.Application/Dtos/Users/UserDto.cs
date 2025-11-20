@@ -18,7 +18,7 @@ public class UserDto
 
     public long? CountryId { get; set; }
 
-    public int? Height { get; set; }
+    public decimal? Height { get; set; }
 
     public eMeasurementUnit? HeightMeasurementUnitId { get; set; }
 
@@ -46,7 +46,9 @@ public class UserDto
         model.GenderId = GenderId;
         model.CountryId = CountryId;
         model.Height = Height;
-        model.HeightMeasurementUnitId = HeightMeasurementUnitId ?? MeasurementUnitId;
+        model.HeightMeasurementUnitId = Height == null
+          ? null
+          : MeasurementUnitId;
         model.IsPrivate = IsPrivate;
     }
 }
