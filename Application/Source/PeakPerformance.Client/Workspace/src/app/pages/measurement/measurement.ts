@@ -16,6 +16,7 @@ import { QService } from '../../services/q.service';
 import { DateTime } from 'luxon';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { FormsModule } from '@angular/forms';
+import { PerformanceService } from '../../services/performance.service';
 
 enum eMeasurementInfoTab {
   Measurements = 0,
@@ -69,6 +70,8 @@ export class Measurement implements OnDestroy {
     private referenceService: Providers,
     private $q: QService,
     private sharedService: SharedService,
+
+    private performanceService: PerformanceService,
 
     private measurementController: MeasurementController,
     private measurementGoalController: MeasurementGoalController,
@@ -230,7 +233,9 @@ export class Measurement implements OnDestroy {
           this.measurementGoalsChart = result[1].data;
         }
 
+        this.performanceService.start('chart');
         this.chartInit();
+        this.performanceService.end('chart');
       })
   }
 
