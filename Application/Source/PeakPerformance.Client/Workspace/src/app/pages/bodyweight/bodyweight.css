@@ -1,3 +1,9 @@
+
+.cover-img-bodyweight {
+  background-image: url('../../../assets/images/bodyweights.jpg');
+  background-position: center;
+}
+
 .info-header {
     font-size: 0.8em;
 }
