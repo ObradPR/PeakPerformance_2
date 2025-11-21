@@ -40,7 +40,7 @@
 }
 .data-table th:nth-child(2), 
 .data-table td:nth-child(2) {
-	 text-align: center;
+	 text-align: left;
 }
 .data-table th:nth-child(3), 
 .data-table td:nth-child(3) {
@@ -51,16 +51,23 @@
 	 width: 30px;
 	 text-align: center;
 }
-.data-table-2 th:nth-child(3), 
-.data-table-2 td:nth-child(3) {
-	 text-align: center;
+.data-table-goals th:nth-child(1), 
+.data-table-goals td:nth-child(1),
+.data-table-goals th:nth-child(2), 
+.data-table-goals td:nth-child(2) {
+	width: 85px;
 }
-.data-table-2 th:nth-child(4), 
-.data-table-2 td:nth-child(4) {
+.data-table-goals th:nth-child(3), 
+.data-table-goals td:nth-child(3) {
+	 text-align: left;
+}
+.data-table-goals th:nth-child(4), 
+.data-table-goals td:nth-child(4) {
 	 text-align: right;
+     width: 75px;
 }
-.data-table-2 th:nth-child(5), 
-.data-table-2 td:nth-child(5) {
+.data-table-goals th:nth-child(5), 
+.data-table-goals td:nth-child(5) {
 	 width: 30px;
 	 text-align: center;
 }

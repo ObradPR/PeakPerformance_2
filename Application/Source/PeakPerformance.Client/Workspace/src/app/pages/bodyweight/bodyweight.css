@@ -40,7 +40,11 @@
 }
 .data-table th:nth-child(2), 
 .data-table td:nth-child(2) {
-	 text-align: center;
+	 text-align: right;
+}
+.data-table-goals th:nth-child(2), 
+.data-table-goals td:nth-child(2) {
+	 text-align: left;
 }
 .data-table th:nth-child(3), 
 .data-table td:nth-child(3) {

@@ -71,7 +71,11 @@
                     <tbody>
                         @for (row of bodyweights?.data; track row; let idx = $index) {
                             <tr [ngClass]="{'odd-row': idx % 2 !== 0}">
-                                <td>{{ row.logDate! | utcToLocal }}</td>
+                                <td>
+                                    {{ row.logDate! | utcToLocal:'MMM d' }}
+                                    <br/>
+                                    <small>{{ row.logDate! | utcToLocal:'yyyy' }}</small>
+                                </td>
                                 <td>{{ row.value | measurementConverter:row.weightUnitId }}</td>
                                 <td>{{ row.bodyFatPercentage ? row.bodyFatPercentage + ' %' : "" }}</td>
                                 <td>
@@ -104,7 +108,7 @@
                 </div>
             }
             @else if (selectedTab === 1) {
-                <table class="data-table">
+                <table class="data-table data-table-goals">
                     <thead>
                         <tr>
                             <th>Start</th>
@@ -116,8 +120,16 @@
                     <tbody>
                         @for (row of bodyweightGoals?.data; track row; let idx = $index) {
                             <tr [ngClass]="{'odd-row': idx % 2 !== 0}">
-                                <td>{{ row.startDate! | utcToLocal }}</td>
-                                <td>{{ row.endDate! | utcToLocal }}</td>
+                                 <td>
+                                    {{ row.startDate! | utcToLocal:'MMM d' }}
+                                    <br/>
+                                    <small>{{ row.startDate! | utcToLocal:'yyyy' }}</small>
+                                </td>
+                                <td>
+                                    {{ row.endDate! | utcToLocal:'MMM d' }}
+                                    <br/>
+                                    <small>{{ row.endDate! | utcToLocal:'yyyy' }}</small>
+                                </td>
                                 <td>{{ row.target | measurementConverter:row.weightUnitId }}</td>
                                 <td>
                                     <span class="edit-dots" (click)="onOpenEditMenu(idx)">⋮</span>
