@@ -31,8 +31,11 @@ enum eMeasurementInfoTab {
 })
 export class Measurement implements OnDestroy {
   private chart!: Chart;
+
   measurements?: IPagingResult<IMeasurementDto>;
   measurementsChart: IPagingResult<IMeasurementDto>;
+  private measurementLookup: Partial<Record<eBodyPart, Record<string, number>>> = {};
+
   measurementGoals?: IPagingResult<IMeasurementGoalDto>;
   measurementGoalsChart: IPagingResult<IMeasurementGoalDto>;
 
@@ -70,8 +73,6 @@ export class Measurement implements OnDestroy {
     private referenceService: Providers,
     private $q: QService,
     private sharedService: SharedService,
-
-    private performanceService: PerformanceService,
 
     private measurementController: MeasurementController,
     private measurementGoalController: MeasurementGoalController,
@@ -233,9 +234,7 @@ export class Measurement implements OnDestroy {
           this.measurementGoalsChart = result[1].data;
         }
 
-        this.performanceService.start('chart');
         this.chartInit();
-        this.performanceService.end('chart');
       })
   }
 
@@ -302,6 +301,7 @@ export class Measurement implements OnDestroy {
       allDates.push(date.toFormat('MMM dd yyyy'));
     }
 
+    this.buildMeasurementLookup();
     const dataDatasets = this.getDatasets(allDates);
 
     const goalDatasets = this.getGoalDatasets(allDates);
@@ -407,19 +407,22 @@ export class Measurement implements OnDestroy {
   }
 
   private getBodyPartData(allDates: string[], bodyPartId: eBodyPart): (number | null)[] {
-    return allDates.map(date => {
-      const log = this.measurementsChart.data.find(_ => {
-        const localDate = this.sharedService.getLocalDate(_.logDate);
-        return DateTime.fromJSDate(localDate).toFormat('MMM dd yyyy') === date && _.bodyPartId === bodyPartId
-      });
+    const lookup = this.measurementLookup[bodyPartId] || {};
+    return allDates.map(date => lookup[date] ?? null);
+  }
 
-      let data = null;
-      data = log
-        ? parseFloat(this.measurementConverterPipe.transform(log['size'], log['measurementUnitId']))
-        : null;
+  private buildMeasurementLookup() {
+    this.measurementLookup = {} as Partial<Record<eBodyPart, Record<string, number>>>;
 
-      return data;
-    });
+    for (const m of this.measurementsChart.data) {
+      const localDate = this.sharedService.getLocalDate(m.logDate);
+      const dateKey = DateTime.fromJSDate(localDate).toFormat('MMM dd yyyy');
+
+      if (!this.measurementLookup[m.bodyPartId])
+        this.measurementLookup[m.bodyPartId] = {};
+
+      this.measurementLookup[m.bodyPartId]![dateKey] = parseFloat(this.measurementConverterPipe.transform(m.size, m.measurementUnitId));
+    }
   }
 
   private getGoalDatasets(allDates: string[]) {
