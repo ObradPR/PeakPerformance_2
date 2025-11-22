@@ -1,5 +1,4 @@
 ﻿using PeakPerformance.Application.Dtos._Base;
-using PeakPerformance.Common.Extensions;
 
 namespace PeakPerformance.Application.Extensions;
 

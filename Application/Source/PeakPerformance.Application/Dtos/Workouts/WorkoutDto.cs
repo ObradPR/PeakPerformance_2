@@ -1,4 +1,6 @@
-﻿namespace PeakPerformance.Application.Dtos.Workouts;
+﻿using PeakPerformance.Application.Dtos.Exercises;
+
+namespace PeakPerformance.Application.Dtos.Workouts;
 
 public class WorkoutDto
 {
@@ -22,6 +24,10 @@ public class WorkoutDto
     public decimal? Bodyweight { get; set; }
 
     public eMeasurementUnit? BodyweightMeasurementUnitId { get; set; }
+
+    public List<WorkoutExerciseDto> Exercises { get; set; }
+
+    public TotalDto Total { get; set; }
 
     // methods
 

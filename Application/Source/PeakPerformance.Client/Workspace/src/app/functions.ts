@@ -4,7 +4,7 @@ export class Functions {
     }
 
     static toKilograms(lbs: number): number {
-        return Number((lbs / 2.20462).toFixed(2));
+        return Number((lbs / 2.20462).toFixed(1));
     }
 
     static toInches(cm: number): number {

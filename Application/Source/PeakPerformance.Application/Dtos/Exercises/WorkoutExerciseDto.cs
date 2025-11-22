@@ -1,4 +1,6 @@
-﻿namespace PeakPerformance.Application.Dtos.Exercises;
+﻿using PeakPerformance.Application.Dtos.Sets;
+
+namespace PeakPerformance.Application.Dtos.Exercises;
 
 public class WorkoutExerciseDto
 {
@@ -14,6 +16,8 @@ public class WorkoutExerciseDto
 
     [Display(Name = "Workout")]
     public long WorkoutId { get; set; }
+
+    public List<WorkoutExerciseSetDto> Sets { get; set; }
 
     // method
 
