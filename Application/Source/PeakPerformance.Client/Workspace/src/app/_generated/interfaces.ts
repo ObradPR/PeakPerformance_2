@@ -1,6 +1,8 @@
 import { eUserGender } from './enums';
 import { eMeasurementUnit } from './enums';
 import { eBodyPart } from './enums';
+import { eSetRpe } from './enums';
+import { eSetType } from './enums';
 import { eChartTimespan } from './enums';
 
 export interface IAuthorizationDto
@@ -159,6 +161,40 @@ export interface IMeasurementGoalDto
 	measurementUnitId: eMeasurementUnit;
 	startDate: Date;
 	endDate: Date;
+}
+export interface IWorkoutDto
+{
+	id: number;
+	userId: number;
+	name: string;
+	notes: string;
+	copiedFromId?: number;
+	logDate: Date;
+	startAt?: any;
+	finishAt?: any;
+	bodyweight?: number;
+	bodyweightMeasurementUnitId?: eMeasurementUnit;
+}
+export interface IWorkoutExerciseDto
+{
+	id: number;
+	exerciseId?: number;
+	apiExerciseId: string;
+	name: string;
+	notes: string;
+	workoutId: number;
+}
+export interface IWorkoutExerciseSetDto
+{
+	id: number;
+	workoutExerciseId: number;
+	weight?: number;
+	weightMeasurementUnitId?: eMeasurementUnit;
+	reps: number;
+	rpeTypeId?: eSetRpe;
+	typeId?: eSetType;
+	rest?: number;
+	notes: string;
 }
 export interface IPagingResult<TEntity>
 {

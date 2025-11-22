@@ -30,7 +30,7 @@ public class WorkoutExerciseSetDto
         model.Reps = Reps;
         model.RpeTypeId = RpeTypeId;
         model.TypeId = TypeId;
-        model.Rest = Rest.Value; // remove after migration
+        model.Rest = Rest;
         model.Notes = Notes;
     }
 }

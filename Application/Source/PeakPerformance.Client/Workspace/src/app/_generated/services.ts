@@ -15,14 +15,17 @@ import { IBaseResponseWrapper } from './interfaces';
 import { IBodyweightGoalDto } from './interfaces';
 import { IBodyweightGoalSearchOptions } from './interfaces';
 import { ICountryDto } from './interfaces';
+import { IWorkoutExerciseDto } from './interfaces';
 import { IMeasurementDto } from './interfaces';
 import { IMeasurementSearchOptions } from './interfaces';
 import { IMeasurementCreateDto } from './interfaces';
 import { IMeasurementGoalDto } from './interfaces';
 import { IMeasurementGoalSearchOptions } from './interfaces';
 import { IMeasurementGoalCreateDto } from './interfaces';
+import { IWorkoutExerciseSetDto } from './interfaces';
 import { IUserDto } from './interfaces';
 import { IChangePasswordDto } from './interfaces';
+import { IWorkoutDto } from './interfaces';
 
 @Injectable({ providedIn: 'root' }) export abstract class BaseController
 {
@@ -192,6 +195,41 @@ import { IChangePasswordDto } from './interfaces';
 		super(httpClient, settingsService);
 	}
 }
+@Injectable({ providedIn: 'root' }) export class ExerciseController extends BaseController
+{
+	public Save(data: IWorkoutExerciseDto) : Observable<IBaseResponseWrapper | null>
+	{
+		const body = <any>data;
+		return this.httpClient.post<IBaseResponseWrapper>(
+		this.settingsService.createApiUrl('Exercise/Save'),
+		body,
+		{
+			responseType: 'json',
+			observe: 'response',
+			withCredentials: true
+		})
+		.pipe(map(response => response.body));
+		
+	}
+	public Delete(id: number) : Observable<IBaseResponseWrapper | null>
+	{
+		const body = <any>{'id': id};
+		return this.httpClient.delete<IBaseResponseWrapper>(
+		this.settingsService.createApiUrl('Exercise/Delete'),
+		{
+			params: new HttpParams({ fromObject: body }),
+			responseType: 'json',
+			observe: 'response',
+			withCredentials: true
+		})
+		.pipe(map(response => response.body));
+		
+	}
+	constructor (httpClient: HttpClient, settingsService: SettingsService)
+	{
+		super(httpClient, settingsService);
+	}
+}
 @Injectable({ providedIn: 'root' }) export class MeasurementController extends BaseController
 {
 	public GetCurrentMeasurementInfo() : Observable<IResponseWrapper<ICurrentBodyInfoDto> | null>
@@ -330,6 +368,41 @@ import { IChangePasswordDto } from './interfaces';
 		super(httpClient, settingsService);
 	}
 }
+@Injectable({ providedIn: 'root' }) export class SetController extends BaseController
+{
+	public Save(data: IWorkoutExerciseSetDto) : Observable<IBaseResponseWrapper | null>
+	{
+		const body = <any>data;
+		return this.httpClient.post<IBaseResponseWrapper>(
+		this.settingsService.createApiUrl('Set/Save'),
+		body,
+		{
+			responseType: 'json',
+			observe: 'response',
+			withCredentials: true
+		})
+		.pipe(map(response => response.body));
+		
+	}
+	public Delete(id: number) : Observable<IBaseResponseWrapper | null>
+	{
+		const body = <any>{'id': id};
+		return this.httpClient.delete<IBaseResponseWrapper>(
+		this.settingsService.createApiUrl('Set/Delete'),
+		{
+			params: new HttpParams({ fromObject: body }),
+			responseType: 'json',
+			observe: 'response',
+			withCredentials: true
+		})
+		.pipe(map(response => response.body));
+		
+	}
+	constructor (httpClient: HttpClient, settingsService: SettingsService)
+	{
+		super(httpClient, settingsService);
+	}
+}
 @Injectable({ providedIn: 'root' }) export class UserController extends BaseController
 {
 	public GetCurrent() : Observable<IResponseWrapper<IUserDto> | null>
@@ -417,6 +490,41 @@ import { IChangePasswordDto } from './interfaces';
 		return this.httpClient.delete<IBaseResponseWrapper>(
 		this.settingsService.createApiUrl('User/DeleteProfilePicture'),
 		{
+			responseType: 'json',
+			observe: 'response',
+			withCredentials: true
+		})
+		.pipe(map(response => response.body));
+		
+	}
+	constructor (httpClient: HttpClient, settingsService: SettingsService)
+	{
+		super(httpClient, settingsService);
+	}
+}
+@Injectable({ providedIn: 'root' }) export class WorkoutController extends BaseController
+{
+	public Save(data: IWorkoutDto) : Observable<IBaseResponseWrapper | null>
+	{
+		const body = <any>data;
+		return this.httpClient.post<IBaseResponseWrapper>(
+		this.settingsService.createApiUrl('Workout/Save'),
+		body,
+		{
+			responseType: 'json',
+			observe: 'response',
+			withCredentials: true
+		})
+		.pipe(map(response => response.body));
+		
+	}
+	public Delete(id: number) : Observable<IBaseResponseWrapper | null>
+	{
+		const body = <any>{'id': id};
+		return this.httpClient.delete<IBaseResponseWrapper>(
+		this.settingsService.createApiUrl('Workout/Delete'),
+		{
+			params: new HttpParams({ fromObject: body }),
 			responseType: 'json',
 			observe: 'response',
 			withCredentials: true

@@ -17,7 +17,7 @@ public class WorkoutExerciseSet : BaseAuditedDomain<long>, IConfigurableEntity
 
     public eSetType? TypeId { get; set; }
 
-    public int Rest { get; set; }
+    public int? Rest { get; set; }
 
     public string Notes { get; set; }
 
