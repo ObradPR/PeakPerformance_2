@@ -1,0 +1,25 @@
+﻿namespace PeakPerformance.Application.Dtos.Exercises;
+
+public class WorkoutExerciseDto
+{
+    public long Id { get; set; }
+
+    public long? ExerciseId { get; set; }
+
+    public string ApiExerciseId { get; set; }
+
+    public string Name { get; set; }
+
+    public string Notes { get; set; }
+
+    [Display(Name = "Workout")]
+    public long WorkoutId { get; set; }
+
+    // method
+
+    public void ToModel(WorkoutExercise model, long userId)
+    {
+        model.WorkoutId = WorkoutId;
+        model.Notes = Notes;
+    }
+}

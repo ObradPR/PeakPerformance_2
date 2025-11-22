@@ -12,6 +12,7 @@ public class WorkoutDto
 
     public long? CopiedFromId { get; set; }
 
+    [Display(Name = "Log date")]
     public DateTime LogDate { get; set; }
 
     public TimeOnly? StartAt { get; set; }
