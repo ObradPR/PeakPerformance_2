@@ -26,6 +26,23 @@ export enum eMeasurementUnit {
 	Centimeters = 3,
 	Inches = 4
 }
+export enum eSetRpe {
+	Rpe_1 = 1,
+	Rpe_2 = 2,
+	Rpe_3 = 3,
+	Rpe_4 = 4,
+	Rpe_5 = 5,
+	Rpe_6 = 6,
+	Rpe_7 = 7,
+	Rpe_8 = 8,
+	Rpe_9 = 9,
+	Rpe_10 = 10
+}
+export enum eSetType {
+	Warmup = 1,
+	Normal = 2,
+	Failure = 3
+}
 export enum eSystemRole {
 	Admin = 1,
 	User = 2

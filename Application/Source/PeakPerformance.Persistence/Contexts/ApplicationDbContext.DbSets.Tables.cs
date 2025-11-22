@@ -19,4 +19,12 @@ public partial class ApplicationDbContext : IDatabaseContext
     public virtual DbSet<MeasurementGoal> MeasurementGoals { get; set; }
 
     public virtual DbSet<Country> Countries { get; set; }
+
+    public virtual DbSet<Workout> Workouts { get; set; }
+
+    public virtual DbSet<Exercise> Exercises { get; set; }
+
+    public virtual DbSet<WorkoutExercise> WorkoutExercises { get; set; }
+
+    public virtual DbSet<WorkoutExerciseSet> WorkoutExerciseSets { get; set; }
 }

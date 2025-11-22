@@ -20,6 +20,14 @@ public interface IDatabaseContext
 
     DbSet<Country> Countries { get; set; }
 
+    DbSet<Workout> Workouts { get; set; }
+
+    DbSet<Exercise> Exercises { get; set; }
+
+    DbSet<WorkoutExercise> WorkoutExercises { get; set; }
+
+    DbSet<WorkoutExerciseSet> WorkoutExerciseSets { get; set; }
+
     // methods
 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);

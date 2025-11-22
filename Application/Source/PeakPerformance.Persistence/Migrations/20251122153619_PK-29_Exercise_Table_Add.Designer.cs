@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PeakPerformance.Persistence.Contexts;
 
@@ -11,9 +12,11 @@ using PeakPerformance.Persistence.Contexts;
 namespace PeakPerformance.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251122153619_PK-29_Exercise_Table_Add")]
+    partial class PK29_Exercise_Table_Add
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -505,188 +508,6 @@ namespace PeakPerformance.Persistence.Migrations
                     b.ToTable("UserRole", "dbo");
                 });
 
-            modelBuilder.Entity("PeakPerformance.Domain.Entities.Application.Workout", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
-
-                    b.Property<decimal?>("Bodyweight")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int?>("BodyweightMeasurementUnitId")
-                        .HasColumnType("int");
-
-                    b.Property<long?>("CopiedFromId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("CreatedBy")
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<long?>("DeletedBy")
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTime?>("DeletedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<TimeOnly?>("FinishAt")
-                        .HasColumnType("time");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime>("LogDate")
-                        .HasColumnType("date");
-
-                    b.Property<long?>("ModifiedBy")
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTime?>("ModifiedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Notes")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<TimeOnly?>("StartAt")
-                        .HasColumnType("time");
-
-                    b.Property<long>("UserId")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CopiedFromId");
-
-                    b.HasIndex("IsActive")
-                        .HasFilter("[IsActive] = 1");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Workout", "dbo");
-                });
-
-            modelBuilder.Entity("PeakPerformance.Domain.Entities.Application.WorkoutExercise", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
-
-                    b.Property<long>("CreatedBy")
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<long?>("DeletedBy")
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTime?>("DeletedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<long>("ExerciseId")
-                        .HasColumnType("bigint");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<long?>("ModifiedBy")
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTime?>("ModifiedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Notes")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<long>("WorkoutId")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ExerciseId");
-
-                    b.HasIndex("IsActive")
-                        .HasFilter("[IsActive] = 1");
-
-                    b.HasIndex("WorkoutId");
-
-                    b.ToTable("WorkoutExercise", "dbo");
-                });
-
-            modelBuilder.Entity("PeakPerformance.Domain.Entities.Application.WorkoutExerciseSet", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
-
-                    b.Property<long>("CreatedBy")
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<long?>("DeletedBy")
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTime?>("DeletedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<long?>("ModifiedBy")
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTime?>("ModifiedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Notes")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Reps")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Rest")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("RpeTypeId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("TypeId")
-                        .HasColumnType("int");
-
-                    b.Property<decimal?>("Weight")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int?>("WeightMeasurementUnitId")
-                        .HasColumnType("int");
-
-                    b.Property<long>("WorkoutExerciseId")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("IsActive")
-                        .HasFilter("[IsActive] = 1");
-
-                    b.HasIndex("WorkoutExerciseId");
-
-                    b.ToTable("WorkoutExerciseSet", "dbo");
-                });
-
             modelBuilder.Entity("PeakPerformance.Domain.Entities.Application.Bodyweight", b =>
                 {
                     b.HasOne("PeakPerformance.Domain.Entities.Application.User", "User")
@@ -762,58 +583,6 @@ namespace PeakPerformance.Persistence.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("PeakPerformance.Domain.Entities.Application.Workout", b =>
-                {
-                    b.HasOne("PeakPerformance.Domain.Entities.Application.Workout", "CopiedFromWorkout")
-                        .WithMany()
-                        .HasForeignKey("CopiedFromId");
-
-                    b.HasOne("PeakPerformance.Domain.Entities.Application.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("CopiedFromWorkout");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("PeakPerformance.Domain.Entities.Application.WorkoutExercise", b =>
-                {
-                    b.HasOne("PeakPerformance.Domain.Entities.Application.Exercise", "Exercise")
-                        .WithMany("WorkoutExercises")
-                        .HasForeignKey("ExerciseId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("PeakPerformance.Domain.Entities.Application.Workout", "Workout")
-                        .WithMany("WorkoutExercises")
-                        .HasForeignKey("WorkoutId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Exercise");
-
-                    b.Navigation("Workout");
-                });
-
-            modelBuilder.Entity("PeakPerformance.Domain.Entities.Application.WorkoutExerciseSet", b =>
-                {
-                    b.HasOne("PeakPerformance.Domain.Entities.Application.WorkoutExercise", "WorkoutExercise")
-                        .WithMany("WorkoutExerciseSets")
-                        .HasForeignKey("WorkoutExerciseId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("WorkoutExercise");
-                });
-
-            modelBuilder.Entity("PeakPerformance.Domain.Entities.Application.Exercise", b =>
-                {
-                    b.Navigation("WorkoutExercises");
-                });
-
             modelBuilder.Entity("PeakPerformance.Domain.Entities.Application.User", b =>
                 {
                     b.Navigation("BodyweightGoals");
@@ -827,16 +596,6 @@ namespace PeakPerformance.Persistence.Migrations
                     b.Navigation("UserMeasurementPreferences");
 
                     b.Navigation("UserRoles");
-                });
-
-            modelBuilder.Entity("PeakPerformance.Domain.Entities.Application.Workout", b =>
-                {
-                    b.Navigation("WorkoutExercises");
-                });
-
-            modelBuilder.Entity("PeakPerformance.Domain.Entities.Application.WorkoutExercise", b =>
-                {
-                    b.Navigation("WorkoutExerciseSets");
                 });
 #pragma warning restore 612, 618
         }
