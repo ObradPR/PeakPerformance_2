@@ -27,6 +27,11 @@ export const routes: Routes = [
                 title: RouteConstants.TITLE_SETTINGS,
                 loadComponent: () => import('./pages/settings/settings').then(_ => _.Settings)
             },
+            {
+                path: RouteConstants.ROUTE_WORKOUTS,
+                title: RouteConstants.TITLE_WORKOUTS,
+                loadComponent: () => import('./pages/workout/workout').then(_ => _.Workout)
+            },
         ]
     },
     ///

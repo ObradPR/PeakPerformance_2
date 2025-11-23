@@ -1,0 +1,19 @@
+<div class="my-backdrop"></div>
+<section class="my-modal xs">
+    <div class="my-modal-header">
+        <h3>{{ modalType }} Workout</h3>
+        <i class="fa-solid fa-circle-xmark" (click)="closeModal()"></i>
+    </div>
+
+    <div class="position-relative">
+        <div class="my-modal-body" validation [key]="'Workout'" [errors]="errors">
+            <form [formGroup]="form">
+            </form>
+        </div>
+    </div>
+
+    <div class="my-modal-footer">
+        <button class="btn btn-primary" (click)="submit()">Save</button>
+        <button class="btn btn-secondary" (click)="closeModal()">Close</button>
+    </div>
+</section>

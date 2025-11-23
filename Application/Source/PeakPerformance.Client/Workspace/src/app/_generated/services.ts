@@ -26,6 +26,7 @@ import { IWorkoutExerciseSetDto } from './interfaces';
 import { IUserDto } from './interfaces';
 import { IChangePasswordDto } from './interfaces';
 import { IWorkoutDto } from './interfaces';
+import { IWorkoutSearchOptions } from './interfaces';
 
 @Injectable({ providedIn: 'root' }) export abstract class BaseController
 {
@@ -504,6 +505,20 @@ import { IWorkoutDto } from './interfaces';
 }
 @Injectable({ providedIn: 'root' }) export class WorkoutController extends BaseController
 {
+	public Search(options: IWorkoutSearchOptions) : Observable<IResponseWrapper<IPagingResult<IWorkoutDto>> | null>
+	{
+		const body = <any>options;
+		return this.httpClient.post<IResponseWrapper<IPagingResult<IWorkoutDto>>>(
+		this.settingsService.createApiUrl('Workout/Search'),
+		body,
+		{
+			responseType: 'json',
+			observe: 'response',
+			withCredentials: true
+		})
+		.pipe(map(response => response.body));
+		
+	}
 	public Save(data: IWorkoutDto) : Observable<IBaseResponseWrapper | null>
 	{
 		const body = <any>data;

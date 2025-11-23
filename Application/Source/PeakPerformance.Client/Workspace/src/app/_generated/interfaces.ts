@@ -162,6 +162,12 @@ export interface IMeasurementGoalDto
 	startDate: Date;
 	endDate: Date;
 }
+export interface ITotalDto
+{
+	sets?: number;
+	reps?: number;
+	volume?: number;
+}
 export interface IWorkoutDto
 {
 	id: number;
@@ -174,6 +180,8 @@ export interface IWorkoutDto
 	finishAt?: any;
 	bodyweight?: number;
 	bodyweightMeasurementUnitId?: eMeasurementUnit;
+	exercises: IWorkoutExerciseDto[];
+	total: ITotalDto;
 }
 export interface IWorkoutExerciseDto
 {
@@ -183,6 +191,7 @@ export interface IWorkoutExerciseDto
 	name: string;
 	notes: string;
 	workoutId: number;
+	sets: IWorkoutExerciseSetDto[];
 }
 export interface IWorkoutExerciseSetDto
 {
@@ -242,6 +251,10 @@ export interface IMeasurementSearchOptions extends ISearchOptions
 	fromDate?: Date | null;
 	toDate?: Date | null;
 	chartTimespanId?: eChartTimespan;
+}
+export interface IWorkoutSearchOptions extends ISearchOptions
+{
+	userId?: number;
 }
 export interface IBaseResponseWrapper
 {

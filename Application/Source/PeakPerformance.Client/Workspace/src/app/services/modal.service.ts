@@ -1,5 +1,5 @@
 import { Injectable, signal } from '@angular/core';
-import { IBodyweightDto, IBodyweightGoalDto, IMeasurementDto, IMeasurementGoalDto } from '../_generated/interfaces';
+import { IBodyweightDto, IBodyweightGoalDto, IMeasurementDto, IMeasurementGoalDto, IWorkoutDto } from '../_generated/interfaces';
 
 export type TModal = 'add' | 'edit';
 
@@ -103,5 +103,30 @@ export class ModalService {
     this.measurementGoalModal.set(false);
     this.measurementGoalModalType.set(null);
     this.selectedMeasurementGoal.set(null);
+  }
+
+  // Workout
+
+  private workoutModal = signal<boolean>(false);
+  private workoutModalType = signal<TModal | null>(null);
+  private selectedWorkout = signal<IWorkoutDto | null>(null);
+
+  readonly workoutModalSignal = this.workoutModal.asReadonly();
+  readonly workoutModalTypeSignal = this.workoutModalType.asReadonly();
+  readonly selectedWorkoutSignal = this.selectedWorkout.asReadonly();
+
+  showAddWorkoutModal() {
+    this.workoutModalType.set('add');
+    this.workoutModal.set(true);
+  }
+  showEditWorkoutModal(data: IWorkoutDto) {
+    this.workoutModalType.set('edit');
+    this.selectedWorkout.set(data);
+    this.workoutModal.set(true);
+  }
+  hideWorkoutModal() {
+    this.workoutModal.set(false);
+    this.workoutModalType.set(null);
+    this.selectedWorkout.set(null);
   }
 }
