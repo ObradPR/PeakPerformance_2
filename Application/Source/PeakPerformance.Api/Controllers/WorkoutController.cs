@@ -8,6 +8,11 @@ public class WorkoutController(IMediator mediator) : BaseController(mediator)
 {
     [HttpPost]
     [Authorize]
+    [AngularMethod(typeof(ResponseWrapper<IEnumerable<WorkoutDto>>))]
+    public async Task<IActionResult> GetRecent() => Result(await Mediator.Send(new GetRecentWorkoutQuery()));
+
+    [HttpPost]
+    [Authorize]
     [AngularMethod(typeof(ResponseWrapper<PagingResult<WorkoutDto>>))]
     public async Task<IActionResult> Search([FromBody] WorkoutSearchOptions options) => Result(await Mediator.Send(new SearchWorkoutQuery(options)));
 

@@ -182,6 +182,7 @@ export interface IWorkoutDto
 	bodyweightMeasurementUnitId?: eMeasurementUnit;
 	exercises: IWorkoutExerciseDto[];
 	total: ITotalDto;
+	displayName: string;
 }
 export interface IWorkoutExerciseDto
 {

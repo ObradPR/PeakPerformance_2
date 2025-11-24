@@ -29,6 +29,8 @@ public class WorkoutDto
 
     public TotalDto Total { get; set; }
 
+    public string DisplayName { get; set; }
+
     // methods
 
     public void ToModel(Workout model, long userId)
@@ -36,7 +38,7 @@ public class WorkoutDto
         model.UserId = userId;
         model.Name = Name;
         model.Notes = Notes;
-        model.CopiedFromId = CopiedFromId;
+        model.CopiedFromId = CopiedFromId.IsNotNullOrEmpty() ? CopiedFromId : null;
         model.LogDate = LogDate;
         model.StartAt = StartAt;
         model.FinishAt = FinishAt;

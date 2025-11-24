@@ -31,7 +31,8 @@ public class AutoMappingProfiles : BaseAutoMapperProfile
 
         CreateMap<Country, CountryDto>();
 
-        CreateMap<Workout, WorkoutDto>();
+        CreateMap<Workout, WorkoutDto>()
+            .ForMember(dest => dest.DisplayName, opt => opt.MapFrom(src => $"{src.LogDate: d MMMM yyyy} - {src.Name}"));
         CreateMap<WorkoutExercise, WorkoutExerciseDto>();
         CreateMap<WorkoutExerciseSet, WorkoutExerciseSetDto>();
 

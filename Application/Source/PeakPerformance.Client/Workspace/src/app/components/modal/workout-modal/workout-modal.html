@@ -1,5 +1,5 @@
 <div class="my-backdrop"></div>
-<section class="my-modal xs">
+<section class="my-modal sm">
     <div class="my-modal-header">
         <h3>{{ modalType }} Workout</h3>
         <i class="fa-solid fa-circle-xmark" (click)="closeModal()"></i>
@@ -8,6 +8,48 @@
     <div class="position-relative">
         <div class="my-modal-body" validation [key]="'Workout'" [errors]="errors">
             <form [formGroup]="form">
+                <div class="position-relative">
+                    <label for="copiedFrom">Based On</label>
+                    <select id="copiedFrom" class="form-select mb-3" formControlName="copiedFromId" validation [key]="'CopiedFromId'" [errors]="errors">
+                        <option value="0">Empty Workout</option>
+                        @if (recentWorkouts.length > 0) {
+                            <optgroup label="Recent Workouts">
+                                @for (workout of recentWorkouts; track workout) {
+                                    <option [ngValue]="workout.id">{{ workout.displayName }}</option>
+                                }
+                            </optgroup>
+                        }
+                    </select>
+                </div>
+                <div class="position-relative">
+                    <label for="name">Name</label>
+                    <div class="input-group mb-3" validation [key]="'Name'" [errors]="errors">
+                        <input type="text" class="form-control" id="name" placeholder="Name" aria-label="Name" aria-describedby="name-addon" formControlName="name" />
+                    </div>
+                </div>
+                <div class="position-relative">
+                    <label for="logDate">Date</label>
+                    <div class="input-group mb-3" validation [key]="'LogDate'" [errors]="errors">
+                        <input type="date" [min]="minLogDate" [max]="maxLogDate" class="form-control" id="logDate" placeholder="Date" aria-label="Date" aria-describedby="logDate-addon" formControlName="logDate" />
+                    </div>
+                </div>
+                <div class="col-9 d-flex justify-content-between align-items-center">
+                    <div class="position-relative col-5">
+                        <label for="startAt">Start at</label>
+                        <div class="input-group mb-2" validation [key]="'StartAt'" [errors]="errors">
+                            <input type="time" class="form-control" id="startAt" placeholder="Start At" aria-label="Start At" aria-describedby="startAt-addon" formControlName="startAt" />
+                        </div>
+                    </div>
+
+                    <div class="col-1 time-separator">-</div>
+                    
+                    <div class="position-relative col-5">
+                        <label for="finishAt">Finish at</label>
+                        <div class="input-group mb-2" validation [key]="'FinishAt'" [errors]="errors">
+                            <input type="time" class="form-control" id="finishAt" placeholder="Finish At" aria-label="Finish At" aria-describedby="finishAt-addon" formControlName="finishAt" />
+                        </div>
+                    </div>
+                </div>
             </form>
         </div>
     </div>

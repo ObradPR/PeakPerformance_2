@@ -6,8 +6,9 @@ import { IModalMethods } from '../interfaces/modal-methods.interface';
 import { WorkoutController } from '../../../_generated/services';
 import { ModalService } from '../../../services/modal.service';
 import { LoaderService } from '../../../services/loader.service';
-import { IWorkoutDto } from '../../../_generated/interfaces';
+import { IPagingResult, IWorkoutDto, IWorkoutSearchOptions } from '../../../_generated/interfaces';
 import { DateTime } from 'luxon';
+import { SharedService } from '../../../services/shared.service';
 
 @Component({
   selector: 'app-workout-modal',
@@ -25,13 +26,16 @@ export class WorkoutModal extends BaseValidationComponent implements IModalMetho
   minLogDate: string;
   maxLogDate: string;
 
+  recentWorkouts: IWorkoutDto[] = [];
+
   constructor(
     private fb: FormBuilder,
 
     private workoutController: WorkoutController,
 
     public modalService: ModalService,
-    private loaderService: LoaderService
+    private loaderService: LoaderService,
+    private sharedService: SharedService,
   ) {
     super();
     this.modalType = this.modalService.workoutModalTypeSignal() === 'add' ? 'Add' : 'Edit';
@@ -42,6 +46,12 @@ export class WorkoutModal extends BaseValidationComponent implements IModalMetho
   }
 
   ngOnInit(): void {
+    this.workoutController.GetRecent().toPromise()
+      .then(_ => {
+        if (_?.isSuccess)
+          this.recentWorkouts = _.data;
+      });
+
     this.formInit();
   }
 
@@ -50,9 +60,41 @@ export class WorkoutModal extends BaseValidationComponent implements IModalMetho
   }
 
   formInit(): void {
+    const date = new Date(this.selectedWorkout?.logDate ?? Date.now());
+    const localDate = this.sharedService.getLocalDate(date);
+    localDate.setHours(0, 0, 0);
+    const formattedDate = localDate.toLocaleDateString('en-CA');
 
+    this.form = this.fb.group({
+      copiedFromId: [this.selectedWorkout?.copiedFromId ?? 0],
+      name: [this.selectedWorkout?.name],
+      logDate: [formattedDate],
+      startAt: [this.selectedWorkout?.startAt],
+      finishAt: [this.selectedWorkout?.finishAt]
+    })
+
+    if (this.selectedWorkout) {
+      this.form.get('copiedFromId')?.disable();
+    } else {
+      this.form.get('copiedFromId')?.enable();
+    }
   }
 
-  submit() { }
+  submit() {
+    this.loaderService.showPageLoader();
+
+    if (this.selectedWorkout !== null)
+      this.form.value.id = this.selectedWorkout.id;
+
+    this.workoutController.Save(this.form.value).toPromise()
+      .then(_ => {
+        if (_?.isSuccess)
+          this.modalService.hideWorkoutModal();
+      })
+      .catch(ex => this.setErrors(ex))
+      .finally(() => {
+        this.loaderService.hidePageLoader();
+      });
+  }
 
 }

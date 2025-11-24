@@ -505,6 +505,19 @@ import { IWorkoutSearchOptions } from './interfaces';
 }
 @Injectable({ providedIn: 'root' }) export class WorkoutController extends BaseController
 {
+	public GetRecent() : Observable<IResponseWrapper<IWorkoutDto[]> | null>
+	{
+		return this.httpClient.post<IResponseWrapper<IWorkoutDto[]>>(
+		this.settingsService.createApiUrl('Workout/GetRecent'),
+		null,
+		{
+			responseType: 'json',
+			observe: 'response',
+			withCredentials: true
+		})
+		.pipe(map(response => response.body));
+		
+	}
 	public Search(options: IWorkoutSearchOptions) : Observable<IResponseWrapper<IPagingResult<IWorkoutDto>> | null>
 	{
 		const body = <any>options;

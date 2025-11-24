@@ -19,7 +19,7 @@ public class SearchWorkoutQuery(WorkoutSearchOptions options) : IRequest<Respons
             if (userId.IsNotEmpty())
                 predicates.Add(_ => _.UserId == userId);
 
-            var result = await db.Workouts.SearchAsync(options, _ => _.LogDate, false, predicates,
+            var result = await db.Workouts.SearchAsync(options, _ => _.LogDate, true, predicates,
                 includeProperties: [
                     _ => _.WorkoutExercises.Select(_ => _.WorkoutExerciseSets)
                 ]);
