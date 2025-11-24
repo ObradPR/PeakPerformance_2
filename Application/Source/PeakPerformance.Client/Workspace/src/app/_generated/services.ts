@@ -505,11 +505,24 @@ import { IWorkoutSearchOptions } from './interfaces';
 }
 @Injectable({ providedIn: 'root' }) export class WorkoutController extends BaseController
 {
+	public GetSingle(id: number) : Observable<IResponseWrapper<IWorkoutDto> | null>
+	{
+		const body = <any>{'id': id};
+		return this.httpClient.get<IResponseWrapper<IWorkoutDto>>(
+		this.settingsService.createApiUrl('Workout/GetSingle'),
+		{
+			params: new HttpParams({ fromObject: body }),
+			responseType: 'json',
+			observe: 'response',
+			withCredentials: true
+		})
+		.pipe(map(response => response.body));
+		
+	}
 	public GetRecent() : Observable<IResponseWrapper<IWorkoutDto[]> | null>
 	{
-		return this.httpClient.post<IResponseWrapper<IWorkoutDto[]>>(
+		return this.httpClient.get<IResponseWrapper<IWorkoutDto[]>>(
 		this.settingsService.createApiUrl('Workout/GetRecent'),
-		null,
 		{
 			responseType: 'json',
 			observe: 'response',
@@ -532,10 +545,10 @@ import { IWorkoutSearchOptions } from './interfaces';
 		.pipe(map(response => response.body));
 		
 	}
-	public Save(data: IWorkoutDto) : Observable<IBaseResponseWrapper | null>
+	public Save(data: IWorkoutDto) : Observable<IResponseWrapper<number> | null>
 	{
 		const body = <any>data;
-		return this.httpClient.post<IBaseResponseWrapper>(
+		return this.httpClient.post<IResponseWrapper<number>>(
 		this.settingsService.createApiUrl('Workout/Save'),
 		body,
 		{

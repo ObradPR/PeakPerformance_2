@@ -9,6 +9,7 @@ import { LoaderService } from '../../../services/loader.service';
 import { IPagingResult, IWorkoutDto, IWorkoutSearchOptions } from '../../../_generated/interfaces';
 import { DateTime } from 'luxon';
 import { SharedService } from '../../../services/shared.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-workout-modal',
@@ -30,6 +31,7 @@ export class WorkoutModal extends BaseValidationComponent implements IModalMetho
 
   constructor(
     private fb: FormBuilder,
+    private router: Router,
 
     private workoutController: WorkoutController,
 
@@ -88,8 +90,10 @@ export class WorkoutModal extends BaseValidationComponent implements IModalMetho
 
     this.workoutController.Save(this.form.value).toPromise()
       .then(_ => {
-        if (_?.isSuccess)
+        if (_?.isSuccess) {
           this.modalService.hideWorkoutModal();
+          this.router.navigateByUrl(`/workouts/${_.data}`);
+        }
       })
       .catch(ex => this.setErrors(ex))
       .finally(() => {

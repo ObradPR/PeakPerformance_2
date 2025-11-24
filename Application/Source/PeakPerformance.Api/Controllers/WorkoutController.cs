@@ -6,7 +6,12 @@ namespace PeakPerformance.Api.Controllers;
 
 public class WorkoutController(IMediator mediator) : BaseController(mediator)
 {
-    [HttpPost]
+    [HttpGet]
+    [Authorize]
+    [AngularMethod(typeof(ResponseWrapper<WorkoutDto>))]
+    public async Task<IActionResult> GetSingle([FromQuery] long id) => Result(await Mediator.Send(new GetSingleWorkoutQuery(id)));
+
+    [HttpGet]
     [Authorize]
     [AngularMethod(typeof(ResponseWrapper<IEnumerable<WorkoutDto>>))]
     public async Task<IActionResult> GetRecent() => Result(await Mediator.Send(new GetRecentWorkoutQuery()));
@@ -18,7 +23,7 @@ public class WorkoutController(IMediator mediator) : BaseController(mediator)
 
     [HttpPost]
     [Authorize]
-    [AngularMethod(typeof(BaseResponseWrapper))]
+    [AngularMethod(typeof(ResponseWrapper<long>))]
     public async Task<IActionResult> Save([FromBody] WorkoutDto data) => Result(await Mediator.Send(new SaveWorkoutCommand(data)));
 
     [HttpDelete]

@@ -10,7 +10,8 @@ public class GetRecentWorkoutQuery() : IRequest<ResponseWrapper<IEnumerable<Work
         {
             var userId = identityUser.Id;
 
-            var workouts = await db.Workouts
+            var data = await db.Workouts
+                .Where(_ => _.UserId == userId)
                 .Select(_ => new Workout
                 {
                     Id = _.Id,
@@ -21,7 +22,7 @@ public class GetRecentWorkoutQuery() : IRequest<ResponseWrapper<IEnumerable<Work
                 .Take(15)
                 .ToListAsync(cancellationToken);
 
-            return new(mapper.Map<IEnumerable<WorkoutDto>>(workouts));
+            return new(mapper.Map<IEnumerable<WorkoutDto>>(data));
         }
     }
 }

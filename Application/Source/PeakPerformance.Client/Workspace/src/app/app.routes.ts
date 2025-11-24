@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { RouteConstants } from './constants';
 import { authGuard } from './guards/auth.guard';
+import { workoutResolver } from './resolvers/workout.resolver';
 
 export const routes: Routes = [
     {
@@ -32,6 +33,14 @@ export const routes: Routes = [
                 title: RouteConstants.TITLE_WORKOUTS,
                 loadComponent: () => import('./pages/workout/workout').then(_ => _.Workout)
             },
+            {
+                path: RouteConstants.ROUTE_SINGLE_WORKOUT,
+                title: RouteConstants.TITLE_WORKOUTS,
+                loadComponent: () => import('./pages/workout/workout-single/workout-single').then(_ => _.WorkoutSingle),
+                resolve: {
+                    workout: workoutResolver
+                }
+            }
         ]
     },
     ///

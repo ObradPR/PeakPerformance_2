@@ -2,13 +2,13 @@
 
 namespace PeakPerformance.Application.BusinessLogic.Workouts.Commands;
 
-public class SaveWorkoutCommand(WorkoutDto data) : IRequest<BaseResponseWrapper>
+public class SaveWorkoutCommand(WorkoutDto data) : IRequest<ResponseWrapper<long>>
 {
     public WorkoutDto Data { get; set; } = data;
 
-    public class SaveWorkoutCommandHandler(IDatabaseContext db, IIdentityUser identityUser) : IRequestHandler<SaveWorkoutCommand, BaseResponseWrapper>
+    public class SaveWorkoutCommandHandler(IDatabaseContext db, IIdentityUser identityUser) : IRequestHandler<SaveWorkoutCommand, ResponseWrapper<long>>
     {
-        public async Task<BaseResponseWrapper> Handle(SaveWorkoutCommand request, CancellationToken cancellationToken)
+        public async Task<ResponseWrapper<long>> Handle(SaveWorkoutCommand request, CancellationToken cancellationToken)
         {
             if (request.Data == null)
                 return new(new Error(nameof(Workout), ResourceValidation.Required.FormatWith(nameof(Workout))));
@@ -69,7 +69,7 @@ public class SaveWorkoutCommand(WorkoutDto data) : IRequest<BaseResponseWrapper>
 
             await db.SaveChangesAsync(cancellationToken);
 
-            return new();
+            return new(model.Id);
         }
     }
 }
