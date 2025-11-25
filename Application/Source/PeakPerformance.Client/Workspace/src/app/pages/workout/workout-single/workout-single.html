@@ -28,4 +28,33 @@
     @if (workoutTime) {
         <p class="fs-4" style="margin-top: -20px;">{{ workoutTime }}</p>
     }
+    <div class="d-flex">
+        @if (workout.durationTime) {
+            <div class="short-info-block">
+                <span class="block-item">Time</span>
+                <span class="block-item">{{ workout.durationTime | duration }}</span>
+            </div>
+        }
+        @if (workout.bodyweight) {
+            <div class="short-info-block">
+                <span class="block-item">Bodyweight</span>
+                <span class="block-item">{{ workout.bodyweight | measurementConverter:workout.bodyweightMeasurementUnitId }}</span>
+            </div>
+        }
+        @if (workout.total) {
+            <div class="short-info-block">
+                <span class="block-item">Sets</span>
+                <span class="block-item">{{ workout.total.sets }}</span>
+            </div>
+            <div class="short-info-block">
+                <span class="block-item">Reps</span>
+                <span class="block-item">{{ workout.total.reps }}</span>
+            </div>
+            <div class="short-info-block">
+                <span class="block-item">Volume</span>
+                <span class="block-item">{{ workout.total.volume }}</span>
+            </div>
+        }
+
+    </div>
 </div>

@@ -31,6 +31,8 @@ public class WorkoutDto
 
     public string DisplayName { get; set; }
 
+    public TimeOnly? DurationTime { get; set; }
+
     // methods
 
     public void ToModel(Workout model, long userId)

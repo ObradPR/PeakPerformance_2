@@ -10,6 +10,7 @@ import { IPagingResult, IWorkoutDto, IWorkoutSearchOptions } from '../../../_gen
 import { DateTime } from 'luxon';
 import { SharedService } from '../../../services/shared.service';
 import { Router } from '@angular/router';
+import { MeasurementConverterPipe } from '../../../pipes/measurement-converter.pipe';
 
 @Component({
   selector: 'app-workout-modal',

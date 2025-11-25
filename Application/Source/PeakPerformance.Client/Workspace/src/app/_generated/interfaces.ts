@@ -183,6 +183,7 @@ export interface IWorkoutDto
 	exercises: IWorkoutExerciseDto[];
 	total: ITotalDto;
 	displayName: string;
+	durationTime?: any;
 }
 export interface IWorkoutExerciseDto
 {

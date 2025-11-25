@@ -5,10 +5,12 @@ import { ClickOutsideDirective } from '../../../directives/click-outside.directi
 import { DateTime } from 'luxon';
 import { ModalService } from '../../../services/modal.service';
 import { WorkoutController } from '../../../_generated/services';
+import { MeasurementConverterPipe } from "../../../pipes/measurement-converter.pipe";
+import { DurationPipe } from '../../../pipes/duration.pipe';
 
 @Component({
   selector: 'app-workout-single',
-  imports: [ClickOutsideDirective],
+  imports: [ClickOutsideDirective, MeasurementConverterPipe, DurationPipe],
   templateUrl: './workout-single.html',
   styleUrl: './workout-single.css'
 })
