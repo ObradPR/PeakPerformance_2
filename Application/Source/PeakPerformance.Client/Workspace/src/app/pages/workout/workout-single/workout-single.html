@@ -28,7 +28,7 @@
     @if (workoutTime) {
         <p class="fs-4" style="margin-top: -20px;">{{ workoutTime }}</p>
     }
-    <div class="d-flex">
+    <div class="d-flex mb-3">
         @if (workout.durationTime) {
             <div class="short-info-block">
                 <span class="block-item">Time</span>
@@ -55,6 +55,13 @@
                 <span class="block-item">{{ workout.total.volume }}</span>
             </div>
         }
+    </div>
 
+    <!-- EXERCISES -->
+
+    <div class="row">
+         <div class="top-btns mt-5 mb-3">
+                <button class="btn btn-primary" (click)="modalService.showExerciseModal(workout.id)"><i class="fa-solid fa-dumbbell"></i> Add Exercise</button>
+        </div>
     </div>
 </div>

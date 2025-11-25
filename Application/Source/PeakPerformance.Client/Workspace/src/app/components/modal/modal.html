@@ -16,3 +16,7 @@
 @if (modalService.workoutModalSignal()) {
     <app-workout-modal (closeModalEvent)="modalService.hideWorkoutModal()"></app-workout-modal>
 }
+
+@if(modalService.exerciseModalSignal()) {
+    <app-exercise-modal (closeModalEvent)="modalService.hideExerciseModal()"></app-exercise-modal>
+}

@@ -1,0 +1,42 @@
+.my-modal-body {
+    padding: 1.2rem 0 0;
+}
+
+.filter-block {
+    padding: 0 1.2rem 1.2rem;
+    border-bottom: 1px solid #9f9f9f;
+    background-color: #f8f8f8;
+}
+
+.exercise-item {
+    border-bottom: 1px solid #dadada;
+    padding: 1.2rem;
+    cursor: pointer;
+}
+.exercise-item:last-child{
+    border-bottom: none;
+}
+
+.exercise-gif {
+    width: 60px;
+    height: 60px;
+}
+
+.exercise-title {
+    color: var(--bs-blue);
+    font-weight: 500;
+}
+.exercise-item:hover .exercise-title {
+    color: #00327e;
+}
+.exercise-item:hover {
+    background-color: #f8f8f8;
+}
+
+.exercise-muscles {
+    font-size: 0.8rem;
+}
+
+.exercise-target-muscles {
+    font-weight: 500;
+}

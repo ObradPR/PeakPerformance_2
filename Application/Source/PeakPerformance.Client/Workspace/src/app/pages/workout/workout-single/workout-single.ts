@@ -23,7 +23,7 @@ export class WorkoutSingle implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
 
-    private modalService: ModalService,
+    public modalService: ModalService,
 
     private workoutController: WorkoutController,
   ) { }

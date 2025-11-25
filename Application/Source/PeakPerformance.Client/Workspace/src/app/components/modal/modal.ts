@@ -5,10 +5,11 @@ import { BodyweightGoalModal } from './bodyweight-goal-modal/bodyweight-goal-mod
 import { MeasurementModal } from './measurement-modal/measurement-modal';
 import { MeasurementGoalModal } from "./measurement-goal-modal/measurement-goal-modal";
 import { WorkoutModal } from "./workout-modal/workout-modal";
+import { ExerciseModal } from "./exercise-modal/exercise-modal";
 
 @Component({
   selector: 'app-modal',
-  imports: [BodyweightModal, BodyweightGoalModal, MeasurementModal, MeasurementGoalModal, WorkoutModal],
+  imports: [BodyweightModal, BodyweightGoalModal, MeasurementModal, MeasurementGoalModal, WorkoutModal, ExerciseModal],
   templateUrl: './modal.html',
   styles: ``
 })
