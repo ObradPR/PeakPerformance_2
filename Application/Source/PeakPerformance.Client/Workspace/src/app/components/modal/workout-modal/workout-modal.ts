@@ -88,11 +88,18 @@ export class WorkoutModal extends BaseValidationComponent implements IModalMetho
     if (this.selectedWorkout !== null)
       this.form.value.id = this.selectedWorkout.id;
 
-    this.workoutController.Save(this.form.value).toPromise()
+    const payload: IWorkoutDto = {
+      ...this.form.value,
+      startAt: this.form.value.startAt ? this.form.value.startAt : null,
+      finishAt: this.form.value.finishAt ? this.form.value.finishAt : null,
+    }
+
+    this.workoutController.Save(payload).toPromise()
       .then(_ => {
         if (_?.isSuccess) {
           this.modalService.hideWorkoutModal();
-          this.router.navigateByUrl(`/workouts/${_.data}`);
+          this.router.navigateByUrl('/', { skipLocationChange: true })
+            .then(() => this.router.navigateByUrl(`/workouts/${_.data}`));
         }
       })
       .catch(ex => this.setErrors(ex))

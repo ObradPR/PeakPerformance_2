@@ -17,6 +17,7 @@ import { DateTime } from 'luxon';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { FormsModule } from '@angular/forms';
 import { PerformanceService } from '../../services/performance.service';
+import { ClickOutsideDirective } from '../../directives/click-outside.directive';
 
 enum eMeasurementInfoTab {
   Measurements = 0,
@@ -25,7 +26,7 @@ enum eMeasurementInfoTab {
 
 @Component({
   selector: 'app-measurement',
-  imports: [CommonModule, UtcToLocalPipe, MeasurementConverterPipe, EnumNamePipe, Paginator, FormsModule],
+  imports: [CommonModule, UtcToLocalPipe, MeasurementConverterPipe, EnumNamePipe, Paginator, FormsModule, ClickOutsideDirective],
   templateUrl: './measurement.html',
   styleUrl: './measurement.css'
 })

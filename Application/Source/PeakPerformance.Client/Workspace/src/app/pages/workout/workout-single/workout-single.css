@@ -1,0 +1,43 @@
+.edit-dots {
+    cursor: pointer;
+    color: var(--bs-blue);
+    font-size: 3rem;
+    font-weight: bold;
+}
+ 
+.edit-menu {
+    position: absolute;
+    background-color: #fff;
+    border: 1px solid var(--bs-border-color);
+    z-index: 10;
+    width: 150px;
+    padding: 0.5rem 0;
+    text-align: start;
+    align-items: center;
+    border-radius: 5px;
+    top: 60px;
+    right: 0;
+}
+
+.edit-menu ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.edit-menu ul li {
+    padding: 0.3rem 0.8rem;
+    cursor: pointer;
+}
+
+.edit-menu ul li:hover {
+    background-color: #f4f4f4;
+}
+
+.edit-menu ul li:hover {
+    background-color: #f4f4f4;
+}
+
+.edit-menu ul li.delete-item {
+    color: red;
+}

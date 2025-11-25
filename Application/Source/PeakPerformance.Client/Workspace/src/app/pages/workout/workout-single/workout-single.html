@@ -1,1 +1,31 @@
-<p>workout-single works!</p>
+<div class="col-12 cover-img cover-img-workout">
+    <div class="info-wrapper">
+        <!-- <h1>Workouts</h1> -->
+         <!-- here we shouold ahve logic for moving back and forth with workouts -->
+          <!-- also having the login in center for user to chose a date and if there is workout to redirect them to that -->
+    </div>
+</div>
+
+<div class="col-12 info-wrapper">
+    <div class="d-flex justify-content-between align-items-center position-relative">
+        <h1>{{workout.name}}</h1>
+        <span class="edit-dots" (click)="onOpenEditMenu()">⋮</span>
+        @if (selectedWorkoutMenu) {
+            <div class="edit-menu" appClickOutside (clickOutside)="this.selectedWorkoutMenu = false">
+                <ul>
+                    <li (click)="editWorkout()">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                        Edit
+                    </li>
+                    <li (click)="deleteWorkout()" class="delete-item">
+                        <i class="fa-solid fa-trash"></i>
+                        Delete
+                    </li>
+                </ul>
+            </div>
+        }
+    </div>
+    @if (workoutTime) {
+        <p class="fs-4" style="margin-top: -20px;">{{ workoutTime }}</p>
+    }
+</div>
