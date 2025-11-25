@@ -50,6 +50,13 @@
                         </div>
                     </div>
                 </div>
+
+                  <div class="position-relative">
+                        <label for="notes">Notes</label>
+                        <div class="input-group mb-3" validation [key]="'Notes'" [errors]="errors">
+                            <textarea class="form-control" id="notes" aria-label="notes" aria-describedby="notes-addon" formControlName="notes" rows="3"></textarea>
+                        </div>
+                    </div>
             </form>
         </div>
     </div>

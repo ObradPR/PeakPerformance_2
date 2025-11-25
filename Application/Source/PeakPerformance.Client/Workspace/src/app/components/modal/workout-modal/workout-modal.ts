@@ -73,7 +73,8 @@ export class WorkoutModal extends BaseValidationComponent implements IModalMetho
       name: [this.selectedWorkout?.name],
       logDate: [formattedDate],
       startAt: [this.selectedWorkout?.startAt],
-      finishAt: [this.selectedWorkout?.finishAt]
+      finishAt: [this.selectedWorkout?.finishAt],
+      notes: [this.selectedWorkout?.notes]
     })
 
     if (this.selectedWorkout) {
