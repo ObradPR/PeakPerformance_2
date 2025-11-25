@@ -1,7 +1,7 @@
 import { Component, OnInit, output, OutputEmitterRef } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IModalMethods } from '../interfaces/modal-methods.interface';
-import { WorkoutController } from '../../../_generated/services';
+import { ExerciseController, WorkoutController } from '../../../_generated/services';
 import { Router } from '@angular/router';
 import { ModalService } from '../../../services/modal.service';
 import { LoaderService } from '../../../services/loader.service';
@@ -9,10 +9,12 @@ import { SharedService } from '../../../services/shared.service';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { TitleCasePipe } from '@angular/common';
+import { IExerciseDbApiDataDto, IExerciseDbApiDto } from '../../../_generated/interfaces';
+import { Paginator, PaginatorState } from 'primeng/paginator';
 
 @Component({
   selector: 'app-exercise-modal',
-  imports: [FormsModule, ReactiveFormsModule, TitleCasePipe],
+  imports: [FormsModule, ReactiveFormsModule, TitleCasePipe, Paginator],
   templateUrl: './exercise-modal.html',
   styleUrl: './exercise-modal.css'
 })
@@ -20,35 +22,37 @@ export class ExerciseModal implements IModalMethods, OnInit {
   closeModalEvent: OutputEmitterRef<boolean> = output<boolean>();
   form: FormGroup<any>;
 
-  apiMetadata: {
-    totalPages: number,
-    totalExercises: number,
-    currentPage: number,
-    previousPage: number | null,
-    nextPage: string | null
+  apiSearch = '';
+  apiOffset = 0;
+  apiLimit = 10;
+  apiData: IExerciseDbApiDto = {
+    success: false,
+    metadata: {} as any,
+    data: [],
   };
-  apiExercises: {
-    exerciseId: string,
-    name: string,
-    gifUrl: string | null,
-    targetMuscles: string[],
-    bodyParts: string[],
-    equipments: string[],
-    secondaryMuscles: string[],
-    instructions: string[]
-  }[] = [];
 
   constructor(
     private fb: FormBuilder,
     private router: Router,
     private http: HttpClient,
 
-    private workoutController: WorkoutController,
+    private exerciseController: ExerciseController,
 
     private modalService: ModalService,
     private loaderService: LoaderService,
     private sharedService: SharedService,
   ) { }
+
+  // events
+
+  onPageChange(event: PaginatorState) {
+    const offset = event.first ?? this.apiOffset;
+    const limit = event.rows ?? this.apiLimit;
+
+    this.getExercises(this.apiSearch, offset, limit);
+  }
+
+  // methods
 
   ngOnInit(): void {
     this.formInit();
@@ -78,14 +82,15 @@ export class ExerciseModal implements IModalMethods, OnInit {
         distinctUntilChanged()
       )
       .subscribe(value => {
+        this.apiSearch = value;
         this.getExercises(value);
       })
   }
 
-  getExercises(search: string = '') {
+  getExercises(search = this.apiSearch, offset = this.apiOffset, limit = this.apiLimit) {
     const params: any = {
-      offset: 0,
-      limit: 10,
+      offset: offset,
+      limit: limit,
     };
 
     if (search) {
@@ -93,20 +98,35 @@ export class ExerciseModal implements IModalMethods, OnInit {
     }
 
     this.http.get<any[]>('https://www.exercisedb.dev/api/v1/exercises', { params }).toPromise()
-      .then((_: any) => {
-        if (_.success) {
-          this.apiMetadata = _.metadata;
-          this.apiExercises = _.data ?? [];
+      .then((res: any) => {
+        if (res.success) {
+          this.apiData = res;
         }
       })
-      .catch(ex => this.apiExercises = []);
+      .catch(ex => this.apiData.data = []);
   }
 
   selectExercise(exercise: any) {
-    console.log(exercise);
+    this.loaderService.showPageLoader();
+
     this.form.patchValue({
       apiExerciseId: exercise.exerciseId,
       name: exercise.name
-    })
+    });
+
+    this.exerciseController.Save(this.form.value).toPromise()
+      .then(_ => {
+        if (_?.isSuccess) {
+          this.router.navigateByUrl('/', { skipLocationChange: true })
+            .then(() => {
+              this.router.navigateByUrl(`/workouts/${this.modalService.workoutIdSignal()}`)
+              this.modalService.hideExerciseModal();
+            });
+        }
+      })
+      .catch(ex => console.log(ex))
+      .finally(() => {
+        this.loaderService.hidePageLoader()
+      });
   }
 }

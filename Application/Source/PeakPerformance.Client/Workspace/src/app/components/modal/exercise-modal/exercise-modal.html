@@ -16,8 +16,8 @@
                 </div>
 
                 <!-- Exercise list -->
-                <div class="d-flex flex-column">
-                    @for (exercise of apiExercises; track $index) {
+                <div class="d-flex flex-column mb-1">
+                    @for (exercise of apiData.data; track $index) {
                         <div class="exercise-item d-flex" (click)="selectExercise(exercise)">
                             <img class="exercise-gif" [src]="exercise.gifUrl" [alt]="exercise.name"/>
 
@@ -34,6 +34,13 @@
 
                         </div>
                     }
+                    <div class="d-flex justify-content-center">
+                        <p-paginator (onPageChange)="onPageChange($event)" 
+                            [first]="apiOffset" 
+                            [rows]="apiLimit" 
+                            [totalRecords]="apiData.metadata.totalPages"
+                            [showFirstLastIcon]="false" />
+                    </div>
                  </div>
             </form>
         </div>

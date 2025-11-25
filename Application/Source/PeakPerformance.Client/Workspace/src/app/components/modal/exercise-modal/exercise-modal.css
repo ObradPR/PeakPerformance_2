@@ -13,9 +13,6 @@
     padding: 1.2rem;
     cursor: pointer;
 }
-.exercise-item:last-child{
-    border-bottom: none;
-}
 
 .exercise-gif {
     width: 60px;

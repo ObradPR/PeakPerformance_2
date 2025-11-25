@@ -85,6 +85,41 @@ export interface ICountryDto
 	isO3: string;
 	name: string;
 }
+export interface IExerciseDbApiDataDto
+{
+	exerciseId: string;
+	name: string;
+	gifUrl: string;
+	targetMuscles: string[];
+	bodyParts: string[];
+	equipments: string[];
+	secondaryMuscles: string[];
+	instructions: string[];
+}
+export interface IExerciseDbApiDto
+{
+	success: boolean;
+	metadata: IExerciseDbApiMetadataDto;
+	data: IExerciseDbApiDataDto[];
+}
+export interface IExerciseDbApiMetadataDto
+{
+	totalPages?: number;
+	totalExercises?: number;
+	currentPage?: number;
+	previousPage: string;
+	nextPage: string;
+}
+export interface IWorkoutExerciseDto
+{
+	id: number;
+	exerciseId?: number;
+	apiExerciseId: string;
+	name: string;
+	notes: string;
+	workoutId: number;
+	sets: IWorkoutExerciseSetDto[];
+}
 export interface IFileInformationDto
 {
 	fileName: string;
@@ -184,16 +219,6 @@ export interface IWorkoutDto
 	total: ITotalDto;
 	displayName: string;
 	durationTime?: any;
-}
-export interface IWorkoutExerciseDto
-{
-	id: number;
-	exerciseId?: number;
-	apiExerciseId: string;
-	name: string;
-	notes: string;
-	workoutId: number;
-	sets: IWorkoutExerciseSetDto[];
 }
 export interface IWorkoutExerciseSetDto
 {

@@ -15,6 +15,8 @@ public class GetSingleWorkoutQuery(long id) : IRequest<ResponseWrapper<WorkoutDt
             var data = await db.Workouts
                 .Include(_ => _.WorkoutExercises)
                     .ThenInclude(_ => _.WorkoutExerciseSets)
+                 .Include(_ => _.WorkoutExercises)
+                    .ThenInclude(_ => _.Exercise)
                 .FirstOrDefaultAsync(_ => _.Id == request.Id, cancellationToken);
 
             return new(mapper.Map<WorkoutDto>(data));
