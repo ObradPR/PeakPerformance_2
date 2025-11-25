@@ -1,16 +1,17 @@
 import { Component, importProvidersFrom, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { IWorkoutDto } from '../../../_generated/interfaces';
+import { IWorkoutDto, IWorkoutExerciseDto } from '../../../_generated/interfaces';
 import { ClickOutsideDirective } from '../../../directives/click-outside.directive';
 import { DateTime } from 'luxon';
 import { ModalService } from '../../../services/modal.service';
-import { WorkoutController } from '../../../_generated/services';
+import { ExerciseController, WorkoutController } from '../../../_generated/services';
 import { MeasurementConverterPipe } from "../../../pipes/measurement-converter.pipe";
 import { DurationPipe } from '../../../pipes/duration.pipe';
+import { TitleCasePipe } from '@angular/common';
 
 @Component({
   selector: 'app-workout-single',
-  imports: [ClickOutsideDirective, MeasurementConverterPipe, DurationPipe],
+  imports: [ClickOutsideDirective, MeasurementConverterPipe, DurationPipe, TitleCasePipe],
   templateUrl: './workout-single.html',
   styleUrl: './workout-single.css'
 })
@@ -19,6 +20,9 @@ export class WorkoutSingle implements OnInit {
   selectedWorkoutMenu = false;
   workoutTime: string;
 
+  selectedExerciseMenu: number | null;
+
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -26,6 +30,7 @@ export class WorkoutSingle implements OnInit {
     public modalService: ModalService,
 
     private workoutController: WorkoutController,
+    private exerciseController: ExerciseController
   ) { }
 
   ngOnInit(): void {
@@ -38,6 +43,12 @@ export class WorkoutSingle implements OnInit {
   // events 
 
   onOpenEditMenu = () => this.selectedWorkoutMenu = true;
+  onOpenExerciseEditMenu(idx: number) {
+    if (this.selectedExerciseMenu === idx)
+      this.selectedExerciseMenu = null;
+    else
+      this.selectedExerciseMenu = idx;
+  }
 
   // methods
 
@@ -45,11 +56,26 @@ export class WorkoutSingle implements OnInit {
     this.selectedWorkoutMenu = false;
     this.modalService.showEditWorkoutModal(this.workout);
   }
-
   deleteWorkout() {
     this.selectedWorkoutMenu = false;
     this.workoutController.Delete(this.workout.id).toPromise()
       .then(_ => this.router.navigateByUrl("/workouts"))
+      .catch(ex => { throw ex; })
+  }
+
+  editExercise() { // here we will probably need to pass the exercise id so we know for what to change and map
+    this.selectedExerciseMenu = null;
+    this.modalService.showExerciseModal(this.workout.id);
+  }
+  deleteExercise(id: number) {
+    this.selectedExerciseMenu = null;
+    this.exerciseController.Delete(id).toPromise()
+      .then(_ => {
+        if (_?.isSuccess) {
+          this.router.navigateByUrl('/', { skipLocationChange: true })
+            .then(() => this.router.navigateByUrl(`/workouts/${this.workout.id}`));
+        }
+      })
       .catch(ex => { throw ex; })
   }
 
@@ -81,5 +107,4 @@ export class WorkoutSingle implements OnInit {
     return DateTime.fromFormat(time, 'HH:mm:ss')
       .toFormat('h:mm a'); // 12-hour format with AM/PM
   }
-
 }

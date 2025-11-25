@@ -59,8 +59,36 @@
 
     <!-- EXERCISES -->
 
+    @if (workout.exercises.length > 0) {
+        @for (exercise of workout.exercises; track $index; let idx = $index) {
+            <div class="d-flex justify-content-between align-items-center position-relative">
+                <h3>{{ exercise.name | titlecase }}</h3>
+                <span class="edit-dots" (click)="onOpenExerciseEditMenu(idx)">⋮</span>
+                @if (selectedExerciseMenu === idx) {
+                    <div class="edit-menu" appClickOutside (clickOutside)="this.selectedExerciseMenu = null">
+                        <ul>
+                            <li (click)="editExercise()">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                                Edit
+                            </li>
+                            <li (click)="deleteExercise(exercise.id)" class="delete-item">
+                                <i class="fa-solid fa-trash"></i>
+                                Delete
+                            </li>
+                        </ul>
+                    </div>
+                }
+            </div>
+            <div class="row">
+                <div class="mt-1 mb-3">
+                        <!-- <button class="btn btn-light" (click)="modalService.showAddSetModal()"><i class="fa-solid fa-plus"></i> Add Set</button> -->
+                </div>
+            </div>
+        }
+    }
+
     <div class="row">
-         <div class="top-btns mt-5 mb-3">
+         <div class="mt-5 mb-3">
                 <button class="btn btn-primary" (click)="modalService.showExerciseModal(workout.id)"><i class="fa-solid fa-dumbbell"></i> Add Exercise</button>
         </div>
     </div>
