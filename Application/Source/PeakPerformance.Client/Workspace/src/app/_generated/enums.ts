@@ -41,7 +41,8 @@ export enum eSetRpe {
 export enum eSetType {
 	Warmup = 1,
 	Normal = 2,
-	Failure = 3
+	Failure = 3,
+	Dropset = 4
 }
 export enum eSystemRole {
 	Admin = 1,

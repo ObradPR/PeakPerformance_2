@@ -21,6 +21,8 @@ public class WorkoutExerciseSet : BaseAuditedDomain<long>, IConfigurableEntity
 
     public string Notes { get; set; }
 
+    public int Order { get; set; }
+
     // Adittional Weight / MeasurementUntiId
     // Cardio stats, and others
     // Later on maybe we will need to store and type of exercise so that we can change the structure of dat user can input for a set/exercise

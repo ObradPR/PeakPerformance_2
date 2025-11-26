@@ -11,6 +11,8 @@ public class WorkoutExercise : BaseAuditedDomain<long>
 
     public string Notes { get; set; }
 
+    public int Order { get; set; }
+
     // #TODO: Check if maybe exercises should be bound to user
     // like in case we would have Exercise page so we will need to serach for user exercises
 

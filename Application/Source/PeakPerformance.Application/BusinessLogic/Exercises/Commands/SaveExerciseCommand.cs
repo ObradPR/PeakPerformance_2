@@ -34,7 +34,7 @@ public class SaveExerciseCommand(WorkoutExerciseDto data) : IRequest<BaseRespons
                     Name = request.Data.Name,
                 };
 
-                db.Exercises.Add(newExercise); // check if this line gives you duplicates when creating new WorkoutExercise with Exercise you don't have in db
+                db.Exercises.Add(newExercise);
 
                 model.Exercise = newExercise;
             }

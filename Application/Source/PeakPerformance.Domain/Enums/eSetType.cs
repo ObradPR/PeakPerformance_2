@@ -10,4 +10,7 @@ public enum eSetType
 
     [Description("Failure")]
     Failure = 3,
+
+    [Description("Dropset")]
+    Dropset = 4,
 }
