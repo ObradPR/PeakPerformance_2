@@ -10,7 +10,7 @@
     background-color: #fff;
     border: 1px solid var(--bs-border-color);
     z-index: 10;
-    width: 150px;
+    width: 200px;
     padding: 0.5rem 0;
     text-align: start;
     align-items: center;
@@ -40,6 +40,10 @@
 
 .edit-menu ul li.delete-item {
     color: red;
+}
+
+.edit-menu hr {
+    margin: 0.5rem 0;
 }
 
 .short-info-block {

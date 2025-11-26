@@ -17,9 +17,10 @@
                         <i class="fa-solid fa-pen-to-square"></i>
                         Edit
                     </li>
+                    <hr>
                     <li (click)="deleteWorkout()" class="delete-item">
                         <i class="fa-solid fa-trash"></i>
-                        Delete
+                        Delete Workout
                     </li>
                 </ul>
             </div>
@@ -72,18 +73,29 @@
                 @if (selectedExerciseMenu === idx) {
                     <div class="edit-menu" appClickOutside (clickOutside)="this.selectedExerciseMenu = null">
                         <ul>
-                            <li (click)="editExercise()">
-                                <i class="fa-solid fa-pen-to-square"></i>
-                                Edit
+                            <li (click)="editExerciseNotes(exercise)">
+                                <i class="fa-solid fa-pencil"></i>
+                                Edit Notes
                             </li>
+                            <hr>
+                            <li (click)="switchExercise(exercise.id)">
+                                <i class="fa-solid fa-arrow-right-arrow-left"></i>
+                                Switch Exercise
+                            </li>
+                            <hr>
                             <li (click)="deleteExercise(exercise.id)" class="delete-item">
                                 <i class="fa-solid fa-trash"></i>
-                                Delete
+                                Delete Exercise
                             </li>
                         </ul>
                     </div>
                 }
             </div>
+              @if (exercise.notes) {
+                <div>
+                    <textarea class="form-control mb-4" [name]="'exercise-notes-' + idx" [id]="'exercise-notes-' + idx" readonly rows="1" (focus)="editExerciseNotes(exercise)">{{ workout.notes }}</textarea>
+                </div>
+            }
             <div class="row">
                 <div class="mt-1 mb-3">
                         <!-- <button class="btn btn-light" (click)="modalService.showAddSetModal()"><i class="fa-solid fa-plus"></i> Add Set</button> -->

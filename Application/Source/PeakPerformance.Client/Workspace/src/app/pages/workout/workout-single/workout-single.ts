@@ -63,9 +63,9 @@ export class WorkoutSingle implements OnInit {
       .catch(ex => { throw ex; })
   }
 
-  editExercise() { // here we will probably need to pass the exercise id so we know for what to change and map
+  switchExercise(id: number) {
     this.selectedExerciseMenu = null;
-    this.modalService.showExerciseModal(this.workout.id);
+    this.modalService.showExerciseModal(this.workout.id, id);
   }
   deleteExercise(id: number) {
     this.selectedExerciseMenu = null;
@@ -77,6 +77,10 @@ export class WorkoutSingle implements OnInit {
         }
       })
       .catch(ex => { throw ex; })
+  }
+  editExerciseNotes(data: IWorkoutExerciseDto) {
+    this.selectedExerciseMenu = null;
+    this.modalService.showExerciseNotesModal(data);
   }
 
   // private

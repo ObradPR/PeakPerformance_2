@@ -134,17 +134,60 @@ export class ModalService {
 
   private exerciseModal = signal<boolean>(false);
   private workoutId = signal<number>(0);
+  private exerciseId = signal<number>(0);
+  private apiExerciseId = signal<string>('');
+  private exerciseName = signal<string>('');
 
   readonly exerciseModalSignal = this.exerciseModal.asReadonly();
   readonly workoutIdSignal = this.workoutId.asReadonly();
+  readonly exerciseIdSignal = this.exerciseId.asReadonly();
+  readonly apiExerciseIdSignal = this.apiExerciseId.asReadonly();
+  readonly exerciseNameSignal = this.exerciseName.asReadonly();
 
-  showExerciseModal(workoutId: number) {
+
+  showExerciseModal(workoutId: number, exerciseId: number = 0) {
     this.exerciseModal.set(true);
     this.workoutId.set(workoutId);
+    this.exerciseId.set(exerciseId);
   }
 
   hideExerciseModal() {
     this.exerciseModal.set(false);
     this.workoutId.set(0);
+    this.exerciseId.set(0);
   }
+
+  showExerciseNotesModal(data: IWorkoutExerciseDto) {
+    this.notesModal.set(true);
+    this.notes.set(data.notes);
+    this.isExerciseNotesModal.set(true);
+
+    this.workoutId.set(data.workoutId);
+    this.exerciseId.set(data.id);
+    this.apiExerciseId.set(data.apiExerciseId);
+    this.exerciseName.set(data.name);
+  }
+
+  // Notes
+
+  private notesModal = signal<boolean>(false);
+  private notes = signal<string>('');
+  private isExerciseNotesModal = signal<boolean>(false);
+
+  readonly notesModalSignal = this.notesModal.asReadonly();
+  readonly notesSignal = this.notes.asReadonly();
+  readonly isExerciseNotesModalSignal = this.isExerciseNotesModal.asReadonly();
+
+  hideNotesModal() {
+    this.notesModal.set(false);
+    this.notes.set('');
+
+    this.isExerciseNotesModal.set(false);
+
+    this.workoutId.set(0);
+    this.exerciseId.set(0);
+    this.apiExerciseId.set('');
+    this.exerciseName.set('');
+  }
+
 }

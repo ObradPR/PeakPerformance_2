@@ -20,3 +20,7 @@
 @if(modalService.exerciseModalSignal()) {
     <app-exercise-modal (closeModalEvent)="modalService.hideExerciseModal()"></app-exercise-modal>
 }
+
+@if(modalService.notesModalSignal()) {
+    <app-notes-modal (closeModalEvent)="modalService.hideNotesModal()"></app-notes-modal>
+}

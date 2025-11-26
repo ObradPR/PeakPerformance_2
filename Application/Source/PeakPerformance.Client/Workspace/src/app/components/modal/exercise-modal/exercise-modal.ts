@@ -67,8 +67,10 @@ export class ExerciseModal implements IModalMethods, OnInit {
   }
 
   formInit(): void {
+    console.log(this.modalService.exerciseIdSignal())
     this.form = this.fb.group({
       search: [''],
+      id: [this.modalService.exerciseIdSignal()],
       apiExerciseId: [],
       name: [],
       workoutId: [this.modalService.workoutIdSignal()]
