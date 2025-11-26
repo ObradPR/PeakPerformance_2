@@ -76,6 +76,8 @@ export class WorkoutSingle implements OnInit {
     this.modalService.showExerciseModal(this.workout.id, order, id);
   }
   deleteExercise(id: number) {
+    this.loaderService.showPageLoader();
+
     this.selectedExerciseMenu = null;
     this.exerciseController.Delete(id).toPromise()
       .then(_ => {
@@ -85,6 +87,7 @@ export class WorkoutSingle implements OnInit {
         }
       })
       .catch(ex => { throw ex; })
+      .finally(() => this.loaderService.hidePageLoader());
   }
   editExerciseNotes(data: IWorkoutExerciseDto) {
     this.selectedExerciseMenu = null;
