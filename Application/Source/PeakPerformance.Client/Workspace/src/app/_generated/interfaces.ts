@@ -117,6 +117,7 @@ export interface IWorkoutExerciseDto
 	apiExerciseId: string;
 	name: string;
 	notes: string;
+	order: number;
 	workoutId: number;
 	sets: IWorkoutExerciseSetDto[];
 }
@@ -231,6 +232,7 @@ export interface IWorkoutExerciseSetDto
 	typeId?: eSetType;
 	rest?: number;
 	notes: string;
+	order: number;
 }
 export interface IPagingResult<TEntity>
 {

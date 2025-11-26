@@ -14,6 +14,8 @@ public class WorkoutExerciseDto
 
     public string Notes { get; set; }
 
+    public int Order { get; set; }
+
     [Display(Name = "Workout")]
     public long WorkoutId { get; set; }
 
@@ -25,5 +27,6 @@ public class WorkoutExerciseDto
     {
         model.WorkoutId = WorkoutId;
         model.Notes = Notes;
+        model.Order = Order;
     }
 }

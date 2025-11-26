@@ -18,7 +18,32 @@ public class SaveExerciseCommand(WorkoutExerciseDto data) : IRequest<BaseRespons
                 : null;
 
             var model = existingModel ?? new();
+            var oldOrder = existingModel?.Order ?? 0;
             request.Data.ToModel(model, identityUser.Id);
+
+            if (!model.IsNew)
+            {
+                var allExercises = await db.WorkoutExercises
+                    .Where(_ => _.WorkoutId == request.Data.WorkoutId && _.Id != model.Id)
+                    .OrderBy(_ => _.Order)
+                    .ToListAsync(cancellationToken);
+
+                var newOrder = model.Order;
+
+                if (oldOrder != newOrder)
+                {
+                    if (newOrder < oldOrder)
+                    {
+                        foreach (var e in allExercises.Where(_ => _.Order >= newOrder && _.Order < oldOrder))
+                            e.Order++;
+                    }
+                    else
+                    {
+                        foreach (var e in allExercises.Where(_ => _.Order <= newOrder && _.Order > oldOrder))
+                            e.Order--;
+                    }
+                }
+            }
 
             var exercise = await db.Exercises.FirstOrDefaultAsync(_ => _.ApiExerciseId == request.Data.ApiExerciseId, cancellationToken);
 

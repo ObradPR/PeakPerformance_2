@@ -20,6 +20,8 @@ public class WorkoutExerciseSetDto
 
     public string Notes { get; set; }
 
+    public int Order { get; set; }
+
     // method
 
     public void ToModel(WorkoutExerciseSet model, long userId)
@@ -32,5 +34,6 @@ public class WorkoutExerciseSetDto
         model.TypeId = TypeId;
         model.Rest = Rest;
         model.Notes = Notes;
+        model.Order = Order.IsEmpty() ? 1 : Order;
     }
 }
