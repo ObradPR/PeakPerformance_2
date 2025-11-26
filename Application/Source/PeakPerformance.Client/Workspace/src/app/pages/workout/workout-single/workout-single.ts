@@ -82,6 +82,10 @@ export class WorkoutSingle implements OnInit {
     this.selectedExerciseMenu = null;
     this.modalService.showExerciseNotesModal(data);
   }
+  howToExercise(apiExerciseId: string) {
+    this.selectedExerciseMenu = null;
+    this.modalService.showHowToExerciseModal(apiExerciseId);
+  }
 
   // private
 

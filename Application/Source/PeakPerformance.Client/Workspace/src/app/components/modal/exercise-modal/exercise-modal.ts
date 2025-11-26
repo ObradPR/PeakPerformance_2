@@ -40,7 +40,6 @@ export class ExerciseModal implements IModalMethods, OnInit {
 
     private modalService: ModalService,
     private loaderService: LoaderService,
-    private sharedService: SharedService,
   ) { }
 
   // events

@@ -73,6 +73,11 @@
                 @if (selectedExerciseMenu === idx) {
                     <div class="edit-menu" appClickOutside (clickOutside)="this.selectedExerciseMenu = null">
                         <ul>
+                            <li (click)="howToExercise(exercise.apiExerciseId)">
+                                <i class="fa-solid fa-graduation-cap"></i>
+                                How To
+                            </li>
+                            <hr>
                             <li (click)="editExerciseNotes(exercise)">
                                 <i class="fa-solid fa-pencil"></i>
                                 Edit Notes
