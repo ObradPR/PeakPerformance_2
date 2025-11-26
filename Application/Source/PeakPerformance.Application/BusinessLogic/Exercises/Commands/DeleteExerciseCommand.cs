@@ -15,6 +15,13 @@ public class DeleteExerciseCommand(long id) : IRequest<BaseResponseWrapper>
             if (model == null)
                 return new(new Error(nameof(Exercise), ResourceValidation.Not_Found));
 
+            var otherExercises = await db.WorkoutExercises
+                .Where(_ => _.WorkoutId == model.WorkoutId && _.Id != model.Id)
+                .ToListAsync(cancellationToken);
+
+            foreach (var e in otherExercises.Where(_ => _.Order > model.Order))
+                e.Order--;
+
             // Remove sets
             db.WorkoutExerciseSets.RemoveRange(model.WorkoutExerciseSets);
 
