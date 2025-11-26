@@ -8,6 +8,13 @@ import { ExerciseController, WorkoutController } from '../../../_generated/servi
 import { MeasurementConverterPipe } from "../../../pipes/measurement-converter.pipe";
 import { DurationPipe } from '../../../pipes/duration.pipe';
 import { TitleCasePipe } from '@angular/common';
+import { LoaderService } from '../../../services/loader.service';
+
+
+enum eOrderMove {
+  Up = 1,
+  Down = 2
+}
 
 @Component({
   selector: 'app-workout-single',
@@ -28,6 +35,7 @@ export class WorkoutSingle implements OnInit {
     private router: Router,
 
     public modalService: ModalService,
+    private loaderService: LoaderService,
 
     private workoutController: WorkoutController,
     private exerciseController: ExerciseController
@@ -63,9 +71,9 @@ export class WorkoutSingle implements OnInit {
       .catch(ex => { throw ex; })
   }
 
-  switchExercise(id: number) {
+  switchExercise(id: number, order: number) {
     this.selectedExerciseMenu = null;
-    this.modalService.showExerciseModal(this.workout.id, id);
+    this.modalService.showExerciseModal(this.workout.id, order, id);
   }
   deleteExercise(id: number) {
     this.selectedExerciseMenu = null;
@@ -85,6 +93,26 @@ export class WorkoutSingle implements OnInit {
   howToExercise(apiExerciseId: string) {
     this.selectedExerciseMenu = null;
     this.modalService.showHowToExerciseModal(apiExerciseId);
+  }
+  moveExercise(exercise: IWorkoutExerciseDto, move: eOrderMove) {
+    this.loaderService.showPageLoader();
+
+    if (move === eOrderMove.Up) {
+      exercise.order--;
+    }
+    else if (move === eOrderMove.Down) {
+      exercise.order++;
+    }
+
+    this.exerciseController.Save(exercise).toPromise()
+      .then(_ => {
+        if (_?.isSuccess) {
+          this.router.navigateByUrl('/', { skipLocationChange: true })
+            .then(() => this.router.navigateByUrl(`/workouts/${this.workout.id}`));
+        }
+      })
+      .catch(ex => console.log(ex))
+      .finally(() => this.loaderService.hidePageLoader());
   }
 
   // private

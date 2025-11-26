@@ -72,7 +72,8 @@ export class ExerciseModal implements IModalMethods, OnInit {
       id: [this.modalService.exerciseIdSignal()],
       apiExerciseId: [],
       name: [],
-      workoutId: [this.modalService.workoutIdSignal()]
+      workoutId: [this.modalService.workoutIdSignal()],
+      order: [this.modalService.exerciseOrderSignal()]
     });
   }
 
@@ -89,6 +90,8 @@ export class ExerciseModal implements IModalMethods, OnInit {
   }
 
   getExercises(search = this.apiSearch, offset = this.apiOffset, limit = this.apiLimit) {
+    this.loaderService.showPageLoader();
+
     const params: any = {
       offset: offset,
       limit: limit,
@@ -104,7 +107,11 @@ export class ExerciseModal implements IModalMethods, OnInit {
           this.apiData = res;
         }
       })
-      .catch(ex => this.apiData.data = []);
+      .catch(ex => {
+        // #TODO: Toaster validation
+        this.modalService.hideExerciseModal();
+      })
+      .finally(() => this.loaderService.hidePageLoader());
   }
 
   selectExercise(exercise: any) {

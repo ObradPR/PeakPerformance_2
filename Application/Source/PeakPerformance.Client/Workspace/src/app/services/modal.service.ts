@@ -135,6 +135,7 @@ export class ModalService {
   private exerciseModal = signal<boolean>(false);
   private howToExerciseModal = signal<boolean>(false);
   private workoutId = signal<number>(0);
+  private exerciseOrder = signal<number>(0);
   private exerciseId = signal<number>(0);
   private apiExerciseId = signal<string>('');
   private exerciseName = signal<string>('');
@@ -142,20 +143,23 @@ export class ModalService {
   readonly exerciseModalSignal = this.exerciseModal.asReadonly();
   readonly howToExerciseModalSignal = this.howToExerciseModal.asReadonly();
   readonly workoutIdSignal = this.workoutId.asReadonly();
+  readonly exerciseOrderSignal = this.exerciseOrder.asReadonly();
   readonly exerciseIdSignal = this.exerciseId.asReadonly();
   readonly apiExerciseIdSignal = this.apiExerciseId.asReadonly();
   readonly exerciseNameSignal = this.exerciseName.asReadonly();
 
 
-  showExerciseModal(workoutId: number, exerciseId: number = 0) {
+  showExerciseModal(workoutId: number, order: number, exerciseId: number = 0) {
     this.exerciseModal.set(true);
     this.workoutId.set(workoutId);
+    this.exerciseOrder.set(order);
     this.exerciseId.set(exerciseId);
   }
 
   hideExerciseModal() {
     this.exerciseModal.set(false);
     this.workoutId.set(0);
+    this.exerciseOrder.set(0);
     this.exerciseId.set(0);
   }
 
