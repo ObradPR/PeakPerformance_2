@@ -3,6 +3,7 @@ import { IExerciseDbApiDataDto, IExerciseDbApiDto } from '../../../_generated/in
 import { HttpClient } from '@angular/common/http';
 import { ModalService } from '../../../services/modal.service';
 import { TitleCasePipe } from '@angular/common';
+import { LoaderService } from '../../../services/loader.service';
 
 @Component({
   selector: 'app-how-to-exercise-modal',
@@ -17,15 +18,22 @@ export class HowToExerciseModal {
   constructor(
     private http: HttpClient,
 
-    private modalService: ModalService
+    private modalService: ModalService,
+    private loaderService: LoaderService
   ) {
+    this.loaderService.showPageLoader();
+
     this.http.get<any>(`https://www.exercisedb.dev/api/v1/exercises/${this.modalService.apiExerciseIdSignal()}`).toPromise()
       .then((res: any) => {
         if (res.success) {
           this.exercise = res.data;
         }
       })
-      .catch(ex => this.exercise = {});
+      .catch(ex => {
+        this.exercise = {}
+        this.modalService.hideHowToExerciseModal();
+      })
+      .finally(() => this.loaderService.hidePageLoader());
   }
 
   closeModal(): void {
