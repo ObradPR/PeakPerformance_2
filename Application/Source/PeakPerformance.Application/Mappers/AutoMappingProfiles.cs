@@ -32,7 +32,7 @@ public class AutoMappingProfiles : BaseAutoMapperProfile
         CreateMap<Country, CountryDto>();
 
         CreateMap<Workout, WorkoutDto>()
-            .ForMember(dest => dest.Exercises, opt => opt.MapFrom(src => src.WorkoutExercises.ToList()))
+            .ForMember(dest => dest.Exercises, opt => opt.MapFrom(src => src.WorkoutExercises.OrderBy(_ => _.Order).ToList()))
             .ForMember(dest => dest.DisplayName, opt => opt.MapFrom(src => $"{src.LogDate: d MMMM yyyy} - {src.Name}"))
             .ForMember(dest => dest.DurationTime, opt => opt.MapFrom(src => src.StartAt.HasValue && src.FinishAt.HasValue
                 ? TimeOnly.FromTimeSpan(src.FinishAt.Value - src.StartAt.Value)
