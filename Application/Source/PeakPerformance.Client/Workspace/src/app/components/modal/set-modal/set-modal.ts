@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { eMeasurementUnit, eSetRpeType, eSetType } from '../../../_generated/enums';
 import { IEnumProvider, IWorkoutExerciseSetDto } from '../../../_generated/interfaces';
 import { Providers } from '../../../_generated/providers';
-import { BodyweightController } from '../../../_generated/services';
+import { BodyweightController, SetController } from '../../../_generated/services';
 import { ValidationDirective } from '../../../directives/validation.directive';
 import { BaseValidationComponent } from '../../../pages/_base/base.component/base-validation.component';
 import { MeasurementConverterPipe } from '../../../pipes/measurement-converter.pipe';
@@ -36,7 +36,7 @@ export class SetModal extends BaseValidationComponent implements IModalMethods, 
     private fb: FormBuilder,
     private router: Router,
 
-    private setController: BodyweightController,
+    private setController: SetController,
 
     public modalService: ModalService,
     private authService: AuthService,
@@ -67,7 +67,7 @@ export class SetModal extends BaseValidationComponent implements IModalMethods, 
       ],
       weightUnitId: [this.userWeightPreference],
       reps: [this.selectedSet?.reps],
-      sets: [this.selectedSet?.reps],
+      sets: [],
       rpeTypeId: [this.selectedSet?.rpeTypeId ?? eSetRpeType.NotSet],
       typeId: [this.selectedSet?.typeId ?? eSetType.NotSet],
       order: [this.modalService.orderSignal()],
@@ -81,7 +81,14 @@ export class SetModal extends BaseValidationComponent implements IModalMethods, 
     if (this.selectedSet !== null)
       this.form.value.id = this.selectedSet.id;
 
-    this.setController.Save(this.form.value).toPromise()
+    const payload: IWorkoutExerciseSetDto = {
+      ...this.form.value,
+      weight: isNaN(this.form.value.weight) ? 0 : this.form.value.weight,
+      reps: this.form.value.reps ? this.form.value.reps : 0,
+      sets: this.form.value.sets ? this.form.value.sets : 1
+    }
+
+    this.setController.Save(payload).toPromise()
       .then(_ => {
         if (_?.isSuccess) {
           this.router.navigateByUrl('/', { skipLocationChange: true })

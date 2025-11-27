@@ -17,14 +17,14 @@
             <div class="position-relative">
                 <label for="reps">Reps</label>
                 <div class="input-group mb-2" validation [key]="'Reps'" [errors]="errors">
-                    <input type="number" class="form-control" id="reps" placeholder="0" aria-label="reps" aria-describedby="reps-addon" formControlName="reps" />
+                    <input type="number" class="form-control" id="reps" placeholder="1" aria-label="reps" aria-describedby="reps-addon" formControlName="reps" />
                 </div>
             </div>
             @if (!selectedSet) {
                 <div class="position-relative">
                     <label for="sets">Sets</label>
                     <div class="input-group mb-2" validation [key]="'Sets'" [errors]="errors">
-                        <input type="number" class="form-control" id="sets" placeholder="0" aria-label="sets" aria-describedby="sets-addon" formControlName="sets" />
+                        <input type="number" class="form-control" id="sets" placeholder="1" aria-label="sets" aria-describedby="sets-addon" formControlName="sets" />
                     </div>
                 </div>
             }
@@ -32,7 +32,12 @@
                 <label for="rpeTypeId">RPE</label>
                 <select id="rpeTypeId" class="form-select mb-3" formControlName="rpeTypeId" validation [key]="'Rpe'" [errors]="errors">
                     @for (rpe of rpes; track rpe) {
-                        <option [ngValue]="rpe.id">{{ rpe.description }}</option>
+                        @if (rpe.id === 0) {
+                            <option [ngValue]="rpe.id">{{ rpe.description }}</option>
+                        }
+                        @else {
+                            <option [ngValue]="rpe.id">{{ rpe.id + ' - ' + rpe.description }}</option>
+                        }
                     }
                 </select>
             </div>
