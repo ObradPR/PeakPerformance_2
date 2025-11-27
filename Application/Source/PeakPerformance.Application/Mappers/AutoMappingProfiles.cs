@@ -38,7 +38,7 @@ public class AutoMappingProfiles : BaseAutoMapperProfile
                 ? TimeOnly.FromTimeSpan(src.FinishAt.Value - src.StartAt.Value)
                 : (TimeOnly?)null));
         CreateMap<WorkoutExercise, WorkoutExerciseDto>()
-            .ForMember(dest => dest.Sets, opt => opt.MapFrom(src => src.WorkoutExerciseSets.ToList()))
+            .ForMember(dest => dest.Sets, opt => opt.MapFrom(src => src.WorkoutExerciseSets.OrderBy(_ => _.Order).ToList()))
             .ForMember(dest => dest.ApiExerciseId, opt => opt.MapFrom(src => src.Exercise.ApiExerciseId))
             .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Exercise.Name));
         CreateMap<WorkoutExerciseSet, WorkoutExerciseSetDto>();
