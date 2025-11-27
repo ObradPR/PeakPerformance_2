@@ -13,4 +13,10 @@ public enum Providers
 
     [EnumProvider<eUserGender>]
     UserGenders,
+
+    [EnumProvider<eSetRpeType>]
+    SetRpeTypes,
+
+    [EnumProvider<eSetType>]
+    SetTypes,
 }

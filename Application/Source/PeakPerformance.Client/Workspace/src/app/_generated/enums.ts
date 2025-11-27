@@ -26,7 +26,8 @@ export enum eMeasurementUnit {
 	Centimeters = 3,
 	Inches = 4
 }
-export enum eSetRpe {
+export enum eSetRpeType {
+	NotSet = 0,
 	Rpe_1 = 1,
 	Rpe_2 = 2,
 	Rpe_3 = 3,
@@ -39,6 +40,7 @@ export enum eSetRpe {
 	Rpe_10 = 10
 }
 export enum eSetType {
+	NotSet = 0,
 	Warmup = 1,
 	Normal = 2,
 	Failure = 3,

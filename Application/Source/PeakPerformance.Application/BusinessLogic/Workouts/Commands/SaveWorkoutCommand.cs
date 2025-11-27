@@ -39,7 +39,7 @@ public class SaveWorkoutCommand(WorkoutDto data) : IRequest<ResponseWrapper<long
                         WorkoutExerciseSets = _.WorkoutExerciseSets.Select(_ => new WorkoutExerciseSet
                         {
                             Weight = _.Weight,
-                            WeightMeasurementUnitId = _.WeightMeasurementUnitId,
+                            WeightUnitId = _.WeightUnitId,
                             Reps = _.Reps,
                             RpeTypeId = _.RpeTypeId,
                             TypeId = _.TypeId,

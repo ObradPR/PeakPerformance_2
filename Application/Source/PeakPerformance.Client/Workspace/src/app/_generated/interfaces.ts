@@ -1,7 +1,7 @@
 import { eUserGender } from './enums';
 import { eMeasurementUnit } from './enums';
 import { eBodyPart } from './enums';
-import { eSetRpe } from './enums';
+import { eSetRpeType } from './enums';
 import { eSetType } from './enums';
 import { eChartTimespan } from './enums';
 
@@ -226,13 +226,14 @@ export interface IWorkoutExerciseSetDto
 	id: number;
 	workoutExerciseId: number;
 	weight?: number;
-	weightMeasurementUnitId?: eMeasurementUnit;
+	weightUnitId?: eMeasurementUnit;
 	reps: number;
-	rpeTypeId?: eSetRpe;
+	rpeTypeId?: eSetRpeType;
 	typeId?: eSetType;
 	rest?: number;
 	notes: string;
 	order: number;
+	sets: number;
 }
 export interface IPagingResult<TEntity>
 {

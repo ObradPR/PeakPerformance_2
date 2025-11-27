@@ -48,4 +48,30 @@ import { IEnumProvider } from './interfaces';
 		    { id: 2, name: 'Female', description: 'Female', bgColor: '' }
 		];
 	}
+	getSetRpeTypes() : IEnumProvider[]
+	{
+		return [
+		    { id: 0, name: 'NotSet', description: '', bgColor: '' },
+		    { id: 1, name: 'Rpe_1', description: 'Very light', bgColor: '#64C8C8' },
+		    { id: 2, name: 'Rpe_2', description: 'Light', bgColor: '#4FC0E0' },
+		    { id: 3, name: 'Rpe_3', description: 'Moderate', bgColor: '#3DA9A9' },
+		    { id: 4, name: 'Rpe_4', description: 'Somewhat heavy', bgColor: '#7AC74F' },
+		    { id: 5, name: 'Rpe_5', description: 'Heavy', bgColor: '#FFD93D' },
+		    { id: 6, name: 'Rpe_6', description: '6', bgColor: '#FFA500' },
+		    { id: 7, name: 'Rpe_7', description: 'Very heavy', bgColor: '#FF4500' },
+		    { id: 8, name: 'Rpe_8', description: '8', bgColor: '#FF0000' },
+		    { id: 9, name: 'Rpe_9', description: '9', bgColor: '#B22222' },
+		    { id: 10, name: 'Rpe_10', description: 'Very, very heavy (almost max)', bgColor: '#800000' }
+		];
+	}
+	getSetTypes() : IEnumProvider[]
+	{
+		return [
+		    { id: 0, name: 'NotSet', description: '', bgColor: '' },
+		    { id: 1, name: 'Warmup', description: 'Warmup', bgColor: '' },
+		    { id: 2, name: 'Normal', description: 'Normal', bgColor: '' },
+		    { id: 3, name: 'Failure', description: 'Failure', bgColor: '' },
+		    { id: 4, name: 'Dropset', description: 'Dropset', bgColor: '' }
+		];
+	}
 }

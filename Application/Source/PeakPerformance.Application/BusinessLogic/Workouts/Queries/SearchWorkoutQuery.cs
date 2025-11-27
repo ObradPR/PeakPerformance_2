@@ -40,7 +40,7 @@ public class SearchWorkoutQuery(WorkoutSearchOptions options) : IRequest<Respons
                 {
                     Reps = sets.Sum(_ => _.Reps),
                     Sets = sets.Count,
-                    Volume = sets.Sum(_ => _.Reps * _.Weight.Value.ConvertUnitValue(_.WeightMeasurementUnitId.Value, userMeasurementUnitId)),
+                    Volume = sets.Sum(_ => _.Reps * _.Weight.Value.ConvertUnitValue(_.WeightUnitId.Value, userMeasurementUnitId)),
                 };
             }
 

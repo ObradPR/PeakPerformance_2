@@ -17,11 +17,20 @@ public class SaveSetCommand(WorkoutExerciseSetDto data) : IRequest<BaseResponseW
                 ? await db.WorkoutExerciseSets.GetSingleAsync(request.Data.Id)
                 : null;
 
-            var model = existingModel ?? new();
-            request.Data.ToModel(model, identityUser.Id);
+            if (existingModel != null)
+            {
+                request.Data.ToModel(existingModel, identityUser.Id);
+            }
 
-            if (model.IsNew)
-                db.WorkoutExerciseSets.Add(model);
+            if (existingModel == null)
+            {
+                for (var i = 0; i < request.Data.Sets; i++)
+                {
+                    var model = new WorkoutExerciseSet();
+                    request.Data.ToModel(model, identityUser.Id);
+                    db.WorkoutExerciseSets.Add(model);
+                }
+            }
 
             await db.SaveChangesAsync(cancellationToken);
 

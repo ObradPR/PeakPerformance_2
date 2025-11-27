@@ -2,6 +2,9 @@
 
 public enum eSetType
 {
+    [Description("")]
+    NotSet = 0,
+
     [Description("Warmup")]
     Warmup = 1,
 

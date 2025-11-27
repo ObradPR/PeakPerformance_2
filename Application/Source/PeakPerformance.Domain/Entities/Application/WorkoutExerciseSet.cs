@@ -9,11 +9,11 @@ public class WorkoutExerciseSet : BaseAuditedDomain<long>, IConfigurableEntity
 
     public decimal? Weight { get; set; }
 
-    public eMeasurementUnit? WeightMeasurementUnitId { get; set; }
+    public eMeasurementUnit? WeightUnitId { get; set; }
 
     public int Reps { get; set; }
 
-    public eSetRpe? RpeTypeId { get; set; }
+    public eSetRpeType? RpeTypeId { get; set; }
 
     public eSetType? TypeId { get; set; }
 

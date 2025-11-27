@@ -8,12 +8,14 @@ public class WorkoutExerciseSetDto
 
     public decimal? Weight { get; set; }
 
-    public eMeasurementUnit? WeightMeasurementUnitId { get; set; }
+    public eMeasurementUnit? WeightUnitId { get; set; }
 
     public int Reps { get; set; }
 
-    public eSetRpe? RpeTypeId { get; set; }
+    [Display(Name = "Rpe")]
+    public eSetRpeType? RpeTypeId { get; set; }
 
+    [Display(Name = "Type")]
     public eSetType? TypeId { get; set; }
 
     public int? Rest { get; set; }
@@ -22,16 +24,18 @@ public class WorkoutExerciseSetDto
 
     public int Order { get; set; }
 
+    public int Sets { get; set; } = 1;
+
     // method
 
     public void ToModel(WorkoutExerciseSet model, long userId)
     {
         model.WorkoutExerciseId = WorkoutExerciseId;
         model.Weight = Weight;
-        model.WeightMeasurementUnitId = WeightMeasurementUnitId;
+        model.WeightUnitId = WeightUnitId;
         model.Reps = Reps;
-        model.RpeTypeId = RpeTypeId;
-        model.TypeId = TypeId;
+        model.RpeTypeId = RpeTypeId == 0 ? null : RpeTypeId;
+        model.TypeId = TypeId == 0 ? null : TypeId;
         model.Rest = Rest;
         model.Notes = Notes;
         model.Order = Order.IsEmpty() ? 1 : Order;

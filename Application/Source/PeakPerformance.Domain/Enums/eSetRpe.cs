@@ -2,8 +2,11 @@
 
 namespace PeakPerformance.Domain.Enums;
 
-public enum eSetRpe
+public enum eSetRpeType
 {
+    [Description("")]
+    NotSet = 0,
+
     [BgColor("#64C8C8")] // teal
     [Description("Very light")]
     Rpe_1 = 1,
