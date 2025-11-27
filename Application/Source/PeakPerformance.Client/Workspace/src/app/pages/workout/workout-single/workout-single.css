@@ -21,6 +21,9 @@ textarea {
     resize: none;
 }
 
+.data-table td {
+    padding: 0.4rem 0.3rem;
+}
 .data-table tr {
     border-bottom: 1px solid var(--bs-border-color);
 }

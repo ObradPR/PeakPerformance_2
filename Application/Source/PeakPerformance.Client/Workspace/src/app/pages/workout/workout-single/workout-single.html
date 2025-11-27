@@ -128,9 +128,38 @@
                             <tr>
                                 <td>{{ set.weight | measurementConverter:set.weightUnitId }}</td>
                                 <td>{{ set.reps }}</td>
-                                <td>{{ set.rpeTypeId }}</td>
-                                <td>{{ set.typeId }}</td>
-                                <td>{{ set.rest }}</td>
+                                <td>
+                                    <span
+                                        [ngStyle]="{
+                                            'background-color': getSetRpeById(set.rpeTypeId)?.bgColor,
+                                            'color': set.rpeTypeId && set.rpeTypeId > 0 ? '#fff' : '',
+                                            'padding': set.rpeTypeId && set.rpeTypeId > 0 ? '0.3rem 0.5rem' : ''
+                                        }"
+                                        style="border-radius: 3px;">
+                                        {{ set.rpeTypeId && set.rpeTypeId > 0 ? set.rpeTypeId : '-' }}
+                                    </span>
+                                </td>
+                                <td>
+                                    <span
+                                        style="border-radius: 3px;"
+                                        [ngStyle]="{
+                                            'background-color': isFullBackground(set.typeId)
+                                                ? getSetTypeById(set.typeId)?.bgColor
+                                                : '',
+                                            'color': isColoredTextOnly(set.typeId)
+                                                ? getSetTypeById(set.typeId)?.bgColor
+                                                : isFullBackground(set.typeId)
+                                                ? '#fff'
+                                                : '',
+                                            'padding': isFullBackground(set.typeId)
+                                                ? '0.2rem 0.4rem'
+                                                : '0'
+                                        }"
+                                    >
+                                        {{ getSetTypeById(set.typeId)?.name | lowercase }}
+                                    </span>
+                                </td>
+                                <td>{{ set.rest ? set.rest : '-' }}</td>
                                 <td>
                                     <!-- <span class="edit-dots" (click)="setEditMenu(idx)">⋮</span>
                                     @if (selectedSetMenu === idx) {

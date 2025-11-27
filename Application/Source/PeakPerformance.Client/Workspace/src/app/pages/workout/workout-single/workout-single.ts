@@ -1,14 +1,16 @@
 import { Component, importProvidersFrom, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { IWorkoutDto, IWorkoutExerciseDto } from '../../../_generated/interfaces';
+import { IEnumProvider, IWorkoutDto, IWorkoutExerciseDto } from '../../../_generated/interfaces';
 import { ClickOutsideDirective } from '../../../directives/click-outside.directive';
 import { DateTime } from 'luxon';
 import { ModalService } from '../../../services/modal.service';
 import { ExerciseController, WorkoutController } from '../../../_generated/services';
 import { MeasurementConverterPipe } from "../../../pipes/measurement-converter.pipe";
 import { DurationPipe } from '../../../pipes/duration.pipe';
-import { TitleCasePipe } from '@angular/common';
+import { TitleCasePipe, NgStyle, LowerCasePipe } from '@angular/common';
 import { LoaderService } from '../../../services/loader.service';
+import { eSetRpeType, eSetType } from '../../../_generated/enums';
+import { Providers } from '../../../_generated/providers';
 
 
 enum eOrderMove {
@@ -18,7 +20,7 @@ enum eOrderMove {
 
 @Component({
   selector: 'app-workout-single',
-  imports: [ClickOutsideDirective, MeasurementConverterPipe, DurationPipe, TitleCasePipe],
+  imports: [ClickOutsideDirective, MeasurementConverterPipe, DurationPipe, TitleCasePipe, NgStyle, LowerCasePipe],
   templateUrl: './workout-single.html',
   styleUrl: './workout-single.css'
 })
@@ -29,6 +31,9 @@ export class WorkoutSingle implements OnInit {
 
   selectedExerciseMenu: number | null;
 
+  setRpes: IEnumProvider[] = [];
+  setTypes: IEnumProvider[] = [];
+
 
   constructor(
     private route: ActivatedRoute,
@@ -36,6 +41,7 @@ export class WorkoutSingle implements OnInit {
 
     public modalService: ModalService,
     private loaderService: LoaderService,
+    private providers: Providers,
 
     private workoutController: WorkoutController,
     private exerciseController: ExerciseController
@@ -43,6 +49,8 @@ export class WorkoutSingle implements OnInit {
 
   ngOnInit(): void {
     this.workout = this.route.snapshot.data['workout']?.data;
+    this.setRpes = this.providers.getSetRpeTypes();
+    this.setTypes = this.providers.getSetTypes();
 
     this.formatWorkoutTime();
 
@@ -117,6 +125,11 @@ export class WorkoutSingle implements OnInit {
       .catch(ex => console.log(ex))
       .finally(() => this.loaderService.hidePageLoader());
   }
+
+  getSetRpeById = (id: eSetRpeType | undefined) => this.setRpes.find(_ => _.id === id);
+  getSetTypeById = (id: eSetType | undefined) => this.setTypes.find(_ => _.id === id);
+  isColoredTextOnly = (id: eSetType | undefined) => id === eSetType.Warmup;
+  isFullBackground = (id: eSetType | undefined) => id === eSetType.Failure || id === eSetType.Dropset;
 
   // private
 

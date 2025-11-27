@@ -68,10 +68,10 @@ import { IEnumProvider } from './interfaces';
 	{
 		return [
 		    { id: 0, name: 'NotSet', description: '', bgColor: '' },
-		    { id: 1, name: 'Warmup', description: 'Warmup', bgColor: '' },
+		    { id: 1, name: 'Warmup', description: 'Warmup', bgColor: '#FFA500' },
 		    { id: 2, name: 'Normal', description: 'Normal', bgColor: '' },
-		    { id: 3, name: 'Failure', description: 'Failure', bgColor: '' },
-		    { id: 4, name: 'Dropset', description: 'Dropset', bgColor: '' }
+		    { id: 3, name: 'Failure', description: 'Failure', bgColor: '#800000' },
+		    { id: 4, name: 'Dropset', description: 'Dropset', bgColor: '#4FC0E0' }
 		];
 	}
 }

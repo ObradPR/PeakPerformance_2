@@ -27,7 +27,7 @@ public class SaveSetCommand(WorkoutExerciseSetDto data) : IRequest<BaseResponseW
                 for (var i = 0; i < request.Data.Sets; i++)
                 {
                     var model = new WorkoutExerciseSet();
-                    request.Data.ToModel(model, order: i + 1);
+                    request.Data.ToModel(model, order: request.Data.Order + i);
                     db.WorkoutExerciseSets.Add(model);
                 }
             }
