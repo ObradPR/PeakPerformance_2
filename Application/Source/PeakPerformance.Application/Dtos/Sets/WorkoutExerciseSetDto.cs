@@ -28,7 +28,7 @@ public class WorkoutExerciseSetDto
 
     // method
 
-    public void ToModel(WorkoutExerciseSet model, long userId)
+    public void ToModel(WorkoutExerciseSet model, int? order = null)
     {
         model.WorkoutExerciseId = WorkoutExerciseId;
         model.Weight = Weight;
@@ -38,6 +38,6 @@ public class WorkoutExerciseSetDto
         model.TypeId = TypeId == 0 ? null : TypeId;
         model.Rest = Rest;
         model.Notes = Notes;
-        model.Order = Order.IsEmpty() ? 1 : Order;
+        model.Order = order ?? model.Order;
     }
 }

@@ -6,7 +6,7 @@ public class SaveSetCommand(WorkoutExerciseSetDto data) : IRequest<BaseResponseW
 {
     public WorkoutExerciseSetDto Data { get; set; } = data;
 
-    public class SaveSetCommandHandler(IDatabaseContext db, IIdentityUser identityUser) : IRequestHandler<SaveSetCommand, BaseResponseWrapper>
+    public class SaveSetCommandHandler(IDatabaseContext db) : IRequestHandler<SaveSetCommand, BaseResponseWrapper>
     {
         public async Task<BaseResponseWrapper> Handle(SaveSetCommand request, CancellationToken cancellationToken)
         {
@@ -19,7 +19,7 @@ public class SaveSetCommand(WorkoutExerciseSetDto data) : IRequest<BaseResponseW
 
             if (existingModel != null)
             {
-                request.Data.ToModel(existingModel, identityUser.Id);
+                request.Data.ToModel(existingModel);
             }
 
             if (existingModel == null)
@@ -27,7 +27,7 @@ public class SaveSetCommand(WorkoutExerciseSetDto data) : IRequest<BaseResponseW
                 for (var i = 0; i < request.Data.Sets; i++)
                 {
                     var model = new WorkoutExerciseSet();
-                    request.Data.ToModel(model, identityUser.Id);
+                    request.Data.ToModel(model, order: i + 1);
                     db.WorkoutExerciseSets.Add(model);
                 }
             }
