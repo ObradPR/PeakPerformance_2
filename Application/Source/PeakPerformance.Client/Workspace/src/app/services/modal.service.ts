@@ -135,7 +135,7 @@ export class ModalService {
   private exerciseModal = signal<boolean>(false);
   private howToExerciseModal = signal<boolean>(false);
   private workoutId = signal<number>(0);
-  private exerciseOrder = signal<number>(0);
+  private order = signal<number>(0);
   private exerciseId = signal<number>(0);
   private apiExerciseId = signal<string>('');
   private exerciseName = signal<string>('');
@@ -143,7 +143,7 @@ export class ModalService {
   readonly exerciseModalSignal = this.exerciseModal.asReadonly();
   readonly howToExerciseModalSignal = this.howToExerciseModal.asReadonly();
   readonly workoutIdSignal = this.workoutId.asReadonly();
-  readonly exerciseOrderSignal = this.exerciseOrder.asReadonly();
+  readonly orderSignal = this.order.asReadonly();
   readonly exerciseIdSignal = this.exerciseId.asReadonly();
   readonly apiExerciseIdSignal = this.apiExerciseId.asReadonly();
   readonly exerciseNameSignal = this.exerciseName.asReadonly();
@@ -152,14 +152,14 @@ export class ModalService {
   showExerciseModal(workoutId: number, order: number, exerciseId: number = 0) {
     this.exerciseModal.set(true);
     this.workoutId.set(workoutId);
-    this.exerciseOrder.set(order);
+    this.order.set(order);
     this.exerciseId.set(exerciseId);
   }
 
   hideExerciseModal() {
     this.exerciseModal.set(false);
     this.workoutId.set(0);
-    this.exerciseOrder.set(0);
+    this.order.set(0);
     this.exerciseId.set(0);
   }
 
@@ -216,8 +216,11 @@ export class ModalService {
   readonly setModalTypeSignal = this.setModalType.asReadonly();
   readonly selectedSetSignal = this.selectedSet.asReadonly();
 
-  showAddSetModal() {
+  showAddSetModal(workoutId: number, exerciseId: number, order: number) {
     this.setModalType.set('add');
+    this.exerciseId.set(exerciseId);
+    this.workoutId.set(workoutId);
+    this.order.set(order);
     this.setModal.set(true);
   }
   showEditSetModal(data: IWorkoutExerciseSetDto) {
@@ -228,7 +231,9 @@ export class ModalService {
   hideSetModal() {
     this.setModal.set(false);
     this.setModalType.set(null);
+    this.exerciseId.set(0);
+    this.workoutId.set(0);
+    this.order.set(0);
     this.selectedSet.set(null);
   }
-
 }

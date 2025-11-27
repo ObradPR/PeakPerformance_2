@@ -115,7 +115,7 @@
             }
             <div class="row">
                 <div class="mt-1 mb-3">
-                        <button class="btn btn-light" (click)="modalService.showAddSetModal()"><i class="fa-solid fa-plus"></i> Add Set</button>
+                        <button class="btn btn-light" (click)="modalService.showAddSetModal(workout.id, exercise.id, exercise.sets.length + 1)"><i class="fa-solid fa-plus"></i> Add Set</button>
                 </div>
             </div>
         }

@@ -73,7 +73,7 @@ export class ExerciseModal implements IModalMethods, OnInit {
       apiExerciseId: [],
       name: [],
       workoutId: [this.modalService.workoutIdSignal()],
-      order: [this.modalService.exerciseOrderSignal()]
+      order: [this.modalService.orderSignal()]
     });
   }
 

@@ -1,19 +1,18 @@
 import { Component, OnInit, output, OutputEmitterRef } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ValidationDirective } from '../../../directives/validation.directive';
-import { MeasurementUnitDescriptionPipe } from '../../../pipes/measurement-unit-description.pipe';
-import { BaseValidationComponent } from '../../../pages/_base/base.component/base-validation.component';
-import { IModalMethods } from '../interfaces/modal-methods.interface';
-import { IEnumProvider, IWorkoutExerciseSetDto } from '../../../_generated/interfaces';
-import { eMeasurementUnit, eSetRpe, eSetType } from '../../../_generated/enums';
-import { BodyweightController } from '../../../_generated/services';
-import { ModalService } from '../../../services/modal.service';
-import { AuthService } from '../../../services/auth.service';
-import { SharedService } from '../../../services/shared.service';
-import { LoaderService } from '../../../services/loader.service';
-import { MeasurementConverterPipe } from '../../../pipes/measurement-converter.pipe';
-import { Providers } from '../../../_generated/providers';
 import { Router } from '@angular/router';
+import { eMeasurementUnit, eSetRpeType, eSetType } from '../../../_generated/enums';
+import { IEnumProvider, IWorkoutExerciseSetDto } from '../../../_generated/interfaces';
+import { Providers } from '../../../_generated/providers';
+import { BodyweightController } from '../../../_generated/services';
+import { ValidationDirective } from '../../../directives/validation.directive';
+import { BaseValidationComponent } from '../../../pages/_base/base.component/base-validation.component';
+import { MeasurementConverterPipe } from '../../../pipes/measurement-converter.pipe';
+import { MeasurementUnitDescriptionPipe } from '../../../pipes/measurement-unit-description.pipe';
+import { AuthService } from '../../../services/auth.service';
+import { LoaderService } from '../../../services/loader.service';
+import { ModalService } from '../../../services/modal.service';
+import { IModalMethods } from '../interfaces/modal-methods.interface';
 
 @Component({
   selector: 'app-set-modal',
@@ -41,7 +40,6 @@ export class SetModal extends BaseValidationComponent implements IModalMethods, 
 
     public modalService: ModalService,
     private authService: AuthService,
-    private sharedService: SharedService,
     private loaderService: LoaderService,
     private providers: Providers,
 
@@ -51,8 +49,8 @@ export class SetModal extends BaseValidationComponent implements IModalMethods, 
     this.modalType = this.modalService.setModalTypeSignal() === 'add' ? 'Add' : 'Edit';
     this.selectedSet = this.modalService.selectedSetSignal();
     this.userWeightPreference = this.authService.currentUserSource()?.weightUnitId;
-    // this.rpes = this.providers.getRpes();
-    // this.types = this.providers.getSetTypes();
+    this.rpes = this.providers.getSetRpeTypes();
+    this.types = this.providers.getSetTypes();
   }
 
   ngOnInit(): void {
@@ -65,12 +63,15 @@ export class SetModal extends BaseValidationComponent implements IModalMethods, 
 
   formInit(): void {
     this.form = this.fb.group({
-      weight: [parseFloat(this.mesasurementConverterPipe.transform(this.selectedSet?.weight, this.selectedSet?.weightMeasurementUnitId))
+      weight: [parseFloat(this.mesasurementConverterPipe.transform(this.selectedSet?.weight, this.selectedSet?.weightUnitId))
       ],
-      reps: [this.selectedSet?.reps ?? 0],
-      sets: [this.selectedSet?.reps ?? 1],
-      rpeTypeId: [this.selectedSet?.rpeTypeId ?? 0],
-      typeId: [this.selectedSet?.typeId ?? eSetType.Normal]
+      weightUnitId: [this.userWeightPreference],
+      reps: [this.selectedSet?.reps],
+      sets: [this.selectedSet?.reps],
+      rpeTypeId: [this.selectedSet?.rpeTypeId ?? eSetRpeType.NotSet],
+      typeId: [this.selectedSet?.typeId ?? eSetType.NotSet],
+      order: [this.modalService.orderSignal()],
+      workoutExerciseId: [this.modalService.exerciseIdSignal()]
     });
   }
 
