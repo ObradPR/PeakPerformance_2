@@ -17,16 +17,13 @@
     top: 45px;
 }
 
-.edit-menu ul li:hover {
-    background-color: #f4f4f4;
-}
-
-.edit-menu ul li:hover {
-    background-color: #f4f4f4;
-}
-
-
-
 textarea {
     resize: none;
+}
+
+.data-table tr {
+    border-bottom: 1px solid var(--bs-border-color);
+}
+.data-table tr:last-child {
+    border-bottom: none;
 }

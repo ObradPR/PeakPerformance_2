@@ -113,6 +113,47 @@
                     <textarea class="form-control mb-4" [name]="'exercise-notes-' + idx" [id]="'exercise-notes-' + idx" readonly rows="1" (focus)="editExerciseNotes(exercise)">{{ workout.notes }}</textarea>
                 </div>
             }
+            @if (exercise.sets.length > 0) {
+                <table class="data-table mb-3">
+                    <thead>
+                        <th>Weight</th>
+                        <th>Reps</th>
+                        <th>RPE</th>
+                        <th>Type</th>
+                        <th>Rest</th>
+                        <th></th>
+                    </thead>
+                    <tbody>
+                        @for (set of exercise.sets; track set; let idx = $index) {
+                            <tr>
+                                <td>{{ set.weight | measurementConverter:set.weightUnitId }}</td>
+                                <td>{{ set.reps }}</td>
+                                <td>{{ set.rpeTypeId }}</td>
+                                <td>{{ set.typeId }}</td>
+                                <td>{{ set.rest }}</td>
+                                <td>
+                                    <!-- <span class="edit-dots" (click)="setEditMenu(idx)">⋮</span>
+                                    @if (selectedSetMenu === idx) {
+                                        <div class="edit-menu" appClickOutside (clickOutside)="this.selectedSetMenu = null">
+                                            <ul>
+                                                <li (click)="editSet(row)">
+                                                    <i class="fa-solid fa-pen"></i>
+                                                    Edit
+                                                </li>
+                                                <li (click)="deleteSet(row.id)" class="delete-item">
+                                                   <i class="fa-solid fa-trash"></i>
+                                                    Delete
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    } -->
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+
             <div class="row">
                 <div class="mt-1 mb-3">
                         <button class="btn btn-light" (click)="modalService.showAddSetModal(workout.id, exercise.id, exercise.sets.length + 1)"><i class="fa-solid fa-plus"></i> Add Set</button>
