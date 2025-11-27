@@ -2,46 +2,6 @@
   background-image: url('../../../assets/images/measurements.jpg');
 }
 
-.info-header {
-    font-size: 0.8em;
-}
-
-.bottom-data .tab {
-    cursor: pointer;
-    padding: 0.5rem 0.8rem;
-    text-align: center;
-
-    
-}
-
-.bottom-data .tab:not(.active) {
-    box-shadow: inset 0 -1px 0 var(--bs-border-color);
-}
-
-.bottom-data .tab.active {
-    box-shadow:
-        inset 0 1px 0 var(--bs-border-color),
-        inset 1px 0 0 var(--bs-border-color),
-        inset -1px 0 0 var(--bs-border-color);
-    border-radius: 5px 5px 0 0;
-}
-
-.bottom-data .filler {
-    flex-grow: 1;
-    align-self: stretch;
-    box-shadow: inset 0 -1px 0 var(--bs-border-color);
-}
-
-.data-table {
-	 width: 100%;
-	 border-collapse: collapse;
-	 margin-top: 1rem;
-}
-.data-table th, 
-.data-table td {
-	 padding: 0.3rem;
-	 text-align: left;
-}
 .data-table th:nth-child(2), 
 .data-table td:nth-child(2) {
 	 text-align: left;
@@ -74,62 +34,6 @@
 .data-table-goals td:nth-child(5) {
 	 width: 30px;
 	 text-align: center;
-}
-
-.data-table th {
-    font-weight: bold;
-    border-bottom: 2px solid var(--bs-border-color);
-}
-
-.data-table td {
-    font-size: 0.95rem;
-}
-
-.data-table .odd-row {
-    background-color: #f4f4f4;
-}
-
-.data-table .edit-dots {
-    cursor: pointer;
-    color: var(--bs-blue);
-    font-size: 1.5rem;
-    font-weight: bold;
-}
- 
-.data-table .edit-menu {
-    position: absolute;
-    background-color: #fff;
-    border: 1px solid var(--bs-border-color);
-    z-index: 10;
-    width: 150px;
-    margin-left: -130px;
-    padding: 0.5rem 0;
-    text-align: start;
-    align-items: center;
-    border-radius: 5px;
-}
-
-.data-table .edit-menu ul {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-}
-
-.data-table .edit-menu ul li {
-    padding: 0.3rem 0.8rem;
-    cursor: pointer;
-}
-
-.data-table .edit-menu ul li:hover {
-    background-color: #f4f4f4;
-}
-
-.data-table .edit-menu ul li:hover {
-    background-color: #f4f4f4;
-}
-
-.data-table .edit-menu ul li.delete-item {
-    color: red;
 }
 
 .custom-legend {
