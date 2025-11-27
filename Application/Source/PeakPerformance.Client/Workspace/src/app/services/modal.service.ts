@@ -1,5 +1,5 @@
 import { Injectable, signal } from '@angular/core';
-import { IBodyweightDto, IBodyweightGoalDto, IMeasurementDto, IMeasurementGoalDto, IWorkoutDto, IWorkoutExerciseDto } from '../_generated/interfaces';
+import { IBodyweightDto, IBodyweightGoalDto, IMeasurementDto, IMeasurementGoalDto, IWorkoutDto, IWorkoutExerciseDto, IWorkoutExerciseSetDto } from '../_generated/interfaces';
 
 export type TModal = 'add' | 'edit';
 
@@ -204,6 +204,31 @@ export class ModalService {
     this.exerciseId.set(0);
     this.apiExerciseId.set('');
     this.exerciseName.set('');
+  }
+
+  // Sets
+
+  private setModal = signal<boolean>(false);
+  private setModalType = signal<TModal | null>(null);
+  private selectedSet = signal<IWorkoutExerciseSetDto | null>(null);
+
+  readonly setModalSignal = this.setModal.asReadonly();
+  readonly setModalTypeSignal = this.setModalType.asReadonly();
+  readonly selectedSetSignal = this.selectedSet.asReadonly();
+
+  showAddSetModal() {
+    this.setModalType.set('add');
+    this.setModal.set(true);
+  }
+  showEditSetModal(data: IWorkoutExerciseSetDto) {
+    this.setModalType.set('edit');
+    this.selectedSet.set(data);
+    this.setModal.set(true);
+  }
+  hideSetModal() {
+    this.setModal.set(false);
+    this.setModalType.set(null);
+    this.selectedSet.set(null);
   }
 
 }

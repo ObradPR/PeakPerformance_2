@@ -1,0 +1,98 @@
+import { Component, OnInit, output, OutputEmitterRef } from '@angular/core';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ValidationDirective } from '../../../directives/validation.directive';
+import { MeasurementUnitDescriptionPipe } from '../../../pipes/measurement-unit-description.pipe';
+import { BaseValidationComponent } from '../../../pages/_base/base.component/base-validation.component';
+import { IModalMethods } from '../interfaces/modal-methods.interface';
+import { IEnumProvider, IWorkoutExerciseSetDto } from '../../../_generated/interfaces';
+import { eMeasurementUnit, eSetRpe, eSetType } from '../../../_generated/enums';
+import { BodyweightController } from '../../../_generated/services';
+import { ModalService } from '../../../services/modal.service';
+import { AuthService } from '../../../services/auth.service';
+import { SharedService } from '../../../services/shared.service';
+import { LoaderService } from '../../../services/loader.service';
+import { MeasurementConverterPipe } from '../../../pipes/measurement-converter.pipe';
+import { Providers } from '../../../_generated/providers';
+import { Router } from '@angular/router';
+
+@Component({
+  selector: 'app-set-modal',
+  imports: [FormsModule, ReactiveFormsModule, ValidationDirective, MeasurementUnitDescriptionPipe],
+  templateUrl: './set-modal.html',
+  styleUrl: './set-modal.css'
+})
+export class SetModal extends BaseValidationComponent implements IModalMethods, OnInit {
+  override errors: Record<string, string>;
+  closeModalEvent: OutputEmitterRef<boolean> = output<boolean>();
+  form: FormGroup<any>;
+
+  userWeightPreference: eMeasurementUnit | undefined;
+  selectedSet: IWorkoutExerciseSetDto | null = null;
+  modalType: string;
+
+  rpes: IEnumProvider[];
+  types: IEnumProvider[];
+
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+
+    private setController: BodyweightController,
+
+    public modalService: ModalService,
+    private authService: AuthService,
+    private sharedService: SharedService,
+    private loaderService: LoaderService,
+    private providers: Providers,
+
+    private mesasurementConverterPipe: MeasurementConverterPipe
+  ) {
+    super();
+    this.modalType = this.modalService.setModalTypeSignal() === 'add' ? 'Add' : 'Edit';
+    this.selectedSet = this.modalService.selectedSetSignal();
+    this.userWeightPreference = this.authService.currentUserSource()?.weightUnitId;
+    // this.rpes = this.providers.getRpes();
+    // this.types = this.providers.getSetTypes();
+  }
+
+  ngOnInit(): void {
+    this.formInit();
+  }
+
+  closeModal(): void {
+    this.closeModalEvent.emit(true);
+  }
+
+  formInit(): void {
+    this.form = this.fb.group({
+      weight: [parseFloat(this.mesasurementConverterPipe.transform(this.selectedSet?.weight, this.selectedSet?.weightMeasurementUnitId))
+      ],
+      reps: [this.selectedSet?.reps ?? 0],
+      sets: [this.selectedSet?.reps ?? 1],
+      rpeTypeId: [this.selectedSet?.rpeTypeId ?? 0],
+      typeId: [this.selectedSet?.typeId ?? eSetType.Normal]
+    });
+  }
+
+  submit() {
+    this.loaderService.showPageLoader();
+
+    if (this.selectedSet !== null)
+      this.form.value.id = this.selectedSet.id;
+
+    this.setController.Save(this.form.value).toPromise()
+      .then(_ => {
+        if (_?.isSuccess) {
+          this.router.navigateByUrl('/', { skipLocationChange: true })
+            .then(() => {
+              this.router.navigateByUrl(`/workouts/${this.modalService.workoutIdSignal()}`)
+              this.modalService.hideSetModal();
+            });
+        }
+      })
+      .catch(ex => this.setErrors(ex))
+      .finally(() => {
+        this.loaderService.hidePageLoader();
+      });
+  }
+}

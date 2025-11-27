@@ -17,14 +17,18 @@
     <app-workout-modal (closeModalEvent)="modalService.hideWorkoutModal()"></app-workout-modal>
 }
 
-@if(modalService.exerciseModalSignal()) {
+@if (modalService.exerciseModalSignal()) {
     <app-exercise-modal (closeModalEvent)="modalService.hideExerciseModal()"></app-exercise-modal>
 }
 
-@if(modalService.notesModalSignal()) {
+@if (modalService.notesModalSignal()) {
     <app-notes-modal (closeModalEvent)="modalService.hideNotesModal()"></app-notes-modal>
 }
 
-@if(modalService.howToExerciseModalSignal()) {
+@if (modalService.howToExerciseModalSignal()) {
     <app-how-to-exercise-modal (closeModalEvent)="modalService.hideHowToExerciseModal()"></app-how-to-exercise-modal>
+}
+
+@if (modalService.setModalSignal()) {
+    <app-set-modal (closeModalEvent)="modalService.hideSetModal()"></app-set-modal>
 }
