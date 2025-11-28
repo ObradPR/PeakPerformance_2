@@ -231,12 +231,13 @@ export interface IWorkoutExerciseSetDto
 	workoutExerciseId: number;
 	weight?: number;
 	weightUnitId?: eMeasurementUnit;
-	reps: number;
+	reps?: number;
 	rpeTypeId?: eSetRpeType;
 	typeId?: eSetType;
 	rest?: number;
 	notes: string;
 	order: number;
+	durationMinutes?: number;
 	sets: number;
 }
 export interface IPagingResult<TEntity>

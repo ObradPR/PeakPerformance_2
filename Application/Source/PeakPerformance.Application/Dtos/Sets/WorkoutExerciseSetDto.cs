@@ -10,7 +10,7 @@ public class WorkoutExerciseSetDto
 
     public eMeasurementUnit? WeightUnitId { get; set; }
 
-    public int Reps { get; set; }
+    public int? Reps { get; set; }
 
     [Display(Name = "Rpe")]
     public eSetRpeType? RpeTypeId { get; set; }
@@ -23,6 +23,9 @@ public class WorkoutExerciseSetDto
     public string Notes { get; set; }
 
     public int Order { get; set; }
+
+    [Display(Name = "Duration")]
+    public int? DurationMinutes { get; set; }
 
     public int Sets { get; set; } = 1;
 
