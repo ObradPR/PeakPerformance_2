@@ -71,7 +71,9 @@ export class SetModal extends BaseValidationComponent implements IModalMethods, 
       rpeTypeId: [this.selectedSet?.rpeTypeId ?? eSetRpeType.NotSet],
       typeId: [this.selectedSet?.typeId ?? eSetType.NotSet],
       order: [this.modalService.orderSignal()],
-      workoutExerciseId: [this.modalService.exerciseIdSignal()]
+      workoutExerciseId: [this.modalService.exerciseIdSignal()],
+      notes: [''],
+      rest: []
     });
   }
 

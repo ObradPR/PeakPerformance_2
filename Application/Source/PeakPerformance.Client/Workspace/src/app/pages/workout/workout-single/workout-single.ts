@@ -130,6 +130,9 @@ export class WorkoutSingle implements OnInit {
   getSetTypeById = (id: eSetType | undefined) => this.setTypes.find(_ => _.id === id);
   isColoredTextOnly = (id: eSetType | undefined) => id === eSetType.Warmup;
   isFullBackground = (id: eSetType | undefined) => id === eSetType.Failure || id === eSetType.Dropset;
+  hasAnyRpe = (exercise: IWorkoutExerciseDto) => exercise.sets.some(_ => _.rpeTypeId && _.rpeTypeId > 0);
+  hasAnyType = (exercise: IWorkoutExerciseDto) => exercise.sets.some(_ => _.typeId && _.typeId > 0);
+  hasAnyRest = (exercise: IWorkoutExerciseDto) => exercise.sets.some(_ => _.rest && _.rest > 0);
 
   // private
 

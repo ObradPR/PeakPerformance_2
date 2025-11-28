@@ -7,7 +7,7 @@
 
     <div class="my-modal-body">
         <form [formGroup]="form">
-             <div class="position-relative">
+            <div class="position-relative">
                 <label for="weight">Weight</label>
                 <div class="input-group mb-3" validation [key]="'Weight'" [errors]="errors">
                     <input type="number" class="form-control" id="weight" placeholder="0" aria-label="weight" aria-describedby="weight-addon" formControlName="weight" />
@@ -48,6 +48,19 @@
                         <option [ngValue]="type.id">{{ type.description }}</option>
                     }
                 </select>
+            </div>
+            <div class="position-relative">
+                <label for="notes">Notes</label>
+                <div class="input-group mb-3" validation [key]="'Notes'" [errors]="errors">
+                    <textarea class="form-control" id="notes" aria-label="notes" aria-describedby="notes-addon" formControlName="notes" rows="3"></textarea>
+                </div>
+            </div>
+            <div class="position-relative">
+                <label for="rest">Rest</label>
+                <div class="input-group mb-3" validation [key]="'rest'" [errors]="errors">
+                    <input type="number" class="form-control" id="rest" placeholder="seconds" aria-label="rest" aria-describedby="rest-addon" formControlName="rest" />
+                    <span class="input-group-text input-addon-static" id="rest-addon">sec</span>
+                </div>
             </div>
         </form>
     </div>

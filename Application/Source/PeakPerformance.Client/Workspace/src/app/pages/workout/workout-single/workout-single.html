@@ -118,9 +118,15 @@
                     <thead>
                         <th>Weight</th>
                         <th>Reps</th>
-                        <th>RPE</th>
-                        <th>Type</th>
-                        <th>Rest</th>
+                        @if (hasAnyRpe(exercise)) {
+                            <th>RPE</th>
+                        }
+                        @if (hasAnyType(exercise)) {
+                            <th>Type</th>
+                        }
+                        @if (hasAnyRest(exercise)) {
+                            <th>Rest</th>
+                        }
                         <th></th>
                     </thead>
                     <tbody>
@@ -128,38 +134,44 @@
                             <tr>
                                 <td>{{ set.weight | measurementConverter:set.weightUnitId }}</td>
                                 <td>{{ set.reps }}</td>
-                                <td>
-                                    <span
-                                        [ngStyle]="{
-                                            'background-color': getSetRpeById(set.rpeTypeId)?.bgColor,
-                                            'color': set.rpeTypeId && set.rpeTypeId > 0 ? '#fff' : '',
-                                            'padding': set.rpeTypeId && set.rpeTypeId > 0 ? '0.3rem 0.5rem' : ''
-                                        }"
-                                        style="border-radius: 3px;">
-                                        {{ set.rpeTypeId && set.rpeTypeId > 0 ? set.rpeTypeId : '-' }}
-                                    </span>
-                                </td>
-                                <td>
-                                    <span
-                                        style="border-radius: 3px;"
-                                        [ngStyle]="{
-                                            'background-color': isFullBackground(set.typeId)
-                                                ? getSetTypeById(set.typeId)?.bgColor
-                                                : '',
-                                            'color': isColoredTextOnly(set.typeId)
-                                                ? getSetTypeById(set.typeId)?.bgColor
-                                                : isFullBackground(set.typeId)
-                                                ? '#fff'
-                                                : '',
-                                            'padding': isFullBackground(set.typeId)
-                                                ? '0.2rem 0.4rem'
-                                                : '0'
-                                        }"
-                                    >
-                                        {{ getSetTypeById(set.typeId)?.name | lowercase }}
-                                    </span>
-                                </td>
-                                <td>{{ set.rest ? set.rest : '-' }}</td>
+                                @if (hasAnyRpe(exercise)) {
+                                    <td>
+                                        <span
+                                            [ngStyle]="{
+                                                'background-color': getSetRpeById(set.rpeTypeId)?.bgColor,
+                                                'color': set.rpeTypeId && set.rpeTypeId > 0 ? '#fff' : '',
+                                                'padding': set.rpeTypeId && set.rpeTypeId > 0 ? '0.3rem 0.5rem' : ''
+                                            }"
+                                            style="border-radius: 3px;">
+                                            {{ set.rpeTypeId && set.rpeTypeId > 0 ? set.rpeTypeId : '-' }}
+                                        </span>
+                                    </td>
+                                }
+                                @if (hasAnyType(exercise)) {
+                                    <td>
+                                        <span
+                                            style="border-radius: 3px;"
+                                            [ngStyle]="{
+                                                'background-color': isFullBackground(set.typeId)
+                                                    ? getSetTypeById(set.typeId)?.bgColor
+                                                    : '',
+                                                'color': isColoredTextOnly(set.typeId)
+                                                    ? getSetTypeById(set.typeId)?.bgColor
+                                                    : isFullBackground(set.typeId)
+                                                    ? '#fff'
+                                                    : '',
+                                                'padding': isFullBackground(set.typeId)
+                                                    ? '0.2rem 0.4rem'
+                                                    : '0'
+                                            }"
+                                        >
+                                            {{ (set.typeId && set.typeId > 0 ? getSetTypeById(set.typeId)?.name : '-') | lowercase}}
+                                        </span>
+                                    </td>
+                                }
+                                @if (hasAnyRest(exercise)) {
+                                    <td>{{ set.rest ? set.rest + ' s' : '-' }}</td>
+                                }
                                 <td>
                                     <!-- <span class="edit-dots" (click)="setEditMenu(idx)">⋮</span>
                                     @if (selectedSetMenu === idx) {
