@@ -7,4 +7,6 @@ public class TotalDto
     public int? Reps { get; set; }
 
     public decimal? Volume { get; set; }
+
+    public int? CardioTime { get; set; }
 }

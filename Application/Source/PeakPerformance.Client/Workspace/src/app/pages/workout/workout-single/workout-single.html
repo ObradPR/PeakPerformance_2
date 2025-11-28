@@ -48,18 +48,30 @@
             </div>
         }
         @if (workout.total) {
-            <div class="short-info-block">
-                <span class="block-item">Sets</span>
-                <span class="block-item">{{ workout.total.sets }}</span>
-            </div>
-            <div class="short-info-block">
-                <span class="block-item">Reps</span>
-                <span class="block-item">{{ workout.total.reps }}</span>
-            </div>
-            <div class="short-info-block">
-                <span class="block-item">Volume</span>
-                <span class="block-item">{{ workout.total.volume }} {{ userWeightPreference }}</span>
-            </div>
+            @if (workout.total.sets) {
+                <div class="short-info-block">
+                    <span class="block-item">Sets</span>
+                    <span class="block-item">{{ workout.total.sets }}</span>
+                </div>
+            }
+            @if (workout.total.reps) {
+                <div class="short-info-block">
+                    <span class="block-item">Reps</span>
+                    <span class="block-item">{{ workout.total.reps }}</span>
+                </div>
+            }
+            @if (workout.total.volume) {
+                <div class="short-info-block">
+                    <span class="block-item">Volume</span>
+                    <span class="block-item">{{ workout.total.volume }} {{ userWeightPreference }}</span>
+                </div>
+            }
+            @if (workout.total.cardioTime) {
+                <div class="short-info-block">
+                   <span class="block-item">Cardio</span>
+                   <span class="block-item">{{ workout.total.cardioTime }} min</span>
+               </div>
+            }
         }
     </div>
 
@@ -68,7 +80,17 @@
     @if (workout.exercises.length > 0) {
         @for (exercise of workout.exercises; track $index; let idx = $index) {
             <div class="d-flex justify-content-between align-items-center position-relative">
-                <h3>{{ exercise.name | titlecase }}</h3>
+                <h3>
+                <i class="fs-4 fa-solid"
+                    [ngClass]="{
+                        'fa-dumbbell': exercise.isStrength === true,
+                        'fa-person': exercise.isBodyweight === true,
+                        'fa-heart-pulse': exercise.isCardio === true
+                        }">
+                </i>
+
+                    {{ exercise.name | titlecase }}
+                </h3>
                 <span class="edit-dots edit-dots-exercise" (click)="onOpenExerciseEditMenu(idx)">⋮</span>
                 @if (selectedExerciseMenu === idx) {
                     <div class="edit-menu edit-menu-exercise" appClickOutside (clickOutside)="this.selectedExerciseMenu = null">
@@ -116,8 +138,15 @@
             @if (exercise.sets.length > 0) {
                 <table class="data-table mb-3">
                     <thead>
-                        <th>Weight</th>
-                        <th>Reps</th>
+                        @if (exercise.isStrength) {
+                            <th>Weight</th>
+                        }
+                        @if (!exercise.isCardio) {
+                            <th>Reps</th>
+                        }
+                        @if (exercise.isCardio) {
+                            <th>Duration</th>
+                        }
                         @if (hasAnyRpe(exercise)) {
                             <th>RPE</th>
                         }
@@ -132,11 +161,21 @@
                     <tbody>
                         @for (set of exercise.sets; track set; let idx = $index) {
                             <tr class="position-relative" [class.warmup]="set.typeId === 1">
-                                <td [class.warmup-text]="set.typeId === 1">
-                                    {{ getSetPrefix(set.typeId) }}
-                                    {{ set.weight | measurementConverter:set.weightUnitId }}
-                                </td>
-                                <td [class.warmup-text]="set.typeId === 1">{{ set.reps }}</td>
+                                @if (exercise.isStrength) {
+                                    <td [class.warmup-text]="set.typeId === 1">
+                                        {{ getSetPrefix(set.typeId) }}
+                                        {{ set.weight | measurementConverter:set.weightUnitId }}
+                                    </td>
+                                }
+                                @if (!exercise.isCardio) {
+                                    <td [class.warmup-text]="set.typeId === 1">
+                                        {{ exercise.isBodyweight ? getSetPrefix(set.typeId) : '' }}
+                                        {{ set.reps }}
+                                    </td>
+                                }
+                                @if (exercise.isCardio) {
+                                    <td>{{ set.durationMinutes }} min</td>
+                                }
                                 @if (hasAnyRpe(exercise)) {
                                     <td>
                                         <span
@@ -180,7 +219,7 @@
                                     @if (selectedSetMenu === set.id) {
                                         <div class="edit-menu edit-menu-set" appClickOutside (clickOutside)="this.selectedSetMenu = null">
                                             <ul>
-                                                <li (click)="editSet(set)">
+                                                <li (click)="editSet(set, exercise)">
                                                     <i class="fa-solid fa-pen"></i>
                                                     Edit
                                                 </li>
@@ -212,7 +251,7 @@
                             @if (set.notes) {
                             <tr>
                                 <td class="p-1" [attr.colspan]="getTotalColumns(exercise)">
-                                    <textarea class="form-control" [name]="'set-notes-' + idx" [id]="'set-notes-' + idx" readonly rows="1" (focus)="editSet(set)">{{ set.notes }}</textarea>
+                                    <textarea class="form-control" [name]="'set-notes-' + idx" [id]="'set-notes-' + idx" readonly rows="1" (focus)="editSet(set, exercise)">{{ set.notes }}</textarea>
                                 </td>
                             </tr>
                             }
@@ -223,7 +262,7 @@
 
             <div class="row">
                 <div class="mt-1 mb-3">
-                        <button class="btn btn-light" (click)="modalService.showAddSetModal(workout.id, exercise.id, exercise.sets.length + 1)"><i class="fa-solid fa-plus"></i> Add Set</button>
+                        <button class="btn btn-light" (click)="modalService.showAddSetModal(exercise, exercise.sets.length + 1)"><i class="fa-solid fa-plus"></i> Add Set</button>
                 </div>
             </div>
         }

@@ -1,5 +1,4 @@
 ﻿using PeakPerformance.Application.Dtos.Exercises;
-using PeakPerformance.Domain.ExerciseDbApi;
 
 namespace PeakPerformance.Application.BusinessLogic.Exercises.Commands;
 
@@ -54,16 +53,16 @@ public class SaveExerciseCommand(WorkoutExerciseDto data) : IRequest<BaseRespons
             }
             else
             {
-                var type = ExerciseDbApiEquipmentMap.EquipmentTypeMap[request.Data.EquipmentName];
+                var (isCardio, isBodyweight, isStrength) = request.Data.Classify();
 
                 var newExercise = new Exercise
                 {
                     ApiExerciseId = request.Data.ApiExerciseId,
                     Name = request.Data.Name,
                     EquipmentName = request.Data.EquipmentName,
-                    IsCardio = type == eExerciseDbApiEquipmentType.Cardio,
-                    IsBodyweight = type == eExerciseDbApiEquipmentType.Bodyweight,
-                    IsStrength = type == eExerciseDbApiEquipmentType.Strength,
+                    IsCardio = isCardio,
+                    IsBodyweight = isBodyweight,
+                    IsStrength = isStrength,
                 };
 
                 db.Exercises.Add(newExercise);

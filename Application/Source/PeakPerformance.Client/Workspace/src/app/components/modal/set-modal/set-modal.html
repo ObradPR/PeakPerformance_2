@@ -7,19 +7,53 @@
 
     <div class="my-modal-body">
         <form [formGroup]="form">
-            <div class="position-relative">
-                <label for="weight">Weight</label>
-                <div class="input-group mb-3" validation [key]="'Weight'" [errors]="errors">
-                    <input type="number" class="form-control" id="weight" placeholder="0" aria-label="weight" aria-describedby="weight-addon" formControlName="weight" />
-                    <span class="input-group-text input-addon-static" id="weight-addon">{{ userWeightPreference | measurementUnitDescription }}</span>
+            @if (selectedExercise?.isCardio) {
+                <div class="position-relative">
+                    <label for="duration">duration</label>
+                    <div class="input-group mb-3" validation [key]="'Duration'" [errors]="errors">
+                        <input type="number" class="form-control" id="duration" placeholder="minutes" aria-label="duration" aria-describedby="duration-addon" formControlName="durationMinutes" />
+                        <span class="input-group-text input-addon-static" id="duration-addon">min</span>
+                    </div>
                 </div>
-            </div>
-            <div class="position-relative">
-                <label for="reps">Reps</label>
-                <div class="input-group mb-2" validation [key]="'Reps'" [errors]="errors">
-                    <input type="number" class="form-control" id="reps" placeholder="1" aria-label="reps" aria-describedby="reps-addon" formControlName="reps" />
+            }
+            @if (selectedExercise?.isStrength) {
+                <div class="position-relative">
+                    <label for="weight">Weight</label>
+                    <div class="input-group mb-3" validation [key]="'Weight'" [errors]="errors">
+                        <input type="number" class="form-control" id="weight" placeholder="0" aria-label="weight" aria-describedby="weight-addon" formControlName="weight" />
+                        <span class="input-group-text input-addon-static" id="weight-addon">{{ userWeightPreference | measurementUnitDescription }}</span>
+                    </div>
                 </div>
-            </div>
+            }
+            @if (!selectedExercise?.isCardio) {
+                <div class="position-relative">
+                    <label for="reps">Reps</label>
+                    <div class="input-group mb-2" validation [key]="'Reps'" [errors]="errors">
+                        <input type="number" class="form-control" id="reps" placeholder="1" aria-label="reps" aria-describedby="reps-addon" formControlName="reps" />
+                    </div>
+                </div>
+                <div class="position-relative">
+                    <label for="rpeTypeId">RPE</label>
+                    <select id="rpeTypeId" class="form-select mb-3" formControlName="rpeTypeId" validation [key]="'Rpe'" [errors]="errors">
+                        @for (rpe of rpes; track rpe) {
+                            @if (rpe.id === 0) {
+                                <option [ngValue]="rpe.id">{{ rpe.description }}</option>
+                            }
+                            @else {
+                                <option [ngValue]="rpe.id">{{ rpe.id + ' - ' + rpe.description }}</option>
+                            }
+                        }
+                    </select>
+                </div>
+                <div class="position-relative">
+                    <label for="typeId">Type</label>
+                    <select id="typeId" class="form-select mb-3" formControlName="typeId" validation [key]="'Type'" [errors]="errors">
+                        @for (type of types; track type) {
+                            <option [ngValue]="type.id">{{ type.description }}</option>
+                        }
+                    </select>
+                </div>
+            }
             @if (!selectedSet) {
                 <div class="position-relative">
                     <label for="sets">Sets</label>
@@ -28,27 +62,6 @@
                     </div>
                 </div>
             }
-            <div class="position-relative">
-                <label for="rpeTypeId">RPE</label>
-                <select id="rpeTypeId" class="form-select mb-3" formControlName="rpeTypeId" validation [key]="'Rpe'" [errors]="errors">
-                    @for (rpe of rpes; track rpe) {
-                        @if (rpe.id === 0) {
-                            <option [ngValue]="rpe.id">{{ rpe.description }}</option>
-                        }
-                        @else {
-                            <option [ngValue]="rpe.id">{{ rpe.id + ' - ' + rpe.description }}</option>
-                        }
-                    }
-                </select>
-            </div>
-            <div class="position-relative">
-                <label for="typeId">Type</label>
-                <select id="typeId" class="form-select mb-3" formControlName="typeId" validation [key]="'Type'" [errors]="errors">
-                    @for (type of types; track type) {
-                        <option [ngValue]="type.id">{{ type.description }}</option>
-                    }
-                </select>
-            </div>
             <div class="position-relative">
                 <label for="notes">Notes</label>
                 <div class="input-group mb-3" validation [key]="'Notes'" [errors]="errors">

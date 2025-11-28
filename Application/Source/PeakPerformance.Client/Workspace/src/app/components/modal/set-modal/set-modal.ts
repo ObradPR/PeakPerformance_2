@@ -2,7 +2,7 @@ import { Component, OnInit, output, OutputEmitterRef } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { eMeasurementUnit, eSetRpeType, eSetType } from '../../../_generated/enums';
-import { IEnumProvider, IWorkoutExerciseSetDto } from '../../../_generated/interfaces';
+import { IEnumProvider, IWorkoutExerciseDto, IWorkoutExerciseSetDto } from '../../../_generated/interfaces';
 import { Providers } from '../../../_generated/providers';
 import { BodyweightController, SetController } from '../../../_generated/services';
 import { ValidationDirective } from '../../../directives/validation.directive';
@@ -27,6 +27,7 @@ export class SetModal extends BaseValidationComponent implements IModalMethods, 
 
   userWeightPreference: eMeasurementUnit | undefined;
   selectedSet: IWorkoutExerciseSetDto | null = null;
+  selectedExercise: IWorkoutExerciseDto | null = null;
   modalType: string;
 
   rpes: IEnumProvider[];
@@ -48,6 +49,7 @@ export class SetModal extends BaseValidationComponent implements IModalMethods, 
     super();
     this.modalType = this.modalService.setModalTypeSignal() === 'add' ? 'Add' : 'Edit';
     this.selectedSet = this.modalService.selectedSetSignal();
+    this.selectedExercise = this.modalService.selectedExerciseSignal();
     this.userWeightPreference = this.authService.currentUserSource()?.weightUnitId;
     this.rpes = this.providers.getSetRpeTypes();
     this.types = this.providers.getSetTypes();
@@ -71,9 +73,10 @@ export class SetModal extends BaseValidationComponent implements IModalMethods, 
       rpeTypeId: [this.selectedSet?.rpeTypeId ?? eSetRpeType.NotSet],
       typeId: [this.selectedSet?.typeId ?? eSetType.NotSet],
       order: [this.selectedSet?.order ?? this.modalService.orderSignal()],
-      workoutExerciseId: [this.selectedSet?.workoutExerciseId ?? this.modalService.exerciseIdSignal()],
+      workoutExerciseId: [this.selectedSet?.workoutExerciseId ?? this.modalService.selectedExerciseSignal()!.id],
       notes: [this.selectedSet?.notes],
-      rest: [this.selectedSet?.rest]
+      rest: [this.selectedSet?.rest],
+      durationMinutes: [this.selectedSet?.durationMinutes]
     });
   }
 
@@ -95,7 +98,7 @@ export class SetModal extends BaseValidationComponent implements IModalMethods, 
         if (_?.isSuccess) {
           this.router.navigateByUrl('/', { skipLocationChange: true })
             .then(() => {
-              this.router.navigateByUrl(`/workouts/${this.modalService.workoutIdSignal()}`)
+              this.router.navigateByUrl(`/workouts/${this.modalService.selectedExerciseSignal()!.workoutId}`)
               this.modalService.hideSetModal();
             });
         }

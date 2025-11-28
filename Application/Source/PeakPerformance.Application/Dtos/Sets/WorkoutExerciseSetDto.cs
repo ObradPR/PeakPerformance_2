@@ -42,5 +42,6 @@ public class WorkoutExerciseSetDto
         model.Rest = Rest;
         model.Notes = Notes;
         model.Order = order ?? model.Order;
+        model.DurationMinutes = DurationMinutes;
     }
 }

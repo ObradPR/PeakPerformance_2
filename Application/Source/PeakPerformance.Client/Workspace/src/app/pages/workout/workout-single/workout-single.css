@@ -26,9 +26,6 @@ textarea {
     font-size: 0.9rem;
 }
 
-.data-table td {
-    padding: 0.4rem 0.3rem;
-}
 .data-table td:last-child {
     text-align: right;
 }

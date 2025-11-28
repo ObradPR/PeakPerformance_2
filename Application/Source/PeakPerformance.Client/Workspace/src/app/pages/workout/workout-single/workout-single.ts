@@ -21,7 +21,7 @@ enum eOrderMove {
 
 @Component({
   selector: 'app-workout-single',
-  imports: [ClickOutsideDirective, MeasurementConverterPipe, DurationPipe, TitleCasePipe, NgStyle, LowerCasePipe],
+  imports: [ClickOutsideDirective, MeasurementConverterPipe, DurationPipe, TitleCasePipe, NgStyle, LowerCasePipe, NgClass],
   templateUrl: './workout-single.html',
   styleUrl: './workout-single.css'
 })
@@ -138,9 +138,9 @@ export class WorkoutSingle implements OnInit {
       .catch(ex => console.log(ex))
       .finally(() => this.loaderService.hidePageLoader());
   }
-  editSet(set: IWorkoutExerciseSetDto) {
+  editSet(set: IWorkoutExerciseSetDto, exercise: IWorkoutExerciseDto) {
     this.selectedSetMenu = null;
-    this.modalService.showEditSetModal(set, this.workout.id);
+    this.modalService.showEditSetModal(set, exercise);
   }
   deleteSet(id: number) {
     this.loaderService.showPageLoader();

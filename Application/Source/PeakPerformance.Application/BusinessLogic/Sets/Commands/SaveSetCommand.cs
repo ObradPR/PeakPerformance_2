@@ -1,5 +1,4 @@
 ﻿using PeakPerformance.Application.Dtos.Sets;
-using PeakPerformance.Domain.ExerciseDbApi;
 
 namespace PeakPerformance.Application.BusinessLogic.Sets.Commands;
 
@@ -20,14 +19,12 @@ public class SaveSetCommand(WorkoutExerciseSetDto data) : IRequest<BaseResponseW
 
             // Validation
 
-            var exerciseEquipmentType = ExerciseDbApiEquipmentMap.EquipmentTypeMap[
-                (await db.WorkoutExercises
+            var exercise = await db.WorkoutExercises
                     .Where(_ => _.Id == request.Data.WorkoutExerciseId)
-                    .Select(_ => _.Exercise.EquipmentName)
-                    .FirstOrDefaultAsync(cancellationToken))
-            ];
+                    .Select(_ => _.Exercise)
+                    .FirstOrDefaultAsync(cancellationToken);
 
-            if (exerciseEquipmentType == eExerciseDbApiEquipmentType.Cardio)
+            if (exercise?.IsCardio == true)
             {
                 request.Data.Reps = null;
                 request.Data.Weight = null;
@@ -38,7 +35,7 @@ public class SaveSetCommand(WorkoutExerciseSetDto data) : IRequest<BaseResponseW
                 if (request.Data.DurationMinutes == null)
                     return new(new Error("Duration", ResourceValidation.Required.FormatWith("Duration")));
             }
-            else if (exerciseEquipmentType == eExerciseDbApiEquipmentType.Bodyweight)
+            else if (exercise?.IsBodyweight == true)
             {
                 request.Data.Weight = null;
                 request.Data.WeightUnitId = null;
@@ -47,12 +44,19 @@ public class SaveSetCommand(WorkoutExerciseSetDto data) : IRequest<BaseResponseW
                 if (request.Data.Reps == null)
                     return new(new Error("Reps", ResourceValidation.Required.FormatWith("Reps")));
             }
-            else if (exerciseEquipmentType == eExerciseDbApiEquipmentType.Strength)
+            else if (exercise?.IsStrength == true)
             {
                 request.Data.DurationMinutes = null;
 
+                var errors = new List<Error>();
+
                 if (request.Data.Reps == null)
-                    return new(new Error("Reps", ResourceValidation.Required.FormatWith("Reps")));
+                    errors.Add(new Error("Reps", ResourceValidation.Required.FormatWith("Reps")));
+                if (request.Data.Weight == null)
+                    errors.Add(new Error("Weight", ResourceValidation.Required.FormatWith("Weight")));
+
+                if (errors.Count > 0)
+                    return new(errors);
             }
 
             // Creation

@@ -40,7 +40,10 @@ public class AutoMappingProfiles : BaseAutoMapperProfile
         CreateMap<WorkoutExercise, WorkoutExerciseDto>()
             .ForMember(dest => dest.Sets, opt => opt.MapFrom(src => src.WorkoutExerciseSets.OrderBy(_ => _.Order).ToList()))
             .ForMember(dest => dest.ApiExerciseId, opt => opt.MapFrom(src => src.Exercise.ApiExerciseId))
-            .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Exercise.Name));
+            .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Exercise.Name))
+            .ForMember(dest => dest.IsCardio, opt => opt.MapFrom(src => src.Exercise.IsCardio))
+            .ForMember(dest => dest.IsBodyweight, opt => opt.MapFrom(src => src.Exercise.IsBodyweight))
+            .ForMember(dest => dest.IsStrength, opt => opt.MapFrom(src => src.Exercise.IsStrength));
         CreateMap<WorkoutExerciseSet, WorkoutExerciseSetDto>();
 
         // Value objects

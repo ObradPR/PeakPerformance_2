@@ -117,6 +117,7 @@ export interface IWorkoutExerciseDto
 	apiExerciseId: string;
 	name: string;
 	equipmentName: string;
+	bodyParts: string[];
 	isCardio?: boolean;
 	isBodyweight?: boolean;
 	isStrength?: boolean;
@@ -207,6 +208,7 @@ export interface ITotalDto
 	sets?: number;
 	reps?: number;
 	volume?: number;
+	cardioTime?: number;
 }
 export interface IWorkoutDto
 {

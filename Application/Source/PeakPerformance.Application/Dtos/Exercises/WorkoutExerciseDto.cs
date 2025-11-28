@@ -14,6 +14,8 @@ public class WorkoutExerciseDto
 
     public string EquipmentName { get; set; }
 
+    public List<string> BodyParts { get; set; }
+
     public bool? IsCardio { get; set; }
 
     public bool? IsBodyweight { get; set; }

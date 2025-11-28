@@ -211,30 +211,30 @@ export class ModalService {
   private setModal = signal<boolean>(false);
   private setModalType = signal<TModal | null>(null);
   private selectedSet = signal<IWorkoutExerciseSetDto | null>(null);
+  private selectedExercise = signal<IWorkoutExerciseDto | null>(null);
 
   readonly setModalSignal = this.setModal.asReadonly();
   readonly setModalTypeSignal = this.setModalType.asReadonly();
   readonly selectedSetSignal = this.selectedSet.asReadonly();
+  readonly selectedExerciseSignal = this.selectedExercise.asReadonly();
 
-  showAddSetModal(workoutId: number, exerciseId: number, order: number) {
+  showAddSetModal(exercise: IWorkoutExerciseDto, order: number) {
     this.setModalType.set('add');
-    this.exerciseId.set(exerciseId);
-    this.workoutId.set(workoutId);
     this.order.set(order);
+    this.selectedExercise.set(exercise)
     this.setModal.set(true);
   }
-  showEditSetModal(data: IWorkoutExerciseSetDto, workoutId: number) {
+  showEditSetModal(data: IWorkoutExerciseSetDto, exercise: IWorkoutExerciseDto) {
     this.setModalType.set('edit');
     this.selectedSet.set(data);
-    this.workoutId.set(workoutId);
+    this.selectedExercise.set(exercise)
     this.setModal.set(true);
   }
   hideSetModal() {
     this.setModal.set(false);
     this.setModalType.set(null);
-    this.exerciseId.set(0);
-    this.workoutId.set(0);
     this.order.set(0);
+    this.selectedExercise.set(null);
     this.selectedSet.set(null);
   }
 }
