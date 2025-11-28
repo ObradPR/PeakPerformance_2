@@ -108,9 +108,9 @@
                     </div>
                 }
             </div>
-              @if (exercise.notes) {
+            @if (exercise.notes) {
                 <div>
-                    <textarea class="form-control mb-4" [name]="'exercise-notes-' + idx" [id]="'exercise-notes-' + idx" readonly rows="1" (focus)="editExerciseNotes(exercise)">{{ workout.notes }}</textarea>
+                    <textarea class="form-control" [name]="'exercise-notes-' + idx" [id]="'exercise-notes-' + idx" readonly rows="1" (focus)="editExerciseNotes(exercise)">{{ exercise.notes }}</textarea>
                 </div>
             }
             @if (exercise.sets.length > 0) {
@@ -190,6 +190,13 @@
                                     } -->
                                 </td>
                             </tr>
+                            @if (set.notes) {
+                            <tr>
+                                <td class="p-1" [attr.colspan]="getTotalColumns(exercise)">
+                                    <textarea class="form-control" [name]="'set-notes-' + idx" [id]="'set-notes-' + idx" readonly rows="1" (focus)="editSet(set)">{{ set.notes }}</textarea>
+                                </td>
+                            </tr>
+                            }
                         }
                     </tbody>
                 </table>

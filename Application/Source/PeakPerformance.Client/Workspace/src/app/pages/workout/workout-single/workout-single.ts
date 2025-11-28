@@ -1,6 +1,6 @@
 import { Component, importProvidersFrom, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { IEnumProvider, IWorkoutDto, IWorkoutExerciseDto } from '../../../_generated/interfaces';
+import { IEnumProvider, IWorkoutDto, IWorkoutExerciseDto, IWorkoutExerciseSetDto } from '../../../_generated/interfaces';
 import { ClickOutsideDirective } from '../../../directives/click-outside.directive';
 import { DateTime } from 'luxon';
 import { ModalService } from '../../../services/modal.service';
@@ -27,11 +27,12 @@ enum eOrderMove {
 })
 export class WorkoutSingle implements OnInit {
   workout: IWorkoutDto;
-  selectedWorkoutMenu = false;
   workoutTime: string;
   userWeightPreference: string;
 
+  selectedWorkoutMenu = false;
   selectedExerciseMenu: number | null;
+  selectedSetMenu: number | null;
 
   setRpes: IEnumProvider[] = [];
   setTypes: IEnumProvider[] = [];
@@ -130,6 +131,10 @@ export class WorkoutSingle implements OnInit {
       .catch(ex => console.log(ex))
       .finally(() => this.loaderService.hidePageLoader());
   }
+  editSet(set: IWorkoutExerciseSetDto) {
+    this.selectedSetMenu = null;
+    this.modalService.showEditSetModal(set);
+  }
 
   getSetRpeById = (id: eSetRpeType | undefined) => this.setRpes.find(_ => _.id === id);
   getSetTypeById = (id: eSetType | undefined) => this.setTypes.find(_ => _.id === id);
@@ -138,6 +143,15 @@ export class WorkoutSingle implements OnInit {
   hasAnyRpe = (exercise: IWorkoutExerciseDto) => exercise.sets.some(_ => _.rpeTypeId && _.rpeTypeId > 0);
   hasAnyType = (exercise: IWorkoutExerciseDto) => exercise.sets.some(_ => _.typeId && _.typeId > 0);
   hasAnyRest = (exercise: IWorkoutExerciseDto) => exercise.sets.some(_ => _.rest && _.rest > 0);
+  getTotalColumns(exercise: IWorkoutExerciseDto) {
+    let count = 2; // weight + reps
+
+    if (this.hasAnyRpe(exercise)) count++;
+    if (this.hasAnyType(exercise)) count++;
+    if (this.hasAnyRest(exercise)) count++;
+
+    return count + 1; // +1 for the empty action column
+  }
 
   // private
 

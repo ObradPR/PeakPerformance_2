@@ -19,6 +19,7 @@
 
 textarea {
     resize: none;
+    font-size: 0.9rem;
 }
 
 .data-table td {
