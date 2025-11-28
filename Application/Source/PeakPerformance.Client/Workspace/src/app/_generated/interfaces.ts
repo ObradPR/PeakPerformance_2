@@ -116,6 +116,10 @@ export interface IWorkoutExerciseDto
 	exerciseId?: number;
 	apiExerciseId: string;
 	name: string;
+	equipmentName: string;
+	isCardio?: boolean;
+	isBodyweight?: boolean;
+	isStrength?: boolean;
 	notes: string;
 	order: number;
 	workoutId: number;

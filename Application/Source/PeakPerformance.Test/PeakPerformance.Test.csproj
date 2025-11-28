@@ -17,6 +17,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\PeakPerformance.Application\PeakPerformance.Application.csproj" />
+    <ProjectReference Include="..\PeakPerformance.Common\PeakPerformance.Common.csproj" />
+    <ProjectReference Include="..\PeakPerformance.Domain\PeakPerformance.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Using Include="NUnit.Framework" />
   </ItemGroup>
 

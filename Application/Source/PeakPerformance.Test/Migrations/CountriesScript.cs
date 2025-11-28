@@ -1,8 +1,6 @@
-﻿using System.Text;
+﻿namespace PeakPerformance.Test.Migrations;
 
-namespace PeakPerformance.Test.Migrations;
-
-public class Tests
+public class CountryScript
 {
     [SetUp]
     public void Setup()
@@ -12,38 +10,38 @@ public class Tests
     [Test]
     public void Country_CreateScript()
     {
-        string csvPath = @"D:\countries.csv";
-        var lines = File.ReadAllLines(csvPath, Encoding.UTF8);
+        //string csvPath = @"D:\countries.csv";
+        //var lines = File.ReadAllLines(csvPath, Encoding.UTF8);
 
-        var sb = new StringBuilder();
-        sb.AppendLine("INSERT INTO Country (Id, ISO2, ISO3, Name) VALUES");
+        //var sb = new StringBuilder();
+        //sb.AppendLine("INSERT INTO Country (Id, ISO2, ISO3, Name) VALUES");
 
-        int id = 1;
+        //int id = 1;
 
-        foreach (var line in lines.Skip(1)) // skip header
-        {
-            if (string.IsNullOrWhiteSpace(line))
-                continue;
+        //foreach (var line in lines.Skip(1)) // skip header
+        //{
+        //    if (string.IsNullOrWhiteSpace(line))
+        //        continue;
 
-            var parts = line.Split(',');
+        //    var parts = line.Split(',');
 
-            string iso2 = parts[0].Trim().ToUpper();
-            string iso3 = parts[1].Trim().ToUpper();
-            string countryCommon = parts[4].Trim(); // index 4 = country_common
+        //    string iso2 = parts[0].Trim().ToUpper();
+        //    string iso3 = parts[1].Trim().ToUpper();
+        //    string countryCommon = parts[4].Trim(); // index 4 = country_common
 
-            // Escape for SQL (O'Brien → O''Brien)
-            countryCommon = countryCommon.Replace("'", "''");
+        //    // Escape for SQL (O'Brien → O''Brien)
+        //    countryCommon = countryCommon.Replace("'", "''");
 
-            sb.AppendLine(
-                $"({id}, N'{iso2}', N'{iso3}', N'{countryCommon}'),"
-            );
+        //    sb.AppendLine(
+        //        $"({id}, N'{iso2}', N'{iso3}', N'{countryCommon}'),"
+        //    );
 
-            id++;
-        }
+        //    id++;
+        //}
 
-        // Remove trailing comma and finish with ;
-        string sql = sb.ToString().TrimEnd(',', '\r', '\n') + ";";
+        //// Remove trailing comma and finish with ;
+        //string sql = sb.ToString().TrimEnd(',', '\r', '\n') + ";";
 
-        File.WriteAllText(@"D:\country_seed.sql", sql);
+        //File.WriteAllText(@"D:\country_seed.sql", sql);
     }
 }
