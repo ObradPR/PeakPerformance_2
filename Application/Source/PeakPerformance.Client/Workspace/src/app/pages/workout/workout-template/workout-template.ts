@@ -11,11 +11,11 @@ import { MeasurementConverterPipe } from "../../../pipes/measurement-converter.p
 import { AuthService } from '../../../services/auth.service';
 import { LoaderService } from '../../../services/loader.service';
 import { ModalService } from '../../../services/modal.service';
-import { ExerciseTemplate } from "../../exercise/exercise-template/exercise-template";
+import { ExercisesTemplate } from '../../exercise/exercises-template/exercises-template';
 
 @Component({
   selector: 'app-workout-template',
-  imports: [ClickOutsideDirective, MeasurementConverterPipe, DurationPipe, RouterLink, ExerciseTemplate],
+  imports: [ClickOutsideDirective, MeasurementConverterPipe, DurationPipe, RouterLink, ExercisesTemplate],
   templateUrl: './workout-template.html',
   styleUrl: './workout-template.css'
 })
