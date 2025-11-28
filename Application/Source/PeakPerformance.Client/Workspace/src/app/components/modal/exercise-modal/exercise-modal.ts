@@ -11,6 +11,7 @@ import { HttpClient } from '@angular/common/http';
 import { TitleCasePipe } from '@angular/common';
 import { IExerciseDbApiDataDto, IExerciseDbApiDto } from '../../../_generated/interfaces';
 import { Paginator, PaginatorState } from 'primeng/paginator';
+import { eBodyPart } from '../../../_generated/enums';
 
 @Component({
   selector: 'app-exercise-modal',
@@ -66,12 +67,13 @@ export class ExerciseModal implements IModalMethods, OnInit {
   }
 
   formInit(): void {
-    console.log(this.modalService.exerciseIdSignal())
     this.form = this.fb.group({
       search: [''],
       id: [this.modalService.exerciseIdSignal()],
       apiExerciseId: [],
       name: [],
+      equipmentName: [],
+      bodyParts: [],
       workoutId: [this.modalService.workoutIdSignal()],
       order: [this.modalService.orderSignal()]
     });
@@ -114,12 +116,14 @@ export class ExerciseModal implements IModalMethods, OnInit {
       .finally(() => this.loaderService.hidePageLoader());
   }
 
-  selectExercise(exercise: any) {
+  selectExercise(exercise: IExerciseDbApiDataDto) {
     this.loaderService.showPageLoader();
 
     this.form.patchValue({
       apiExerciseId: exercise.exerciseId,
-      name: exercise.name
+      name: exercise.name,
+      equipmentName: exercise.equipments[0],
+      bodyParts: exercise.bodyParts
     });
 
     this.exerciseController.Save(this.form.value).toPromise()
