@@ -9,6 +9,14 @@ public class Exercise : BaseDomain<long>, IConfigurableEntity
 
     public string Name { get; set; }
 
+    public string EquipmentName { get; set; }
+
+    public bool? IsCardio { get; set; }
+
+    public bool? IsBodyweight { get; set; }
+
+    public bool? IsStrength { get; set; }
+
     //
     // Relationships
     //
