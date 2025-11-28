@@ -1,9 +1,8 @@
-import { Component, output, OutputEmitterRef } from '@angular/core';
-import { IExerciseDbApiDataDto, IExerciseDbApiDto } from '../../../_generated/interfaces';
-import { HttpClient } from '@angular/common/http';
-import { ModalService } from '../../../services/modal.service';
 import { TitleCasePipe } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
+import { Component, output, OutputEmitterRef } from '@angular/core';
 import { LoaderService } from '../../../services/loader.service';
+import { ModalService } from '../../../services/modal.service';
 
 @Component({
   selector: 'app-how-to-exercise-modal',

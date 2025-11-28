@@ -1,16 +1,15 @@
 import { Component, OnInit, output, OutputEmitterRef } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
+import { DateTime } from 'luxon';
+import { IWorkoutDto } from '../../../_generated/interfaces';
+import { WorkoutController } from '../../../_generated/services';
 import { ValidationDirective } from '../../../directives/validation.directive';
 import { BaseValidationComponent } from '../../../pages/_base/base.component/base-validation.component';
-import { IModalMethods } from '../interfaces/modal-methods.interface';
-import { WorkoutController } from '../../../_generated/services';
-import { ModalService } from '../../../services/modal.service';
 import { LoaderService } from '../../../services/loader.service';
-import { IPagingResult, IWorkoutDto, IWorkoutSearchOptions } from '../../../_generated/interfaces';
-import { DateTime } from 'luxon';
+import { ModalService } from '../../../services/modal.service';
 import { SharedService } from '../../../services/shared.service';
-import { Router } from '@angular/router';
-import { MeasurementConverterPipe } from '../../../pipes/measurement-converter.pipe';
+import { IModalMethods } from '../interfaces/modal-methods.interface';
 
 @Component({
   selector: 'app-workout-modal',

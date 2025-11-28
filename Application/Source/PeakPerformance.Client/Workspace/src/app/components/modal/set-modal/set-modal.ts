@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { eMeasurementUnit, eSetRpeType, eSetType } from '../../../_generated/enums';
 import { IEnumProvider, IWorkoutExerciseDto, IWorkoutExerciseSetDto } from '../../../_generated/interfaces';
 import { Providers } from '../../../_generated/providers';
-import { BodyweightController, SetController } from '../../../_generated/services';
+import { SetController } from '../../../_generated/services';
 import { ValidationDirective } from '../../../directives/validation.directive';
 import { BaseValidationComponent } from '../../../pages/_base/base.component/base-validation.component';
 import { MeasurementConverterPipe } from '../../../pipes/measurement-converter.pipe';

@@ -1,15 +1,15 @@
-import { Component, OnInit } from '@angular/core';
-import { BaseValidationComponent } from '../../_base/base.component/base-validation.component';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { ValidationDirective } from '../../../directives/validation.directive';
-import { AuthController } from '../../../_generated/services';
-import { AuthService } from '../../../services/auth.service';
-import { ToastService } from '../../../services/toast.service';
-import { LoaderService } from '../../../services/loader.service';
-import { IRegistrationDto } from '../../../_generated/interfaces';
-import { DateTime } from 'luxon';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
+import { DateTime } from 'luxon';
+import { IRegistrationDto } from '../../../_generated/interfaces';
+import { AuthController } from '../../../_generated/services';
+import { ValidationDirective } from '../../../directives/validation.directive';
+import { AuthService } from '../../../services/auth.service';
+import { LoaderService } from '../../../services/loader.service';
+import { ToastService } from '../../../services/toast.service';
+import { BaseValidationComponent } from '../../_base/base.component/base-validation.component';
 
 @Component({
   selector: 'app-register',
@@ -25,10 +25,12 @@ export class Register extends BaseValidationComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private authController: AuthController,
+
     private authService: AuthService,
     private toastService: ToastService,
-    private loaderService: LoaderService
+    private loaderService: LoaderService,
+
+    private authController: AuthController,
   ) {
     super();
     this.minDob = DateTime.now().minus({ years: 80 }).toISODate();

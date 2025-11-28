@@ -1,17 +1,15 @@
+import { TitleCasePipe } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, output, OutputEmitterRef } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { IModalMethods } from '../interfaces/modal-methods.interface';
-import { ExerciseController, WorkoutController } from '../../../_generated/services';
 import { Router } from '@angular/router';
-import { ModalService } from '../../../services/modal.service';
-import { LoaderService } from '../../../services/loader.service';
-import { SharedService } from '../../../services/shared.service';
-import { debounceTime, distinctUntilChanged } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
-import { TitleCasePipe } from '@angular/common';
-import { IExerciseDbApiDataDto, IExerciseDbApiDto } from '../../../_generated/interfaces';
 import { Paginator, PaginatorState } from 'primeng/paginator';
-import { eBodyPart } from '../../../_generated/enums';
+import { debounceTime, distinctUntilChanged } from 'rxjs';
+import { IExerciseDbApiDataDto, IExerciseDbApiDto } from '../../../_generated/interfaces';
+import { ExerciseController } from '../../../_generated/services';
+import { LoaderService } from '../../../services/loader.service';
+import { ModalService } from '../../../services/modal.service';
+import { IModalMethods } from '../interfaces/modal-methods.interface';
 
 @Component({
   selector: 'app-exercise-modal',

@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RouterLink } from '@angular/router';
 import { ILoginDto } from '../../../_generated/interfaces';
 import { AuthController } from '../../../_generated/services';
 import { ValidationDirective } from '../../../directives/validation.directive';
@@ -8,7 +9,6 @@ import { AuthService } from '../../../services/auth.service';
 import { LoaderService } from '../../../services/loader.service';
 import { ToastService } from '../../../services/toast.service';
 import { BaseValidationComponent } from '../../_base/base.component/base-validation.component';
-import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-log-in',
@@ -22,10 +22,12 @@ export class LogIn extends BaseValidationComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private authController: AuthController,
+
     private authService: AuthService,
     private toastService: ToastService,
-    private loaderService: LoaderService
+    private loaderService: LoaderService,
+
+    private authController: AuthController,
   ) {
     super();
   }

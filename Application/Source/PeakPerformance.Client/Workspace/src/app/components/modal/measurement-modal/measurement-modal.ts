@@ -6,6 +6,7 @@ import { IMeasurementDto } from '../../../_generated/interfaces';
 import { MeasurementController } from '../../../_generated/services';
 import { ValidationDirective } from '../../../directives/validation.directive';
 import { BaseValidationComponent } from '../../../pages/_base/base.component/base-validation.component';
+import { EnumNamePipe } from "../../../pipes/enum-name.pipe";
 import { MeasurementConverterPipe } from '../../../pipes/measurement-converter.pipe';
 import { MeasurementUnitDescriptionPipe } from '../../../pipes/measurement-unit-description.pipe';
 import { AuthService } from '../../../services/auth.service';
@@ -14,7 +15,6 @@ import { MeasurementService } from '../../../services/measurement.service';
 import { ModalService } from '../../../services/modal.service';
 import { SharedService } from '../../../services/shared.service';
 import { IModalMethods } from '../interfaces/modal-methods.interface';
-import { EnumNamePipe } from "../../../pipes/enum-name.pipe";
 
 @Component({
   selector: 'app-measurement-modal',

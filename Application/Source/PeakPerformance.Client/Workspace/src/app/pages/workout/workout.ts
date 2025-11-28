@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalService } from '../../services/modal.service';
-import { WorkoutController } from '../../_generated/services';
-import { IPagingResult, ISortingOptions, IWorkoutDto, IWorkoutSearchOptions } from '../../_generated/interfaces';
-import { LoaderService } from '../../services/loader.service';
 import { Paginator, PaginatorState } from 'primeng/paginator';
-import { WorkoutSingle } from "./workout-single/workout-single";
+import { IPagingResult, ISortingOptions, IWorkoutDto, IWorkoutSearchOptions } from '../../_generated/interfaces';
+import { WorkoutController } from '../../_generated/services';
+import { LoaderService } from '../../services/loader.service';
+import { ModalService } from '../../services/modal.service';
 import { WorkoutTemplate } from "./workout-template/workout-template";
 
 @Component({

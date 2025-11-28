@@ -1,19 +1,19 @@
 import { Component, OnInit, output, OutputEmitterRef } from '@angular/core';
-import { BaseValidationComponent } from '../../../pages/_base/base.component/base-validation.component';
-import { IModalMethods } from '../interfaces/modal-methods.interface';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ValidationDirective } from '../../../directives/validation.directive';
-import { MeasurementUnitDescriptionPipe } from '../../../pipes/measurement-unit-description.pipe';
-import { EnumNamePipe } from '../../../pipes/enum-name.pipe';
 import { eMeasurementUnit } from '../../../_generated/enums';
 import { IMeasurementGoalDto } from '../../../_generated/interfaces';
 import { MeasurementGoalController } from '../../../_generated/services';
-import { ModalService } from '../../../services/modal.service';
+import { ValidationDirective } from '../../../directives/validation.directive';
+import { BaseValidationComponent } from '../../../pages/_base/base.component/base-validation.component';
+import { EnumNamePipe } from '../../../pipes/enum-name.pipe';
+import { MeasurementConverterPipe } from '../../../pipes/measurement-converter.pipe';
+import { MeasurementUnitDescriptionPipe } from '../../../pipes/measurement-unit-description.pipe';
 import { AuthService } from '../../../services/auth.service';
-import { SharedService } from '../../../services/shared.service';
 import { LoaderService } from '../../../services/loader.service';
 import { MeasurementService } from '../../../services/measurement.service';
-import { MeasurementConverterPipe } from '../../../pipes/measurement-converter.pipe';
+import { ModalService } from '../../../services/modal.service';
+import { SharedService } from '../../../services/shared.service';
+import { IModalMethods } from '../interfaces/modal-methods.interface';
 
 @Component({
   selector: 'app-measurement-goal-modal',

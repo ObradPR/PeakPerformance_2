@@ -1,23 +1,22 @@
-import { Component, effect, OnDestroy } from '@angular/core';
-import { ModalService } from '../../services/modal.service';
 import { CommonModule } from '@angular/common';
-import { UtcToLocalPipe } from '../../pipes/utc-to-local.pipe';
-import { MeasurementConverterPipe } from '../../pipes/measurement-converter.pipe';
-import { MeasurementController, MeasurementGoalController } from '../../_generated/services';
-import { ICurrentBodyInfoDto, IEnumProvider, IMeasurementDto, IMeasurementGoalDto, IMeasurementGoalSearchOptions, IMeasurementSearchOptions, IPagingResult, ISortingOptions } from '../../_generated/interfaces';
-import { MeasurementService } from '../../services/measurement.service';
-import { EnumNamePipe } from '../../pipes/enum-name.pipe';
+import { Component, effect, OnDestroy } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { Chart } from 'chart.js/auto';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
+import { DateTime } from 'luxon';
 import { Paginator, PaginatorState } from 'primeng/paginator';
 import { eBodyPart, eChartTimespan } from '../../_generated/enums';
-import { Chart } from 'chart.js/auto';
+import { ICurrentBodyInfoDto, IEnumProvider, IMeasurementDto, IMeasurementGoalDto, IMeasurementGoalSearchOptions, IMeasurementSearchOptions, IPagingResult, ISortingOptions } from '../../_generated/interfaces';
 import { Providers } from '../../_generated/providers';
-import { SharedService } from '../../services/shared.service';
-import { QService } from '../../services/q.service';
-import { DateTime } from 'luxon';
-import ChartDataLabels from 'chartjs-plugin-datalabels';
-import { FormsModule } from '@angular/forms';
-import { PerformanceService } from '../../services/performance.service';
+import { MeasurementController, MeasurementGoalController } from '../../_generated/services';
 import { ClickOutsideDirective } from '../../directives/click-outside.directive';
+import { EnumNamePipe } from '../../pipes/enum-name.pipe';
+import { MeasurementConverterPipe } from '../../pipes/measurement-converter.pipe';
+import { UtcToLocalPipe } from '../../pipes/utc-to-local.pipe';
+import { MeasurementService } from '../../services/measurement.service';
+import { ModalService } from '../../services/modal.service';
+import { QService } from '../../services/q.service';
+import { SharedService } from '../../services/shared.service';
 
 enum eMeasurementInfoTab {
   Measurements = 0,

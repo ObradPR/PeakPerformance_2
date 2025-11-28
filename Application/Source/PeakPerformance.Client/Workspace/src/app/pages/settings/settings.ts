@@ -1,19 +1,17 @@
 import { Component, effect, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { BaseValidationComponent } from '../_base/base.component/base-validation.component';
-import { AuthService } from '../../services/auth.service';
-import { ICountryDto, IEnumProvider, IUserDto } from '../../_generated/interfaces';
-import { ValidationDirective } from '../../directives/validation.directive';
-import { Providers } from '../../_generated/providers';
 import { DateTime } from 'luxon';
-import { MeasurementUnitDescriptionPipe } from '../../pipes/measurement-unit-description.pipe';
-import { eMeasurementUnit } from '../../_generated/enums';
-import { CountryController, UserController } from '../../_generated/services';
-import { LoaderService } from '../../services/loader.service';
-import { MeasurementConverterPipe } from '../../pipes/measurement-converter.pipe';
-import { Functions } from '../../functions';
-import { FileUploadService } from '../../services/file-upload.service';
 import { finalize, take } from 'rxjs';
+import { eMeasurementUnit } from '../../_generated/enums';
+import { ICountryDto, IEnumProvider, IUserDto } from '../../_generated/interfaces';
+import { Providers } from '../../_generated/providers';
+import { CountryController, UserController } from '../../_generated/services';
+import { ValidationDirective } from '../../directives/validation.directive';
+import { Functions } from '../../functions';
+import { AuthService } from '../../services/auth.service';
+import { FileUploadService } from '../../services/file-upload.service';
+import { LoaderService } from '../../services/loader.service';
+import { BaseValidationComponent } from '../_base/base.component/base-validation.component';
 
 @Component({
   selector: 'app-settings',

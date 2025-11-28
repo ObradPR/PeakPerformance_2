@@ -1,15 +1,15 @@
+import { LowerCasePipe, NgStyle } from '@angular/common';
 import { Component, input } from '@angular/core';
+import { Router } from '@angular/router';
+import { eSetRpeType, eSetType } from '../../../_generated/enums';
 import { IEnumProvider, IWorkoutExerciseDto, IWorkoutExerciseSetDto } from '../../../_generated/interfaces';
 import { Providers } from '../../../_generated/providers';
-import { eSetRpeType, eSetType } from '../../../_generated/enums';
-import { ModalService } from '../../../services/modal.service';
 import { SetController } from '../../../_generated/services';
-import { LowerCasePipe, NgStyle } from '@angular/common';
+import { ClickOutsideDirective } from '../../../directives/click-outside.directive';
 import { MeasurementConverterPipe } from '../../../pipes/measurement-converter.pipe';
 import { LoaderService } from '../../../services/loader.service';
-import { Router } from '@angular/router';
+import { ModalService } from '../../../services/modal.service';
 import { eOrderMove } from '../../exercise/exercises-template/exercises-template';
-import { ClickOutsideDirective } from '../../../directives/click-outside.directive';
 
 @Component({
   selector: 'app-sets-template',

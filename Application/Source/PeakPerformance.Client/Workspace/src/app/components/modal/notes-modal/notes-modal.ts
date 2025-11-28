@@ -1,10 +1,10 @@
 import { Component, OnInit, output, OutputEmitterRef } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { IModalMethods } from '../interfaces/modal-methods.interface';
 import { Router } from '@angular/router';
 import { ExerciseController } from '../../../_generated/services';
-import { ModalService } from '../../../services/modal.service';
 import { LoaderService } from '../../../services/loader.service';
+import { ModalService } from '../../../services/modal.service';
+import { IModalMethods } from '../interfaces/modal-methods.interface';
 
 @Component({
   selector: 'app-notes-modal',

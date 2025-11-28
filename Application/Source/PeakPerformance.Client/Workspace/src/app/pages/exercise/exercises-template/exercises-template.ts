@@ -1,15 +1,12 @@
-import { LowerCasePipe, NgStyle, TitleCasePipe } from '@angular/common';
-import { Component, input, OnInit } from '@angular/core';
+import { TitleCasePipe } from '@angular/common';
+import { Component, input } from '@angular/core';
 import { Router } from '@angular/router';
-import { eSetRpeType, eSetType } from '../../../_generated/enums';
-import { IWorkoutExerciseDto, IWorkoutExerciseSetDto } from '../../../_generated/interfaces';
-import { Providers } from '../../../_generated/providers';
-import { ExerciseController, SetController } from '../../../_generated/services';
-import { MeasurementConverterPipe } from '../../../pipes/measurement-converter.pipe';
+import { IWorkoutExerciseDto } from '../../../_generated/interfaces';
+import { ExerciseController } from '../../../_generated/services';
+import { ClickOutsideDirective } from '../../../directives/click-outside.directive';
 import { LoaderService } from '../../../services/loader.service';
 import { ModalService } from '../../../services/modal.service';
 import { SetsTemplate } from "../../set/sets-template/sets-template";
-import { ClickOutsideDirective } from '../../../directives/click-outside.directive';
 
 
 export enum eOrderMove {
@@ -35,10 +32,8 @@ export class ExercisesTemplate {
 
     public modalService: ModalService,
     private loaderService: LoaderService,
-    private providers: Providers,
 
     private exerciseController: ExerciseController,
-    private setController: SetController
   ) { }
 
   // events

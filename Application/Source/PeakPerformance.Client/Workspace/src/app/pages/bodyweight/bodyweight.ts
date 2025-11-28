@@ -1,26 +1,22 @@
 import { CommonModule } from '@angular/common';
-import { Component, effect, OnDestroy, OnInit } from '@angular/core';
+import { Component, effect, OnDestroy } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { Chart } from 'chart.js/auto';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
+import { DateTime } from 'luxon';
 import { Paginator, PaginatorState } from 'primeng/paginator';
-import { eChartTimespan, eMeasurementUnit } from '../../_generated/enums';
+import { eChartTimespan } from '../../_generated/enums';
 import { IBodyweightDto, IBodyweightGoalDto, IBodyweightGoalSearchOptions, IBodyweightSearchOptions, ICurrentBodyInfoDto, IEnumProvider, IPagingResult, ISortingOptions } from '../../_generated/interfaces';
+import { Providers } from '../../_generated/providers';
 import { BodyweightController, BodyweightGoalController } from '../../_generated/services';
 import { ClickOutsideDirective } from '../../directives/click-outside.directive';
 import { MeasurementConverterPipe } from '../../pipes/measurement-converter.pipe';
 import { UtcToLocalPipe } from '../../pipes/utc-to-local.pipe';
 import { BodyweightService } from '../../services/bodyweight.service';
 import { ModalService } from '../../services/modal.service';
-import { Providers } from '../../_generated/providers';
 import { QService } from '../../services/q.service';
-import { DateTime } from 'luxon';
 import { SharedService } from '../../services/shared.service';
-import ChartDataLabels from 'chartjs-plugin-datalabels';
-import { FormsModule } from '@angular/forms';
 
-enum eChartTarget {
-  Bodyweight = 1,
-  BodyFatPercentage = 2,
-}
 enum eBodyweightInfoTab {
   Bodyweights = 0,
   Goals = 1,
@@ -42,18 +38,6 @@ export class Bodyweight implements OnDestroy {
 
   chartTimespans: IEnumProvider[] = [];
   selectedTimespan: number = eChartTimespan.Last3Months;
-  // chartTargets: IEnumProvider[] = [
-  //   {
-  //     id: eChartTarget.Bodyweight,
-  //     description: 'Bodyweight',
-  //     name: ''
-  //   },
-  //   {
-  //     id: eChartTarget.BodyFatPercentage,
-  //     description: 'Body Fat',
-  //     name: ''
-  //   }
-  // ]
 
   currentBodyweight: ICurrentBodyInfoDto | null = null;
 
