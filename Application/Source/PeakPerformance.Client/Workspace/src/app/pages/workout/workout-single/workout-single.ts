@@ -9,8 +9,9 @@ import { MeasurementConverterPipe } from "../../../pipes/measurement-converter.p
 import { DurationPipe } from '../../../pipes/duration.pipe';
 import { TitleCasePipe, NgStyle, LowerCasePipe } from '@angular/common';
 import { LoaderService } from '../../../services/loader.service';
-import { eSetRpeType, eSetType } from '../../../_generated/enums';
+import { eMeasurementUnit, eSetRpeType, eSetType } from '../../../_generated/enums';
 import { Providers } from '../../../_generated/providers';
+import { AuthService } from '../../../services/auth.service';
 
 
 enum eOrderMove {
@@ -28,6 +29,7 @@ export class WorkoutSingle implements OnInit {
   workout: IWorkoutDto;
   selectedWorkoutMenu = false;
   workoutTime: string;
+  userWeightPreference: string;
 
   selectedExerciseMenu: number | null;
 
@@ -42,10 +44,13 @@ export class WorkoutSingle implements OnInit {
     public modalService: ModalService,
     private loaderService: LoaderService,
     private providers: Providers,
+    private authService: AuthService,
 
     private workoutController: WorkoutController,
     private exerciseController: ExerciseController
-  ) { }
+  ) {
+    this.userWeightPreference = this.providers.getMeasurementUnits().find(_ => _.id === this.authService.currentUserSource()?.weightUnitId)?.description ?? '';
+  }
 
   ngOnInit(): void {
     this.workout = this.route.snapshot.data['workout']?.data;
