@@ -4,7 +4,7 @@ import { IEnumProvider, IWorkoutDto, IWorkoutExerciseDto, IWorkoutExerciseSetDto
 import { ClickOutsideDirective } from '../../../directives/click-outside.directive';
 import { DateTime } from 'luxon';
 import { ModalService } from '../../../services/modal.service';
-import { ExerciseController, WorkoutController } from '../../../_generated/services';
+import { ExerciseController, SetController, WorkoutController } from '../../../_generated/services';
 import { MeasurementConverterPipe } from "../../../pipes/measurement-converter.pipe";
 import { DurationPipe } from '../../../pipes/duration.pipe';
 import { TitleCasePipe, NgStyle, LowerCasePipe } from '@angular/common';
@@ -48,7 +48,8 @@ export class WorkoutSingle implements OnInit {
     private authService: AuthService,
 
     private workoutController: WorkoutController,
-    private exerciseController: ExerciseController
+    private exerciseController: ExerciseController,
+    private setController: SetController
   ) {
     this.userWeightPreference = this.providers.getMeasurementUnits().find(_ => _.id === this.authService.currentUserSource()?.weightUnitId)?.description ?? '';
   }
@@ -70,6 +71,12 @@ export class WorkoutSingle implements OnInit {
       this.selectedExerciseMenu = null;
     else
       this.selectedExerciseMenu = idx;
+  }
+  onOpenSetEditMenu(setId: number) {
+    if (this.selectedSetMenu === setId)
+      this.selectedSetMenu = null;
+    else
+      this.selectedSetMenu = setId;
   }
 
   // methods
@@ -133,7 +140,21 @@ export class WorkoutSingle implements OnInit {
   }
   editSet(set: IWorkoutExerciseSetDto) {
     this.selectedSetMenu = null;
-    this.modalService.showEditSetModal(set);
+    this.modalService.showEditSetModal(set, this.workout.id);
+  }
+  deleteSet(id: number) {
+    this.loaderService.showPageLoader();
+
+    this.selectedSetMenu = null;
+    this.setController.Delete(id).toPromise()
+      .then(_ => {
+        if (_?.isSuccess) {
+          this.router.navigateByUrl('/', { skipLocationChange: true })
+            .then(() => this.router.navigateByUrl(`/workouts/${this.workout.id}`));
+        }
+      })
+      .catch(ex => { throw ex; })
+      .finally(() => this.loaderService.hidePageLoader());
   }
 
   getSetRpeById = (id: eSetRpeType | undefined) => this.setRpes.find(_ => _.id === id);

@@ -71,9 +71,9 @@ export class SetModal extends BaseValidationComponent implements IModalMethods, 
       rpeTypeId: [this.selectedSet?.rpeTypeId ?? eSetRpeType.NotSet],
       typeId: [this.selectedSet?.typeId ?? eSetType.NotSet],
       order: [this.modalService.orderSignal()],
-      workoutExerciseId: [this.modalService.exerciseIdSignal()],
-      notes: [''],
-      rest: []
+      workoutExerciseId: [this.selectedSet?.workoutExerciseId ?? this.modalService.exerciseIdSignal()],
+      notes: [this.selectedSet?.notes],
+      rest: [this.selectedSet?.rest]
     });
   }
 
@@ -86,7 +86,7 @@ export class SetModal extends BaseValidationComponent implements IModalMethods, 
     const payload: IWorkoutExerciseSetDto = {
       ...this.form.value,
       weight: isNaN(this.form.value.weight) ? 0 : this.form.value.weight,
-      reps: this.form.value.reps ? this.form.value.reps : 0,
+      reps: this.form.value.reps ? this.form.value.reps : 1,
       sets: this.form.value.sets ? this.form.value.sets : 1
     }
 

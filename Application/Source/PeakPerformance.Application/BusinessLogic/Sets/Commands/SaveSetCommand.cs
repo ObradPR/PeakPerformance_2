@@ -21,8 +21,7 @@ public class SaveSetCommand(WorkoutExerciseSetDto data) : IRequest<BaseResponseW
             {
                 request.Data.ToModel(existingModel);
             }
-
-            if (existingModel == null)
+            else
             {
                 for (var i = 0; i < request.Data.Sets; i++)
                 {

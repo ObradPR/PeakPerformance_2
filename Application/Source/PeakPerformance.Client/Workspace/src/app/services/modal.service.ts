@@ -223,9 +223,10 @@ export class ModalService {
     this.order.set(order);
     this.setModal.set(true);
   }
-  showEditSetModal(data: IWorkoutExerciseSetDto) {
+  showEditSetModal(data: IWorkoutExerciseSetDto, workoutId: number) {
     this.setModalType.set('edit');
     this.selectedSet.set(data);
+    this.workoutId.set(workoutId);
     this.setModal.set(true);
   }
   hideSetModal() {

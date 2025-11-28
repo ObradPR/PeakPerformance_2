@@ -1,9 +1,11 @@
 .edit-dots-workout {
     font-size: 3rem;
 }
-
 .edit-dots-exercise {
     font-size: 2.2rem;
+}
+.edit-dots-set {
+    font-size: 1.2rem;
 }
 
 .edit-menu {
@@ -12,9 +14,11 @@
     right: 0;
     font-size: 0.9rem;
 }
-
 .edit-menu-exercise {
     top: 45px;
+}
+.edit-menu-set {
+    top: 40px;
 }
 
 textarea {
@@ -24,6 +28,9 @@ textarea {
 
 .data-table td {
     padding: 0.4rem 0.3rem;
+}
+.data-table td:last-child {
+    text-align: right;
 }
 .data-table tr {
     border-bottom: 1px solid var(--bs-border-color);

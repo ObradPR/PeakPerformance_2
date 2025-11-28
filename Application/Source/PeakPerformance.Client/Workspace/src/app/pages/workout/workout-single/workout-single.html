@@ -131,7 +131,7 @@
                     </thead>
                     <tbody>
                         @for (set of exercise.sets; track set; let idx = $index) {
-                            <tr>
+                            <tr class="position-relative">
                                 <td>{{ set.weight | measurementConverter:set.weightUnitId }}</td>
                                 <td>{{ set.reps }}</td>
                                 @if (hasAnyRpe(exercise)) {
@@ -173,21 +173,22 @@
                                     <td>{{ set.rest ? set.rest + ' s' : '-' }}</td>
                                 }
                                 <td>
-                                    <!-- <span class="edit-dots" (click)="setEditMenu(idx)">⋮</span>
-                                    @if (selectedSetMenu === idx) {
-                                        <div class="edit-menu" appClickOutside (clickOutside)="this.selectedSetMenu = null">
+                                    <span class="edit-dots edit-dots-set" (click)="onOpenSetEditMenu(set.id)">⋮</span>
+                                    @if (selectedSetMenu === set.id) {
+                                        <div class="edit-menu edit-menu-set" appClickOutside (clickOutside)="this.selectedSetMenu = null">
                                             <ul>
-                                                <li (click)="editSet(row)">
+                                                <li (click)="editSet(set)">
                                                     <i class="fa-solid fa-pen"></i>
                                                     Edit
                                                 </li>
-                                                <li (click)="deleteSet(row.id)" class="delete-item">
+                                                <hr>
+                                                <li (click)="deleteSet(set.id)" class="delete-item">
                                                    <i class="fa-solid fa-trash"></i>
-                                                    Delete
+                                                    Delete Set
                                                 </li>
                                             </ul>
                                         </div>
-                                    } -->
+                                    }
                                 </td>
                             </tr>
                             @if (set.notes) {
