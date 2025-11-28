@@ -21,26 +21,54 @@ public class SearchWorkoutQuery(WorkoutSearchOptions options) : IRequest<Respons
 
             var result = await db.Workouts.SearchAsync(options, _ => _.LogDate, true, predicates,
                 includeProperties: [
-                    _ => _.WorkoutExercises.Select(_ => _.WorkoutExerciseSets)
+                    _ => _.WorkoutExercises.Select(_ => _.WorkoutExerciseSets),
+                    _ => _.WorkoutExercises.Select(_ => _.Exercise)
                 ]);
 
             var data = mapper.Map<IEnumerable<WorkoutDto>>(result.Data);
 
-            var userMeasurementUnitId = (await db.UserMeasurementPreferences.FirstOrDefaultAsync(_ => _.UserId == userId, cancellationToken)).WeightUnitId;
+            var userMeasurementUnitId = (await db.UserMeasurementPreferences
+                 .FirstOrDefaultAsync(_ => _.UserId == identityUser.Id, cancellationToken))
+                 .WeightUnitId;
 
             foreach (var workout in data)
             {
-                var sets = workout.Exercises.SelectMany(_ => _.Sets).Where(_ => _.TypeId > eSetType.Warmup).ToList();
+                var allSets = workout.Exercises.SelectMany(e => e.Sets).ToList();
+                var workingSets = allSets.Where(s => s.TypeId != eSetType.Warmup).ToList();
 
-                // #TODO: this will need rework after we introduce the non weighted stuff
-                // so basically each type of those exercise will have their own method of volume calculation
-                // so don't look confused if the line for Volume starts throwing Null Ref exceptions
+                var strengthSets = workout.Exercises
+                    .Where(_ => _.IsStrength == true)
+                    .SelectMany(_ => _.Sets)
+                    .Where(_ => _.TypeId != eSetType.Warmup);
+
+                var bodyweightSets = workout.Exercises
+                    .Where(_ => _.IsBodyweight == true)
+                    .SelectMany(_ => _.Sets)
+                    .Where(_ => _.TypeId != eSetType.Warmup);
+
+                var cardioSets = workout.Exercises
+                    .Where(_ => _.IsCardio == true)
+                    .SelectMany(_ => _.Sets)
+                    .Where(_ => _.TypeId != eSetType.Warmup);
+
+                var totalReps = workingSets.Sum(s => s.Reps);
+                var totalSets = workingSets.Count;
+
+                var strengthVolume = strengthSets.Sum(_ => _.Reps * _.Weight.Value.ConvertUnitValue(_.WeightUnitId.Value, userMeasurementUnitId));
+
+                var bodyweightVolume = (workout.Bodyweight != null)
+                    ? bodyweightSets.Sum(_ =>
+                        _.Reps * workout.Bodyweight.Value.ConvertUnitValue(workout.BodyweightMeasurementUnitId.Value, userMeasurementUnitId))
+                    : 0;
+
+                var cardioTime = cardioSets.Sum(s => s.DurationMinutes ?? 0);
 
                 workout.Total = new()
                 {
-                    Reps = sets.Sum(_ => _.Reps),
-                    Sets = sets.Count,
-                    Volume = sets.Sum(_ => _.Reps * _.Weight.Value.ConvertUnitValue(_.WeightUnitId.Value, userMeasurementUnitId)),
+                    Reps = totalReps,
+                    Sets = totalSets,
+                    Volume = strengthVolume + bodyweightVolume,
+                    CardioTime = cardioTime
                 };
             }
 

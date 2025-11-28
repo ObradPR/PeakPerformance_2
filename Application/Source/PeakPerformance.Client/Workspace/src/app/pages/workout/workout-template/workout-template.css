@@ -1,0 +1,53 @@
+.edit-dots-workout {
+    font-size: 3rem;
+}
+.edit-dots-exercise {
+    font-size: 2.2rem;
+}
+.edit-dots-set {
+    font-size: 1.2rem;
+}
+
+.edit-menu {
+    width: 200px;
+    top: 60px;
+    right: 0;
+    font-size: 0.9rem;
+}
+.edit-menu-exercise {
+    top: 45px;
+}
+.edit-menu-set {
+    top: 40px;
+}
+
+textarea {
+    resize: none;
+    font-size: 0.9rem;
+}
+
+.data-table {
+    margin-top: 0.5rem;
+}
+.data-table tr {
+    border-bottom: 1px solid var(--bs-border-color);
+}
+.data-table tr:last-child {
+    border-bottom: none;
+}
+
+.warmup {
+    background-color: rgba(13, 110, 253, 0.08);
+}
+.warmup-text {
+    font-style: italic;
+    color: rgba(0, 0, 0, 0.5);
+}
+
+.clickable {
+    cursor: pointer;
+    color: var(--bs-blue);
+}
+.clickable:hover {
+    color: #343a40;
+}

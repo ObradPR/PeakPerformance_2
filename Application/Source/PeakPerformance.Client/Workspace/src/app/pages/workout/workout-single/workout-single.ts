@@ -12,6 +12,7 @@ import { MeasurementConverterPipe } from "../../../pipes/measurement-converter.p
 import { AuthService } from '../../../services/auth.service';
 import { LoaderService } from '../../../services/loader.service';
 import { ModalService } from '../../../services/modal.service';
+import { WorkoutTemplate } from "../workout-template/workout-template";
 
 
 enum eOrderMove {
@@ -21,22 +22,12 @@ enum eOrderMove {
 
 @Component({
   selector: 'app-workout-single',
-  imports: [ClickOutsideDirective, MeasurementConverterPipe, DurationPipe, TitleCasePipe, NgStyle, LowerCasePipe, NgClass],
+  imports: [WorkoutTemplate],
   templateUrl: './workout-single.html',
   styleUrl: './workout-single.css'
 })
 export class WorkoutSingle implements OnInit {
   workout: IWorkoutDto;
-  workoutTime: string;
-  userWeightPreference: string;
-
-  selectedWorkoutMenu = false;
-  selectedExerciseMenu: number | null;
-  selectedSetMenu: number | null;
-
-  setRpes: IEnumProvider[] = [];
-  setTypes: IEnumProvider[] = [];
-
 
   constructor(
     private route: ActivatedRoute,
@@ -50,185 +41,9 @@ export class WorkoutSingle implements OnInit {
     private workoutController: WorkoutController,
     private exerciseController: ExerciseController,
     private setController: SetController
-  ) {
-    this.userWeightPreference = this.providers.getMeasurementUnits().find(_ => _.id === this.authService.currentUserSource()?.weightUnitId)?.description ?? '';
-  }
+  ) { }
 
   ngOnInit(): void {
     this.workout = this.route.snapshot.data['workout']?.data;
-    this.setRpes = this.providers.getSetRpeTypes();
-    this.setTypes = this.providers.getSetTypes();
-
-    this.formatWorkoutTime();
-
-  }
-
-  // events 
-
-  onOpenEditMenu = () => this.selectedWorkoutMenu = true;
-  onOpenExerciseEditMenu(idx: number) {
-    if (this.selectedExerciseMenu === idx)
-      this.selectedExerciseMenu = null;
-    else
-      this.selectedExerciseMenu = idx;
-  }
-  onOpenSetEditMenu(setId: number) {
-    if (this.selectedSetMenu === setId)
-      this.selectedSetMenu = null;
-    else
-      this.selectedSetMenu = setId;
-  }
-
-  // methods
-
-  editWorkout() {
-    this.selectedWorkoutMenu = false;
-    this.modalService.showEditWorkoutModal(this.workout);
-  }
-  deleteWorkout() {
-    this.selectedWorkoutMenu = false;
-    this.workoutController.Delete(this.workout.id).toPromise()
-      .then(_ => this.router.navigateByUrl("/workouts"))
-      .catch(ex => { throw ex; })
-  }
-
-  switchExercise(id: number, order: number) {
-    this.selectedExerciseMenu = null;
-    this.modalService.showExerciseModal(this.workout.id, order, id);
-  }
-  deleteExercise(id: number) {
-    this.loaderService.showPageLoader();
-
-    this.selectedExerciseMenu = null;
-    this.exerciseController.Delete(id).toPromise()
-      .then(_ => {
-        if (_?.isSuccess) {
-          this.router.navigateByUrl('/', { skipLocationChange: true })
-            .then(() => this.router.navigateByUrl(`/workouts/${this.workout.id}`));
-        }
-      })
-      .catch(ex => { throw ex; })
-      .finally(() => this.loaderService.hidePageLoader());
-  }
-  editExerciseNotes(data: IWorkoutExerciseDto) {
-    this.selectedExerciseMenu = null;
-    this.modalService.showExerciseNotesModal(data);
-  }
-  howToExercise(apiExerciseId: string) {
-    this.selectedExerciseMenu = null;
-    this.modalService.showHowToExerciseModal(apiExerciseId);
-  }
-  moveExercise(exercise: IWorkoutExerciseDto, move: eOrderMove) {
-    this.loaderService.showPageLoader();
-
-    if (move === eOrderMove.Up) {
-      exercise.order--;
-    }
-    else if (move === eOrderMove.Down) {
-      exercise.order++;
-    }
-
-    this.exerciseController.Save(exercise).toPromise()
-      .then(_ => {
-        if (_?.isSuccess) {
-          this.router.navigateByUrl('/', { skipLocationChange: true })
-            .then(() => this.router.navigateByUrl(`/workouts/${this.workout.id}`));
-        }
-      })
-      .catch(ex => console.log(ex))
-      .finally(() => this.loaderService.hidePageLoader());
-  }
-  editSet(set: IWorkoutExerciseSetDto, exercise: IWorkoutExerciseDto) {
-    this.selectedSetMenu = null;
-    this.modalService.showEditSetModal(set, exercise);
-  }
-  deleteSet(id: number) {
-    this.loaderService.showPageLoader();
-
-    this.selectedSetMenu = null;
-    this.setController.Delete(id).toPromise()
-      .then(_ => {
-        if (_?.isSuccess) {
-          this.router.navigateByUrl('/', { skipLocationChange: true })
-            .then(() => this.router.navigateByUrl(`/workouts/${this.workout.id}`));
-        }
-      })
-      .catch(ex => { throw ex; })
-      .finally(() => this.loaderService.hidePageLoader());
-  }
-  moveSet(set: IWorkoutExerciseSetDto, move: eOrderMove) {
-    this.loaderService.showPageLoader();
-
-    if (move === eOrderMove.Up) {
-      set.order--;
-    }
-    else if (move === eOrderMove.Down) {
-      set.order++;
-    }
-
-    this.setController.Save(set).toPromise()
-      .then(_ => {
-        if (_?.isSuccess) {
-          this.router.navigateByUrl('/', { skipLocationChange: true })
-            .then(() => this.router.navigateByUrl(`/workouts/${this.workout.id}`));
-        }
-      })
-      .catch(ex => console.log(ex))
-      .finally(() => this.loaderService.hidePageLoader());
-  }
-
-  getSetRpeById = (id: eSetRpeType | undefined) => this.setRpes.find(_ => _.id === id);
-  getSetTypeById = (id: eSetType | undefined) => this.setTypes.find(_ => _.id === id);
-  isColoredTextOnly = (id: eSetType | undefined) => id === eSetType.Warmup;
-  isFullBackground = (id: eSetType | undefined) => id === eSetType.Failure || id === eSetType.Dropset;
-  hasAnyRpe = (exercise: IWorkoutExerciseDto) => exercise.sets.some(_ => _.rpeTypeId && _.rpeTypeId > 0);
-  hasAnyType = (exercise: IWorkoutExerciseDto) => exercise.sets.some(_ => _.typeId && _.typeId > 0);
-  hasAnyRest = (exercise: IWorkoutExerciseDto) => exercise.sets.some(_ => _.rest && _.rest > 0);
-  getTotalColumns(exercise: IWorkoutExerciseDto) {
-    let count = 2; // weight + reps
-
-    if (this.hasAnyRpe(exercise)) count++;
-    if (this.hasAnyType(exercise)) count++;
-    if (this.hasAnyRest(exercise)) count++;
-
-    return count + 1; // +1 for the empty action column
-  }
-  getSetPrefix(typeId?: eSetType): string {
-    if (!typeId)
-      return '';
-    else if (typeId === eSetType.Warmup)
-      return 'W ';
-    else if (typeId === eSetType.Dropset)
-      return '↳ ';
-
-    return '';
-  }
-  // private
-
-  private formatWorkoutTime() {
-    const { startAt, finishAt } = this.workout;
-
-    const startFormatted = this.formatTimeToAMPM(startAt);
-    const finishFormatted = this.formatTimeToAMPM(finishAt);
-
-    if (startAt && finishAt) {
-      this.workoutTime = `${startFormatted} - ${finishFormatted}`;
-    }
-    else if (startAt) {
-      this.workoutTime = `Start at: ${startFormatted}`;
-    }
-    else if (finishAt) {
-      this.workoutTime = `Finish at: ${finishFormatted}`;
-    }
-    else {
-      this.workoutTime = '';
-    }
-  }
-
-  private formatTimeToAMPM(time: string): string {
-    if (!time) return '';
-
-    return DateTime.fromFormat(time, 'HH:mm:ss')
-      .toFormat('h:mm a'); // 12-hour format with AM/PM
   }
 }
