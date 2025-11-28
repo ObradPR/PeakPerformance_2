@@ -1,4 +1,3 @@
-import { LowerCasePipe, NgStyle, TitleCasePipe } from '@angular/common';
 import { Component, input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { DateTime } from 'luxon';
@@ -12,15 +11,11 @@ import { MeasurementConverterPipe } from "../../../pipes/measurement-converter.p
 import { AuthService } from '../../../services/auth.service';
 import { LoaderService } from '../../../services/loader.service';
 import { ModalService } from '../../../services/modal.service';
-
-enum eOrderMove {
-  Up = 1,
-  Down = 2
-}
+import { ExerciseTemplate } from "../../exercise/exercise-template/exercise-template";
 
 @Component({
   selector: 'app-workout-template',
-  imports: [ClickOutsideDirective, MeasurementConverterPipe, DurationPipe, TitleCasePipe, NgStyle, LowerCasePipe, RouterLink],
+  imports: [ClickOutsideDirective, MeasurementConverterPipe, DurationPipe, RouterLink, ExerciseTemplate],
   templateUrl: './workout-template.html',
   styleUrl: './workout-template.css'
 })
@@ -33,11 +28,6 @@ export class WorkoutTemplate implements OnInit {
   userWeightPreference: string;
 
   selectedWorkoutMenu = false;
-  selectedExerciseMenu: number | null;
-  selectedSetMenu: number | null;
-
-  setRpes: IEnumProvider[] = [];
-  setTypes: IEnumProvider[] = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -56,9 +46,6 @@ export class WorkoutTemplate implements OnInit {
   }
 
   ngOnInit(): void {
-    this.setRpes = this.providers.getSetRpeTypes();
-    this.setTypes = this.providers.getSetTypes();
-
     this.formatWorkoutTime();
   }
 
@@ -67,18 +54,6 @@ export class WorkoutTemplate implements OnInit {
   onOpenEditMenu() {
     if (this.editable())
       this.selectedWorkoutMenu = true;
-  }
-  onOpenExerciseEditMenu(idx: number) {
-    if (this.selectedExerciseMenu === idx)
-      this.selectedExerciseMenu = null;
-    else
-      this.selectedExerciseMenu = idx;
-  }
-  onOpenSetEditMenu(setId: number) {
-    if (this.selectedSetMenu === setId)
-      this.selectedSetMenu = null;
-    else
-      this.selectedSetMenu = setId;
   }
 
   // methods
@@ -94,122 +69,6 @@ export class WorkoutTemplate implements OnInit {
     this.workoutController.Delete(this.workout()!.id).toPromise()
       .then(_ => this.router.navigateByUrl("/workouts"))
       .catch(ex => { throw ex; })
-  }
-
-  switchExercise(id: number, order: number) {
-    this.selectedExerciseMenu = null;
-    this.modalService.showExerciseModal(this.workout()!.id, order, id);
-  }
-  deleteExercise(id: number) {
-    this.loaderService.showPageLoader();
-
-    this.selectedExerciseMenu = null;
-    this.exerciseController.Delete(id).toPromise()
-      .then(_ => {
-        if (_?.isSuccess) {
-          this.router.navigateByUrl('/', { skipLocationChange: true })
-            .then(() => this.router.navigateByUrl(`/workouts/${this.workout()!.id}`));
-        }
-      })
-      .catch(ex => { throw ex; })
-      .finally(() => this.loaderService.hidePageLoader());
-  }
-  editExerciseNotes(data: IWorkoutExerciseDto) {
-    if (this.editable()) {
-      this.selectedExerciseMenu = null;
-      this.modalService.showExerciseNotesModal(data);
-    }
-  }
-  howToExercise(apiExerciseId: string) {
-    this.selectedExerciseMenu = null;
-    this.modalService.showHowToExerciseModal(apiExerciseId);
-  }
-  moveExercise(exercise: IWorkoutExerciseDto, move: eOrderMove) {
-    this.loaderService.showPageLoader();
-
-    if (move === eOrderMove.Up) {
-      exercise.order--;
-    }
-    else if (move === eOrderMove.Down) {
-      exercise.order++;
-    }
-
-    this.exerciseController.Save(exercise).toPromise()
-      .then(_ => {
-        if (_?.isSuccess) {
-          this.router.navigateByUrl('/', { skipLocationChange: true })
-            .then(() => this.router.navigateByUrl(`/workouts/${this.workout()!.id}`));
-        }
-      })
-      .catch(ex => console.log(ex))
-      .finally(() => this.loaderService.hidePageLoader());
-  }
-  editSet(set: IWorkoutExerciseSetDto, exercise: IWorkoutExerciseDto) {
-    if (this.editable()) {
-      this.selectedSetMenu = null;
-      this.modalService.showEditSetModal(set, exercise);
-    }
-  }
-  deleteSet(id: number) {
-    this.loaderService.showPageLoader();
-
-    this.selectedSetMenu = null;
-    this.setController.Delete(id).toPromise()
-      .then(_ => {
-        if (_?.isSuccess) {
-          this.router.navigateByUrl('/', { skipLocationChange: true })
-            .then(() => this.router.navigateByUrl(`/workouts/${this.workout()!.id}`));
-        }
-      })
-      .catch(ex => { throw ex; })
-      .finally(() => this.loaderService.hidePageLoader());
-  }
-  moveSet(set: IWorkoutExerciseSetDto, move: eOrderMove) {
-    this.loaderService.showPageLoader();
-
-    if (move === eOrderMove.Up) {
-      set.order--;
-    }
-    else if (move === eOrderMove.Down) {
-      set.order++;
-    }
-
-    this.setController.Save(set).toPromise()
-      .then(_ => {
-        if (_?.isSuccess) {
-          this.router.navigateByUrl('/', { skipLocationChange: true })
-            .then(() => this.router.navigateByUrl(`/workouts/${this.workout()!.id}`));
-        }
-      })
-      .catch(ex => console.log(ex))
-      .finally(() => this.loaderService.hidePageLoader());
-  }
-
-  getSetRpeById = (id: eSetRpeType | undefined) => this.setRpes.find(_ => _.id === id);
-  getSetTypeById = (id: eSetType | undefined) => this.setTypes.find(_ => _.id === id);
-  isColoredTextOnly = (id: eSetType | undefined) => id === eSetType.Warmup;
-  isFullBackground = (id: eSetType | undefined) => id === eSetType.Failure || id === eSetType.Dropset;
-  hasAnyRpe = (exercise: IWorkoutExerciseDto) => exercise.sets.some(_ => _.rpeTypeId && _.rpeTypeId > 0);
-  hasAnyType = (exercise: IWorkoutExerciseDto) => exercise.sets.some(_ => _.typeId && _.typeId > 0);
-  hasAnyRest = (exercise: IWorkoutExerciseDto) => exercise.sets.some(_ => _.rest && _.rest > 0);
-  getTotalColumns(exercise: IWorkoutExerciseDto) {
-    let count = 2; // weight + reps
-
-    if (this.hasAnyRpe(exercise)) count++;
-    if (this.hasAnyType(exercise)) count++;
-    if (this.hasAnyRest(exercise)) count++;
-
-    return count + 1; // +1 for the empty action column
-  }
-  getSetPrefix(typeId?: eSetType): string {
-    if (!typeId)
-      return '';
-    else if (typeId === eSetType.Warmup)
-      return 'W ';
-    else if (typeId === eSetType.Dropset)
-      return '↳ ';
-
-    return '';
   }
 
   // private
