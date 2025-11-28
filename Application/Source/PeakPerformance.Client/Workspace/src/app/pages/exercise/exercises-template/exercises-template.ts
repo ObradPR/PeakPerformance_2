@@ -9,6 +9,7 @@ import { MeasurementConverterPipe } from '../../../pipes/measurement-converter.p
 import { LoaderService } from '../../../services/loader.service';
 import { ModalService } from '../../../services/modal.service';
 import { SetsTemplate } from "../../set/sets-template/sets-template";
+import { ClickOutsideDirective } from '../../../directives/click-outside.directive';
 
 
 export enum eOrderMove {
@@ -18,7 +19,7 @@ export enum eOrderMove {
 
 @Component({
   selector: 'app-exercises-template',
-  imports: [TitleCasePipe, SetsTemplate],
+  imports: [TitleCasePipe, SetsTemplate, ClickOutsideDirective],
   templateUrl: './exercises-template.html',
   styleUrl: './exercises-template.css'
 })

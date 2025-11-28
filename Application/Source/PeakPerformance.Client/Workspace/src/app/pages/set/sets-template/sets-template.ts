@@ -9,10 +9,11 @@ import { MeasurementConverterPipe } from '../../../pipes/measurement-converter.p
 import { LoaderService } from '../../../services/loader.service';
 import { Router } from '@angular/router';
 import { eOrderMove } from '../../exercise/exercises-template/exercises-template';
+import { ClickOutsideDirective } from '../../../directives/click-outside.directive';
 
 @Component({
   selector: 'app-sets-template',
-  imports: [NgStyle, LowerCasePipe, MeasurementConverterPipe],
+  imports: [NgStyle, LowerCasePipe, MeasurementConverterPipe, ClickOutsideDirective],
   templateUrl: './sets-template.html',
   styleUrl: './sets-template.css'
 })
