@@ -131,9 +131,12 @@
                     </thead>
                     <tbody>
                         @for (set of exercise.sets; track set; let idx = $index) {
-                            <tr class="position-relative">
-                                <td>{{ set.weight | measurementConverter:set.weightUnitId }}</td>
-                                <td>{{ set.reps }}</td>
+                            <tr class="position-relative" [class.warmup]="set.typeId === 1">
+                                <td [class.warmup-text]="set.typeId === 1">
+                                    {{ getSetPrefix(set.typeId) }}
+                                    {{ set.weight | measurementConverter:set.weightUnitId }}
+                                </td>
+                                <td [class.warmup-text]="set.typeId === 1">{{ set.reps }}</td>
                                 @if (hasAnyRpe(exercise)) {
                                     <td>
                                         <span
@@ -170,7 +173,7 @@
                                     </td>
                                 }
                                 @if (hasAnyRest(exercise)) {
-                                    <td>{{ set.rest ? set.rest + ' s' : '-' }}</td>
+                                    <td [class.warmup-text]="set.typeId === 1">{{ set.rest ? set.rest + ' s' : '-' }}</td>
                                 }
                                 <td>
                                     <span class="edit-dots edit-dots-set" (click)="onOpenSetEditMenu(set.id)">⋮</span>
@@ -181,6 +184,21 @@
                                                     <i class="fa-solid fa-pen"></i>
                                                     Edit
                                                 </li>
+                                                @if (exercise.sets.length > 1) {
+                                                    <hr>
+                                                }
+                                                  @if (set !== exercise.sets[0]) {
+                                                    <li (click)="moveSet(set, 1)">
+                                                        <i class="fa-solid fa-arrow-up"></i>
+                                                        Move Earlier
+                                                    </li>
+                                                }
+                                                @if (set !== exercise.sets[exercise.sets.length - 1]) {
+                                                    <li (click)="moveSet(set, 2)">
+                                                        <i class="fa-solid fa-arrow-down"></i>
+                                                        Move Later
+                                                    </li>
+                                                }
                                                 <hr>
                                                 <li (click)="deleteSet(set.id)" class="delete-item">
                                                    <i class="fa-solid fa-trash"></i>

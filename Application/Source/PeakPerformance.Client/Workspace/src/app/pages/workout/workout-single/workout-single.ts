@@ -1,17 +1,17 @@
-import { Component, importProvidersFrom, OnInit } from '@angular/core';
+import { LowerCasePipe, NgClass, NgStyle, TitleCasePipe } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { IEnumProvider, IWorkoutDto, IWorkoutExerciseDto, IWorkoutExerciseSetDto } from '../../../_generated/interfaces';
-import { ClickOutsideDirective } from '../../../directives/click-outside.directive';
 import { DateTime } from 'luxon';
-import { ModalService } from '../../../services/modal.service';
-import { ExerciseController, SetController, WorkoutController } from '../../../_generated/services';
-import { MeasurementConverterPipe } from "../../../pipes/measurement-converter.pipe";
-import { DurationPipe } from '../../../pipes/duration.pipe';
-import { TitleCasePipe, NgStyle, LowerCasePipe } from '@angular/common';
-import { LoaderService } from '../../../services/loader.service';
-import { eMeasurementUnit, eSetRpeType, eSetType } from '../../../_generated/enums';
+import { eSetRpeType, eSetType } from '../../../_generated/enums';
+import { IEnumProvider, IWorkoutDto, IWorkoutExerciseDto, IWorkoutExerciseSetDto } from '../../../_generated/interfaces';
 import { Providers } from '../../../_generated/providers';
+import { ExerciseController, SetController, WorkoutController } from '../../../_generated/services';
+import { ClickOutsideDirective } from '../../../directives/click-outside.directive';
+import { DurationPipe } from '../../../pipes/duration.pipe';
+import { MeasurementConverterPipe } from "../../../pipes/measurement-converter.pipe";
 import { AuthService } from '../../../services/auth.service';
+import { LoaderService } from '../../../services/loader.service';
+import { ModalService } from '../../../services/modal.service';
 
 
 enum eOrderMove {
@@ -156,6 +156,26 @@ export class WorkoutSingle implements OnInit {
       .catch(ex => { throw ex; })
       .finally(() => this.loaderService.hidePageLoader());
   }
+  moveSet(set: IWorkoutExerciseSetDto, move: eOrderMove) {
+    this.loaderService.showPageLoader();
+
+    if (move === eOrderMove.Up) {
+      set.order--;
+    }
+    else if (move === eOrderMove.Down) {
+      set.order++;
+    }
+
+    this.setController.Save(set).toPromise()
+      .then(_ => {
+        if (_?.isSuccess) {
+          this.router.navigateByUrl('/', { skipLocationChange: true })
+            .then(() => this.router.navigateByUrl(`/workouts/${this.workout.id}`));
+        }
+      })
+      .catch(ex => console.log(ex))
+      .finally(() => this.loaderService.hidePageLoader());
+  }
 
   getSetRpeById = (id: eSetRpeType | undefined) => this.setRpes.find(_ => _.id === id);
   getSetTypeById = (id: eSetType | undefined) => this.setTypes.find(_ => _.id === id);
@@ -173,7 +193,16 @@ export class WorkoutSingle implements OnInit {
 
     return count + 1; // +1 for the empty action column
   }
+  getSetPrefix(typeId?: eSetType): string {
+    if (!typeId)
+      return '';
+    else if (typeId === eSetType.Warmup)
+      return 'W ';
+    else if (typeId === eSetType.Dropset)
+      return '↳ ';
 
+    return '';
+  }
   // private
 
   private formatWorkoutTime() {

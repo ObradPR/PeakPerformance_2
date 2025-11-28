@@ -38,3 +38,11 @@ textarea {
 .data-table tr:last-child {
     border-bottom: none;
 }
+
+.warmup {
+    background-color: rgba(13, 110, 253, 0.08);
+}
+.warmup-text {
+    font-style: italic;
+    color: rgba(0, 0, 0, 0.5);
+}

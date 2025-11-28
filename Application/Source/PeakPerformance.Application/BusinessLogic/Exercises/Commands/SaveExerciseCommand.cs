@@ -23,15 +23,15 @@ public class SaveExerciseCommand(WorkoutExerciseDto data) : IRequest<BaseRespons
 
             if (!model.IsNew)
             {
-                var allExercises = await db.WorkoutExercises
-                    .Where(_ => _.WorkoutId == request.Data.WorkoutId && _.Id != model.Id)
-                    .OrderBy(_ => _.Order)
-                    .ToListAsync(cancellationToken);
-
                 var newOrder = model.Order;
 
                 if (oldOrder != newOrder)
                 {
+                    var allExercises = await db.WorkoutExercises
+                        .Where(_ => _.WorkoutId == request.Data.WorkoutId && _.Id != model.Id)
+                        .OrderBy(_ => _.Order)
+                        .ToListAsync(cancellationToken);
+
                     if (newOrder < oldOrder)
                     {
                         foreach (var e in allExercises.Where(_ => _.Order >= newOrder && _.Order < oldOrder))

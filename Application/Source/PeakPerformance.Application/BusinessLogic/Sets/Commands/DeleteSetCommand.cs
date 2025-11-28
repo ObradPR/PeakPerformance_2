@@ -14,8 +14,15 @@ public class DeleteSetCommand(long id) : IRequest<BaseResponseWrapper>
             if (model == null)
                 return new(new Error("Set", ResourceValidation.Not_Found.FormatWith("Set")));
 
+            var otherSet = await db.WorkoutExerciseSets
+               .Where(_ => _.WorkoutExerciseId == model.WorkoutExerciseId && _.Id != model.Id)
+               .ToListAsync(cancellationToken);
+
+            foreach (var s in otherSet.Where(_ => _.Order > model.Order))
+                s.Order--;
+
             // Remove sets
-            db.WorkoutExerciseSets.RemoveRange(model);
+            db.WorkoutExerciseSets.Remove(model);
 
             await db.SaveChangesAsync(cancellationToken);
 

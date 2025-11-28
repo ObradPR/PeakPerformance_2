@@ -19,7 +19,28 @@ public class SaveSetCommand(WorkoutExerciseSetDto data) : IRequest<BaseResponseW
 
             if (existingModel != null)
             {
-                request.Data.ToModel(existingModel);
+                var oldOrder = existingModel.Order;
+                request.Data.ToModel(existingModel, request.Data.Order);
+                var newOrder = existingModel.Order;
+
+                if (oldOrder != newOrder)
+                {
+                    var allSets = await db.WorkoutExerciseSets
+                        .Where(_ => _.WorkoutExerciseId == request.Data.WorkoutExerciseId && _.Id != existingModel.Id)
+                        .OrderBy(_ => _.Order)
+                        .ToListAsync(cancellationToken);
+
+                    if (newOrder < oldOrder)
+                    {
+                        foreach (var s in allSets.Where(_ => _.Order >= newOrder && _.Order < oldOrder))
+                            s.Order++;
+                    }
+                    else
+                    {
+                        foreach (var s in allSets.Where(_ => _.Order <= newOrder && _.Order > oldOrder))
+                            s.Order--;
+                    }
+                }
             }
             else
             {
