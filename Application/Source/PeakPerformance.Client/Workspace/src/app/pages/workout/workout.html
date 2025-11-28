@@ -22,11 +22,13 @@
         </div>
     }
 
-    <div class="flex justify-content-center">
-        <p-paginator (onPageChange)="onPageChange($event)" 
-            [first]="first" 
-            [rows]="rows" 
-            [totalRecords]="workouts?.total"
-            [showFirstLastIcon]="true" />
-    </div>
+    @if (workouts?.data && workouts?.data!.length > 0) {
+        <div class="flex justify-content-center">
+            <p-paginator (onPageChange)="onPageChange($event)" 
+                [first]="first" 
+                [rows]="rows" 
+                [totalRecords]="workouts?.total"
+                [showFirstLastIcon]="true" />
+        </div>
+    }
 </div>

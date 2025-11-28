@@ -1,4 +1,5 @@
 ﻿using PeakPerformance.Application.Dtos.Workouts;
+using PeakPerformance.Domain.Exceptions;
 
 namespace PeakPerformance.Application.BusinessLogic.Workouts.Queries;
 
@@ -17,7 +18,8 @@ public class GetSingleWorkoutQuery(long id) : IRequest<ResponseWrapper<WorkoutDt
                     .ThenInclude(_ => _.WorkoutExerciseSets)
                  .Include(_ => _.WorkoutExercises)
                     .ThenInclude(_ => _.Exercise)
-                .FirstOrDefaultAsync(_ => _.Id == request.Id, cancellationToken);
+                .FirstOrDefaultAsync(_ => _.Id == request.Id, cancellationToken)
+                ?? throw new NotFoundException();
 
             var data = mapper.Map<WorkoutDto>(model);
 

@@ -66,25 +66,25 @@ export const routes: Routes = [
                 loadComponent: () => import('./pages/auth/register/register').then(_ => _.Register)
             }
         ]
-    }
+    },
     ///
     /// Error Pages
     ///
-    // {
-    //     path: RouteConstants.ROUTE_NOT_FOUND,
-    //     title: RouteConstants.TITLE_NOT_FOUND,
-    //     loadComponent: () =>
-    //         import('./pages/errors/not-found/not-found.component').then(_ => _.NotFoundComponent),
-    // },
-    // {
-    //     path: RouteConstants.ROUTE_UNAUTHORIZED,
-    //     title: RouteConstants.TITLE_UNAUTHORIZED,
-    //     loadComponent: () =>
-    //         import('./pages/errors/unauthorized/unauthorized.component').then(_ => _.UnauthorizedComponent),
-    // },
-    // {
-    //     path: '**',
-    //     redirectTo: RouteConstants.ROUTE_NOT_FOUND,
-    //     pathMatch: 'full',
-    // },
+    {
+        path: RouteConstants.ROUTE_NOT_FOUND,
+        title: RouteConstants.TITLE_NOT_FOUND,
+        loadComponent: () =>
+            import('./pages/error/not-found/not-found').then(_ => _.NotFound),
+    },
+    {
+        path: RouteConstants.ROUTE_UNAUTHORIZED,
+        title: RouteConstants.TITLE_UNAUTHORIZED,
+        loadComponent: () =>
+            import('./pages/error/unauthorized/unauthorized').then(_ => _.Unauthorized),
+    },
+    {
+        path: '**',
+        redirectTo: RouteConstants.ROUTE_NOT_FOUND,
+        pathMatch: 'full',
+    },
 ];
