@@ -39,10 +39,7 @@ export class ExercisesTemplate {
   // events
 
   onOpenExerciseEditMenu(idx: number) {
-    if (this.selectedExerciseMenu === idx)
-      this.selectedExerciseMenu = null;
-    else
-      this.selectedExerciseMenu = idx;
+    this.selectedExerciseMenu = this.selectedExerciseMenu === idx ? null : idx;
   }
 
   // methods

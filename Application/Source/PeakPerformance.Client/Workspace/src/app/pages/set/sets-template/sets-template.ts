@@ -43,10 +43,7 @@ export class SetsTemplate {
   // events
 
   onOpenSetEditMenu(setId: number) {
-    if (this.selectedSetMenu === setId)
-      this.selectedSetMenu = null;
-    else
-      this.selectedSetMenu = setId;
+    this.selectedSetMenu = this.selectedSetMenu === setId ? null : setId;
   }
 
   // methods
