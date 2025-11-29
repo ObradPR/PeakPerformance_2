@@ -1,6 +1,5 @@
 import { LowerCasePipe, NgStyle } from '@angular/common';
 import { Component, input } from '@angular/core';
-import { Router } from '@angular/router';
 import { eSetRpeType, eSetType } from '../../../_generated/enums';
 import { IEnumProvider, IWorkoutExerciseDto, IWorkoutExerciseSetDto } from '../../../_generated/interfaces';
 import { Providers } from '../../../_generated/providers';
@@ -9,6 +8,7 @@ import { ClickOutsideDirective } from '../../../directives/click-outside.directi
 import { MeasurementConverterPipe } from '../../../pipes/measurement-converter.pipe';
 import { LoaderService } from '../../../services/loader.service';
 import { ModalService } from '../../../services/modal.service';
+import { WorkoutService } from '../../../services/workout.service';
 import { eOrderMove } from '../../exercise/exercises-template/exercises-template';
 
 @Component({
@@ -28,11 +28,10 @@ export class SetsTemplate {
   setTypes: IEnumProvider[] = [];
 
   constructor(
-    private router: Router,
-
     public modalService: ModalService,
     private providers: Providers,
     private loaderService: LoaderService,
+    private workoutService: WorkoutService,
 
     private setController: SetController,
   ) {
@@ -61,8 +60,8 @@ export class SetsTemplate {
     this.setController.Delete(id).toPromise()
       .then(_ => {
         if (_?.isSuccess) {
-          this.router.navigateByUrl('/', { skipLocationChange: true })
-            .then(() => this.router.navigateByUrl(`/workouts/${this.workoutId()}`));
+          console.log(this.workoutId());
+          this.workoutService.refreshWorkout(this.workoutId());
         }
       })
       .catch(ex => { throw ex; })
@@ -81,8 +80,7 @@ export class SetsTemplate {
     this.setController.Save(set).toPromise()
       .then(_ => {
         if (_?.isSuccess) {
-          this.router.navigateByUrl('/', { skipLocationChange: true })
-            .then(() => this.router.navigateByUrl(`/workouts/${this.workoutId()}`));
+          this.workoutService.refreshWorkout(this.workoutId());
         }
       })
       .catch(ex => console.log(ex))

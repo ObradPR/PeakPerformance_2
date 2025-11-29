@@ -139,6 +139,7 @@ export class ModalService {
   private exerciseId = signal<number>(0);
   private apiExerciseId = signal<string>('');
   private exerciseName = signal<string>('');
+  private exercise = signal<IWorkoutExerciseDto | null>(null);
 
   readonly exerciseModalSignal = this.exerciseModal.asReadonly();
   readonly howToExerciseModalSignal = this.howToExerciseModal.asReadonly();
@@ -147,6 +148,7 @@ export class ModalService {
   readonly exerciseIdSignal = this.exerciseId.asReadonly();
   readonly apiExerciseIdSignal = this.apiExerciseId.asReadonly();
   readonly exerciseNameSignal = this.exerciseName.asReadonly();
+  readonly exerciseSignal = this.exercise.asReadonly();
 
 
   showExerciseModal(workoutId: number, order: number, exerciseId: number = 0) {
@@ -168,10 +170,7 @@ export class ModalService {
     this.notes.set(data.notes);
     this.isExerciseNotesModal.set(true);
 
-    this.workoutId.set(data.workoutId);
-    this.exerciseId.set(data.id);
-    this.apiExerciseId.set(data.apiExerciseId);
-    this.exerciseName.set(data.name);
+    this.exercise.set(data);
   }
 
   showHowToExerciseModal(apiExerciseId: string) {
@@ -200,10 +199,7 @@ export class ModalService {
 
     this.isExerciseNotesModal.set(false);
 
-    this.workoutId.set(0);
-    this.exerciseId.set(0);
-    this.apiExerciseId.set('');
-    this.exerciseName.set('');
+    this.exercise.set(null);
   }
 
   // Sets

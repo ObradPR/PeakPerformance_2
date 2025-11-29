@@ -1,6 +1,5 @@
 import { Component, OnInit, output, OutputEmitterRef } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
 import { eMeasurementUnit, eSetRpeType, eSetType } from '../../../_generated/enums';
 import { IEnumProvider, IWorkoutExerciseDto, IWorkoutExerciseSetDto } from '../../../_generated/interfaces';
 import { Providers } from '../../../_generated/providers';
@@ -12,6 +11,7 @@ import { MeasurementUnitDescriptionPipe } from '../../../pipes/measurement-unit-
 import { AuthService } from '../../../services/auth.service';
 import { LoaderService } from '../../../services/loader.service';
 import { ModalService } from '../../../services/modal.service';
+import { WorkoutService } from '../../../services/workout.service';
 import { IModalMethods } from '../interfaces/modal-methods.interface';
 
 @Component({
@@ -35,7 +35,6 @@ export class SetModal extends BaseValidationComponent implements IModalMethods, 
 
   constructor(
     private fb: FormBuilder,
-    private router: Router,
 
     private setController: SetController,
 
@@ -43,6 +42,7 @@ export class SetModal extends BaseValidationComponent implements IModalMethods, 
     private authService: AuthService,
     private loaderService: LoaderService,
     private providers: Providers,
+    private workoutService: WorkoutService,
 
     private mesasurementConverterPipe: MeasurementConverterPipe
   ) {
@@ -96,9 +96,8 @@ export class SetModal extends BaseValidationComponent implements IModalMethods, 
     this.setController.Save(payload).toPromise()
       .then(_ => {
         if (_?.isSuccess) {
-          this.router.navigateByUrl('/', { skipLocationChange: true })
-            .then(() => {
-              this.router.navigateByUrl(`/workouts/${this.modalService.selectedExerciseSignal()!.workoutId}`)
+          this.workoutService.refreshWorkout(this.modalService.selectedExerciseSignal()!.workoutId)
+            .then(_ => {
               this.modalService.hideSetModal();
             });
         }

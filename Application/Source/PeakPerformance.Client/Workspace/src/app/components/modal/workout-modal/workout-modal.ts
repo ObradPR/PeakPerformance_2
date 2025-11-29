@@ -99,6 +99,7 @@ export class WorkoutModal extends BaseValidationComponent implements IModalMetho
       .then(_ => {
         if (_?.isSuccess) {
           this.modalService.hideWorkoutModal();
+          // Don't change this to refreshWorkout we need the routing in this case
           this.router.navigateByUrl('/', { skipLocationChange: true })
             .then(() => this.router.navigateByUrl(`/workouts/${_.data}`));
         }

@@ -2,13 +2,13 @@ import { TitleCasePipe } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, output, OutputEmitterRef } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
 import { Paginator, PaginatorState } from 'primeng/paginator';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
 import { IExerciseDbApiDataDto, IExerciseDbApiDto } from '../../../_generated/interfaces';
 import { ExerciseController } from '../../../_generated/services';
 import { LoaderService } from '../../../services/loader.service';
 import { ModalService } from '../../../services/modal.service';
+import { WorkoutService } from '../../../services/workout.service';
 import { IModalMethods } from '../interfaces/modal-methods.interface';
 
 @Component({
@@ -32,13 +32,13 @@ export class ExerciseModal implements IModalMethods, OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private router: Router,
     private http: HttpClient,
 
     private exerciseController: ExerciseController,
 
     private modalService: ModalService,
     private loaderService: LoaderService,
+    private workoutService: WorkoutService,
   ) { }
 
   // events
@@ -127,11 +127,10 @@ export class ExerciseModal implements IModalMethods, OnInit {
     this.exerciseController.Save(this.form.value).toPromise()
       .then(_ => {
         if (_?.isSuccess) {
-          this.router.navigateByUrl('/', { skipLocationChange: true })
-            .then(() => {
-              this.router.navigateByUrl(`/workouts/${this.modalService.workoutIdSignal()}`)
+          this.workoutService.refreshWorkout(this.modalService.workoutIdSignal())
+            .then(_ => {
               this.modalService.hideExerciseModal();
-            });
+            })
         }
       })
       .catch(ex => console.log(ex))

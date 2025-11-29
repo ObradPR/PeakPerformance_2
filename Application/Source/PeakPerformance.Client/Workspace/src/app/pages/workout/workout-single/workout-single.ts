@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { IWorkoutDto } from '../../../_generated/interfaces';
 import { ModalService } from '../../../services/modal.service';
+import { WorkoutService } from '../../../services/workout.service';
 import { WorkoutTemplate } from "../workout-template/workout-template";
 
 @Component({
@@ -11,15 +12,22 @@ import { WorkoutTemplate } from "../workout-template/workout-template";
   styleUrl: './workout-single.css'
 })
 export class WorkoutSingle implements OnInit {
-  workout: IWorkoutDto;
+  workout: Signal<IWorkoutDto | null>;
 
   constructor(
     private route: ActivatedRoute,
 
     public modalService: ModalService,
-  ) { }
+    private workoutService: WorkoutService
+  ) {
+    this.workout = this.workoutService.workoutSignal;
+  }
 
   ngOnInit(): void {
-    this.workout = this.route.snapshot.data['workout']?.data;
+    const resolvedWorkout = this.route.snapshot.data['workout']?.data;
+
+    if (resolvedWorkout) {
+      this.workoutService.setInitialWorkout(resolvedWorkout);
+    }
   }
 }

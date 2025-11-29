@@ -1,11 +1,11 @@
 import { TitleCasePipe } from '@angular/common';
 import { Component, input } from '@angular/core';
-import { Router } from '@angular/router';
 import { IWorkoutExerciseDto } from '../../../_generated/interfaces';
 import { ExerciseController } from '../../../_generated/services';
 import { ClickOutsideDirective } from '../../../directives/click-outside.directive';
 import { LoaderService } from '../../../services/loader.service';
 import { ModalService } from '../../../services/modal.service';
+import { WorkoutService } from '../../../services/workout.service';
 import { SetsTemplate } from "../../set/sets-template/sets-template";
 
 
@@ -28,10 +28,9 @@ export class ExercisesTemplate {
   selectedExerciseMenu: number | null;
 
   constructor(
-    private router: Router,
-
     public modalService: ModalService,
     private loaderService: LoaderService,
+    private workoutService: WorkoutService,
 
     private exerciseController: ExerciseController,
   ) { }
@@ -59,8 +58,7 @@ export class ExercisesTemplate {
     this.exerciseController.Delete(id).toPromise()
       .then(_ => {
         if (_?.isSuccess) {
-          this.router.navigateByUrl('/', { skipLocationChange: true })
-            .then(() => this.router.navigateByUrl(`/workouts/${this.workoutId()}`));
+          this.workoutService.refreshWorkout(this.workoutId());
         }
       })
       .catch(ex => { throw ex; })
@@ -85,8 +83,10 @@ export class ExercisesTemplate {
     this.exerciseController.Save(exercise).toPromise()
       .then(_ => {
         if (_?.isSuccess) {
-          this.router.navigateByUrl('/', { skipLocationChange: true })
-            .then(() => this.router.navigateByUrl(`/workouts/${this.workoutId()}`));
+          this.workoutService.refreshWorkout(this.workoutId())
+            .then(_ => {
+              this.selectedExerciseMenu = null;
+            });
         }
       })
       .catch(ex => console.log(ex))

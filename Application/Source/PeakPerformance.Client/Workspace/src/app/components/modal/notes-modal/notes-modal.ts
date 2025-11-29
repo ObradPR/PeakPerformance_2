@@ -1,9 +1,9 @@
 import { Component, OnInit, output, OutputEmitterRef } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
 import { ExerciseController } from '../../../_generated/services';
 import { LoaderService } from '../../../services/loader.service';
 import { ModalService } from '../../../services/modal.service';
+import { WorkoutService } from '../../../services/workout.service';
 import { IModalMethods } from '../interfaces/modal-methods.interface';
 
 @Component({
@@ -18,12 +18,12 @@ export class NotesModal implements IModalMethods, OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private router: Router,
 
     private exerciseController: ExerciseController,
 
     public modalService: ModalService,
     private loaderService: LoaderService,
+    private workoutService: WorkoutService
   ) { }
 
   ngOnInit(): void {
@@ -47,21 +47,17 @@ export class NotesModal implements IModalMethods, OnInit {
       this.loaderService.showPageLoader();
 
       payload = {
+        ...this.modalService.exerciseSignal(),
         ...this.form.value,
-        id: this.modalService.exerciseIdSignal(),
-        workoutId: this.modalService.workoutIdSignal(),
-        apiExerciseId: this.modalService.apiExerciseIdSignal(),
-        name: this.modalService.exerciseNameSignal()
       };
 
       this.exerciseController.Save(payload).toPromise()
         .then(_ => {
           if (_?.isSuccess) {
-            this.router.navigateByUrl('/', { skipLocationChange: true })
-              .then(() => {
-                this.router.navigateByUrl(`/workouts/${this.modalService.workoutIdSignal()}`)
+            this.workoutService.refreshWorkout(this.modalService.exerciseSignal()!.workoutId)
+              .then(_ => {
                 this.modalService.hideNotesModal();
-              });
+              })
           }
         })
         .catch(ex => console.log(ex))

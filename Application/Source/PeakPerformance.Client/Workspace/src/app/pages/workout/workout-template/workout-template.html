@@ -80,3 +80,11 @@
     [workoutId]="workout()!.id"
 >
 </app-exercises-template>
+
+@if (editable()) {
+    <div class="row">
+            <div class="mt-5 mb-3">
+                <button class="btn btn-primary" (click)="modalService.showExerciseModal(workout()!.id, workout()!.exercises.length + 1)"><i class="fa-solid fa-dumbbell"></i> Add Exercise</button>
+        </div>
+    </div>
+}
