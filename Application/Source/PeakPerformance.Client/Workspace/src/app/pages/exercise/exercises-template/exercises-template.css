@@ -1,14 +1,10 @@
 .edit-dots-exercise {
     font-size: 2.2rem;
 }
-.edit-menu-exercise {
-    top: 45px;
-}
-
 
 .edit-menu {
     width: 200px;
-    top: 60px;
+    top: 45px;
     right: 0;
     font-size: 0.9rem;
 }

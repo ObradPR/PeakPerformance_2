@@ -1,10 +1,11 @@
 <div class="d-flex justify-content-between align-items-center position-relative">
-    <h1 
+    <h2 
         [class.clickable]="isFromMainWorkoutsScren()" 
         [routerLink]="isFromMainWorkoutsScren() ? ['/workouts', workout()!.id] : null"
     >
-        {{workout()!.name}}
-    </h1>
+        {{ isFromMainWorkoutsScren() ? (workout()!.logDate | date:'dd MMMM yyyy') + ' - ' : '' }}
+        {{ workout()!.name }}
+    </h2>
     @if (editable()) {
         <span class="edit-dots edit-dots-workout" (click)="onOpenEditMenu()">⋮</span>
         @if (selectedWorkoutMenu) {

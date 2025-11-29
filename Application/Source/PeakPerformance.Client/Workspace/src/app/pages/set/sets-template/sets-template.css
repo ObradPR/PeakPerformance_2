@@ -1,13 +1,10 @@
 .edit-dots-set {
     font-size: 1.2rem;
 }
-.edit-menu-set {
-    top: 40px;
-}
 
 .edit-menu {
     width: 200px;
-    top: 60px;
+    top: 35px;
     right: 0;
     font-size: 0.9rem;
 }

@@ -10,10 +10,11 @@ import { MeasurementConverterPipe } from "../../../pipes/measurement-converter.p
 import { AuthService } from '../../../services/auth.service';
 import { ModalService } from '../../../services/modal.service';
 import { ExercisesTemplate } from '../../exercise/exercises-template/exercises-template';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-workout-template',
-  imports: [ClickOutsideDirective, MeasurementConverterPipe, DurationPipe, RouterLink, ExercisesTemplate],
+  imports: [ClickOutsideDirective, MeasurementConverterPipe, DurationPipe, RouterLink, ExercisesTemplate, DatePipe],
   templateUrl: './workout-template.html',
   styleUrl: './workout-template.css'
 })
