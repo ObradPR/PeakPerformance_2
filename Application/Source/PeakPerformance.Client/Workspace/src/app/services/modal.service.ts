@@ -233,4 +233,21 @@ export class ModalService {
     this.selectedExercise.set(null);
     this.selectedSet.set(null);
   }
+
+  // Browse Workotus
+
+  private browseWorkoutsModal = signal<boolean>(false);
+  private workoutDate = signal<Date | null>(null);
+
+  readonly browseWorkoutsModalSignal = this.browseWorkoutsModal.asReadonly();
+  readonly workoutDateSignal = this.workoutDate.asReadonly();
+
+  showBrowseWorkoutsModal(workoutDate: Date) {
+    this.workoutDate.set(workoutDate)
+    this.browseWorkoutsModal.set(true);
+  }
+  hideBrowseWorkoutsModal() {
+    this.browseWorkoutsModal.set(false);
+    this.workoutDate.set(null);
+  }
 }

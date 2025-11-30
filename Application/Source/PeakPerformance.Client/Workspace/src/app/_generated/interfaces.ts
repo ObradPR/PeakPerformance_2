@@ -229,6 +229,11 @@ export interface IWorkoutDto
 	previousWorkoutId?: number;
 	nextWorkoutId?: number;
 }
+export interface IWorkoutLogDto
+{
+	id: number;
+	logDate: Date;
+}
 export interface IWorkoutExerciseSetDto
 {
 	id: number;

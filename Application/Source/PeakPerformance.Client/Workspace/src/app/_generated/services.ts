@@ -26,6 +26,7 @@ import { IWorkoutExerciseSetDto } from './interfaces';
 import { IUserDto } from './interfaces';
 import { IChangePasswordDto } from './interfaces';
 import { IWorkoutDto } from './interfaces';
+import { IWorkoutLogDto } from './interfaces';
 import { IWorkoutSearchOptions } from './interfaces';
 
 @Injectable({ providedIn: 'root' }) export abstract class BaseController
@@ -523,6 +524,18 @@ import { IWorkoutSearchOptions } from './interfaces';
 	{
 		return this.httpClient.get<IResponseWrapper<IWorkoutDto[]>>(
 		this.settingsService.createApiUrl('Workout/GetRecent'),
+		{
+			responseType: 'json',
+			observe: 'response',
+			withCredentials: true
+		})
+		.pipe(map(response => response.body));
+		
+	}
+	public GetAllWorkoutLogs() : Observable<IResponseWrapper<IWorkoutLogDto[]> | null>
+	{
+		return this.httpClient.get<IResponseWrapper<IWorkoutLogDto[]>>(
+		this.settingsService.createApiUrl('Workout/GetAllWorkoutLogs'),
 		{
 			responseType: 'json',
 			observe: 'response',

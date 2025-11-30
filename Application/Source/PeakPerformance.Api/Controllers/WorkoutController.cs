@@ -16,6 +16,11 @@ public class WorkoutController(IMediator mediator) : BaseController(mediator)
     [AngularMethod(typeof(ResponseWrapper<IEnumerable<WorkoutDto>>))]
     public async Task<IActionResult> GetRecent() => Result(await Mediator.Send(new GetRecentWorkoutQuery()));
 
+    [HttpGet]
+    [Authorize]
+    [AngularMethod(typeof(ResponseWrapper<IEnumerable<WorkoutLogDto>>))]
+    public async Task<IActionResult> GetAllWorkoutLogs() => Result(await Mediator.Send(new GetAllWorkoutLogsQuery()));
+
     [HttpPost]
     [Authorize]
     [AngularMethod(typeof(ResponseWrapper<PagingResult<WorkoutDto>>))]

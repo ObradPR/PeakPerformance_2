@@ -7,6 +7,11 @@
                 </span>
             }
         </div>
+        <div class="center">
+            <span (click)="this.modalService.showBrowseWorkoutsModal(workout()!.logDate)">
+                {{ workout()?.logDate | date: 'd MMM yyyy'}} <i class="fa-solid fa-angle-down"></i>
+            </span>
+        </div>
         <div class="right">
             @if (workout()?.nextWorkoutId) {
                 <span (click)="onGetWorkout(2)">

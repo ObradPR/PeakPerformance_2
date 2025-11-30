@@ -1,6 +1,7 @@
+import { DatePipe } from '@angular/common';
 import { Component, OnInit, Signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { IWorkoutDto } from '../../../_generated/interfaces';
+import { IWorkoutDto, IWorkoutLogDto } from '../../../_generated/interfaces';
 import { ModalService } from '../../../services/modal.service';
 import { WorkoutService } from '../../../services/workout.service';
 import { WorkoutTemplate } from "../workout-template/workout-template";
@@ -11,12 +12,14 @@ enum eOtherWorkoutDirection {
 }
 @Component({
   selector: 'app-workout-single',
-  imports: [WorkoutTemplate],
+  imports: [WorkoutTemplate, DatePipe],
   templateUrl: './workout-single.html',
   styleUrl: './workout-single.css'
 })
 export class WorkoutSingle implements OnInit {
   workout: Signal<IWorkoutDto | null>;
+
+  workoutDate: Date;
 
   constructor(
     private route: ActivatedRoute,
@@ -34,7 +37,10 @@ export class WorkoutSingle implements OnInit {
     if (resolvedWorkout) {
       this.workoutService.setInitialWorkout(resolvedWorkout);
     }
+    this.workoutDate = new Date(this.workout()!.logDate);
   }
+
+  // Get
 
   onGetWorkout(direction: eOtherWorkoutDirection) {
     const workoutId = (direction === eOtherWorkoutDirection.Previous

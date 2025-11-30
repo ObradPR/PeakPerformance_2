@@ -32,3 +32,7 @@
 @if (modalService.setModalSignal()) {
     <app-set-modal (closeModalEvent)="modalService.hideSetModal()"></app-set-modal>
 }
+
+@if (modalService.browseWorkoutsModalSignal()) {
+    <app-browse-workouts-modal (closeModalEvent)="modalService.hideBrowseWorkoutsModal()"></app-browse-workouts-modal>
+}
