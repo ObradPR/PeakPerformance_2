@@ -206,9 +206,13 @@ export interface IMeasurementGoalDto
 export interface ITotalDto
 {
 	sets?: number;
+	setsDiff?: number;
 	reps?: number;
+	repsDiff?: number;
 	volume?: number;
+	volumeDiff?: number;
 	cardioTime?: number;
+	cardioTimeDiff?: number;
 }
 export interface IWorkoutDto
 {

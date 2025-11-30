@@ -19,13 +19,15 @@ public class SearchWorkoutQuery(WorkoutSearchOptions options) : IRequest<Respons
             if (userId.IsNotEmpty())
                 predicates.Add(_ => _.UserId == userId);
 
+            options.Take++; // this is for the 6th workout, details that will be used for 5th workout
+
             var result = await db.Workouts.SearchAsync(options, _ => _.LogDate, true, predicates,
                 includeProperties: [
                     _ => _.WorkoutExercises.Select(_ => _.WorkoutExerciseSets),
                     _ => _.WorkoutExercises.Select(_ => _.Exercise)
                 ]);
 
-            var data = mapper.Map<IEnumerable<WorkoutDto>>(result.Data);
+            var data = mapper.Map<List<WorkoutDto>>(result.Data);
 
             var userMeasurementUnitId = (await db.UserMeasurementPreferences
                  .FirstOrDefaultAsync(_ => _.UserId == identityUser.Id, cancellationToken))
@@ -71,6 +73,23 @@ public class SearchWorkoutQuery(WorkoutSearchOptions options) : IRequest<Respons
                     CardioTime = cardioTime
                 };
             }
+
+            for (var i = 0; i < data.Count - 1; i++)
+            {
+                var current = data[i];
+                var previous = data[i + 1];
+
+                if (previous?.Total == null || current?.Total == null)
+                    continue;
+
+                current.Total.SetsDiff = current.Total.Sets - previous.Total.Sets;
+                current.Total.RepsDiff = current.Total.Reps - previous.Total.Reps;
+                current.Total.VolumeDiff = current.Total.Volume - previous.Total.Volume;
+                current.Total.CardioTimeDiff = current.Total.CardioTime - previous.Total.CardioTime;
+            }
+
+            if (data.Count > request.Options.Take - 1)
+                data.RemoveAt(data.Count - 1);
 
             return new(new()
             {
