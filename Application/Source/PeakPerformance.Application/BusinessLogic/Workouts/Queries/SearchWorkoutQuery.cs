@@ -58,7 +58,7 @@ public class SearchWorkoutQuery(WorkoutSearchOptions options) : IRequest<Respons
 
                 var bodyweightVolume = (workout.Bodyweight != null)
                     ? bodyweightSets.Sum(_ =>
-                        _.Reps * workout.Bodyweight.Value.ConvertUnitValue(workout.BodyweightMeasurementUnitId.Value, userMeasurementUnitId))
+                        _.Reps * workout.Bodyweight.Value.ConvertUnitValue(workout.BodyweightUnitId.Value, userMeasurementUnitId))
                     : 0;
 
                 var cardioTime = cardioSets.Sum(s => s.DurationMinutes ?? 0);

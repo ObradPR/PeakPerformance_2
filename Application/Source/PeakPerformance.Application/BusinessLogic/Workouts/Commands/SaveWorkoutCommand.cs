@@ -61,7 +61,7 @@ public class SaveWorkoutCommand(WorkoutDto data) : IRequest<ResponseWrapper<long
                     .FirstOrDefaultAsync(cancellationToken);
 
                 model.Bodyweight = latestBodyweightLog?.Value;
-                model.BodyweightMeasurementUnitId = latestBodyweightLog?.WeightUnitId;
+                model.BodyweightUnitId = latestBodyweightLog?.WeightUnitId;
             }
 
             if (model.IsNew)

@@ -23,7 +23,9 @@ public class WorkoutDto
 
     public decimal? Bodyweight { get; set; }
 
-    public eMeasurementUnit? BodyweightMeasurementUnitId { get; set; }
+    public eMeasurementUnit? BodyweightUnitId { get; set; }
+
+    public bool? IsCompleted { get; set; }
 
     public List<WorkoutExerciseDto> Exercises { get; set; }
 
@@ -49,6 +51,6 @@ public class WorkoutDto
         model.StartAt = StartAt;
         model.FinishAt = FinishAt;
         model.Bodyweight = Bodyweight;
-        model.BodyweightMeasurementUnitId = BodyweightMeasurementUnitId;
+        model.BodyweightUnitId = BodyweightUnitId;
     }
 }

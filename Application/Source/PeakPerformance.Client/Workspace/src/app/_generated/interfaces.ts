@@ -221,7 +221,8 @@ export interface IWorkoutDto
 	startAt?: any;
 	finishAt?: any;
 	bodyweight?: number;
-	bodyweightMeasurementUnitId?: eMeasurementUnit;
+	bodyweightUnitId?: eMeasurementUnit;
+	isCompleted?: boolean;
 	exercises: IWorkoutExerciseDto[];
 	total: ITotalDto;
 	displayName: string;

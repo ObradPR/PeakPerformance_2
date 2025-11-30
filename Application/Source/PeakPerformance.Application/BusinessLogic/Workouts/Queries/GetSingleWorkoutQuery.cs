@@ -70,7 +70,7 @@ public class GetSingleWorkoutQuery(long id) : IRequest<ResponseWrapper<WorkoutDt
 
             var bodyweightVolume = (data.Bodyweight != null)
                 ? bodyweightSets.Sum(_ =>
-                    _.Reps * data.Bodyweight.Value.ConvertUnitValue(data.BodyweightMeasurementUnitId.Value, userMeasurementUnitId))
+                    _.Reps * data.Bodyweight.Value.ConvertUnitValue(data.BodyweightUnitId.Value, userMeasurementUnitId))
                 : 0;
 
             var cardioTime = cardioSets.Sum(s => s.DurationMinutes ?? 0);

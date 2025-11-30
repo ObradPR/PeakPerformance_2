@@ -22,7 +22,9 @@ public class Workout : BaseAuditedDomain<long>, IConfigurableEntity
 
     public decimal? Bodyweight { get; set; }
 
-    public eMeasurementUnit? BodyweightMeasurementUnitId { get; set; }
+    public eMeasurementUnit? BodyweightUnitId { get; set; }
+
+    public bool? IsCompleted { get; set; }
 
     //
     // Relationships
