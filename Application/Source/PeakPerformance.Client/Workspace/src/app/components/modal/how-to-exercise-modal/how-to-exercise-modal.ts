@@ -3,10 +3,11 @@ import { HttpClient } from '@angular/common/http';
 import { Component, output, OutputEmitterRef } from '@angular/core';
 import { LoaderService } from '../../../services/loader.service';
 import { ModalService } from '../../../services/modal.service';
+import { ShortInfoStats } from "../../short-info-stats/short-info-stats";
 
 @Component({
   selector: 'app-how-to-exercise-modal',
-  imports: [TitleCasePipe],
+  imports: [TitleCasePipe, ShortInfoStats],
   templateUrl: './how-to-exercise-modal.html',
   styleUrl: './how-to-exercise-modal.css'
 })

@@ -143,23 +143,6 @@ input, form {
   left: 0;
 }
 
-.short-info-block {
-    margin-right: 1rem;
-}
-
-.short-info-block .block-item {
-    padding: 0.5rem;
-}
-.short-info-block .block-item:nth-child(1) {
-    background-color: #f4f4f4;
-    border-radius: 5px 0 0 5px;
-}
-.short-info-block .block-item:nth-child(2) {
-    background-color: var(--bs-blue);
-    border-radius: 0 5px 5px 0;
-    color: #ffffff;
-}
-
 .edit-dots {
     cursor: pointer;
     color: var(--bs-blue);

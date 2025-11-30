@@ -1,0 +1,14 @@
+@if (name() && value()) {
+    <div class="short-info-block mt-4">
+        <small class="block-item">{{ name() }}</small>
+        <small class="block-item">{{ value() + templateAddon() }}</small>
+        @if (diff() && diff() !== 0) {
+            <small class="block-item"
+                [ngClass]="{
+                    'success': diff()! > 0,
+                    'fail': diff()! < 0
+                }">
+                {{ (diff()! > 0 ? '+' : '') + diff() + templateAddon() }}</small>
+        }
+    </div>
+}

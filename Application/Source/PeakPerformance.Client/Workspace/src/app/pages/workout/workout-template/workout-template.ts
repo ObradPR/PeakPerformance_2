@@ -1,20 +1,21 @@
+import { DatePipe } from '@angular/common';
 import { Component, input, OnInit } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { DateTime } from 'luxon';
 import { IWorkoutDto } from '../../../_generated/interfaces';
 import { Providers } from '../../../_generated/providers';
 import { WorkoutController } from '../../../_generated/services';
+import { ShortInfoStats } from "../../../components/short-info-stats/short-info-stats";
 import { ClickOutsideDirective } from '../../../directives/click-outside.directive';
 import { DurationPipe } from '../../../pipes/duration.pipe';
 import { MeasurementConverterPipe } from "../../../pipes/measurement-converter.pipe";
 import { AuthService } from '../../../services/auth.service';
 import { ModalService } from '../../../services/modal.service';
 import { ExercisesTemplate } from '../../exercise/exercises-template/exercises-template';
-import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-workout-template',
-  imports: [ClickOutsideDirective, MeasurementConverterPipe, DurationPipe, RouterLink, ExercisesTemplate, DatePipe],
+  imports: [ClickOutsideDirective, MeasurementConverterPipe, DurationPipe, RouterLink, ExercisesTemplate, DatePipe, ShortInfoStats],
   templateUrl: './workout-template.html',
   styleUrl: './workout-template.css'
 })

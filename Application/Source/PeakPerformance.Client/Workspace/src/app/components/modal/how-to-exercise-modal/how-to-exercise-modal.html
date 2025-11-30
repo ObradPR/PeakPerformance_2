@@ -1,55 +1,46 @@
-@if (exercise) {
-    <div class="my-backdrop"></div>
-    <section class="my-modal md">
-        <div class="my-modal-header">
-            <h3>How To</h3>
-            <i class="fa-solid fa-circle-xmark" (click)="closeModal()"></i>
-        </div>
-    
-        <div class="position-relative">
-            <div class="my-modal-body">
-                @if (exercise) {
-                    <div class="d-flex flex-column">
-                        <h4>{{ exercise?.name | titlecase }}</h4>
-    
-                        <div class="d-flex flex-wrap mb-3">
-                            @if (exercise?.bodyParts) {
-                                <div class="short-info-block mt-3">
-                                    <small class="block-item">Body Parts</small>
-                                    <small class="block-item">{{ exercise?.bodyParts.join(', ') | titlecase }}</small>
-                                </div>
-                            }
-                            @if (exercise?.equipments) {
-                                <div class="short-info-block mt-3">
-                                    <small class="block-item">Equipments</small>
-                                    <small class="block-item">{{ exercise?.equipments.join(', ') | titlecase }}</small>
-                                </div>
-                            }
-                            @if (exercise?.targetMuscles) {
-                                <div class="short-info-block mt-3">
-                                    <small class="block-item">Muscles</small>
-                                    <small class="block-item">{{ (exercise.targetMuscles.concat(exercise.secondaryMuscles)).join(', ') | titlecase }}</small>
-                                </div>
-                            }
-                        </div>
-             
-                        <img class="mx-auto" [src]="exercise?.gifUrl" [alt]="exercise?.name" style="width: 220px;" />
-            
-                        <div class="mt-3">
-                            @for (step of exercise?.instructions; track $index; let idx = $index) {
-                                <div class="mb-2 d-flex align-items-start">
-                                    <i class="fa-solid fa-caret-right me-2 mt-1"></i>
-                                    <small>{{ step?.replace('Step:', '').replace(`${idx + 1}`, '') }}</small>
-                                </div>
-                            }
-                        </div>
+<div class="my-backdrop"></div>
+<section class="my-modal md">
+    <div class="my-modal-header">
+        <h3>How To</h3>
+        <i class="fa-solid fa-circle-xmark" (click)="closeModal()"></i>
+    </div>
+
+    <div class="position-relative">
+        <div class="my-modal-body">
+            @if (exercise) {
+                <div class="d-flex flex-column">
+                    <h4>{{ exercise?.name | titlecase }}</h4>
+
+                    <div class="d-flex flex-wrap mb-3">
+                        <app-short-info-stats 
+                            [name]="'Body Parts'"
+                            [value]="exercise?.bodyParts.join(', ') | titlecase"/>
+
+                        <app-short-info-stats 
+                            [name]="'Equipments'"
+                            [value]="exercise?.equipments.join(', ') | titlecase"/>
+
+                        <app-short-info-stats 
+                            [name]="'Muscles'"
+                            [value]="(exercise.targetMuscles.concat(exercise.secondaryMuscles)).join(', ') | titlecase"/>
                     </div>
-                }
-            </div>
+            
+                    <img class="mx-auto" [src]="exercise?.gifUrl" [alt]="exercise?.name" style="width: 220px;" />
+        
+                    <div class="mt-3">
+                        @for (step of exercise?.instructions; track $index; let idx = $index) {
+                            <div class="mb-2 d-flex align-items-start">
+                                <i class="fa-solid fa-caret-right me-2 mt-1"></i>
+                                <small>{{ step?.replace('Step:', '').replace(`${idx + 1}`, '') }}</small>
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
         </div>
-    
-        <div class="my-modal-footer">
-            <button class="btn btn-secondary" (click)="closeModal()">Close</button>
-        </div>
-    </section>
-}
+    </div>
+
+    <div class="my-modal-footer">
+        <button class="btn btn-secondary" (click)="closeModal()">Close</button>
+    </div>
+</section>

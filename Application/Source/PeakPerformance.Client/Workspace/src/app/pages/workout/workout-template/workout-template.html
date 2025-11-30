@@ -36,53 +36,45 @@
         <textarea class="form-control mb-4" name="workout-notes" id="workout-notes" readonly rows="1" (focus)="editWorkout()">{{ workout()!.notes }}</textarea>
     </div>
 }
-<div class="d-flex mb-3">
-    @if (workout()!.durationTime) {
-        <div class="short-info-block">
-            <span class="block-item">Time</span>
-            <span class="block-item">{{ workout()!.durationTime | duration }}</span>
-        </div>
-    }
-    @if (workout()!.bodyweight) {
-        <div class="short-info-block">
-            <span class="block-item">Bodyweight</span>
-            <span class="block-item">{{ workout()!.bodyweight | measurementConverter:workout()!.bodyweightUnitId }}</span>
-        </div>
-    }
+<div class="d-flex flex-wrap mb-3">
+    <app-short-info-stats 
+        [name]="'Time'"
+        [value]="workout()!.durationTime | duration"/>
+
+    <app-short-info-stats 
+        [name]="'Bodyweight'"
+        [value]="workout()!.bodyweight | measurementConverter:workout()!.bodyweightUnitId"/>
+
     @if (workout()!.total) {
-        @if (workout()!.total.sets) {
-            <div class="short-info-block">
-                <span class="block-item">Sets</span>
-                <span class="block-item">{{ workout()!.total.sets }}</span>
-            </div>
-        }
-        @if (workout()!.total.reps) {
-            <div class="short-info-block">
-                <span class="block-item">Reps</span>
-                <span class="block-item">{{ workout()!.total.reps }}</span>
-            </div>
-        }
-        @if (workout()!.total.volume) {
-            <div class="short-info-block">
-                <span class="block-item">Volume</span>
-                <span class="block-item">{{ workout()!.total.volume }} {{ userWeightPreference }}</span>
-            </div>
-        }
-        @if (workout()!.total.cardioTime) {
-            <div class="short-info-block">
-                <span class="block-item">Cardio</span>
-                <span class="block-item">{{ workout()!.total.cardioTime }} min</span>
-            </div>
-        }
+        <app-short-info-stats 
+            [name]="'Sets'"
+            [value]="workout()!.total.sets"
+            [diff]="workout()!.total.setsDiff"/>
+
+        <app-short-info-stats 
+            [name]="'Reps'"
+            [value]="workout()!.total.reps"
+            [diff]="workout()!.total.repsDiff"/>
+            
+
+        <app-short-info-stats 
+            [name]="'Volume'"
+            [value]="workout()!.total.volume"
+            [diff]="workout()!.total.volumeDiff"
+            [templateAddon]="' ' + userWeightPreference"/>
+
+        <app-short-info-stats 
+            [name]="'Cardio'"
+            [value]="workout()!.total.cardioTime"
+            [diff]="workout()!.total.cardioTimeDiff"
+            [templateAddon]="' min'"/>
     }
 </div>
 
 <app-exercises-template 
     [exercises]="workout()?.exercises ?? []"
     [editable]="editable() && !workout()?.isCompleted"
-    [workoutId]="workout()!.id"
->
-</app-exercises-template>
+    [workoutId]="workout()!.id"/>
 
 @if (editable()) {
     <div class="row">

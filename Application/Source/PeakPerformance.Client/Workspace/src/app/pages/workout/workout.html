@@ -16,13 +16,11 @@
     </div>
 
     @for (workout of workouts?.data; track workout) {
-        <div class="pb-3">
+        <div class="pb-5">
             <app-workout-template 
                 [workout]="workout" 
                 [editable]="false"
-                [isFromMainWorkoutsScren]="true"
-            ></app-workout-template>
-            <hr>
+                [isFromMainWorkoutsScren]="true"/>
         </div>
     }
 
