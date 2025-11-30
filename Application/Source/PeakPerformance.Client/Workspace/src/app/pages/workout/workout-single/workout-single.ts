@@ -1,10 +1,12 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit, Signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { IWorkoutDto, IWorkoutLogDto } from '../../../_generated/interfaces';
+import { IWorkoutDto } from '../../../_generated/interfaces';
 import { ModalService } from '../../../services/modal.service';
 import { WorkoutService } from '../../../services/workout.service';
 import { WorkoutTemplate } from "../workout-template/workout-template";
+import { WorkoutController } from '../../../_generated/services';
+import { LoaderService } from '../../../services/loader.service';
 
 enum eOtherWorkoutDirection {
   Previous = 1,
@@ -26,7 +28,10 @@ export class WorkoutSingle implements OnInit {
     private router: Router,
 
     public modalService: ModalService,
-    private workoutService: WorkoutService
+    private workoutService: WorkoutService,
+    private loaderService: LoaderService,
+
+    private workoutController: WorkoutController,
   ) {
     this.workout = this.workoutService.workoutSignal;
   }
@@ -50,5 +55,19 @@ export class WorkoutSingle implements OnInit {
 
     this.router.navigateByUrl('/', { skipLocationChange: true })
       .then(() => this.router.navigateByUrl(`/workouts/${Number(workoutId)}`));
+  }
+
+  // Update
+
+  updateStatus() {
+    this.loaderService.showPageLoader();
+
+    this.workoutController.UpdateCompleteStatus(this.workout()!.id).toPromise()
+      .then(_ => {
+        if (_?.isSuccess) {
+          this.workoutService.refreshWorkout(this.workout()!.id);
+        }
+      })
+      .finally(() => this.loaderService.hidePageLoader());
   }
 }

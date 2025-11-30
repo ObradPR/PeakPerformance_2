@@ -31,6 +31,11 @@ public class WorkoutController(IMediator mediator) : BaseController(mediator)
     [AngularMethod(typeof(ResponseWrapper<long>))]
     public async Task<IActionResult> Save([FromBody] WorkoutDto data) => Result(await Mediator.Send(new SaveWorkoutCommand(data)));
 
+    [HttpPost]
+    [Authorize]
+    [AngularMethod(typeof(BaseResponseWrapper))]
+    public async Task<IActionResult> UpdateCompleteStatus([FromBody] long id) => Result(await Mediator.Send(new UpdateWorkoutCompleteStatusCommand(id)));
+
     [HttpDelete]
     [Authorize]
     [AngularMethod(typeof(BaseResponseWrapper))]

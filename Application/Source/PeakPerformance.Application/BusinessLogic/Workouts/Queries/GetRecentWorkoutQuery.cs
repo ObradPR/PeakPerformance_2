@@ -11,7 +11,7 @@ public class GetRecentWorkoutQuery() : IRequest<ResponseWrapper<IEnumerable<Work
             var userId = identityUser.Id;
 
             var data = await db.Workouts
-                .Where(_ => _.UserId == userId)
+                .Where(_ => _.UserId == userId && _.IsCompleted == true)
                 .Select(_ => new Workout
                 {
                     Id = _.Id,

@@ -572,6 +572,20 @@ import { IWorkoutSearchOptions } from './interfaces';
 		.pipe(map(response => response.body));
 		
 	}
+	public UpdateCompleteStatus(id: number) : Observable<IBaseResponseWrapper | null>
+	{
+		const body = <any>id;
+		return this.httpClient.post<IBaseResponseWrapper>(
+		this.settingsService.createApiUrl('Workout/UpdateCompleteStatus'),
+		body,
+		{
+			responseType: 'json',
+			observe: 'response',
+			withCredentials: true
+		})
+		.pipe(map(response => response.body));
+		
+	}
 	public Delete(id: number) : Observable<IBaseResponseWrapper | null>
 	{
 		const body = <any>{'id': id};

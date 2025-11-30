@@ -3,3 +3,16 @@ span {
     color: #ffffff;
     font-size: 1.2rem;
 }
+
+.complete-msg-wrapper {
+    background-color: var(--bs-teal);
+    border-radius: 5px;
+}
+.complete-msg-wrapper i.fa-trophy {
+    color: gold;
+    font-size: 1.5rem;
+}
+.complete-msg-wrapper h4,
+.complete-msg-wrapper p {
+    color: #ffffff;
+}

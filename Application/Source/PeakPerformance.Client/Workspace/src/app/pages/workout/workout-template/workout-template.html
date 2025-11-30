@@ -5,6 +5,9 @@
     >
         {{ isFromMainWorkoutsScren() ? (workout()!.logDate | date:'dd MMMM yyyy') + ' - ' : '' }}
         {{ workout()!.name }}
+        @if (workout()?.isCompleted) {
+            <i class="fa-solid fa-circle-check" style="font-size: 1.5rem;"></i>
+        }
     </h2>
     @if (editable()) {
         <span class="edit-dots edit-dots-workout" (click)="onOpenEditMenu()">⋮</span>
@@ -43,7 +46,7 @@
     @if (workout()!.bodyweight) {
         <div class="short-info-block">
             <span class="block-item">Bodyweight</span>
-            <span class="block-item">{{ workout()!.bodyweight | measurementConverter:workout()!.bodyweightMeasurementUnitId }}</span>
+            <span class="block-item">{{ workout()!.bodyweight | measurementConverter:workout()!.bodyweightUnitId }}</span>
         </div>
     }
     @if (workout()!.total) {
