@@ -5,10 +5,11 @@ import { WorkoutController } from '../../_generated/services';
 import { LoaderService } from '../../services/loader.service';
 import { ModalService } from '../../services/modal.service';
 import { WorkoutTemplate } from "./workout-template/workout-template";
+import { WorkoutsCalendar } from "./workouts-calendar/workouts-calendar";
 
 @Component({
   selector: 'app-workout',
-  imports: [Paginator, WorkoutTemplate],
+  imports: [Paginator, WorkoutTemplate, WorkoutsCalendar],
   templateUrl: './workout.html',
   styleUrl: './workout.css'
 })

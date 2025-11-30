@@ -47,6 +47,11 @@ input, form {
     padding: 3rem 2rem;
   }
 }
+@media (max-width: 660px) {
+  .info-wrapper {
+    padding: 2rem 1rem;
+  }
+}
 
 .cover-img {
   background-image: url('./assets/images/home.jpg');

@@ -1,0 +1,24 @@
+<div class="d-flex flex-column justify-content-between">
+    <p-datepicker
+        [(ngModel)]="workoutDate"
+        [disabledDates]="disabledDates"
+        [showIcon]="false"
+        [inline]="true"
+        (onSelect)="onDateSelect($event)">
+    
+        <ng-template #date let-date>
+            <div class="day-cell" 
+                [ngClass]="{ 
+                    'workout-day': isWorkoutDateFromTemplate(date), 
+                    'disabled': date.disabled 
+                }">
+            {{ date.day }}
+            </div>
+        </ng-template>
+    
+    </p-datepicker>
+    
+    @for (workout of sameDateWorkouts; track $index) {
+        <span class="clickable" (click)="onSelectWorkout(workout.id)">{{ workout.name }}</span>
+    }
+</div>

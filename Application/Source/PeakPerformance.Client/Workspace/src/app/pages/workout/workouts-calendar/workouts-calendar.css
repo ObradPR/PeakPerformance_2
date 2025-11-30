@@ -1,0 +1,16 @@
+.day-cell {
+  width: 2.2rem;
+  height: 2.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.day-cell.disabled {
+    pointer-events: none;
+    opacity: 0.3; 
+}
+.workout-day {
+    background-color: var(--bs-blue);
+    color: #ffffff;
+}
