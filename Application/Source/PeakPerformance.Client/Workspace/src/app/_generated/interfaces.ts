@@ -226,6 +226,8 @@ export interface IWorkoutDto
 	total: ITotalDto;
 	displayName: string;
 	durationTime?: any;
+	previousWorkoutId?: number;
+	nextWorkoutId?: number;
 }
 export interface IWorkoutExerciseSetDto
 {

@@ -46,7 +46,10 @@ export class Workout implements OnInit {
     const options = {
       take: take,
       skip: skip,
-      sortingOptions: [{ field: 'LogDate', dir: 'desc' }] as ISortingOptions[]
+      sortingOptions: [
+        { field: 'LogDate', dir: 'desc' },
+        { field: 'Id', dir: 'desc' }
+      ] as ISortingOptions[]
     } as IWorkoutSearchOptions;
 
     this.workoutController.Search(options).toPromise()

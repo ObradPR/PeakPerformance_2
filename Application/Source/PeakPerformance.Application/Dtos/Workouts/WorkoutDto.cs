@@ -33,6 +33,10 @@ public class WorkoutDto
 
     public TimeOnly? DurationTime { get; set; }
 
+    public long? PreviousWorkoutId { get; set; }
+
+    public long? NextWorkoutId { get; set; }
+
     // methods
 
     public void ToModel(Workout model, long userId)

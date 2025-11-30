@@ -1,0 +1,5 @@
+.left span, .right span {
+    cursor: pointer;
+    color: #ffffff;
+    font-size: 1.2rem;
+}

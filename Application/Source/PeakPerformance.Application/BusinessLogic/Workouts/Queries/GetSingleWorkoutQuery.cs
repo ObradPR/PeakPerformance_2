@@ -23,6 +23,24 @@ public class GetSingleWorkoutQuery(long id) : IRequest<ResponseWrapper<WorkoutDt
 
             var data = mapper.Map<WorkoutDto>(model);
 
+            data.PreviousWorkoutId = await db.Workouts
+                .Where(_ => _.UserId == model.UserId &&
+                            (_.LogDate < model.LogDate ||
+                            (_.LogDate == model.LogDate && _.Id < model.Id)))
+                .OrderByDescending(_ => _.LogDate)
+                    .ThenByDescending(_ => _.Id)
+                .Select(_ => (long?)_.Id)
+                .FirstOrDefaultAsync(cancellationToken);
+
+            data.NextWorkoutId = await db.Workouts
+                .Where(_ => _.UserId == model.UserId &&
+                            (_.LogDate > model.LogDate ||
+                            (_.LogDate == model.LogDate && _.Id > model.Id)))
+                .OrderBy(_ => _.LogDate)
+                    .ThenBy(_ => _.Id)
+                .Select(_ => (long?)_.Id)
+                .FirstOrDefaultAsync(cancellationToken);
+
             var userMeasurementUnitId = (await db.UserMeasurementPreferences
                 .FirstOrDefaultAsync(_ => _.UserId == identityUser.Id, cancellationToken))
                 .WeightUnitId;
