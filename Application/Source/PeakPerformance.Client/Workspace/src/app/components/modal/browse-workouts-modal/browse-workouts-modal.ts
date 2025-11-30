@@ -23,6 +23,8 @@ export class BrowseWorkoutsModal {
   disabledDates: Date[] = [];
   selectedDate: Date;
 
+  sameDateWorkouts: IWorkoutLogDto[] = [];
+
   constructor(
     private router: Router,
 
@@ -94,17 +96,23 @@ export class BrowseWorkoutsModal {
   }
 
   onDateSelect(date: Date) {
-    const workout = this.allWorkoutLogs.find(_ => {
+    const workouts = this.allWorkoutLogs.filter(_ => {
       return this.sameDay(new Date(_.logDate), date);
     });
 
-    if (workout) {
-      this.router.navigateByUrl('/', { skipLocationChange: true })
-        .then(() => {
-          this.modalService.hideBrowseWorkoutsModal();
-          this.router.navigateByUrl(`/workouts/${workout.id}`);
-        });
+    if (workouts.length === 1) {
+      this.onSelectWorkout(workouts[0].id);
+    }
+    else if (workouts.length > 1) {
+      this.sameDateWorkouts = workouts;
     }
   }
 
+  onSelectWorkout(workoutId: number) {
+    this.router.navigateByUrl('/', { skipLocationChange: true })
+      .then(() => {
+        this.modalService.hideBrowseWorkoutsModal();
+        this.router.navigateByUrl(`/workouts/${workoutId}`);
+      });
+  }
 }

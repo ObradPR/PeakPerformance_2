@@ -16,6 +16,7 @@ public class GetAllWorkoutLogsQuery() : IRequest<ResponseWrapper<IEnumerable<Wor
                 {
                     Id = _.Id,
                     LogDate = _.LogDate,
+                    Name = _.Name,
                 })
                 .ToListAsync(cancellationToken);
 

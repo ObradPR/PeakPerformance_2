@@ -233,6 +233,7 @@ export interface IWorkoutLogDto
 {
 	id: number;
 	logDate: Date;
+	name: string;
 }
 export interface IWorkoutExerciseSetDto
 {

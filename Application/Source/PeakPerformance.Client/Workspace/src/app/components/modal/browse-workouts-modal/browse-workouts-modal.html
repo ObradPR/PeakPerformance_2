@@ -20,6 +20,10 @@
                         </div>
                     </ng-template>
                 </p-datepicker>
+
+                @for (workout of sameDateWorkouts; track $index) {
+                    <span class="clickable" (click)="onSelectWorkout(workout.id)">{{ workout.name }}</span>
+                }
             </div>
         </div>
     </div>

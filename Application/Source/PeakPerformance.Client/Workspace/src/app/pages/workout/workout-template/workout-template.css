@@ -13,11 +13,3 @@ textarea {
     resize: none;
     font-size: 0.9rem;
 }
-
-.clickable {
-    cursor: pointer;
-    color: var(--bs-blue);
-}
-.clickable:hover {
-    color: #343a40;
-}
