@@ -9,7 +9,7 @@
             <i class="fa-solid fa-circle-check" style="font-size: 1.5rem;"></i>
         }
     </h2>
-    @if (editable()) {
+    @if (editable() && !workout()?.isCompleted) {
         <span class="edit-dots edit-dots-workout" (click)="onOpenEditMenu()">⋮</span>
         @if (selectedWorkoutMenu) {
             <div class="edit-menu" appClickOutside (clickOutside)="this.selectedWorkoutMenu = false">
@@ -79,7 +79,7 @@
 
 <app-exercises-template 
     [exercises]="workout()?.exercises ?? []"
-    [editable]="editable()"
+    [editable]="editable() && !workout()?.isCompleted"
     [workoutId]="workout()!.id"
 >
 </app-exercises-template>
