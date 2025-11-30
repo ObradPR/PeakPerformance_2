@@ -94,7 +94,7 @@ public class SearchWorkoutQuery(WorkoutSearchOptions options) : IRequest<Respons
             return new(new()
             {
                 Data = data,
-                Total = result.Total - 1
+                Total = result.Total
             });
         }
     }
