@@ -1,5 +1,6 @@
 ﻿using PeakPerformance.Application.Dtos.Workouts;
 using PeakPerformance.Domain.Exceptions;
+using PeakPerformance.Domain.ExerciseDbApiMap;
 
 namespace PeakPerformance.Application.BusinessLogic.Workouts.Queries;
 
@@ -83,7 +84,56 @@ public class GetSingleWorkoutQuery(long id) : IRequest<ResponseWrapper<WorkoutDt
                 CardioTime = cardioTime
             };
 
-            return new(mapper.Map<WorkoutDto>(data));
+            if (data.IsCompleted == true)
+            {
+                // 70% / 30% rule
+                var workoutData = new Dictionary<eMuscleGroup, decimal>();
+
+                foreach (var exercise in data.Exercises)
+                {
+                    if (exercise.IsCardio == true)
+                        continue;
+
+                    var volume = exercise.Sets.Sum(_ => exercise.IsStrength == true
+                        ? _.Reps * _.Weight.Value.ConvertUnitValue(_.WeightUnitId.Value, userMeasurementUnitId)                     // Strength
+                        : _.Reps * data.Bodyweight.Value.ConvertUnitValue(data.BodyweightUnitId.Value, userMeasurementUnitId));     // Bodyweight
+
+                    if (volume == null)
+                        continue;
+
+                    // primary - 70%
+
+                    var primaryFlags = exercise.PrimaryMuscleGroupId.GetFlags();
+
+                    var primaryVolumeTotal = volume.Value * 0.7m;
+                    var primarySplit = primaryVolumeTotal / primaryFlags.Count;
+
+                    foreach (var group in primaryFlags)
+                        workoutData[group] = workoutData.GetValueOrDefault(group) + primarySplit;
+
+                    // secondary - 30%
+
+                    var secondary = exercise.SecondaryMuscleGroupId?.GetFlags();
+                    if (secondary.IsNullOrEmpty())
+                        continue;
+
+                    var secondaryVolumeTotal = volume.Value * 0.3m;
+                    var secondarySplit = secondaryVolumeTotal / secondary.Count;
+
+                    foreach (var group in secondary)
+                        workoutData[group] = workoutData.GetValueOrDefault(group) + secondarySplit;
+                }
+
+                data.MuscleGroupsTotalVolume = workoutData
+                    .Select(_ => new MuscleGroupTotalVolumeDto
+                    {
+                        Name = _.Key.ToString(),
+                        Volume = _.Value
+                    })
+                    .ToList();
+            }
+
+            return new(data);
         }
     }
 }

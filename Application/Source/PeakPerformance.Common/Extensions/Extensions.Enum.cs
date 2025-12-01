@@ -73,4 +73,24 @@ public static partial class Extensions
         => !typeof(T).IsEnum
         ? throw new ArgumentException($"{typeof(T)} must be an enumerated type.")
         : GetValues<T>();
+
+    public static List<T> GetFlags<T>(this T value)
+        where T : struct, Enum
+    {
+        var result = new List<T>();
+        var valueAsUInt64 = Convert.ToUInt64(value);
+
+        foreach (T enumValue in Enum.GetValues<T>())
+        {
+            var enumValAsUInt64 = Convert.ToUInt64(enumValue);
+
+            if (enumValAsUInt64 == 0)
+                continue;
+
+            if ((valueAsUInt64 & enumValAsUInt64) == enumValAsUInt64)
+                result.Add(enumValue);
+        }
+
+        return result;
+    }
 }

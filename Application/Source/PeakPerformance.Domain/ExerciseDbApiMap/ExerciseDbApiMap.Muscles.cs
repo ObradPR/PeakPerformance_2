@@ -74,6 +74,7 @@ public static partial class ExerciseDbApiMap
 public enum eMuscleGroup
 {
     None = 0,
+
     Back = 1 << 0,
     Chest = 1 << 1,
     Core = 1 << 2,

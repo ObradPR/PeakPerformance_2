@@ -39,6 +39,8 @@ public class WorkoutDto
 
     public long? NextWorkoutId { get; set; }
 
+    public List<MuscleGroupTotalVolumeDto> MuscleGroupsTotalVolume { get; set; }
+
     // methods
 
     public void ToModel(Workout model, long userId)
