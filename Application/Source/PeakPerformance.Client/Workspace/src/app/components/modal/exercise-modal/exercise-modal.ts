@@ -57,6 +57,7 @@ export class ExerciseModal implements IModalMethods, OnInit {
     this.setupSearchListener();
 
     // Load default 10 exercises on open
+    this.loaderService.showPageLoader();
     this.getExercises();
   }
 
@@ -72,8 +73,8 @@ export class ExerciseModal implements IModalMethods, OnInit {
       name: [],
       equipmentName: [],
       bodyParts: [],
-      primaryMuscle: [],
-      secondaryMuscle: [],
+      primaryMuscles: [],
+      secondaryMuscles: [],
       workoutId: [this.modalService.workoutIdSignal()],
       order: [this.modalService.orderSignal()]
     });
@@ -92,8 +93,6 @@ export class ExerciseModal implements IModalMethods, OnInit {
   }
 
   getExercises(search = this.apiSearch, offset = this.apiOffset, limit = this.apiLimit) {
-    this.loaderService.showPageLoader();
-
     const params: any = {
       offset: offset,
       limit: limit,
@@ -124,8 +123,8 @@ export class ExerciseModal implements IModalMethods, OnInit {
       name: exercise.name,
       equipmentName: exercise.equipments[0],
       bodyParts: exercise.bodyParts,
-      primaryMuscle: exercise.targetMuscles,
-      secondaryMuscle: exercise.secondaryMuscles,
+      primaryMuscles: exercise.targetMuscles,
+      secondaryMuscles: exercise.secondaryMuscles,
     });
 
     this.exerciseController.Save(this.form.value).toPromise()

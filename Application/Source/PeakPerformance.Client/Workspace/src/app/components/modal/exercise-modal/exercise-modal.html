@@ -38,10 +38,10 @@
                         <p-paginator (onPageChange)="onPageChange($event)" 
                             [first]="apiOffset" 
                             [rows]="apiLimit" 
-                            [totalRecords]="apiData.metadata.totalPages"
+                            [totalRecords]="apiData.metadata.totalExercises"
                             [showFirstLastIcon]="false" />
                     </div>
-                    </div>
+                </div>
             </form>
         </div>
     </div>

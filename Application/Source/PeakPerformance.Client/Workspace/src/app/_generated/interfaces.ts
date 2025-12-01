@@ -126,6 +126,8 @@ export interface IWorkoutExerciseDto
 	notes: string;
 	order: number;
 	workoutId: number;
+	primaryMuscleGroupId: number;
+	secondaryMuscleGroupId?: number;
 	sets: IWorkoutExerciseSetDto[];
 }
 export interface IFileInformationDto
@@ -205,6 +207,11 @@ export interface IMeasurementGoalDto
 	startDate: Date;
 	endDate: Date;
 }
+export interface IMuscleGroupTotalVolumeDto
+{
+	name: string;
+	volume?: number;
+}
 export interface ITotalDto
 {
 	sets?: number;
@@ -235,6 +242,7 @@ export interface IWorkoutDto
 	durationTime?: any;
 	previousWorkoutId?: number;
 	nextWorkoutId?: number;
+	muscleGroupsTotalVolume: IMuscleGroupTotalVolumeDto[];
 }
 export interface IWorkoutLogDto
 {
