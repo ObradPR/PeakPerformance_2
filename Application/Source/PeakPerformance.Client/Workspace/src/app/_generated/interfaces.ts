@@ -117,8 +117,8 @@ export interface IWorkoutExerciseDto
 	apiExerciseId: string;
 	name: string;
 	equipmentName: string;
-	primaryMuscleGroups: string[];
-	secondaryMuscleGroups: string[];
+	primaryMuscles: string[];
+	secondaryMuscles: string[];
 	bodyParts: string[];
 	isCardio?: boolean;
 	isBodyweight?: boolean;

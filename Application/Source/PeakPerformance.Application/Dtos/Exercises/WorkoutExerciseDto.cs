@@ -14,9 +14,9 @@ public class WorkoutExerciseDto
 
     public string EquipmentName { get; set; }
 
-    public string[] PrimaryMuscleGroups { get; set; }
+    public string[] PrimaryMuscles { get; set; }
 
-    public string[] SecondaryMuscleGroups { get; set; }
+    public string[] SecondaryMuscles { get; set; }
 
     public List<string> BodyParts { get; set; }
 

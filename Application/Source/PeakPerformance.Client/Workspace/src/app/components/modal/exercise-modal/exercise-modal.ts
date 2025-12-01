@@ -72,6 +72,8 @@ export class ExerciseModal implements IModalMethods, OnInit {
       name: [],
       equipmentName: [],
       bodyParts: [],
+      primaryMuscle: [],
+      secondaryMuscle: [],
       workoutId: [this.modalService.workoutIdSignal()],
       order: [this.modalService.orderSignal()]
     });
@@ -121,7 +123,9 @@ export class ExerciseModal implements IModalMethods, OnInit {
       apiExerciseId: exercise.exerciseId,
       name: exercise.name,
       equipmentName: exercise.equipments[0],
-      bodyParts: exercise.bodyParts
+      bodyParts: exercise.bodyParts,
+      primaryMuscle: exercise.targetMuscles,
+      secondaryMuscle: exercise.secondaryMuscles,
     });
 
     this.exerciseController.Save(this.form.value).toPromise()
