@@ -1,4 +1,5 @@
 ﻿using PeakPerformance.Domain.Entities._Base;
+using PeakPerformance.Domain.ExerciseDbApiMap;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PeakPerformance.Domain.Entities.Application;
@@ -16,6 +17,10 @@ public class Exercise : BaseDomain<long>, IConfigurableEntity
     public bool? IsBodyweight { get; set; }
 
     public bool? IsStrength { get; set; }
+
+    public eMuscleGroup PrimaryMuscleGroupId { get; set; }
+
+    public eMuscleGroup? SecondaryMuscleGroupId { get; set; }
 
     //
     // Relationships
