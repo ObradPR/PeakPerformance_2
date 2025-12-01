@@ -1,4 +1,5 @@
 ﻿using PeakPerformance.Application.Dtos.Exercises;
+using PeakPerformance.Domain.ExerciseDbApiMap;
 
 namespace PeakPerformance.Application.Extensions;
 
@@ -22,5 +23,18 @@ public static partial class Extensions
         }
 
         return (false, false, true);
+    }
+
+    public static eMuscleGroup ToMuscleGroupFlags(this string[] groups)
+    {
+        var flags = eMuscleGroup.None;
+
+        foreach (var muscle in groups)
+        {
+            if (ExerciseDbApiMap.MuscleGroups.TryGetValue(muscle, out var muscleGroup))
+                flags |= muscleGroup;
+        }
+
+        return flags;
     }
 }

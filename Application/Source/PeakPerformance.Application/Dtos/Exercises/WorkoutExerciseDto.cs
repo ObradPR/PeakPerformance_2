@@ -14,6 +14,10 @@ public class WorkoutExerciseDto
 
     public string EquipmentName { get; set; }
 
+    public string[] PrimaryMuscleGroups { get; set; }
+
+    public string[] SecondaryMuscleGroups { get; set; }
+
     public List<string> BodyParts { get; set; }
 
     public bool? IsCardio { get; set; }

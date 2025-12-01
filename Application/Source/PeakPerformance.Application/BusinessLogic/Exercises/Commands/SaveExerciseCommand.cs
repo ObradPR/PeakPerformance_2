@@ -63,6 +63,8 @@ public class SaveExerciseCommand(WorkoutExerciseDto data) : IRequest<BaseRespons
                     IsCardio = isCardio,
                     IsBodyweight = isBodyweight,
                     IsStrength = isStrength,
+                    PrimaryMuscleGroupId = request.Data.PrimaryMuscleGroups.ToMuscleGroupFlags(),
+                    SecondaryMuscleGroupId = request.Data.SecondaryMuscleGroups.ToMuscleGroupFlags()
                 };
 
                 db.Exercises.Add(newExercise);
