@@ -94,7 +94,7 @@ public class GetSingleWorkoutQuery(long id) : IRequest<ResponseWrapper<WorkoutDt
                     if (exercise.IsCardio == true)
                         continue;
 
-                    var volume = exercise.Sets.Sum(_ => exercise.IsStrength == true
+                    var volume = exercise.Sets.Where(_ => _.TypeId != eSetType.Warmup).Sum(_ => exercise.IsStrength == true
                         ? _.Reps * _.Weight.Value.ConvertUnitValue(_.WeightUnitId.Value, userMeasurementUnitId)                     // Strength
                         : _.Reps * data.Bodyweight.Value.ConvertUnitValue(data.BodyweightUnitId.Value, userMeasurementUnitId));     // Bodyweight
 
@@ -106,7 +106,7 @@ public class GetSingleWorkoutQuery(long id) : IRequest<ResponseWrapper<WorkoutDt
                     var primaryFlags = exercise.PrimaryMuscleGroupId.GetFlags();
 
                     var primaryVolumeTotal = volume.Value * 0.7m;
-                    var primarySplit = primaryVolumeTotal / primaryFlags.Count;
+                    var primarySplit = Math.Round(primaryVolumeTotal / primaryFlags.Count);
 
                     foreach (var group in primaryFlags)
                         workoutData[group] = workoutData.GetValueOrDefault(group) + primarySplit;
@@ -118,17 +118,28 @@ public class GetSingleWorkoutQuery(long id) : IRequest<ResponseWrapper<WorkoutDt
                         continue;
 
                     var secondaryVolumeTotal = volume.Value * 0.3m;
-                    var secondarySplit = secondaryVolumeTotal / secondary.Count;
+                    var secondarySplit = Math.Round(secondaryVolumeTotal / secondary.Count);
 
                     foreach (var group in secondary)
                         workoutData[group] = workoutData.GetValueOrDefault(group) + secondarySplit;
                 }
 
+                foreach (var group in Common.Extensions.Extensions.GetValues<eMuscleGroup>())
+                {
+                    if (group == eMuscleGroup.None)
+                        continue;
+
+                    if (!workoutData.ContainsKey(group))
+                        workoutData[group] = 0m;
+                }
+
                 data.MuscleGroupsTotalVolume = workoutData
+                    .Select(_ => new { Group = _.Key, Volume = _.Value })
+                    .OrderBy(_ => (int)_.Group)
                     .Select(_ => new MuscleGroupTotalVolumeDto
                     {
-                        Name = _.Key.ToString(),
-                        Volume = _.Value
+                        Name = _.Group.ToString(),
+                        Volume = _.Volume
                     })
                     .ToList();
             }

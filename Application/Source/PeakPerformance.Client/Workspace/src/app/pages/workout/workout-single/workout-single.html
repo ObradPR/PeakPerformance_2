@@ -2,7 +2,7 @@
     <div class="info-wrapper d-flex justify-content-between align-items-center">
         <div class="left">
             @if (workout()?.previousWorkoutId) {
-                <span (click)="onGetWorkout(1)">
+                <span (click)="onGetOtherWorkout(1)">
                     <i class="fa-solid fa-arrow-left"></i> Previous
                 </span>
             }
@@ -14,7 +14,7 @@
         </div>
         <div class="right">
             @if (workout()?.nextWorkoutId) {
-                <span (click)="onGetWorkout(2)">
+                <span (click)="onGetOtherWorkout(2)">
                     Next <i class="fa-solid fa-arrow-right"></i>
                 </span>
             }
@@ -43,6 +43,14 @@
                         <i class="fa-solid fa-arrow-rotate-left"></i> Mark Incomplete
                     </button>
                 </div>
+            </div>
+
+            <div class="p-4 d-flex justify-content-between">
+
+                <div class="col-3" style="display: block;">
+                    <canvas id="workout-radar-chart"></canvas>
+                </div>
+
             </div>
         }
     }

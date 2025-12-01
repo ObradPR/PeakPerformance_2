@@ -239,8 +239,7 @@ export class Bodyweight implements OnDestroy {
   }
 
   private chartInit() {
-    if (this.chart)
-      this.destroyChart();
+    this.destroyChart();
 
     const today = DateTime.local().startOf('day');
     const startDate = (this.selectedTimespan !== eChartTimespan.AllTime
