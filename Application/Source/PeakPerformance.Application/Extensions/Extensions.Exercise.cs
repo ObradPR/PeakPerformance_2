@@ -5,8 +5,6 @@ namespace PeakPerformance.Application.Extensions;
 
 public static partial class Extensions
 {
-    private static readonly string[] bodyweightEquipmentMap = ["body weight", "resistance band", "band", "bosu ball", "stability ball", "roller", "wheel roller", "assisted"];
-
     public static (bool IsCardio, bool IsBodyweight, bool IsStrength) Classify(this WorkoutExerciseDto exercise)
     {
         var equipment = exercise?.EquipmentName?.ToLower() ?? string.Empty;
@@ -17,7 +15,7 @@ public static partial class Extensions
             return (true, false, false);
         }
 
-        if (bodyweightEquipmentMap.Contains(equipment))
+        if (ExerciseDbApiMap.BodyweightEquipments.Contains(equipment))
         {
             return (false, true, false);
         }

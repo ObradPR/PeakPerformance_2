@@ -1,6 +1,6 @@
 ﻿namespace PeakPerformance.Domain.ExerciseDbApiMap;
 
-public static class ExerciseDbApiMap
+public static partial class ExerciseDbApiMap
 {
     public static readonly Dictionary<string, eMuscleGroup> MuscleGroups = new()
     {
