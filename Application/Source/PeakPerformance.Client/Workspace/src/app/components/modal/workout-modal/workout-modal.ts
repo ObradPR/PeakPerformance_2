@@ -10,6 +10,7 @@ import { LoaderService } from '../../../services/loader.service';
 import { ModalService } from '../../../services/modal.service';
 import { SharedService } from '../../../services/shared.service';
 import { IModalMethods } from '../interfaces/modal-methods.interface';
+import { WorkoutService } from '../../../services/workout.service';
 
 @Component({
   selector: 'app-workout-modal',
@@ -38,6 +39,7 @@ export class WorkoutModal extends BaseValidationComponent implements IModalMetho
     public modalService: ModalService,
     private loaderService: LoaderService,
     private sharedService: SharedService,
+    private workoutService: WorkoutService,
   ) {
     super();
     this.modalType = this.modalService.workoutModalTypeSignal() === 'add' ? 'Add' : 'Edit';
@@ -101,7 +103,10 @@ export class WorkoutModal extends BaseValidationComponent implements IModalMetho
           this.modalService.hideWorkoutModal();
           // Don't change this to refreshWorkout we need the routing in this case
           this.router.navigateByUrl('/', { skipLocationChange: true })
-            .then(() => this.router.navigateByUrl(`/workouts/${_.data}`));
+            .then(() => {
+              this.workoutService.resetWorkoutLogs();
+              this.router.navigateByUrl(`/workouts/${_.data}`);
+            });
         }
       })
       .catch(ex => this.setErrors(ex))
