@@ -35,6 +35,10 @@ export class SetModal extends BaseValidationComponent implements IModalMethods, 
   rpes: IEnumProvider[];
   types: IEnumProvider[];
 
+  hasRpe: boolean;
+  hasNotes: boolean;
+  hasRest: boolean;
+
   constructor(
     private fb: FormBuilder,
 
@@ -59,6 +63,10 @@ export class SetModal extends BaseValidationComponent implements IModalMethods, 
 
     if (this.modalService.setModalTypeSignal() === 'add')
       this.previousSetFormValues = this.modalService.previousSetSignal();
+
+    this.hasRpe = !!this.selectedSet?.rpeTypeId;
+    this.hasNotes = !!this.selectedSet?.notes;
+    this.hasRest = !!this.selectedSet?.rest;
   }
 
   ngOnInit(): void {
@@ -112,5 +120,9 @@ export class SetModal extends BaseValidationComponent implements IModalMethods, 
       .finally(() => {
         this.loaderService.hidePageLoader();
       });
+  }
+
+  removeValue(formField: string) {
+    this.form.get(formField)?.setValue(null);
   }
 }

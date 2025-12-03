@@ -9,8 +9,8 @@
         <form [formGroup]="form">
             @if (selectedExercise?.isCardio) {
                 <div class="position-relative">
-                    <label for="duration">duration</label>
-                    <div class="input-group mb-3" validation [key]="'Duration'" [errors]="errors">
+                    <label for="duration">Duration</label>
+                    <div class="input-group mb-2" validation [key]="'Duration'" [errors]="errors">
                         <input type="number" class="form-control" id="duration" [placeholder]="previousSet?.durationMinutes ?? 'minutes'" aria-label="duration" aria-describedby="duration-addon" formControlName="durationMinutes" />
                         <span class="input-group-text input-addon-static" id="duration-addon">min</span>
                     </div>
@@ -19,7 +19,7 @@
             @if (selectedExercise?.isStrength) {
                 <div class="position-relative">
                     <label for="weight">Weight</label>
-                    <div class="input-group mb-3" validation [key]="'Weight'" [errors]="errors">
+                    <div class="input-group mb-2" validation [key]="'Weight'" [errors]="errors">
                         <input type="number" class="form-control" id="weight" [placeholder]="previousSet?.weight ?? 0" aria-label="weight" aria-describedby="weight-addon" formControlName="weight" />
                         <span class="input-group-text input-addon-static" id="weight-addon">{{ userWeightPreference | measurementUnitDescription }}</span>
                     </div>
@@ -32,19 +32,7 @@
                         <input type="number" class="form-control" id="reps" [placeholder]="previousSet?.reps ?? 1" aria-label="reps" aria-describedby="reps-addon" formControlName="reps" />
                     </div>
                 </div>
-                <div class="position-relative">
-                    <label for="rpeTypeId">RPE</label>
-                    <select id="rpeTypeId" class="form-select mb-3" formControlName="rpeTypeId" validation [key]="'Rpe'" [errors]="errors">
-                        @for (rpe of rpes; track rpe) {
-                            @if (rpe.id === 0) {
-                                <option [ngValue]="rpe.id">{{ rpe.description }}</option>
-                            }
-                            @else {
-                                <option [ngValue]="rpe.id">{{ rpe.id + ' - ' + rpe.description }}</option>
-                            }
-                        }
-                    </select>
-                </div>
+
                 <div class="position-relative">
                     <label for="typeId">Type</label>
                     <select id="typeId" class="form-select mb-3" formControlName="typeId" validation [key]="'Type'" [errors]="errors">
@@ -62,18 +50,70 @@
                     </div>
                 </div>
             }
-            <div class="position-relative">
-                <label for="notes">Notes</label>
-                <div class="input-group mb-3" validation [key]="'Notes'" [errors]="errors">
-                    <textarea class="form-control" id="notes" aria-label="notes" aria-describedby="notes-addon" formControlName="notes" rows="3"></textarea>
+            @if (!selectedExercise?.isCardio && hasRpe) {
+                <div class="d-flex align-items-center removable-field-container">
+                    <div class="position-relative removable-field">
+                        <label for="rpeTypeId">RPE</label>
+                        <select id="rpeTypeId" class="form-select mb-2" formControlName="rpeTypeId" validation [key]="'Rpe'" [errors]="errors">
+                            @for (rpe of rpes; track rpe) {
+                                @if (rpe.id === 0) {
+                                    <option [ngValue]="rpe.id">{{ rpe.description }}</option>
+                                }
+                                @else {
+                                    <option [ngValue]="rpe.id">{{ rpe.id + ' - ' + rpe.description }}</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                    <div class="remove-mark">
+                        <i class="fa-solid fa-circle-xmark" (click)="hasRpe = false; removeValue('rpeTypeId')"></i>
+                    </div>
+                </div>  
+            }
+            @if (hasNotes) {
+                <div class="d-flex align-items-center removable-field-container">
+                    <div class="position-relative removable-field">
+                        <label for="notes">Notes</label>
+                        <div class="input-group mb-2" validation [key]="'Notes'" [errors]="errors">
+                            <textarea class="form-control" id="notes" aria-label="notes" aria-describedby="notes-addon" formControlName="notes" rows="3"></textarea>
+                        </div>
+                    </div>
+                    <div class="remove-mark">
+                        <i class="fa-solid fa-circle-xmark" (click)="hasNotes = false; removeValue('notes')"></i>
+                    </div>
                 </div>
-            </div>
-            <div class="position-relative">
-                <label for="rest">Rest</label>
-                <div class="input-group mb-3" validation [key]="'rest'" [errors]="errors">
-                    <input type="number" class="form-control" id="rest" [placeholder]="previousSet?.rest ?? 'seconds'" aria-label="rest" aria-describedby="rest-addon" formControlName="rest" />
-                    <span class="input-group-text input-addon-static" id="rest-addon">sec</span>
+            }
+            @if (hasRest) {
+                <div class="d-flex align-items-center removable-field-container">
+                    <div class="position-relative removable-field">
+                        <label for="rest">Rest</label>
+                        <div class="input-group mb-2" validation [key]="'rest'" [errors]="errors">
+                            <input type="number" class="form-control" id="rest" [placeholder]="previousSet?.rest ?? 'seconds'" aria-label="rest" aria-describedby="rest-addon" formControlName="rest" />
+                            <span class="input-group-text input-addon-static" id="rest-addon">sec</span>
+                        </div>
+                    </div>
+                    <div class="remove-mark">
+                        <i class="fa-solid fa-circle-xmark" (click)="hasRest = false; removeValue('rest')"></i>
+                    </div>
                 </div>
+            }
+
+            <div class="d-flex justify-content-start gap-2">
+                @if (!selectedExercise?.isCardio && !hasRpe) {
+                    <button class="btn btn-light btn-sm" (click)="hasRpe = true">
+                        <i class="fa-solid fa-square-plus"></i> RPE
+                    </button>
+                }
+                @if (!hasNotes) {
+                    <button class="btn btn-light btn-sm" (click)="hasNotes = true">
+                        <i class="fa-solid fa-square-plus"></i> Notes
+                    </button>
+                }
+                @if (!hasRest) {
+                    <button class="btn btn-light btn-sm" (click)="hasRest = true">
+                        <i class="fa-solid fa-square-plus"></i> Rest
+                    </button>
+                }
             </div>
         </form>
     </div>

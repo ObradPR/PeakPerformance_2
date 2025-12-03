@@ -1,0 +1,19 @@
+.removable-field {
+    width: 90%;
+}
+
+.removable-field-container i {
+  font-size: 1em;
+  cursor: pointer;
+  color: #a3a3a3;
+}
+.removable-field-container i:hover {
+  color: #6c757d;
+}
+
+.remove-mark {
+    width: 10%;
+    text-align: end;
+    position: relative;
+    top: 8px;
+}
