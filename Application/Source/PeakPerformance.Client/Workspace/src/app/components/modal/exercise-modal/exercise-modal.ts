@@ -88,11 +88,14 @@ export class ExerciseModal implements IModalMethods, OnInit {
       )
       .subscribe(value => {
         this.apiSearch = value;
-        this.getExercises(value);
+        this.apiOffset = 0;
+        this.getExercises(value, this.apiOffset);
       })
   }
 
   getExercises(search = this.apiSearch, offset = this.apiOffset, limit = this.apiLimit) {
+    this.apiOffset = offset;
+
     const params: any = {
       offset: offset,
       limit: limit,
