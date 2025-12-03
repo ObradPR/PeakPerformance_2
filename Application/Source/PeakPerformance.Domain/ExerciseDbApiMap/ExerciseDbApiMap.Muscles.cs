@@ -76,9 +76,9 @@ public enum eMuscleGroup
     None = 0,
 
     Back = 1 << 0,
-    Chest = 1 << 1,
-    Core = 1 << 2,
+    Arms = 1 << 1,
+    Chest = 1 << 2,
     Shoulders = 1 << 3,
-    Arms = 1 << 4,
-    Legs = 1 << 5,
+    Legs = 1 << 4,
+    Core = 1 << 5,
 }
