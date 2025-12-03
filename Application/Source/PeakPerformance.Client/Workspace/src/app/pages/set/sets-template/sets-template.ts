@@ -50,7 +50,7 @@ export class SetsTemplate {
   editSet(set: IWorkoutExerciseSetDto, exercise: IWorkoutExerciseDto) {
     if (this.editable()) {
       this.selectedSetMenu = null;
-      this.modalService.showEditSetModal(set, exercise);
+      this.modalService.showEditSetModal(exercise?.sets?.[exercise.sets.findIndex(_ => _.id === set.id) - 1] ?? null, set, exercise);
     }
   }
   deleteSet(id: number) {

@@ -28,6 +28,7 @@ export class SetModal extends BaseValidationComponent implements IModalMethods, 
   userWeightPreference: eMeasurementUnit | undefined;
   selectedSet: IWorkoutExerciseSetDto | null = null;
   previousSet: IWorkoutExerciseSetDto | null = null;
+  previousSetFormValues: IWorkoutExerciseSetDto | null = null;
   selectedExercise: IWorkoutExerciseDto | null = null;
   modalType: string;
 
@@ -55,6 +56,9 @@ export class SetModal extends BaseValidationComponent implements IModalMethods, 
     this.userWeightPreference = this.authService.currentUserSource()?.weightUnitId;
     this.rpes = this.providers.getSetRpeTypes();
     this.types = this.providers.getSetTypes();
+
+    if (this.modalService.setModalTypeSignal() === 'add')
+      this.previousSetFormValues = this.modalService.previousSetSignal();
   }
 
   ngOnInit(): void {
@@ -67,18 +71,18 @@ export class SetModal extends BaseValidationComponent implements IModalMethods, 
 
   formInit(): void {
     this.form = this.fb.group({
-      weight: [parseFloat(this.mesasurementConverterPipe.transform((this.previousSet?.weight ?? this.selectedSet?.weight), (this.previousSet?.weightUnitId ?? this.selectedSet?.weightUnitId)))
+      weight: [parseFloat(this.mesasurementConverterPipe.transform((this.previousSetFormValues?.weight ?? this.selectedSet?.weight), (this.previousSetFormValues?.weightUnitId ?? this.selectedSet?.weightUnitId)))
       ],
       weightUnitId: [this.userWeightPreference],
-      reps: [this.previousSet?.reps ?? this.selectedSet?.reps],
+      reps: [this.previousSetFormValues?.reps ?? this.selectedSet?.reps],
       sets: [],
-      rpeTypeId: [this.previousSet?.rpeTypeId ?? this.selectedSet?.rpeTypeId ?? eSetRpeType.NotSet],
-      typeId: [this.previousSet?.typeId ?? this.selectedSet?.typeId ?? eSetType.NotSet],
+      rpeTypeId: [this.previousSetFormValues?.rpeTypeId ?? this.selectedSet?.rpeTypeId ?? eSetRpeType.NotSet],
+      typeId: [this.previousSetFormValues?.typeId ?? this.selectedSet?.typeId ?? eSetType.NotSet],
       order: [this.selectedSet?.order ?? this.modalService.orderSignal()],
       workoutExerciseId: [this.selectedSet?.workoutExerciseId ?? this.modalService.selectedExerciseSignal()!.id],
-      notes: [this.previousSet?.notes ?? this.selectedSet?.notes],
-      rest: [this.previousSet?.rest ?? this.selectedSet?.rest],
-      durationMinutes: [this.previousSet?.durationMinutes ?? this.selectedSet?.durationMinutes]
+      notes: [this.previousSetFormValues?.notes ?? this.selectedSet?.notes],
+      rest: [this.previousSetFormValues?.rest ?? this.selectedSet?.rest],
+      durationMinutes: [this.previousSetFormValues?.durationMinutes ?? this.selectedSet?.durationMinutes]
     });
   }
 
