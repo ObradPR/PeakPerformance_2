@@ -55,7 +55,7 @@ public class SaveWorkoutCommand(WorkoutDto data) : IRequest<ResponseWrapper<long
             if (model.Bodyweight == null)
             {
                 var latestBodyweightLog = await db.Bodyweights
-                    .Where(_ => _.UserId == identityUser.Id)
+                    .Where(_ => _.UserId == identityUser.Id && _.LogDate <= model.LogDate)
                     .OrderByDescending(_ => _.LogDate)
                     .Select(_ => new { _.Value, _.WeightUnitId })
                     .FirstOrDefaultAsync(cancellationToken);
