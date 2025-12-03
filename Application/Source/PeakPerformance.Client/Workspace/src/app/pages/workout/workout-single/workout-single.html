@@ -45,12 +45,51 @@
                 </div>
             </div>
 
-            <div class="p-4 d-flex justify-content-between">
+            <div class="col-12 col-xl-7 mx-auto mt-5">
+                <h3 class="text-center">Stats</h3>
+                <div class="p-4 d-flex justify-content-between">
+    
+                    <div class="col-5" style="display: block;">
+                        <canvas id="workout-radar-chart"></canvas>
+                    </div>
 
-                <div class="col-3" style="display: block;">
-                    <canvas id="workout-radar-chart"></canvas>
+                    <div class="border-start"></div>
+
+                    <div class="col-5 my-auto">
+                        <div class="d-sm-flex">
+                            <div class="col-12 col-sm-5 p-0">
+                                <app-workout-info-stats 
+                                    [label]="'Sets'"
+                                    [value]="workout()?.total?.sets!"
+                                    [diff]="workout()?.previousWorkoutTotal?.setsDiff!"/>
+                            </div>
+
+                            <div class="col-12 col-sm-5 p-0 ms-sm-3 mt-3 mt-sm-0">
+                                <app-workout-info-stats 
+                                    [label]="'Reps'"
+                                    [value]="workout()?.total?.reps!"
+                                    [diff]="workout()?.previousWorkoutTotal?.repsDiff!"/>
+                            </div>
+                        </div>
+
+                        <div class="d-sm-flex mt-3">
+                            <div class="col-12 col-sm-5 p-0">
+                               <app-workout-info-stats 
+                                    [label]="'Volume'"
+                                    [value]="workout()?.total?.volume!"
+                                    [diff]="workout()?.previousWorkoutTotal?.volumeDiff!"/>
+                            </div>
+   
+                            <div class="col-12 col-sm-5 p-0 ms-sm-3 mt-3 mt-sm-0">
+                               <app-workout-info-stats 
+                                    [label]="'Cardio'"
+                                    [value]="workout()?.total?.cardioTime!"
+                                    [diff]="workout()?.previousWorkoutTotal?.cardioTimeDiff!"/>
+                            </div>
+                        </div>
+                    </div>
+    
                 </div>
-
             </div>
         }
     }

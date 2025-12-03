@@ -1,0 +1,14 @@
+.workout-info-stats {
+    padding: 1rem;
+    border-radius: 5px;
+    border: 1px solid var(--bs-border-color);
+}
+.workout-info-stats small.neutral {
+    opacity: .5;
+}
+.workout-info-stats small.success {
+    color: var(--bs-teal);
+}
+.workout-info-stats small.fail {
+    color: var(--bs-danger);
+}

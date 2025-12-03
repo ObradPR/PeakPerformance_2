@@ -1,13 +1,14 @@
 import { DatePipe } from '@angular/common';
-import { AfterViewInit, Component, OnInit, Signal } from '@angular/core';
+import { AfterViewInit, Component, effect, OnInit, Signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import Chart from 'chart.js/auto';
 import { IWorkoutDto } from '../../../_generated/interfaces';
-import { ModalService } from '../../../services/modal.service';
-import { WorkoutService } from '../../../services/workout.service';
-import { WorkoutTemplate } from "../workout-template/workout-template";
 import { WorkoutController } from '../../../_generated/services';
 import { LoaderService } from '../../../services/loader.service';
-import Chart from 'chart.js/auto';
+import { ModalService } from '../../../services/modal.service';
+import { WorkoutService } from '../../../services/workout.service';
+import { WorkoutInfoStats } from "../workout-info-stats/workout-info-stats";
+import { WorkoutTemplate } from "../workout-template/workout-template";
 
 enum eOtherWorkoutDirection {
   Previous = 1,
@@ -15,7 +16,7 @@ enum eOtherWorkoutDirection {
 }
 @Component({
   selector: 'app-workout-single',
-  imports: [WorkoutTemplate, DatePipe],
+  imports: [WorkoutTemplate, DatePipe, WorkoutInfoStats],
   templateUrl: './workout-single.html',
   styleUrl: './workout-single.css'
 })
@@ -72,7 +73,13 @@ export class WorkoutSingle implements OnInit, AfterViewInit {
     this.workoutController.UpdateCompleteStatus(this.workout()!.id).toPromise()
       .then(_ => {
         if (_?.isSuccess) {
-          this.workoutService.refreshWorkout(this.workout()!.id);
+          this.workoutService.refreshWorkout(this.workout()!.id)
+            .then(_ => {
+              setTimeout(() => {
+                if (this.workout()!.isCompleted)
+                  this.chartInit();
+              }, 0);
+            });
         }
       })
       .finally(() => this.loaderService.hidePageLoader());

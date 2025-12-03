@@ -243,6 +243,7 @@ export interface IWorkoutDto
 	previousWorkoutId?: number;
 	nextWorkoutId?: number;
 	muscleGroupsTotalVolume: IMuscleGroupTotalVolumeDto[];
+	previousWorkoutTotal: ITotalDto;
 }
 export interface IWorkoutLogDto
 {

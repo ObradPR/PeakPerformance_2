@@ -1,0 +1,8 @@
+<div class="workout-info-stats">
+    <p class="mb-0">{{ label() }}</p>
+    <p class="mb-0 fw-bold">{{ value() }}</p>
+    <small [ngClass]="textClass">
+        <i class="fa-solid" [ngClass]="iconClass"></i>
+        {{ ' ' + diff() }}
+    </small>
+</div>

@@ -142,6 +142,61 @@ public class GetSingleWorkoutQuery(long id) : IRequest<ResponseWrapper<WorkoutDt
                         Volume = _.Volume
                     })
                     .ToList();
+
+                // the previous data for stats
+
+                if (data.PreviousWorkoutId.IsNotNullOrEmpty())
+                {
+                    var previousWorkout = await db.Workouts
+                        .Include(_ => _.WorkoutExercises)
+                           .ThenInclude(_ => _.WorkoutExerciseSets)
+                        .Include(_ => _.WorkoutExercises)
+                            .ThenInclude(_ => _.Exercise)
+                        .Where(_ => _.LogDate <= model.LogDate)
+                        .OrderByDescending(_ => _.LogDate)
+                            .ThenByDescending(_ => _.Id)
+                        .FirstOrDefaultAsync(_ => _.Id == data.PreviousWorkoutId, cancellationToken);
+
+                    var previousData = mapper.Map<WorkoutDto>(previousWorkout);
+
+                    var previousSets = previousData.Exercises.SelectMany(e => e.Sets).ToList();
+                    var previousWorkingSets = previousSets.Where(s => s.TypeId != eSetType.Warmup).ToList();
+
+                    var previousStrengthSets = previousData.Exercises
+                        .Where(_ => _.IsStrength == true)
+                        .SelectMany(_ => _.Sets)
+                        .Where(_ => _.TypeId != eSetType.Warmup);
+
+                    var previousBodyweightSets = previousData.Exercises
+                        .Where(_ => _.IsBodyweight == true)
+                        .SelectMany(_ => _.Sets)
+                        .Where(_ => _.TypeId != eSetType.Warmup);
+
+                    var previousCardioSets = previousData.Exercises
+                        .Where(_ => _.IsCardio == true)
+                        .SelectMany(_ => _.Sets)
+                        .Where(_ => _.TypeId != eSetType.Warmup);
+
+                    var previousTotalReps = previousWorkingSets.Sum(s => s.Reps);
+                    var previousTotalSets = previousWorkingSets.Count;
+
+                    var previousStrengthVolume = previousStrengthSets.Sum(_ => _.Reps * _.Weight.Value.ConvertUnitValue(_.WeightUnitId.Value, userMeasurementUnitId));
+
+                    var previousBodyweightVolume = (previousData.Bodyweight != null)
+                        ? previousBodyweightSets.Sum(_ =>
+                            _.Reps * previousData.Bodyweight.Value.ConvertUnitValue(previousData.BodyweightUnitId.Value, userMeasurementUnitId))
+                        : 0;
+
+                    var previousCardioTime = previousCardioSets.Sum(s => s.DurationMinutes ?? 0);
+
+                    data.PreviousWorkoutTotal = new()
+                    {
+                        RepsDiff = data.Total.Reps - previousTotalReps,
+                        SetsDiff = data.Total.Sets - previousTotalSets,
+                        VolumeDiff = data.Total.Volume - (previousStrengthVolume + previousBodyweightVolume),
+                        CardioTimeDiff = data.Total.CardioTime - previousCardioTime,
+                    };
+                }
             }
 
             return new(data);

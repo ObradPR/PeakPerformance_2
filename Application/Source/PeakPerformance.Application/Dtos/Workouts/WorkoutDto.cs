@@ -41,6 +41,8 @@ public class WorkoutDto
 
     public List<MuscleGroupTotalVolumeDto> MuscleGroupsTotalVolume { get; set; }
 
+    public TotalDto PreviousWorkoutTotal { get; set; }
+
     // methods
 
     public void ToModel(Workout model, long userId)
