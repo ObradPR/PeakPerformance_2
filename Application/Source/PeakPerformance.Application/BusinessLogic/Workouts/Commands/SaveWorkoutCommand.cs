@@ -34,8 +34,8 @@ public class SaveWorkoutCommand(WorkoutDto data) : IRequest<ResponseWrapper<long
                     model.WorkoutExercises = copyWorkout.WorkoutExercises.Select(_ => new WorkoutExercise
                     {
                         ExerciseId = _.ExerciseId,
-                        // #TODO: Order of exericse will be added later
                         Notes = _.Notes,
+                        Order = _.Order,
                         WorkoutExerciseSets = _.WorkoutExerciseSets.Select(_ => new WorkoutExerciseSet
                         {
                             Weight = _.Weight,
@@ -44,8 +44,8 @@ public class SaveWorkoutCommand(WorkoutDto data) : IRequest<ResponseWrapper<long
                             RpeTypeId = _.RpeTypeId,
                             TypeId = _.TypeId,
                             Rest = _.Rest,
-                            Notes = _.Notes
-                            // #TODO: Order of sets will be added later
+                            Notes = _.Notes,
+                            Order = _.Order,
                         }).ToList()
                     }).ToList();
                 }
