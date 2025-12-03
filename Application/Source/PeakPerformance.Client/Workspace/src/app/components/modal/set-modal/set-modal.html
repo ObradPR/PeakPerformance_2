@@ -11,7 +11,7 @@
                 <div class="position-relative">
                     <label for="duration">duration</label>
                     <div class="input-group mb-3" validation [key]="'Duration'" [errors]="errors">
-                        <input type="number" class="form-control" id="duration" placeholder="minutes" aria-label="duration" aria-describedby="duration-addon" formControlName="durationMinutes" />
+                        <input type="number" class="form-control" id="duration" [placeholder]="previousSet?.durationMinutes ?? 'minutes'" aria-label="duration" aria-describedby="duration-addon" formControlName="durationMinutes" />
                         <span class="input-group-text input-addon-static" id="duration-addon">min</span>
                     </div>
                 </div>
@@ -20,7 +20,7 @@
                 <div class="position-relative">
                     <label for="weight">Weight</label>
                     <div class="input-group mb-3" validation [key]="'Weight'" [errors]="errors">
-                        <input type="number" class="form-control" id="weight" placeholder="0" aria-label="weight" aria-describedby="weight-addon" formControlName="weight" />
+                        <input type="number" class="form-control" id="weight" [placeholder]="previousSet?.weight ?? 0" aria-label="weight" aria-describedby="weight-addon" formControlName="weight" />
                         <span class="input-group-text input-addon-static" id="weight-addon">{{ userWeightPreference | measurementUnitDescription }}</span>
                     </div>
                 </div>
@@ -29,7 +29,7 @@
                 <div class="position-relative">
                     <label for="reps">Reps</label>
                     <div class="input-group mb-2" validation [key]="'Reps'" [errors]="errors">
-                        <input type="number" class="form-control" id="reps" placeholder="1" aria-label="reps" aria-describedby="reps-addon" formControlName="reps" />
+                        <input type="number" class="form-control" id="reps" [placeholder]="previousSet?.reps ?? 1" aria-label="reps" aria-describedby="reps-addon" formControlName="reps" />
                     </div>
                 </div>
                 <div class="position-relative">
@@ -71,7 +71,7 @@
             <div class="position-relative">
                 <label for="rest">Rest</label>
                 <div class="input-group mb-3" validation [key]="'rest'" [errors]="errors">
-                    <input type="number" class="form-control" id="rest" placeholder="seconds" aria-label="rest" aria-describedby="rest-addon" formControlName="rest" />
+                    <input type="number" class="form-control" id="rest" [placeholder]="previousSet?.rest ?? 'seconds'" aria-label="rest" aria-describedby="rest-addon" formControlName="rest" />
                     <span class="input-group-text input-addon-static" id="rest-addon">sec</span>
                 </div>
             </div>

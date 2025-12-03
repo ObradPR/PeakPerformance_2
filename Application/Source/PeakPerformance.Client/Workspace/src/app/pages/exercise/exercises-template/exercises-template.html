@@ -63,7 +63,7 @@
         @if (editable()) {
            <div class="row">
                <div class="mt-1 mb-3">
-                       <button class="btn btn-light" (click)="modalService.showAddSetModal(exercise, exercise.sets.length + 1)"><i class="fa-solid fa-plus"></i> Add Set</button>
+                       <button class="btn btn-light" (click)="modalService.showAddSetModal(exercise?.sets?.[exercise.sets.length - 1] ?? null ,exercise, exercise.sets.length + 1)"><i class="fa-solid fa-plus"></i> Add Set</button>
                </div>
            </div>
        }

@@ -207,16 +207,19 @@ export class ModalService {
   private setModal = signal<boolean>(false);
   private setModalType = signal<TModal | null>(null);
   private selectedSet = signal<IWorkoutExerciseSetDto | null>(null);
+  private previousSet = signal<IWorkoutExerciseSetDto | null>(null);
   private selectedExercise = signal<IWorkoutExerciseDto | null>(null);
 
   readonly setModalSignal = this.setModal.asReadonly();
   readonly setModalTypeSignal = this.setModalType.asReadonly();
   readonly selectedSetSignal = this.selectedSet.asReadonly();
+  readonly previousSetSignal = this.previousSet.asReadonly();
   readonly selectedExerciseSignal = this.selectedExercise.asReadonly();
 
-  showAddSetModal(exercise: IWorkoutExerciseDto, order: number) {
+  showAddSetModal(lastSet: IWorkoutExerciseSetDto | null, exercise: IWorkoutExerciseDto, order: number) {
     this.setModalType.set('add');
     this.order.set(order);
+    this.previousSet.set(lastSet);
     this.selectedExercise.set(exercise)
     this.setModal.set(true);
   }
@@ -232,6 +235,7 @@ export class ModalService {
     this.order.set(0);
     this.selectedExercise.set(null);
     this.selectedSet.set(null);
+    this.previousSet.set(null);
   }
 
   // Browse Workotus

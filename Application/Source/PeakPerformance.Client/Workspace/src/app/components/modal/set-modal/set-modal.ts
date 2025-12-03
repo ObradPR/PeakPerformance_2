@@ -27,6 +27,7 @@ export class SetModal extends BaseValidationComponent implements IModalMethods, 
 
   userWeightPreference: eMeasurementUnit | undefined;
   selectedSet: IWorkoutExerciseSetDto | null = null;
+  previousSet: IWorkoutExerciseSetDto | null = null;
   selectedExercise: IWorkoutExerciseDto | null = null;
   modalType: string;
 
@@ -49,6 +50,7 @@ export class SetModal extends BaseValidationComponent implements IModalMethods, 
     super();
     this.modalType = this.modalService.setModalTypeSignal() === 'add' ? 'Add' : 'Edit';
     this.selectedSet = this.modalService.selectedSetSignal();
+    this.previousSet = this.modalService.previousSetSignal();
     this.selectedExercise = this.modalService.selectedExerciseSignal();
     this.userWeightPreference = this.authService.currentUserSource()?.weightUnitId;
     this.rpes = this.providers.getSetRpeTypes();
@@ -65,18 +67,18 @@ export class SetModal extends BaseValidationComponent implements IModalMethods, 
 
   formInit(): void {
     this.form = this.fb.group({
-      weight: [parseFloat(this.mesasurementConverterPipe.transform(this.selectedSet?.weight, this.selectedSet?.weightUnitId))
+      weight: [parseFloat(this.mesasurementConverterPipe.transform((this.previousSet?.weight ?? this.selectedSet?.weight), (this.previousSet?.weightUnitId ?? this.selectedSet?.weightUnitId)))
       ],
       weightUnitId: [this.userWeightPreference],
-      reps: [this.selectedSet?.reps],
+      reps: [this.previousSet?.reps ?? this.selectedSet?.reps],
       sets: [],
-      rpeTypeId: [this.selectedSet?.rpeTypeId ?? eSetRpeType.NotSet],
-      typeId: [this.selectedSet?.typeId ?? eSetType.NotSet],
+      rpeTypeId: [this.previousSet?.rpeTypeId ?? this.selectedSet?.rpeTypeId ?? eSetRpeType.NotSet],
+      typeId: [this.previousSet?.typeId ?? this.selectedSet?.typeId ?? eSetType.NotSet],
       order: [this.selectedSet?.order ?? this.modalService.orderSignal()],
       workoutExerciseId: [this.selectedSet?.workoutExerciseId ?? this.modalService.selectedExerciseSignal()!.id],
-      notes: [this.selectedSet?.notes],
-      rest: [this.selectedSet?.rest],
-      durationMinutes: [this.selectedSet?.durationMinutes]
+      notes: [this.previousSet?.notes ?? this.selectedSet?.notes],
+      rest: [this.previousSet?.rest ?? this.selectedSet?.rest],
+      durationMinutes: [this.previousSet?.durationMinutes ?? this.selectedSet?.durationMinutes]
     });
   }
 
