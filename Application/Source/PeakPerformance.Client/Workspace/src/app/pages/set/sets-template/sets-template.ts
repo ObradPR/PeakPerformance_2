@@ -1,4 +1,4 @@
-import { LowerCasePipe, NgStyle } from '@angular/common';
+import { NgStyle } from '@angular/common';
 import { Component, input } from '@angular/core';
 import { eSetRpeType, eSetType } from '../../../_generated/enums';
 import { IEnumProvider, IWorkoutExerciseDto, IWorkoutExerciseSetDto } from '../../../_generated/interfaces';
@@ -13,7 +13,7 @@ import { eOrderMove } from '../../exercise/exercises-template/exercises-template
 
 @Component({
   selector: 'app-sets-template',
-  imports: [NgStyle, LowerCasePipe, MeasurementConverterPipe, ClickOutsideDirective],
+  imports: [NgStyle, MeasurementConverterPipe, ClickOutsideDirective],
   templateUrl: './sets-template.html',
   styleUrl: './sets-template.css'
 })
