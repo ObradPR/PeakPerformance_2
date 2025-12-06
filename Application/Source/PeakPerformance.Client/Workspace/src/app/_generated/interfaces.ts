@@ -119,11 +119,11 @@ export interface IExerciseStatsDto
 	isStrength?: boolean;
 	bodyweight?: number;
 	bodyweightUnitId?: eMeasurementUnit;
+	logDate: Date;
 	total: IExerciseTotalDto;
 }
 export interface IExerciseTotalDto
 {
-	logDate: Date;
 	oneRepMax?: number;
 	maxWeight?: number;
 	totalReps?: number;

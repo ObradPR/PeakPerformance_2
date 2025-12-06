@@ -22,7 +22,7 @@
                 <div class="d-flex justify-content-between align-items-center ms-3 chip" (click)="openExerciseReportPage(exercise.id)">
                     <small class="clickable">{{ exercise.name | titlecase }}</small>
                     <div class="remove-mark d-flex justify-content-center align-items-center">
-                        <i class="fa-solid fa-circle-xmark" (click)="exerciseService.removeExerciseForComparison(exercise.id)"></i>
+                        <i class="fa-solid fa-circle-xmark" (click)="exerciseService.removeExerciseForComparison(exercise.id); $event.stopPropagation()"></i>
                     </div>
                 </div>
             }
@@ -36,5 +36,20 @@
         </div>
 
         <hr>
+
+        <div class="pt-2">
+            <div class="d-flex justify-content-start flex-nowrap align-items-center">
+                 <div>
+                    <select id="chart-timespan" class="form-select" [(ngModel)]="selectedTimespan" (change)="onTimespanChange()">
+                        @for (ts of chartTimespans; track ts) {
+                            <option [ngValue]="ts.id">{{ ts.description }}</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <div style="display: block;">
+                <canvas id="exercises-line-chart"></canvas>
+            </div>
+        </div>
     </div>
 </div>

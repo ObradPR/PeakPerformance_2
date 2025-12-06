@@ -16,5 +16,7 @@ public class ExerciseStatsDto
 
     public eMeasurementUnit? BodyweightUnitId { get; set; }
 
+    public DateTime LogDate { get; set; } // Workout log date
+
     public ExerciseTotalDto Total { get; set; }
 }

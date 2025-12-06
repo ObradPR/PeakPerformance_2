@@ -2,10 +2,6 @@
 
 public class ExerciseTotalDto
 {
-    // Workout log
-
-    public DateTime LogDate { get; set; }
-
     // totals
 
     public decimal? OneRepMax { get; set; }

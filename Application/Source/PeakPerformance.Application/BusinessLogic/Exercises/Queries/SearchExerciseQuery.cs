@@ -12,6 +12,9 @@ public class SearchExerciseQuery(ExerciseSearchOptions options) : IRequest<Respo
         {
             var options = request.Options;
 
+            if (options.ApiExerciseIds.IsNullOrEmpty())
+                return new();
+
             var userId = options.UserId ?? identityUser.Id;
 
             var predicates = new List<Expression<Func<WorkoutExercise, bool>>>();
@@ -100,10 +103,10 @@ public class SearchExerciseQuery(ExerciseSearchOptions options) : IRequest<Respo
                     IsStrength = exercise.Exercise.IsStrength,
                     Bodyweight = bodyweight,
                     BodyweightUnitId = bodyweightUnit,
+                    LogDate = exercise.Workout.LogDate,
+
                     Total = new()
                     {
-                        LogDate = exercise.Workout.LogDate,
-
                         OneRepMax = maxWeight.OneRepMaxByEpley(maxWeightSetReps),
                         MaxWeight = maxWeight,
                         TotalReps = totalReps,
