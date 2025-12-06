@@ -39,7 +39,14 @@
 
         <div class="pt-2">
             <div class="d-flex justify-content-start flex-nowrap align-items-center">
-                 <div>
+                <div>
+                    <select id="chart-timespan" class="form-select" [(ngModel)]="selectedChartData" (change)="onChartDataChange()">
+                        @for (d of exerciseService.exerciseChartData; track d) {
+                            <option [ngValue]="d.id">{{ d.name }}</option>
+                        }
+                    </select>
+                </div>
+                <div class="ms-3">
                     <select id="chart-timespan" class="form-select" [(ngModel)]="selectedTimespan" (change)="onTimespanChange()">
                         @for (ts of chartTimespans; track ts) {
                             <option [ngValue]="ts.id">{{ ts.description }}</option>
@@ -47,8 +54,8 @@
                     </select>
                 </div>
             </div>
-            <div style="display: block;">
-                <canvas id="exercises-line-chart"></canvas>
+            <div style="display: block; max-height: 40dvh; width: 100%;">
+                <canvas id="exercises-line-chart" style="width: 100% !important;"></canvas>
             </div>
         </div>
     </div>

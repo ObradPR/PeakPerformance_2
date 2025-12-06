@@ -3,7 +3,7 @@ import { Component, effect, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import Chart from 'chart.js/auto';
 import { ExerciseController } from '../../_generated/services';
-import { ExerciseService } from '../../services/exercise.service';
+import { eExerciseChartData, ExerciseService } from '../../services/exercise.service';
 import { ModalService } from '../../services/modal.service';
 import { IEnumProvider, IExerciseSearchOptions, IExerciseStatsDto } from '../../_generated/interfaces';
 import { eChartTimespan } from '../../_generated/enums';
@@ -28,6 +28,9 @@ export class Exercise implements OnDestroy {
   chartTimespans: IEnumProvider[] = [];
   selectedTimespan: number = eChartTimespan.Last6Months;
 
+  selectedChartData: number = eExerciseChartData.MaxWeight;
+  exerciseChartColors: string[] = ["#000080", "#ff8800ff", "#00b300ff", "#c00000ff", "#6529aaff"];
+
   constructor(
     private router: Router,
 
@@ -49,6 +52,7 @@ export class Exercise implements OnDestroy {
   // events
 
   onTimespanChange = () => this.getChartData();
+  onChartDataChange = () => this.getChartData();
 
   // methods
 
@@ -122,10 +126,11 @@ export class Exercise implements OnDestroy {
       },
       options: {
         responsive: true,
+        maintainAspectRatio: false,
         scales: {
           x: {
             ticks: {
-              maxTicksLimit: 8
+              maxTicksLimit: 30
             }
           },
           y: {
@@ -160,20 +165,24 @@ export class Exercise implements OnDestroy {
 
     const datasets: any[] = [];
 
+    let i = 0;
     for (const [id, group] of map) {
       const lookup = this.exercisesLookup[id] || {};
       const dataForChart = allDates.map(date => lookup[date] ?? null);
 
-      if (dataForChart.length > 0 && dataForChart.some(_ => _ !== null))
+      if (dataForChart.length > 0 && dataForChart.some(_ => _ !== null)) {
         datasets.push({
           label: group[0].name,
           data: dataForChart,
-          backgroundColor: '#111',
-          borderColor: '#111',
+          backgroundColor: this.exerciseChartColors[i],
+          borderColor: this.exerciseChartColors[i],
           borderWidth: 2,
           tension: 0.3,
           spanGaps: true
         });
+
+        i++;
+      }
     }
     return datasets;
   }
