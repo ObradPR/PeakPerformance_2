@@ -11,6 +11,7 @@ import { ModalService } from '../../../services/modal.service';
 import { WorkoutService } from '../../../services/workout.service';
 import { IModalMethods } from '../interfaces/modal-methods.interface';
 import { Router } from '@angular/router';
+import { ExerciseService } from '../../../services/exercise.service';
 
 @Component({
   selector: 'app-exercise-modal',
@@ -41,6 +42,7 @@ export class ExerciseModal implements IModalMethods, OnInit {
     private modalService: ModalService,
     private loaderService: LoaderService,
     private workoutService: WorkoutService,
+    private exerciseService: ExerciseService,
   ) { }
 
   // events
@@ -126,30 +128,37 @@ export class ExerciseModal implements IModalMethods, OnInit {
       this.modalService.hideExerciseModal();
       return;
     }
+    else if (this.modalService.isAddingExerciseForComparisonSignal()) {
+      this.exerciseService.addExerciseForComparison(exercise.exerciseId, exercise.name);
+      this.modalService.hideExerciseModal();
+      return;
+    }
+    else {
+      this.loaderService.showPageLoader();
 
-    this.loaderService.showPageLoader();
-
-    this.form.patchValue({
-      apiExerciseId: exercise.exerciseId,
-      name: exercise.name,
-      equipmentName: exercise.equipments[0],
-      bodyParts: exercise.bodyParts,
-      primaryMuscles: exercise.targetMuscles,
-      secondaryMuscles: exercise.secondaryMuscles,
-    });
-
-    this.exerciseController.Save(this.form.value).toPromise()
-      .then(_ => {
-        if (_?.isSuccess) {
-          this.workoutService.refreshWorkout(this.modalService.workoutIdSignal())
-            .then(_ => {
-              this.modalService.hideExerciseModal();
-            })
-        }
-      })
-      .catch(ex => console.log(ex))
-      .finally(() => {
-        this.loaderService.hidePageLoader()
+      this.form.patchValue({
+        apiExerciseId: exercise.exerciseId,
+        name: exercise.name,
+        equipmentName: exercise.equipments[0],
+        bodyParts: exercise.bodyParts,
+        primaryMuscles: exercise.targetMuscles,
+        secondaryMuscles: exercise.secondaryMuscles,
       });
+
+      this.exerciseController.Save(this.form.value).toPromise()
+        .then(_ => {
+          if (_?.isSuccess) {
+            this.workoutService.refreshWorkout(this.modalService.workoutIdSignal())
+              .then(_ => {
+                this.modalService.hideExerciseModal();
+              })
+          }
+        })
+        .catch(ex => console.log(ex))
+        .finally(() => {
+          this.loaderService.hidePageLoader()
+        });
+    }
+
   }
 }

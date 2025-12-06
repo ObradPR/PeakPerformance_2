@@ -12,4 +12,29 @@
             <button class="btn btn-primary" (click)="modalService.showExereciseReportModal()">Select Exercise <i class="fa-solid fa-angle-down"></i></button>
         </div>
     </div>
+
+    <div class="d-flex flex-column pt-5">
+        <h3>Exercise Comparison</h3>
+        <div class="d-flex justify-content-start align-items-center">
+            <p class="mb-0">Selected exercises ({{ exerciseService.selectedExerciseForComparisonSignal().length }}/5): </p>
+
+            @for (exercise of exerciseService.selectedExerciseForComparisonSignal(); track exercise) {
+                <div class="d-flex justify-content-between align-items-center ms-3 chip" (click)="openExerciseReportPage(exercise.id)">
+                    <small class="clickable">{{ exercise.name | titlecase }}</small>
+                    <div class="remove-mark d-flex justify-content-center align-items-center">
+                        <i class="fa-solid fa-circle-xmark" (click)="exerciseService.removeExerciseForComparison(exercise.id)"></i>
+                    </div>
+                </div>
+            }
+
+            @if (exerciseService.selectedExerciseForComparisonSignal().length < 5) {
+                <button class="btn btn-sm btn-light ms-3" (click)="modalService.showAddExerciseForComparisonModal()">
+                     <i class="fa-solid fa-square-plus"></i>
+                    Add Exercise
+                </button>
+            }
+        </div>
+
+        <hr>
+    </div>
 </div>

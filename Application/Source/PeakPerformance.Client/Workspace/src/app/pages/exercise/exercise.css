@@ -1,4 +1,22 @@
 .cover-img-exercises {
-  background-image: url('../../../assets/images/workouts.jpg');
-  background-position: center;
+    background-image: url('../../../assets/images/workouts.jpg');
+    background-position: center;
+}
+
+.chip {
+    background-color: var(--bs-light);
+    padding: 0.2rem 0.4rem;
+}
+
+.chip i {
+    font-size: 1em;
+    cursor: pointer;
+    color: #a3a3a3;
+}
+.chip i:hover {
+    color: #6c757d;
+}
+
+.remove-mark {
+    text-align: end;
 }
