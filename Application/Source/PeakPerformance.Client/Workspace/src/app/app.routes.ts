@@ -40,6 +40,11 @@ export const routes: Routes = [
                 resolve: {
                     workout: workoutResolver
                 }
+            },
+            {
+                path: RouteConstants.ROUTE_EXERCISES,
+                title: RouteConstants.TITLE_EXERCISES,
+                loadComponent: () => import('./pages/exercise/exercise').then(_ => _.Exercise)
             }
         ]
     },

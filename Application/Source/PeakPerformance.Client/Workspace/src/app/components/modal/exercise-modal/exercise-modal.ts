@@ -10,6 +10,7 @@ import { LoaderService } from '../../../services/loader.service';
 import { ModalService } from '../../../services/modal.service';
 import { WorkoutService } from '../../../services/workout.service';
 import { IModalMethods } from '../interfaces/modal-methods.interface';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-exercise-modal',
@@ -33,6 +34,7 @@ export class ExerciseModal implements IModalMethods, OnInit {
   constructor(
     private fb: FormBuilder,
     private http: HttpClient,
+    private router: Router,
 
     private exerciseController: ExerciseController,
 
@@ -119,6 +121,12 @@ export class ExerciseModal implements IModalMethods, OnInit {
   }
 
   selectExercise(exercise: IExerciseDbApiDataDto) {
+    if (this.modalService.isFromExercisesScreenSignal()) {
+      this.router.navigateByUrl(`/exercise/${exercise.exerciseId}`);
+      this.modalService.hideExerciseModal();
+      return;
+    }
+
     this.loaderService.showPageLoader();
 
     this.form.patchValue({
