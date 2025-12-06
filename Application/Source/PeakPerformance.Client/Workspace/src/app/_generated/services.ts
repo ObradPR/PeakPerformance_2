@@ -15,6 +15,8 @@ import { IBaseResponseWrapper } from './interfaces';
 import { IBodyweightGoalDto } from './interfaces';
 import { IBodyweightGoalSearchOptions } from './interfaces';
 import { ICountryDto } from './interfaces';
+import { IExerciseStatsDto } from './interfaces';
+import { IExerciseSearchOptions } from './interfaces';
 import { IWorkoutExerciseDto } from './interfaces';
 import { IMeasurementDto } from './interfaces';
 import { IMeasurementSearchOptions } from './interfaces';
@@ -199,6 +201,20 @@ import { IWorkoutSearchOptions } from './interfaces';
 }
 @Injectable({ providedIn: 'root' }) export class ExerciseController extends BaseController
 {
+	public Search(options: IExerciseSearchOptions) : Observable<IResponseWrapper<IPagingResult<IExerciseStatsDto>> | null>
+	{
+		const body = <any>options;
+		return this.httpClient.post<IResponseWrapper<IPagingResult<IExerciseStatsDto>>>(
+		this.settingsService.createApiUrl('Exercise/Search'),
+		body,
+		{
+			responseType: 'json',
+			observe: 'response',
+			withCredentials: true
+		})
+		.pipe(map(response => response.body));
+		
+	}
 	public Save(data: IWorkoutExerciseDto) : Observable<IBaseResponseWrapper | null>
 	{
 		const body = <any>data;

@@ -35,4 +35,9 @@ public static partial class Extensions
 
         return flags;
     }
+
+    public static decimal? OneRepMaxByEpley(this decimal? weight, int? reps)
+    {
+        return weight == null || reps == null ? null : weight * (1 + reps / 30);
+    }
 }

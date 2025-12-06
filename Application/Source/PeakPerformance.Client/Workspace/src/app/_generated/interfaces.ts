@@ -110,6 +110,27 @@ export interface IExerciseDbApiMetadataDto
 	previousPage: string;
 	nextPage: string;
 }
+export interface IExerciseStatsDto
+{
+	id: number;
+	name: string;
+	isCardio?: boolean;
+	isBodyweight?: boolean;
+	isStrength?: boolean;
+	bodyweight?: number;
+	bodyweightUnitId?: eMeasurementUnit;
+	total: IExerciseTotalDto;
+}
+export interface IExerciseTotalDto
+{
+	logDate: Date;
+	oneRepMax?: number;
+	maxWeight?: number;
+	totalReps?: number;
+	maxReps?: number;
+	volume?: number;
+	totalCardioTime?: number;
+}
 export interface IWorkoutExerciseDto
 {
 	id: number;
@@ -298,6 +319,12 @@ export interface IBodyweightGoalSearchOptions extends ISearchOptions
 	fromDate?: Date | null;
 	toDate?: Date | null;
 	chartTimespanId?: eChartTimespan;
+}
+export interface IExerciseSearchOptions extends ISearchOptions
+{
+	userId?: number;
+	chartTimespanId?: eChartTimespan;
+	apiExerciseIds: string[];
 }
 export interface IMeasurementGoalSearchOptions extends ISearchOptions
 {
