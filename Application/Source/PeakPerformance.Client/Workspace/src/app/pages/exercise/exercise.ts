@@ -52,7 +52,7 @@ export class Exercise implements OnDestroy {
   // events
 
   onTimespanChange = () => this.getChartData();
-  onChartDataChange = () => this.getChartData();
+  onChartDataChange = () => this.chartInit();
 
   // methods
 
@@ -114,7 +114,7 @@ export class Exercise implements OnDestroy {
     this.buildExercisesLookup();
     const datasets = this.getDatasets(allDates);
 
-    const values = this.chartData.map(_ => _.total.maxWeight!);
+    const values = this.chartData.map(_ => this.getValueForChart(_)).filter(_ => _ !== null);;
 
     Chart.register(ChartDataLabels);
 
@@ -135,7 +135,7 @@ export class Exercise implements OnDestroy {
           },
           y: {
             min: 0,
-            max: this.sharedService.roundToNearestTen(Math.round(Math.max(...values) + 20)),
+            max: this.sharedService.roundToNearestTen(Math.round(Math.max(...values) + (this.selectedChartData === eExerciseChartData.Volume ? 500 : 20))),
           },
         },
         plugins: {
@@ -180,9 +180,8 @@ export class Exercise implements OnDestroy {
           tension: 0.3,
           spanGaps: true
         });
-
-        i++;
       }
+      i++;
     }
     return datasets;
   }
@@ -198,7 +197,64 @@ export class Exercise implements OnDestroy {
       if (!this.exercisesLookup[e.id])
         this.exercisesLookup[e.id] = {};
 
-      this.exercisesLookup[e.id]![dateKey] = e.total.maxWeight!;
+      if (e.isStrength && this.exerciseService.allowedForStrength.includes(this.selectedChartData)) {
+        this.exercisesLookup[e.id]![dateKey] = this.getValue(e);
+        continue;
+      }
+
+      if (e.isBodyweight && this.exerciseService.allowedForBodyweight.includes(this.selectedChartData)) {
+        this.exercisesLookup[e.id]![dateKey] = this.getValue(e);
+        continue;
+      }
+
+      if (e.isCardio && this.exerciseService.allowedForCardio.includes(this.selectedChartData)) {
+        this.exercisesLookup[e.id]![dateKey] = this.getValue(e);
+        continue;
+      }
+    }
+  }
+
+  private getValue(e: IExerciseStatsDto): number {
+    switch (this.selectedChartData) {
+      case eExerciseChartData.OneRepMax:
+        return e.total.oneRepMax!;
+      case eExerciseChartData.MaxWeight:
+        return e.total.maxWeight!;
+      case eExerciseChartData.TotalReps:
+        return e.total.totalReps!;
+      case eExerciseChartData.MaxReps:
+        return e.total.maxReps!;
+      case eExerciseChartData.Volume:
+        return e.total.volume!;
+      case eExerciseChartData.TotalCardioTime:
+        return e.total.totalCardioTime!
+      default:
+        return 0;
+    }
+  }
+
+  private getValueForChart(e: IExerciseStatsDto): number | null {
+    switch (this.selectedChartData) {
+      case eExerciseChartData.OneRepMax:
+        return e.total.oneRepMax ?? null;
+
+      case eExerciseChartData.MaxWeight:
+        return e.total.maxWeight ?? null;
+
+      case eExerciseChartData.TotalReps:
+        return e.total.totalReps ?? null;
+
+      case eExerciseChartData.MaxReps:
+        return e.total.maxReps ?? null;
+
+      case eExerciseChartData.Volume:
+        return e.total.volume ?? null;
+
+      case eExerciseChartData.TotalCardioTime:
+        return e.total.totalCardioTime ?? null;
+
+      default:
+        return null;
     }
   }
 

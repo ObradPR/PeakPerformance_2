@@ -22,7 +22,22 @@ export class ExerciseService {
         { id: eExerciseChartData.MaxReps, name: 'Max Reps' },
         { id: eExerciseChartData.Volume, name: 'Volume' },
         { id: eExerciseChartData.TotalCardioTime, name: 'Total Cardio Time' },
-    ]
+    ];
+    allowedForStrength = [
+        eExerciseChartData.OneRepMax,
+        eExerciseChartData.MaxWeight,
+        eExerciseChartData.TotalReps,
+        eExerciseChartData.MaxReps,
+        eExerciseChartData.Volume,
+    ];
+    allowedForBodyweight = [
+        eExerciseChartData.TotalReps,
+        eExerciseChartData.MaxReps,
+        eExerciseChartData.Volume,
+    ];
+    allowedForCardio = [
+        eExerciseChartData.TotalCardioTime,
+    ];
 
     constructor(private storageService: StorageService) {
         this.setExercisesForComparison();
