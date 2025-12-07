@@ -20,3 +20,29 @@
 .remove-mark {
     text-align: end;
 }
+
+.custom-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  font-size: 14px;
+  user-select: none;
+}
+
+.legend-item .color-box {
+  width: 40px;
+  height: 15px;
+  margin-right: 6px;
+}
+
+.legend-item.hidden {
+  opacity: 0.5;
+  text-decoration: line-through;
+}

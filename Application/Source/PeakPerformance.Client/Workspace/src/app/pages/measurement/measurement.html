@@ -48,7 +48,7 @@
                 <div style="display: block;">
                     <canvas id="measurements-line-chart"></canvas>
                 </div>
-                <div class="custom-legend">
+                <div class="custom-legend mt-4">
                     @for (dataset of dataDatasets; track dataset; let idx = $index) {
                         <div class="legend-item" [class.hidden]="!dataset.visible" (click)="toggleDataset(idx)">
                             <span class="color-box" [style.backgroundColor]="dataset.borderColor"

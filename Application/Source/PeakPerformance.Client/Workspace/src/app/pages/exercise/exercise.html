@@ -57,6 +57,18 @@
             <div style="display: block; max-height: 40dvh; width: 100%;">
                 <canvas id="exercises-line-chart" style="width: 100% !important;"></canvas>
             </div>
+            <div class="custom-legend mt-4">
+                @for (dataset of dataDatasets; track dataset; let idx = $index) {
+                    <div class="legend-item" [class.hidden]="!dataset.visible" (click)="toggleDataset(idx)">
+                        <span class="color-box" [style.backgroundColor]="dataset.borderColor"
+                            [ngStyle]="{
+                                'backgroundColor': getTransparentColor(dataset.borderColor),
+                                'border': '3px solid' + dataset.borderColor
+                            }"></span>
+                        {{ dataset.label }}
+                    </div>
+                }
+            </div>
         </div>
     </div>
 </div>

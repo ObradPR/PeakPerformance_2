@@ -1,4 +1,4 @@
-import { TitleCasePipe } from '@angular/common';
+import { NgStyle, TitleCasePipe } from '@angular/common';
 import { Component, effect, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import Chart from 'chart.js/auto';
@@ -15,7 +15,7 @@ import ChartDataLabels from 'chartjs-plugin-datalabels';
 
 @Component({
   selector: 'app-exercise',
-  imports: [TitleCasePipe, FormsModule],
+  imports: [TitleCasePipe, FormsModule, NgStyle],
   templateUrl: './exercise.html',
   styleUrl: './exercise.css'
 })
@@ -29,7 +29,10 @@ export class Exercise implements OnDestroy {
   selectedTimespan: number = eChartTimespan.Last6Months;
 
   selectedChartData: number = eExerciseChartData.MaxWeight;
-  exerciseChartColors: string[] = ["#000080", "#ff8800ff", "#00b300ff", "#c00000ff", "#6529aaff"];
+  exerciseChartColors: string[] = ["#000080", "#ff8800ff", "#00b300ff", "#c00000ff", "#b17cecff"];
+
+  dataDatasets: any[] = [];
+  savedVisibility: Partial<Record<number, boolean>> = {};
 
   constructor(
     private router: Router,
@@ -53,6 +56,22 @@ export class Exercise implements OnDestroy {
 
   onTimespanChange = () => this.getChartData();
   onChartDataChange = () => this.chartInit();
+
+  toggleDataset(index: number) {
+    const ds = this.chart.data.datasets[index];
+    const exerciseId = this.dataDatasets[index].exerciseId;
+
+    const newHidden = !ds.hidden;
+
+    // 1. Toggle the exercises dataset visually
+    ds.hidden = newHidden;
+    this.dataDatasets[index].visible = !newHidden;
+
+    // Update saved visibility immediately
+    this.savedVisibility[exerciseId] = !newHidden;
+
+    this.chart.update();
+  }
 
   // methods
 
@@ -163,7 +182,7 @@ export class Exercise implements OnDestroy {
       map.get(id)!.push(e);
     }
 
-    const datasets: any[] = [];
+    this.dataDatasets = [];
 
     let i = 0;
     for (const [id, group] of map) {
@@ -171,19 +190,22 @@ export class Exercise implements OnDestroy {
       const dataForChart = allDates.map(date => lookup[date] ?? null);
 
       if (dataForChart.length > 0 && dataForChart.some(_ => _ !== null)) {
-        datasets.push({
+        this.dataDatasets.push({
           label: group[0].name,
           data: dataForChart,
           backgroundColor: this.exerciseChartColors[i],
           borderColor: this.exerciseChartColors[i],
           borderWidth: 2,
           tension: 0.3,
-          spanGaps: true
+          spanGaps: true,
+          hidden: !(this.savedVisibility?.[id] ?? true),
+          visible: this.savedVisibility?.[id] ?? true, // <-- for legend UI
+          exerciseId: id
         });
       }
       i++;
     }
-    return datasets;
+    return this.dataDatasets;
   }
 
 
@@ -261,6 +283,16 @@ export class Exercise implements OnDestroy {
   private destroyChart() {
     if (this.chart)
       this.chart.destroy();
+  }
+
+  getTransparentColor(hex: string): string {
+    if (!hex.startsWith('#')) return hex;
+
+    const r = parseInt(hex.slice(1, 3), 16);
+    const g = parseInt(hex.slice(3, 5), 16);
+    const b = parseInt(hex.slice(5, 7), 16);
+
+    return `rgba(${r}, ${g}, ${b}, 0.2)`;
   }
 
   ngOnDestroy(): void {
