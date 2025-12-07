@@ -37,6 +37,9 @@ input, form {
 .info-wrapper {
   padding: 3rem 15rem;
 }
+.info-wrapper h1 {
+  margin-bottom: 0;
+}
 @media (max-width: 1380px) {
   .info-wrapper {
     padding: 3rem 8rem;

@@ -68,4 +68,5 @@ export class RouteConstants {
 
   static ROUTE_EXERCISES = 'exercises';
   static TITLE_EXERCISES = 'exercises | ' + this.TITLE;
+  static ROUTE_SINGLE_EXERCISE = this.ROUTE_EXERCISES + "/:apiExerciseId";
 }

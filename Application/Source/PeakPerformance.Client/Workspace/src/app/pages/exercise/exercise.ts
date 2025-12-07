@@ -76,7 +76,7 @@ export class Exercise implements OnDestroy {
   // methods
 
   openExerciseReportPage(apiExerciseId: string) {
-    this.router.navigateByUrl(`/exercise/${apiExerciseId}`);
+    this.router.navigateByUrl(`/exercises/${apiExerciseId}`);
   }
 
   getChartData() {

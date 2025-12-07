@@ -1,0 +1,13 @@
+<div class="col-12 cover-img cover-img-exercises">
+    <div class="info-wrapper d-flex justify-content-start align-items-center">
+        <h1 style="cursor: pointer; width: auto;" (click)="modalService.showExereciseReportModal()">
+            {{ 'Bench Press' }} <i class="fa-solid fa-angle-down"></i>
+        </h1>
+        <div style="margin-top: -1.5rem;" class="ms-4">
+            <app-short-info-stats
+                [name]="'1RM'"
+                [value]="126.7"
+                [templateAddon]="' ' + 'kg'"/>
+        </div>
+    </div>
+</div>

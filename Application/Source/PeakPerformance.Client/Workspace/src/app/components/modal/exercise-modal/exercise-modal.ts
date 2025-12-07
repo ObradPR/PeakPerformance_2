@@ -124,7 +124,7 @@ export class ExerciseModal implements IModalMethods, OnInit {
 
   selectExercise(exercise: IExerciseDbApiDataDto) {
     if (this.modalService.isFromExercisesScreenSignal()) {
-      this.router.navigateByUrl(`/exercise/${exercise.exerciseId}`);
+      this.router.navigateByUrl(`/exercises/${exercise.exerciseId}`);
       this.modalService.hideExerciseModal();
       return;
     }
