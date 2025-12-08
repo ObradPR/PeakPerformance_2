@@ -151,6 +151,17 @@ export interface IWorkoutExerciseDto
 	secondaryMuscleGroupId?: number;
 	sets: IWorkoutExerciseSetDto[];
 }
+export interface IExerciseGoalDto
+{
+	id: number;
+	exerciseId: number;
+	isStrength?: boolean;
+	weight?: number;
+	weightUnitId?: eMeasurementUnit;
+	reps: number;
+	startDate: Date;
+	endDate: Date;
+}
 export interface IFileInformationDto
 {
 	fileName: string;
@@ -318,6 +329,12 @@ export interface IBodyweightGoalSearchOptions extends ISearchOptions
 	userId?: number;
 	fromDate?: Date | null;
 	toDate?: Date | null;
+	chartTimespanId?: eChartTimespan;
+}
+export interface IExerciseGoalSearchOptions extends ISearchOptions
+{
+	userId?: number;
+	exerciseId?: number;
 	chartTimespanId?: eChartTimespan;
 }
 export interface IExerciseSearchOptions extends ISearchOptions

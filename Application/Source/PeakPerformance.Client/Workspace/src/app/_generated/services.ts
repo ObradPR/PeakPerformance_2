@@ -18,6 +18,8 @@ import { ICountryDto } from './interfaces';
 import { IExerciseStatsDto } from './interfaces';
 import { IExerciseSearchOptions } from './interfaces';
 import { IWorkoutExerciseDto } from './interfaces';
+import { IExerciseGoalDto } from './interfaces';
+import { IExerciseGoalSearchOptions } from './interfaces';
 import { IMeasurementDto } from './interfaces';
 import { IMeasurementSearchOptions } from './interfaces';
 import { IMeasurementCreateDto } from './interfaces';
@@ -234,6 +236,55 @@ import { IWorkoutSearchOptions } from './interfaces';
 		const body = <any>{'id': id};
 		return this.httpClient.delete<IBaseResponseWrapper>(
 		this.settingsService.createApiUrl('Exercise/Delete'),
+		{
+			params: new HttpParams({ fromObject: body }),
+			responseType: 'json',
+			observe: 'response',
+			withCredentials: true
+		})
+		.pipe(map(response => response.body));
+		
+	}
+	constructor (httpClient: HttpClient, settingsService: SettingsService)
+	{
+		super(httpClient, settingsService);
+	}
+}
+@Injectable({ providedIn: 'root' }) export class ExerciseGoalController extends BaseController
+{
+	public Search(options: IExerciseGoalSearchOptions) : Observable<IResponseWrapper<IPagingResult<IExerciseGoalDto>> | null>
+	{
+		const body = <any>options;
+		return this.httpClient.post<IResponseWrapper<IPagingResult<IExerciseGoalDto>>>(
+		this.settingsService.createApiUrl('ExerciseGoal/Search'),
+		body,
+		{
+			responseType: 'json',
+			observe: 'response',
+			withCredentials: true
+		})
+		.pipe(map(response => response.body));
+		
+	}
+	public Save(data: IExerciseGoalDto) : Observable<IBaseResponseWrapper | null>
+	{
+		const body = <any>data;
+		return this.httpClient.post<IBaseResponseWrapper>(
+		this.settingsService.createApiUrl('ExerciseGoal/Save'),
+		body,
+		{
+			responseType: 'json',
+			observe: 'response',
+			withCredentials: true
+		})
+		.pipe(map(response => response.body));
+		
+	}
+	public Delete(id: number) : Observable<IBaseResponseWrapper | null>
+	{
+		const body = <any>{'id': id};
+		return this.httpClient.delete<IBaseResponseWrapper>(
+		this.settingsService.createApiUrl('ExerciseGoal/Delete'),
 		{
 			params: new HttpParams({ fromObject: body }),
 			responseType: 'json',
