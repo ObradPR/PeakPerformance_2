@@ -31,6 +31,9 @@ public class Exercise : BaseDomain<long>, IConfigurableEntity
     [InverseProperty(nameof(WorkoutExercise.Exercise))]
     public virtual ICollection<WorkoutExercise> WorkoutExercises { get; set; } = [];
 
+    [InverseProperty(nameof(ExerciseGoal.Exercise))]
+    public virtual ICollection<ExerciseGoal> ExerciseGoals { get; set; } = [];
+
     #endregion Relationships
 
     //
