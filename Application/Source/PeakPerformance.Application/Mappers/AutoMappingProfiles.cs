@@ -2,6 +2,7 @@
 using PeakPerformance.Application.Dtos.BodyweightGoals;
 using PeakPerformance.Application.Dtos.Bodyweights;
 using PeakPerformance.Application.Dtos.Countries;
+using PeakPerformance.Application.Dtos.ExerciseGoals;
 using PeakPerformance.Application.Dtos.Exercises;
 using PeakPerformance.Application.Dtos.MeasurementGoals;
 using PeakPerformance.Application.Dtos.Measurements;
@@ -47,6 +48,8 @@ public class AutoMappingProfiles : BaseAutoMapperProfile
             .ForMember(dest => dest.PrimaryMuscleGroupId, opt => opt.MapFrom(src => src.Exercise.PrimaryMuscleGroupId))
             .ForMember(dest => dest.SecondaryMuscleGroupId, opt => opt.MapFrom(src => src.Exercise.SecondaryMuscleGroupId));
         CreateMap<WorkoutExerciseSet, WorkoutExerciseSetDto>();
+
+        CreateMap<ExerciseGoal, ExerciseGoalDto>();
 
         // Value objects
         CreateMap<CurrentBodyInfo, CurrentBodyInfoDto>();

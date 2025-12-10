@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, effect, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import Chart from 'chart.js/auto';
 import { DateTime } from 'luxon';
@@ -48,6 +48,11 @@ export class ExerciseSingle implements OnInit, OnDestroy {
     private measurementConverterPipe: MeasurementConverterPipe,
   ) {
     this.apiExerciseId = this.route.snapshot.paramMap.get('apiExerciseId') ?? '';
+
+    effect(() => {
+      this.exerciseService.exerciseChartSignal();
+      this.getChartData();
+    }, { allowSignalWrites: true })
 
     this.chartTimespans = this.providers.getChartTimespans();
   }
@@ -314,7 +319,7 @@ export class ExerciseSingle implements OnInit, OnDestroy {
           },
           y: {
             min: 0,
-            max: this.sharedService.roundToNearestTen(Math.round(Math.max(...values) + (this.selectedChartData === eExerciseChartData.Volume ? 500 : 20))),
+            max: this.sharedService.roundToNearestTen(Math.round(Math.max(...values, ...goalValues) + (this.selectedChartData === eExerciseChartData.Volume ? 500 : 20))),
           },
         },
         plugins: {

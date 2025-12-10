@@ -1,5 +1,5 @@
 import { Injectable, signal } from '@angular/core';
-import { IBodyweightDto, IBodyweightGoalDto, IMeasurementDto, IMeasurementGoalDto, IWorkoutDto, IWorkoutExerciseDto, IWorkoutExerciseSetDto } from '../_generated/interfaces';
+import { IBodyweightDto, IBodyweightGoalDto, IExerciseGoalDto, IMeasurementDto, IMeasurementGoalDto, IWorkoutDto, IWorkoutExerciseDto, IWorkoutExerciseSetDto } from '../_generated/interfaces';
 
 export type TModal = 'add' | 'edit';
 
@@ -197,6 +197,33 @@ export class ModalService {
   showAddExerciseForComparisonModal() {
     this.isAddingExerciseForComparison.set(true);
     this.exerciseModal.set(true);
+  }
+
+  // Exercise Goal
+
+  private exerciseGoalModal = signal<boolean>(false);
+  private exerciseGoalModalType = signal<TModal | null>(null);
+  private selectedExerciseGoal = signal<IExerciseGoalDto | null>(null);
+
+  readonly exerciseGoalModalSignal = this.exerciseGoalModal.asReadonly();
+  readonly exerciseGoalModalTypeSignal = this.exerciseGoalModalType.asReadonly();
+  readonly selectedExerciseGoalSignal = this.selectedExerciseGoal.asReadonly();
+
+  showAddExerciseGoalModal(exerciseId: number) {
+    this.exerciseId.set(exerciseId);
+    this.exerciseGoalModalType.set('add');
+    this.exerciseGoalModal.set(true);
+  }
+  showEditExerciseGoalModal(data: IExerciseGoalDto) {
+    this.exerciseGoalModalType.set('edit');
+    this.selectedExerciseGoal.set(data);
+    this.exerciseGoalModal.set(true);
+  }
+  hideExerciseGoalModal() {
+    this.exerciseGoalModal.set(false);
+    this.exerciseGoalModalType.set(null);
+    this.selectedExerciseGoal.set(null);
+    this.exerciseId.set(0);
   }
 
   // Notes

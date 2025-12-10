@@ -36,3 +36,7 @@
 @if (modalService.browseWorkoutsModalSignal()) {
     <app-browse-workouts-modal (closeModalEvent)="modalService.hideBrowseWorkoutsModal()"></app-browse-workouts-modal>
 }
+
+@if (modalService.exerciseGoalModalSignal()) {
+    <app-exercise-goal-modal (closeModalEvent)="modalService.hideExerciseGoalModal()"></app-exercise-goal-modal>
+}

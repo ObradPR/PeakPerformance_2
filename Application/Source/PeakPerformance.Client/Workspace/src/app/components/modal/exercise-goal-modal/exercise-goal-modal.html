@@ -1,0 +1,42 @@
+<div class="my-backdrop"></div>
+<section class="my-modal xs">
+    <div class="my-modal-header">
+        <h3>{{ modalType }} Exercise Goal</h3>
+        <i class="fa-solid fa-circle-xmark" (click)="closeModal()"></i>
+    </div>
+
+    <div class="my-modal-body">
+        <form [formGroup]="form">
+            <div class="position-relative">
+                <label for="startDate">Start Date</label>
+                <div class="input-group mb-3" validation [key]="'StartDate'" [errors]="errors">
+                     <input type="date" class="form-control" id="startDate" placeholder="Start Date" aria-label="StartDate" aria-describedby="startDate-addon" formControlName="startDate" />
+                </div>
+            </div>
+            <div class="position-relative">
+                <label for="endDate">End Date</label>
+                <div class="input-group mb-3" validation [key]="'EndDate'" [errors]="errors">
+                     <input type="date" class="form-control" id="endDate" placeholder="End Date" aria-label="EndDate" aria-describedby="endDate-addon" formControlName="endDate" />
+                </div>
+            </div>
+            <div class="position-relative">
+                <label for="weight">Target Weight</label>
+                <div class="input-group mb-2" validation [key]="'Weight'" [errors]="errors">
+                    <input type="number" class="form-control" id="weight" placeholder="0" aria-label="Weight" aria-describedby="weight-addon" formControlName="weight" />
+                    <span class="input-group-text input-addon-static" id="weight-addon">{{ userWeightPreference | measurementUnitDescription }}</span>
+                </div>
+            </div>
+            <div class="position-relative">
+                <label for="reps">Target Reps</label>
+                <div class="input-group mb-2" validation [key]="'Reps'" [errors]="errors">
+                    <input type="number" class="form-control" id="reps" placeholder="1" aria-label="Reps" aria-describedby="reps-addon" formControlName="reps" />
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="my-modal-footer">
+        <button class="btn btn-primary" (click)="submit()">Save</button>
+        <button class="btn btn-secondary" (click)="closeModal()">Close</button>
+    </div>
+</section>

@@ -66,4 +66,12 @@ export class ExerciseService {
         const data = JSON.parse(this.storageService.get('exercises_comparison')!);
         this.selectedExerciseForComparison.set(data);
     }
+
+    // Chart - Exercise
+    private exerciseChart = signal<boolean>(false);
+    readonly exerciseChartSignal = this.exerciseChart.asReadonly();
+
+    triggerExerciseChart() {
+        this.exerciseChart.set(!this.exerciseChart());
+    }
 }
