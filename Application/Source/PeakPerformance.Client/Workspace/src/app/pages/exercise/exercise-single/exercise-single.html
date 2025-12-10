@@ -6,7 +6,7 @@
         <div style="margin-top: -1.5rem;" class="ms-4">
             <app-short-info-stats
                 [name]="'1RM'"
-                [value]="126.7"
+                [value]="exerciseData[0]?.total?.oneRepMax ?? 0"
                 [templateAddon]="' ' + 'kg'"/>
         </div>
     </div>
