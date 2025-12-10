@@ -6,5 +6,7 @@ public class ExerciseGoalSearchOptions : SearchOptions
 
     public long? ExerciseId { get; set; }
 
+    public string ApiExerciseId { get; set; }
+
     public eChartTimespan? ChartTimespanId { get; set; }
 }

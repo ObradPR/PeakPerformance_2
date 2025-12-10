@@ -335,6 +335,7 @@ export interface IExerciseGoalSearchOptions extends ISearchOptions
 {
 	userId?: number;
 	exerciseId?: number;
+	apiExerciseId: string;
 	chartTimespanId?: eChartTimespan;
 }
 export interface IExerciseSearchOptions extends ISearchOptions

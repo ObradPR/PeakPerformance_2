@@ -54,7 +54,9 @@ public class SearchExerciseQuery(ExerciseSearchOptions options) : IRequest<Respo
 
             foreach (var exercise in result.Data)
             {
-                var maxWeight = exercise?.WorkoutExerciseSets?.Where(_ => _.TypeId != eSetType.Warmup)?.Max(_ => _.Weight);
+                var maxWeightObj = exercise?.WorkoutExerciseSets?.Where(_ => _.TypeId != eSetType.Warmup)?.MaxBy(_ => _.Weight);
+                var maxWeight = maxWeightObj?.Weight?.ConvertUnitValue(maxWeightObj.WeightUnitId.Value, userMeasurementUnitId);
+
                 var maxWeightSetReps = exercise?.WorkoutExerciseSets?.Where(_ => _.Weight == maxWeight)?.OrderByDescending(_ => _.Reps).FirstOrDefault()?.Reps;
 
                 var totalReps = exercise?.WorkoutExerciseSets?.Where(_ => _.TypeId != eSetType.Warmup)?.Sum(_ => _.Reps);

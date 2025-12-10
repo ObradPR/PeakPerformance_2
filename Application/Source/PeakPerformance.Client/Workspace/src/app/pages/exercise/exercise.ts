@@ -24,10 +24,8 @@ export class Exercise implements OnDestroy {
   chartData: IExerciseStatsDto[] = [];
   private exercisesLookup: Partial<Record<number, Record<string, number>>> = {};
 
-
   chartTimespans: IEnumProvider[] = [];
   selectedTimespan: number = eChartTimespan.Last6Months;
-
   selectedChartData: number = eExerciseChartData.MaxWeight;
   exerciseChartColors: string[] = ["#000080", "#ff8800ff", "#00b300ff", "#c00000ff", "#b17cecff"];
 

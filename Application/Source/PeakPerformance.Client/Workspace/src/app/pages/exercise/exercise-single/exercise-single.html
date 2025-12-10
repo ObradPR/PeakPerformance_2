@@ -1,13 +1,43 @@
 <div class="col-12 cover-img cover-img-exercises">
     <div class="info-wrapper d-flex justify-content-start align-items-center">
         <h1 style="cursor: pointer; width: auto;" (click)="modalService.showExereciseReportModal()">
-            {{ 'Bench Press' }} <i class="fa-solid fa-angle-down"></i>
+            {{ exerciseData[0]?.name ?? '' }} <i class="fa-solid fa-angle-down"></i>
         </h1>
         <div style="margin-top: -1.5rem;" class="ms-4">
             <app-short-info-stats
                 [name]="'1RM'"
                 [value]="126.7"
                 [templateAddon]="' ' + 'kg'"/>
+        </div>
+    </div>
+</div>
+
+<div class="col-12 info-wrapper">
+    <div class="d-flex justify-content-start align-items-center">
+        <button class="btn btn-light" (click)="modalService.showHowToExerciseModal(apiExerciseId)"><i class="fa-solid fa-graduation-cap"></i> How To</button>
+    </div>
+
+    <hr>
+
+    <div class="pt-2">
+        <div class="d-flex justify-content-start flex-nowrap align-items-center">
+            <div>
+                <select id="chart-timespan" class="form-select" [(ngModel)]="selectedChartData" (change)="onChartDataChange()">
+                    @for (d of exerciseService.exerciseChartData; track d) {
+                        <option [ngValue]="d.id">{{ d.name }}</option>
+                    }
+                </select>
+            </div>
+            <div class="ms-3">
+                <select id="chart-timespan" class="form-select" [(ngModel)]="selectedTimespan" (change)="onTimespanChange()">
+                    @for (ts of chartTimespans; track ts) {
+                        <option [ngValue]="ts.id">{{ ts.description }}</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div style="display: block; max-height: 40dvh; width: 100%;">
+            <canvas id="exercises-line-chart" style="width: 100% !important;"></canvas>
         </div>
     </div>
 </div>
