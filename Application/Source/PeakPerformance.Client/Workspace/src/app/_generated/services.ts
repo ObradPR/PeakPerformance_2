@@ -196,6 +196,20 @@ import { IWorkoutSearchOptions } from './interfaces';
 		.pipe(map(response => response.body));
 		
 	}
+	public GetSingle(id: number) : Observable<IResponseWrapper<ICountryDto> | null>
+	{
+		const body = <any>{'id': id};
+		return this.httpClient.get<IResponseWrapper<ICountryDto>>(
+		this.settingsService.createApiUrl('Country/GetSingle'),
+		{
+			params: new HttpParams({ fromObject: body }),
+			responseType: 'json',
+			observe: 'response',
+			withCredentials: true
+		})
+		.pipe(map(response => response.body));
+		
+	}
 	constructor (httpClient: HttpClient, settingsService: SettingsService)
 	{
 		super(httpClient, settingsService);

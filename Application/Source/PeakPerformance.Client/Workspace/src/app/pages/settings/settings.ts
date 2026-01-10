@@ -101,7 +101,6 @@ export class Settings extends BaseValidationComponent implements OnInit {
         if (_?.isSuccess) {
           this.countries = _.data
           this.selectedIso2 = this.countries.find(_ => _.id === this.user?.countryId)?.isO2 ?? null;
-
         }
       });
   }

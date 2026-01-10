@@ -1,0 +1,55 @@
+<div class="col-12 cover-img">
+    <div class="info-wrapper">
+      <div class="d-flex justify-content-start gap-3 align-items-center">
+        <div class="profile-image-wrapper">
+          @if(user()?.profilePictureUrl) {
+            <img [src]="user()!.profilePictureUrl" class="profile-image"/>
+          }
+          @else {
+            <div class="default-icon">
+                <i class="fa-solid fa-user"></i>
+            </div>
+          }
+
+          <!-- Pencil Overlay -->
+          <div class="edit-overlay">
+              <i class="fa-solid fa-pen"></i>
+          </div>
+        </div>
+
+        <div class="profile-info d-flex flex-column justify-content-start gap-1">
+          <h1>{{ user()?.username }}</h1>
+          <p class="fs-6">{{ user()?.fullName }}</p>
+          <span class="d-flex">
+            @if (true) {
+              <div class="short-info-block-home">
+                <img  
+                    [src]="'https://flagsapi.com/' + countryIso2 + '/flat/32.png'"
+                    style="height: 20px;"
+                />
+              </div>
+            }
+            @if (user()?.genderId) {
+              <div class="short-info-block-home">
+                {{ user()!.genderId | enumName:'UserGenders'}}
+              </div>
+            }
+            @if (age) {
+              <div class="short-info-block-home">
+                {{ age + ' yso' }}
+              </div>
+            }
+            @if(user()?.height) {
+              <div class="short-info-block-home">
+                {{ user()!.height | measurementConverter:user()!.heightMeasurementUnitId }}
+              </div>
+            }
+          </span>
+          <span class="fs-5"><b>650</b> workouts</span>
+        </div>
+      </div>
+    </div>
+</div>
+
+<div class="col-12 info-wrapper">
+</div>
