@@ -1,5 +1,5 @@
 <div class="col-12 cover-img">
-    <div class="info-wrapper">
+    <div class="info-wrapper info-wrapper-banner">
       <div class="d-flex justify-content-start gap-3 align-items-center">
         <div class="profile-image-wrapper">
           @if(user()?.profilePictureUrl) {
@@ -52,4 +52,15 @@
 </div>
 
 <div class="col-12 info-wrapper">
+  <div class="d-flex justify-content-start gap-2">
+      <button class="btn btn-light" routerLink="/workouts"><i class="fa-solid fa-dumbbell"></i> Workouts</button>
+      <button class="btn btn-light" routerLink="/exercises"><i class="fa-solid fa-chart-bar"></i> Exercises</button>
+      <button class="btn btn-light" routerLink="/bodyweight"><i class="fa-solid fa-weight-scale"></i> Bodyweight</button>
+      <button class="btn btn-light" routerLink="/measurement"><i class="fa-solid fa-ruler"></i> Measurements</button>
+  </div>
+  
+  <div class="workouts-calendar mt-4">
+      <app-workouts-calendar />
+  </div>
+
 </div>

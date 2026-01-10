@@ -1,5 +1,5 @@
-.info-wrapper {
-  padding: 1rem 8rem;
+.info-wrapper-banner {
+  padding: 1rem 15rem;
   color: white;
 }
 
@@ -40,4 +40,66 @@
   border-radius: 5px;
   color: #343a40;
   font-size: 0.85em;
+}
+
+.workouts-calendar {
+  width: 25%;
+  margin-bottom: 2rem;
+  min-height: 45dvh;
+}
+@media (max-width: 1726px) {
+  .workouts-calendar {
+    width: 30%;
+  }
+}
+@media (max-width: 1520px) {
+  .workouts-calendar {
+    width: 35%;
+  }
+}
+@media (max-width: 960px) {
+  .workouts-calendar {
+    width: 40%;
+  }
+}
+@media (max-width: 850px) {
+  .workouts-calendar {
+    width: 50%;
+  }
+}
+@media (max-width: 695px) {
+  .workouts-calendar {
+    width: 70%;
+    margin-bottom: -4.5rem;
+    transform: scale(0.75); /* shrink everything */
+    transform-origin: top left;
+  }
+  /* Optional: adjust spacing */
+  ::ng-deep .p-datepicker-calendar th,
+  ::ng-deep .p-datepicker-calendar td {
+    padding: 0.25rem !important;
+  }
+
+  /* Reduce header height */
+  ::ng-deep .p-datepicker-header {
+    padding: 0.25rem !important;
+  }
+}
+@media (max-width: 530px) {
+  .workouts-calendar {
+    width: 100%;
+  }
+}
+@media (max-width: 420px) {
+  ::ng-deep .p-datepicker {
+    transform: scale(0.95);
+    transform-origin: top left;
+  }
+
+  
+}
+@media (max-width: 390px) {
+  ::ng-deep .p-datepicker {
+    transform: scale(0.92);
+  }
 }

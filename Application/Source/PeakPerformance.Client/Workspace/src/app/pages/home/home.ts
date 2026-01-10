@@ -5,10 +5,12 @@ import { MeasurementConverterPipe } from '../../pipes/measurement-converter.pipe
 import { EnumNamePipe } from "../../pipes/enum-name.pipe";
 import { DateTime } from 'luxon';
 import { CountryController } from '../../_generated/services';
+import { RouterLink } from '@angular/router';
+import { WorkoutsCalendar } from "../workout/workouts-calendar/workouts-calendar";
 
 @Component({
   selector: 'app-home',
-  imports: [MeasurementConverterPipe, EnumNamePipe],
+  imports: [MeasurementConverterPipe, EnumNamePipe, RouterLink, WorkoutsCalendar],
   templateUrl: './home.html',
   styleUrl: './home.css'
 })
