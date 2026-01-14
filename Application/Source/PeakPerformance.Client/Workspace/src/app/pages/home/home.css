@@ -44,7 +44,6 @@
 
 .workouts-calendar {
   width: 25%;
-  margin-bottom: 2rem;
   min-height: 45dvh;
 }
 @media (max-width: 1726px) {
