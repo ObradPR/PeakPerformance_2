@@ -23,5 +23,8 @@ public class UpdatePersonalDetailsValidator : AbstractValidator<UpdatePersonalDe
         RuleFor(_ => _.Data.Email)
             .Required()
             .EmailAddressAuto();
+
+        RuleFor(_ => _.Data.Description)
+            .MaximumLengthAuto(500);
     }
 }

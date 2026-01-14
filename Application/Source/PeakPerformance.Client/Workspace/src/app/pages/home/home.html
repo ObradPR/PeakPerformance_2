@@ -46,6 +46,11 @@
             }
           </span>
           <span class="fs-5"><b>650</b> workouts</span>
+          @if(user()?.description) {
+            <div style="width: 500px;">
+              {{ user()!.description }}
+            </div>
+          }
         </div>
       </div>
     </div>
