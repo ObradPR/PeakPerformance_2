@@ -41,7 +41,7 @@
             }
             @if(user()?.height) {
               <div class="short-info-block-home">
-                {{ user()!.height | measurementConverter:user()!.heightMeasurementUnitId }}
+                {{ userHeight + ' ' + userHeightMeasurementPreference }}
               </div>
             }
           </span>

@@ -199,10 +199,10 @@ export class Settings extends BaseValidationComponent implements OnInit {
           payload.height = Functions.feetToInches(payload.height);
         }
       }
-    }
-    else {
-      if (this.user?.measurementUnitId === eMeasurementUnit.Inches) {
-        payload.height = Functions.feetToInches(payload.height);
+      else {
+        if (this.user?.measurementUnitId === eMeasurementUnit.Inches) {
+          payload.height = Functions.feetToInches(payload.height);
+        }
       }
     }
 
