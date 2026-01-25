@@ -1,17 +1,16 @@
 import { TitleCasePipe } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, output, OutputEmitterRef } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Paginator, PaginatorState } from 'primeng/paginator';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
-import { IExerciseDbApiDataDto, IExerciseDbApiDto } from '../../../_generated/interfaces';
+import { IExerciseDbApiDataDto, IExerciseDbApiDto, IExerciseDto, IExerciseSearchOptions } from '../../../_generated/interfaces';
 import { ExerciseController } from '../../../_generated/services';
+import { ExerciseService } from '../../../services/exercise.service';
 import { LoaderService } from '../../../services/loader.service';
 import { ModalService } from '../../../services/modal.service';
 import { WorkoutService } from '../../../services/workout.service';
 import { IModalMethods } from '../interfaces/modal-methods.interface';
-import { Router } from '@angular/router';
-import { ExerciseService } from '../../../services/exercise.service';
 
 @Component({
   selector: 'app-exercise-modal',
@@ -23,18 +22,17 @@ export class ExerciseModal implements IModalMethods, OnInit {
   closeModalEvent: OutputEmitterRef<boolean> = output<boolean>();
   form: FormGroup<any>;
 
-  apiSearch = '';
-  apiOffset = 0;
-  apiLimit = 10;
-  apiData: IExerciseDbApiDto = {
-    success: false,
-    metadata: {} as any,
-    data: [],
-  };
+  search = '';
+  offset = 0;
+  limit = 10;
+  exercises: {
+    data: IExerciseDto[],
+    total: number
+  } = { data: [], total: 0 };
 
   constructor(
     private fb: FormBuilder,
-    private http: HttpClient,
+    // private http: HttpClient,
     private router: Router,
 
     private exerciseController: ExerciseController,
@@ -48,10 +46,10 @@ export class ExerciseModal implements IModalMethods, OnInit {
   // events
 
   onPageChange(event: PaginatorState) {
-    const offset = event.first ?? this.apiOffset;
-    const limit = event.rows ?? this.apiLimit;
+    const offset = event.first ?? this.offset;
+    const limit = event.rows ?? this.limit;
 
-    this.getExercises(this.apiSearch, offset, limit);
+    this.getExercises(this.search, offset, limit);
   }
 
   // methods
@@ -73,12 +71,7 @@ export class ExerciseModal implements IModalMethods, OnInit {
     this.form = this.fb.group({
       search: [''],
       id: [this.modalService.exerciseIdSignal()],
-      apiExerciseId: [],
-      name: [],
-      equipmentName: [],
-      bodyParts: [],
-      primaryMuscles: [],
-      secondaryMuscles: [],
+      exerciseId: [],
       workoutId: [this.modalService.workoutIdSignal()],
       order: [this.modalService.orderSignal()]
     });
@@ -91,45 +84,43 @@ export class ExerciseModal implements IModalMethods, OnInit {
         distinctUntilChanged()
       )
       .subscribe(value => {
-        this.apiSearch = value;
-        this.apiOffset = 0;
-        this.getExercises(value, this.apiOffset);
+        this.search = value;
+        this.offset = 0;
+        this.getExercises(value, this.offset);
       })
   }
 
-  getExercises(search = this.apiSearch, offset = this.apiOffset, limit = this.apiLimit) {
-    this.apiOffset = offset;
+  getExercises(search = this.search, offset = this.offset, limit = this.limit) {
+    this.offset = offset;
 
-    const params: any = {
-      offset: offset,
-      limit: limit,
-    };
+    const options = {
+      skip: offset,
+      take: limit,
+    } as IExerciseSearchOptions;
 
     if (search) {
-      params.search = search;
+      options.filter = search;
     }
 
-    this.http.get<any[]>('https://www.exercisedb.dev/api/v1/exercises', { params }).toPromise()
-      .then((res: any) => {
-        if (res.success) {
-          this.apiData = res;
-        }
+    this.exerciseController.GetList(options).toPromise()
+      .then((_) => {
+        if(_?.isSuccess)
+          this.exercises = _.data;
       })
       .catch(ex => {
-        // #TODO: Toaster validation
         this.modalService.hideExerciseModal();
       })
       .finally(() => this.loaderService.hidePageLoader());
   }
 
-  selectExercise(exercise: IExerciseDbApiDataDto) {
+  selectExercise(exercise: IExerciseDto) {
     if (this.modalService.isFromExercisesScreenSignal()) {
-      this.router.navigateByUrl(`/exercises/${exercise.exerciseId}`);
+      this.router.navigateByUrl(`/exercises/${exercise.id}`);
       this.modalService.hideExerciseModal();
       return;
     }
     else if (this.modalService.isAddingExerciseForComparisonSignal()) {
-      this.exerciseService.addExerciseForComparison(exercise.exerciseId, exercise.name);
+      this.exerciseService.addExerciseForComparison(exercise.id, exercise.name);
       this.modalService.hideExerciseModal();
       return;
     }
@@ -137,12 +128,7 @@ export class ExerciseModal implements IModalMethods, OnInit {
       this.loaderService.showPageLoader();
 
       this.form.patchValue({
-        apiExerciseId: exercise.exerciseId,
-        name: exercise.name,
-        equipmentName: exercise.equipments[0],
-        bodyParts: exercise.bodyParts,
-        primaryMuscles: exercise.targetMuscles,
-        secondaryMuscles: exercise.secondaryMuscles,
+        exerciseId: exercise.id
       });
 
       this.exerciseController.Save(this.form.value).toPromise()

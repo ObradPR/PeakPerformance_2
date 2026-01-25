@@ -54,4 +54,21 @@ public class Exercise : BaseDomain<long>, IConfigurableEntity
             _.Property(_ => _.Name).IsRequired();
         });
     }
+
+    // methods
+
+    public string[] ParseInstructions()
+    {
+        if (Instructions.IsNullOrEmpty())
+            return [];
+
+        try
+        {
+            return Instructions.DeserializeJsonObject<string[]>();
+        }
+        catch
+        {
+            return [];
+        }
+    }
 }

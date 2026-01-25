@@ -45,32 +45,9 @@ public class SaveExerciseCommand(WorkoutExerciseDto data) : IRequest<BaseRespons
                 }
             }
 
-            var exercise = await db.Exercises.FirstOrDefaultAsync(_ => _.ApiExerciseId == request.Data.ApiExerciseId, cancellationToken);
+            var exercise = await db.Exercises.FirstOrDefaultAsync(_ => _.Id == request.Data.ExerciseId, cancellationToken);
 
-            if (exercise != null)
-            {
-                model.ExerciseId = exercise.Id;
-            }
-            else
-            {
-                var (isCardio, isBodyweight, isStrength) = request.Data.Classify();
-
-                var newExercise = new Exercise
-                {
-                    ApiExerciseId = request.Data.ApiExerciseId,
-                    Name = request.Data.Name,
-                    EquipmentName = request.Data.EquipmentName,
-                    IsCardio = isCardio,
-                    IsBodyweight = isBodyweight,
-                    IsStrength = isStrength,
-                    PrimaryMuscleGroupId = request.Data.PrimaryMuscles.ToMuscleGroupFlags(),
-                    SecondaryMuscleGroupId = request.Data.SecondaryMuscles.ToMuscleGroupFlags()
-                };
-
-                db.Exercises.Add(newExercise);
-
-                model.Exercise = newExercise;
-            }
+            model.ExerciseId = exercise.Id;
 
             if (model.IsNew)
                 db.WorkoutExercises.Add(model);

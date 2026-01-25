@@ -110,6 +110,20 @@ export interface IExerciseDbApiMetadataDto
 	previousPage: string;
 	nextPage: string;
 }
+export interface IExerciseDto
+{
+	id: number;
+	apiExerciseId: string;
+	name: string;
+	equipmentName: string;
+	bodyPart: string;
+	instructions: string[];
+	isCardio?: boolean;
+	isBodyweight?: boolean;
+	isStrength?: boolean;
+	primaryMuscleGroups: string[];
+	secondaryMuscleGroups: string[];
+}
 export interface IExerciseStatsDto
 {
 	id: number;
@@ -335,14 +349,13 @@ export interface IExerciseGoalSearchOptions extends ISearchOptions
 {
 	userId?: number;
 	exerciseId?: number;
-	apiExerciseId: string;
 	chartTimespanId?: eChartTimespan;
 }
 export interface IExerciseSearchOptions extends ISearchOptions
 {
 	userId?: number;
 	chartTimespanId?: eChartTimespan;
-	apiExerciseIds: string[];
+	exerciseIds: number[];
 }
 export interface IMeasurementGoalSearchOptions extends ISearchOptions
 {

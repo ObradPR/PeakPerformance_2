@@ -13,6 +13,16 @@ public class ExerciseController(IMediator mediator) : BaseController(mediator)
 
     [HttpPost]
     [Authorize]
+    [AngularMethod(typeof(ResponseWrapper<PagingResult<ExerciseDto>>))]
+    public async Task<IActionResult> GetList([FromBody] ExerciseSearchOptions options) => Result(await Mediator.Send(new GetExercisesQuery(options)));
+
+    [HttpGet]
+    [Authorize]
+    [AngularMethod(typeof(ResponseWrapper<ExerciseDto>))]
+    public async Task<IActionResult> GetSingle([FromQuery] long id) => Result(await Mediator.Send(new GetExerciseQuery(id)));
+
+    [HttpPost]
+    [Authorize]
     [AngularMethod(typeof(BaseResponseWrapper))]
     public async Task<IActionResult> Save([FromBody] WorkoutExerciseDto data) => Result(await Mediator.Send(new SaveExerciseCommand(data)));
 

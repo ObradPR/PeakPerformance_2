@@ -43,19 +43,19 @@ export class ExerciseService {
         this.setExercisesForComparison();
     }
 
-    private selectedExerciseForComparison = signal<{ id: string, name: string }[]>([]); // api exerciseId
+    private selectedExerciseForComparison = signal<{ id: number, name: string }[]>([]); // exercise Id
     readonly selectedExerciseForComparisonSignal = this.selectedExerciseForComparison.asReadonly();
 
-    addExerciseForComparison(apiExerciseId: string, name: string) {
-        if (this.selectedExerciseForComparison().find(_ => _.id === apiExerciseId)) {
+    addExerciseForComparison(id: number, name: string) {
+        if (this.selectedExerciseForComparison().find(_ => _.id === id)) {
             return;
         }
 
-        this.selectedExerciseForComparison.update(_ => [..._, { id: apiExerciseId, name: name }]);
+        this.selectedExerciseForComparison.update(_ => [..._, { id: id, name: name }]);
         this.storageService.set('exercises_comparison', JSON.stringify(this.selectedExerciseForComparison()));
     }
-    removeExerciseForComparison(apiExerciseId: string) {
-        this.selectedExerciseForComparison.update(_ => _.filter(_ => _.id !== apiExerciseId));
+    removeExerciseForComparison(id: number) {
+        this.selectedExerciseForComparison.update(_ => _.filter(_ => _.id !== id));
         this.storageService.set('exercises_comparison', JSON.stringify(this.selectedExerciseForComparison()));
     }
     private setExercisesForComparison() {

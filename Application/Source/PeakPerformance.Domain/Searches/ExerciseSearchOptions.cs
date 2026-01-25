@@ -6,5 +6,5 @@ public class ExerciseSearchOptions : SearchOptions
 
     public eChartTimespan? ChartTimespanId { get; set; }
 
-    public List<string> ApiExerciseIds { get; set; }
+    public long[] ExerciseIds { get; set; }
 }

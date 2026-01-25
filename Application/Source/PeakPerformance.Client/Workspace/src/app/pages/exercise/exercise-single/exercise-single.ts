@@ -26,7 +26,7 @@ export class ExerciseSingle implements OnInit, OnDestroy {
   private chart!: Chart;
   exerciseData: IExerciseStatsDto[] = [];
   goalData: IExerciseGoalDto[] = [];
-  apiExerciseId: string = '';
+  exerciseId: number = 0;
 
   chartTimespans: IEnumProvider[] = [];
   selectedTimespan: number = eChartTimespan.Last6Months;
@@ -47,7 +47,7 @@ export class ExerciseSingle implements OnInit, OnDestroy {
 
     private measurementConverterPipe: MeasurementConverterPipe,
   ) {
-    this.apiExerciseId = this.route.snapshot.paramMap.get('apiExerciseId') ?? '';
+    this.exerciseId = parseInt(this.route.snapshot.paramMap.get('id') ?? '0') ?? 0;
 
     effect(() => {
       this.exerciseService.exerciseChartSignal();
@@ -73,13 +73,13 @@ export class ExerciseSingle implements OnInit, OnDestroy {
 
     const options = {
       chartTimespanId: this.selectedTimespan,
-      apiExerciseIds: [this.apiExerciseId],
+      exerciseIds: [this.exerciseId],
     } as IExerciseSearchOptions;
 
     const goalOptions = {
       chartTimespanId: this.selectedTimespan,
-      apiExerciseId: this.apiExerciseId
-    } as IExerciseGoalSearchOptions;
+      exerciseId: this.exerciseId
+    } as IExerciseGoalSearchOptions ;
 
     this.$q.all([
       this.exerciseController.Search(options).toPromise(),

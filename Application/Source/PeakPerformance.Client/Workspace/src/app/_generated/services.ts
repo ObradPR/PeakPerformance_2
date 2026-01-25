@@ -17,6 +17,7 @@ import { IBodyweightGoalSearchOptions } from './interfaces';
 import { ICountryDto } from './interfaces';
 import { IExerciseStatsDto } from './interfaces';
 import { IExerciseSearchOptions } from './interfaces';
+import { IExerciseDto } from './interfaces';
 import { IWorkoutExerciseDto } from './interfaces';
 import { IExerciseGoalDto } from './interfaces';
 import { IExerciseGoalSearchOptions } from './interfaces';
@@ -224,6 +225,34 @@ import { IWorkoutSearchOptions } from './interfaces';
 		this.settingsService.createApiUrl('Exercise/Search'),
 		body,
 		{
+			responseType: 'json',
+			observe: 'response',
+			withCredentials: true
+		})
+		.pipe(map(response => response.body));
+		
+	}
+	public GetList(options: IExerciseSearchOptions) : Observable<IResponseWrapper<IPagingResult<IExerciseDto>> | null>
+	{
+		const body = <any>options;
+		return this.httpClient.post<IResponseWrapper<IPagingResult<IExerciseDto>>>(
+		this.settingsService.createApiUrl('Exercise/GetList'),
+		body,
+		{
+			responseType: 'json',
+			observe: 'response',
+			withCredentials: true
+		})
+		.pipe(map(response => response.body));
+		
+	}
+	public GetSingle(id: number) : Observable<IResponseWrapper<IExerciseDto> | null>
+	{
+		const body = <any>{'id': id};
+		return this.httpClient.get<IResponseWrapper<IExerciseDto>>(
+		this.settingsService.createApiUrl('Exercise/GetSingle'),
+		{
+			params: new HttpParams({ fromObject: body }),
 			responseType: 'json',
 			observe: 'response',
 			withCredentials: true

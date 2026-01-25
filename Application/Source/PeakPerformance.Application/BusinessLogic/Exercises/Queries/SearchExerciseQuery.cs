@@ -12,7 +12,7 @@ public class SearchExerciseQuery(ExerciseSearchOptions options) : IRequest<Respo
         {
             var options = request.Options;
 
-            if (options.ApiExerciseIds.IsNullOrEmpty())
+            if (options.ExerciseIds.IsNullOrEmpty())
                 return new();
 
             var userId = options.UserId ?? identityUser.Id;
@@ -37,8 +37,8 @@ public class SearchExerciseQuery(ExerciseSearchOptions options) : IRequest<Respo
                     predicates.Add(_ => _.Workout.LogDate >= today.AddMonths(-12));
             }
 
-            if (options.ApiExerciseIds.IsNotNullOrEmpty())
-                predicates.Add(_ => options.ApiExerciseIds.Contains(_.Exercise.ApiExerciseId));
+            if (options.ExerciseIds.IsNotNullOrEmpty())
+                predicates.Add(_ => options.ExerciseIds.Contains(_.Exercise.Id));
 
             var result = await db.WorkoutExercises.SearchAsync(options, _ => _.Workout.LogDate, true, predicates, includeProperties: [
                 _ => _.Workout,

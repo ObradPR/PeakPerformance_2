@@ -34,7 +34,7 @@ public static partial class Extensions
     };
 
     public static T DeserializeJsonObject<T>(this string data, IContractResolver contractResolver = null, DefaultValueHandling? defaultValueHandling = null, NullValueHandling? nullValueHandling = null)
-        => data.HasValue()
+        => !data.HasValue()
         ? default
         : contractResolver == null && defaultValueHandling == null && nullValueHandling == null
         ? JsonConvert.DeserializeObject<T>(data, DefaultDeserializationSettings)

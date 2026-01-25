@@ -73,17 +73,17 @@ export class Exercise implements OnDestroy {
 
   // methods
 
-  openExerciseReportPage(apiExerciseId: string) {
-    this.router.navigateByUrl(`/exercises/${apiExerciseId}`);
+  openExerciseReportPage(exerciseId: number) {
+    this.router.navigateByUrl(`/exercises/${exerciseId}`);
   }
 
   getChartData() {
     this.destroyChart();
 
-    const options = {
+    const options: any = {
       chartTimespanId: this.selectedTimespan,
-      apiExerciseIds: this.exerciseService.selectedExerciseForComparisonSignal().map(_ => _.id),
-    } as IExerciseSearchOptions;
+      exerciseIds: this.exerciseService.selectedExerciseForComparisonSignal().map(_ => _.id),
+    };
 
     this.exerciseController.Search(options).toPromise()
       .then(_ => {

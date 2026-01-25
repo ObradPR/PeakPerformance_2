@@ -9,29 +9,33 @@
         <div class="my-modal-body">
             @if (exercise) {
                 <div class="d-flex flex-column">
-                    <h4>{{ exercise?.name | titlecase }}</h4>
+                    <h4>{{ exercise.name }}</h4>
 
                     <div class="d-flex flex-wrap mb-3">
                         <app-short-info-stats 
                             [name]="'Body Parts'"
-                            [value]="exercise?.bodyParts.join(', ') | titlecase"/>
+                            [value]="exercise.bodyPart"/>
 
                         <app-short-info-stats 
                             [name]="'Equipments'"
-                            [value]="exercise?.equipments.join(', ') | titlecase"/>
+                            [value]="exercise.equipmentName"/>
 
                         <app-short-info-stats 
                             [name]="'Muscles'"
-                            [value]="(exercise.targetMuscles.concat(exercise.secondaryMuscles)).join(', ') | titlecase"/>
+                            [value]="(exercise.primaryMuscleGroups.concat(exercise.secondaryMuscleGroups)).join(', ')"/>
                     </div>
             
-                    <img class="mx-auto" [src]="exercise?.gifUrl" [alt]="exercise?.name" style="width: 220px;" />
+                    <img 
+                        class="mx-auto" 
+                        [src]="'https://static.exercisedb.dev/media/' + exercise.apiExerciseId + '.gif'" 
+                        [alt]="exercise.name" 
+                        style="width: 220px;" />
         
                     <div class="mt-3">
-                        @for (step of exercise?.instructions; track $index; let idx = $index) {
+                        @for (step of exercise.instructions; track $index; let idx = $index) {
                             <div class="mb-2 d-flex align-items-start">
                                 <i class="fa-solid fa-caret-right me-2 mt-1"></i>
-                                <small>{{ step?.replace('Step:', '').replace(`${idx + 1}`, '') }}</small>
+                                <small>{{ step.replace('Step:', '').replace(`${idx + 1}`, '') }}</small>
                             </div>
                         }
                     </div>

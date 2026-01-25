@@ -49,6 +49,11 @@ public class AutoMappingProfiles : BaseAutoMapperProfile
             .ForMember(dest => dest.SecondaryMuscleGroupId, opt => opt.MapFrom(src => src.Exercise.SecondaryMuscleGroupId));
         CreateMap<WorkoutExerciseSet, WorkoutExerciseSetDto>();
 
+        CreateMap<Exercise, ExerciseDto>()
+            .ForMember(dest => dest.Instructions, opt => opt.MapFrom(src => src.ParseInstructions()))
+            .ForMember(d => d.PrimaryMuscleGroups,
+                opt => opt.MapFrom(src => src.PrimaryMuscleGroupId.FlagsToNames()))
+            .ForMember(d => d.SecondaryMuscleGroups, opt => opt.MapFrom(src => src.SecondaryMuscleGroupId.FlagsToNamesNullable()));
         CreateMap<ExerciseGoal, ExerciseGoalDto>();
 
         // Value objects

@@ -6,10 +6,7 @@ public class SaveExerciseValidator : AbstractValidator<SaveExerciseCommand>
 {
     public SaveExerciseValidator()
     {
-        RuleFor(_ => _.Data.ApiExerciseId)
-            .Required();
-
-        RuleFor(_ => _.Data.Name)
+        RuleFor(_ => _.Data.ExerciseId)
             .Required();
 
         RuleFor(_ => _.Data.WorkoutId)

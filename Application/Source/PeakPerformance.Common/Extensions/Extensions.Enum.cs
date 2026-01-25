@@ -93,4 +93,14 @@ public static partial class Extensions
 
         return result;
     }
+
+    public static string[] FlagsToNames<T>(this T flags)
+        where T : struct, Enum
+    {
+        return [.. flags.GetFlags().Select(f => f.ToString())];
+    }
+
+    public static string[] FlagsToNamesNullable<T>(this T? flags)
+        where T : struct, Enum
+        => flags.HasValue ? FlagsToNames(flags.Value) : [];
 }

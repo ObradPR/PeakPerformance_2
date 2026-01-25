@@ -19,8 +19,8 @@ public class SearchExerciseGoalQuery(ExerciseGoalSearchOptions options) : IReque
             if (userId.IsNotEmpty())
                 predicates.Add(_ => _.UserId == userId);
 
-            if (options.ApiExerciseId.IsNotNullOrEmpty())
-                predicates.Add(_ => _.Exercise.ApiExerciseId == options.ApiExerciseId);
+            if (options.ExerciseId.IsNotNullOrEmpty())
+                predicates.Add(_ => _.Exercise.Id == options.ExerciseId);
 
             if (options.ChartTimespanId.HasValue)
             {

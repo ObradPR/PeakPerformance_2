@@ -43,9 +43,9 @@ export class ExercisesTemplate {
 
   // methods
 
-  howToExercise(apiExerciseId: string) {
+  howToExercise(exerciseId: number) {
     this.selectedExerciseMenu = null;
-    this.modalService.showHowToExerciseModal(apiExerciseId);
+    this.modalService.showHowToExerciseModal(exerciseId);
   }
   switchExercise(id: number, order: number) {
     this.selectedExerciseMenu = null;
