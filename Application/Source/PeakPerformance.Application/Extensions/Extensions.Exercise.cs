@@ -5,9 +5,9 @@ namespace PeakPerformance.Application.Extensions;
 
 public static partial class Extensions
 {
-    public static (bool IsCardio, bool IsBodyweight, bool IsStrength) Classify(this WorkoutExerciseDto exercise)
+    public static (bool IsCardio, bool IsBodyweight, bool IsStrength) Classify(this ExerciseDbApiDataDto exercise)
     {
-        var equipment = exercise?.EquipmentName?.ToLower() ?? string.Empty;
+        var equipment = exercise?.Equipments[0]?.ToLower() ?? string.Empty;
         var bp = exercise.BodyParts?.Select(_ => _.ToLower()).ToList() ?? [];
 
         if (bp.Contains("cardio"))

@@ -20,6 +20,7 @@
     <ProjectReference Include="..\PeakPerformance.Application\PeakPerformance.Application.csproj" />
     <ProjectReference Include="..\PeakPerformance.Common\PeakPerformance.Common.csproj" />
     <ProjectReference Include="..\PeakPerformance.Domain\PeakPerformance.Domain.csproj" />
+    <ProjectReference Include="..\PeakPerformance.Persistence\PeakPerformance.Persistence.csproj" />
   </ItemGroup>
 
   <ItemGroup>

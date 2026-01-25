@@ -12,6 +12,10 @@ public class Exercise : BaseDomain<long>, IConfigurableEntity
 
     public string EquipmentName { get; set; }
 
+    public string BodyPart { get; set; }
+
+    public string Instructions { get; set; }
+
     public bool? IsCardio { get; set; }
 
     public bool? IsBodyweight { get; set; }
