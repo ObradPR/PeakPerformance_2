@@ -74,4 +74,16 @@ import { IEnumProvider } from './interfaces';
 		    { id: 4, name: 'Dropset', description: 'Dropset', bgColor: '#4FC0E0' }
 		];
 	}
+	getAgeRanges() : IEnumProvider[]
+	{
+		return [
+		    { id: 0, name: 'NotSet', description: '', bgColor: '' },
+		    { id: 1, name: 'Age_14_17', description: '14-17', bgColor: '' },
+		    { id: 2, name: 'Age_18_23', description: '18-23', bgColor: '' },
+		    { id: 3, name: 'Age_24_39', description: '24-39', bgColor: '' },
+		    { id: 4, name: 'Age_40_54', description: '40-54', bgColor: '' },
+		    { id: 5, name: 'Age_55_69', description: '55-69', bgColor: '' },
+		    { id: 6, name: 'Age_70_plus', description: '70+', bgColor: '' }
+		];
+	}
 }

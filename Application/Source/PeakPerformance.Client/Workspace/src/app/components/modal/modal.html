@@ -40,3 +40,7 @@
 @if (modalService.exerciseGoalModalSignal()) {
     <app-exercise-goal-modal (closeModalEvent)="modalService.hideExerciseGoalModal()"></app-exercise-goal-modal>
 }
+
+@if (modalService.findLiftersModalSignal()) {
+    <app-find-lifters-modal (closeModalEvent)="modalService.hideFindLiftersModal()"></app-find-lifters-modal>
+}

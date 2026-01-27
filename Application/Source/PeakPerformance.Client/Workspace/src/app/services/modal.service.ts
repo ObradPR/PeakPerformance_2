@@ -296,4 +296,17 @@ export class ModalService {
     this.browseWorkoutsModal.set(false);
     this.workoutDate.set(null);
   }
+
+  // Find Lifters
+
+  private findLiftersModal = signal<boolean>(false);
+
+  readonly findLiftersModalSignal = this.findLiftersModal.asReadonly();
+
+  showFindLiftersModal() {
+    this.findLiftersModal.set(true);
+  }
+  hideFindLiftersModal() {
+    this.findLiftersModal.set(false);
+  }
 }

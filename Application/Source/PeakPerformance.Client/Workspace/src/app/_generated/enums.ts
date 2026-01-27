@@ -1,3 +1,12 @@
+export enum eAgeRange {
+	NotSet = 0,
+	Age_14_17 = 1,
+	Age_18_23 = 2,
+	Age_24_39 = 3,
+	Age_40_54 = 4,
+	Age_55_69 = 5,
+	Age_70_plus = 6
+}
 export enum eBodyPart {
 	Waist = 1,
 	Hips = 2,

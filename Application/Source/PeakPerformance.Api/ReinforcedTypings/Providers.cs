@@ -19,4 +19,7 @@ public enum Providers
 
     [EnumProvider<eSetType>]
     SetTypes,
+
+    [EnumProvider<eAgeRange>]
+    AgeRanges,
 }

@@ -47,6 +47,7 @@ export class ExerciseSingle implements OnInit, OnDestroy {
 
     private measurementConverterPipe: MeasurementConverterPipe,
   ) {
+    console.log('usao')
     this.exerciseId = parseInt(this.route.snapshot.paramMap.get('id') ?? '0') ?? 0;
 
     effect(() => {
