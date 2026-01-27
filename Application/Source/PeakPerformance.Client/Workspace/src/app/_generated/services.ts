@@ -29,6 +29,7 @@ import { IMeasurementGoalSearchOptions } from './interfaces';
 import { IMeasurementGoalCreateDto } from './interfaces';
 import { IWorkoutExerciseSetDto } from './interfaces';
 import { IUserDto } from './interfaces';
+import { IUserSearchOptions } from './interfaces';
 import { IChangePasswordDto } from './interfaces';
 import { IWorkoutDto } from './interfaces';
 import { IWorkoutLogDto } from './interfaces';
@@ -521,6 +522,20 @@ import { IWorkoutSearchOptions } from './interfaces';
 	{
 		return this.httpClient.get<IResponseWrapper<IUserDto>>(
 		this.settingsService.createApiUrl('User/GetCurrent'),
+		{
+			responseType: 'json',
+			observe: 'response',
+			withCredentials: true
+		})
+		.pipe(map(response => response.body));
+		
+	}
+	public Search(options: IUserSearchOptions) : Observable<IResponseWrapper<IPagingResult<IUserDto>> | null>
+	{
+		const body = <any>options;
+		return this.httpClient.post<IResponseWrapper<IPagingResult<IUserDto>>>(
+		this.settingsService.createApiUrl('User/Search'),
+		body,
 		{
 			responseType: 'json',
 			observe: 'response',

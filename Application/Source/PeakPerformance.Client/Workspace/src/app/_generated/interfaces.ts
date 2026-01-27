@@ -4,6 +4,7 @@ import { eBodyPart } from './enums';
 import { eSetRpeType } from './enums';
 import { eSetType } from './enums';
 import { eChartTimespan } from './enums';
+import { eAgeRange } from './enums';
 
 export interface IAuthorizationDto
 {
@@ -370,6 +371,13 @@ export interface IMeasurementSearchOptions extends ISearchOptions
 	fromDate?: Date | null;
 	toDate?: Date | null;
 	chartTimespanId?: eChartTimespan;
+}
+export interface IUserSearchOptions extends ISearchOptions
+{
+	userId?: number;
+	genderId?: eUserGender;
+	ageRangeId?: eAgeRange;
+	countryId?: number;
 }
 export interface IWorkoutSearchOptions extends ISearchOptions
 {

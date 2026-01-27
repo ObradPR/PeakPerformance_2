@@ -2,15 +2,71 @@
     padding: 1.2rem 0 0;
 }
 
+p {
+  margin-bottom: 0;
+}
+
 .filter-block {
     padding: 0 1.2rem 1.2rem;
     border-bottom: 1px solid #9f9f9f;
     background-color: #f8f8f8;
 }
 
-
 .input-addon-static {
   width: 9%;
   justify-content: center;
   color: #343a40;
+}
+
+.username {
+    color: var(--bs-blue);
+    font-weight: 500;
+}
+.user-item:hover .username {
+    color: #00327e;
+}
+.user-item:hover {
+    background-color: #f8f8f8;
+}
+
+.user-item {
+    border-bottom: 1px solid #dadada;
+    padding: 1.2rem;
+    cursor: pointer;
+}
+
+.profile-image-wrapper {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+}
+
+.profile-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.default-icon {
+    width: 100%;
+    height: 100%;
+    background: #f0f0f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 60px;
+    color: #888;
+}
+
+
+.short-info-block-find-lifters {
+  margin-right: 0.5rem;
+  padding: 0.15rem 0.5rem;
+  background-color: #f4f4f4;
+  border-radius: 5px;
+  color: #343a40;
+  font-size: 0.85em;
 }

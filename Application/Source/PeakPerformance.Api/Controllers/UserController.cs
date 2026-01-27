@@ -14,6 +14,11 @@ public class UserController(IMediator mediator) : BaseController(mediator)
 
     [HttpPost]
     [Authorize]
+    [AngularMethod(typeof(ResponseWrapper<PagingResult<UserDto>>))]
+    public async Task<IActionResult> Search([FromBody] UserSearchOptions options) => Result(await Mediator.Send(new SearchUsersQuery(options)));
+
+    [HttpPost]
+    [Authorize]
     [AngularMethod(typeof(BaseResponseWrapper))]
     public async Task<IActionResult> UpdatePersonalDetails([FromBody] UserDto data) => Result(await Mediator.Send(new UpdatePersonalDetailsCommand(data)));
 

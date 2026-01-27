@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angul
 import { Router } from '@angular/router';
 import { Paginator, PaginatorState } from 'primeng/paginator';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
-import { IExerciseDbApiDataDto, IExerciseDbApiDto, IExerciseDto, IExerciseSearchOptions } from '../../../_generated/interfaces';
+import { IExerciseDto, IExerciseSearchOptions } from '../../../_generated/interfaces';
 import { ExerciseController } from '../../../_generated/services';
 import { ExerciseService } from '../../../services/exercise.service';
 import { LoaderService } from '../../../services/loader.service';
@@ -32,7 +32,6 @@ export class ExerciseModal implements IModalMethods, OnInit {
 
   constructor(
     private fb: FormBuilder,
-    // private http: HttpClient,
     private router: Router,
 
     private exerciseController: ExerciseController,
