@@ -180,33 +180,36 @@ export class Settings extends BaseValidationComponent implements OnInit {
     });
   }
 
-  submitPersonalDetails(form: FormGroup) {
+  submitPersonalDetails(form: FormGroup, isMainForm: boolean = false) {
     this.loaderService.showPageLoader();
 
     const payload = {
       ...this.user,
       ...form.value,
-      isPrivate: this.formSharingSettings.value.isPrivate === 1
+      isPrivate: this.formSharingSettings.value.isPrivate === 1,
+      isMainDetailsUpdate: isMainForm,
     };
 
-    if (this.user?.heightMeasurementUnitId) {
-      if (this.user?.measurementUnitId !== this.user?.heightMeasurementUnitId) {
-        if (this.user?.measurementUnitId === eMeasurementUnit.Centimeters) {
-          // dont do anythign, since we presented this in cm (as measurementUnitId is cm)
+    if (isMainForm) {
+      if (this.user?.heightMeasurementUnitId) {
+        if (this.user?.measurementUnitId !== this.user?.heightMeasurementUnitId) {
+          if (this.user?.measurementUnitId === eMeasurementUnit.Centimeters) {
+            // dont do anythign, since we presented this in cm (as measurementUnitId is cm)
+          }
+          else if (this.user?.measurementUnitId === eMeasurementUnit.Inches) {
+            // if we presented to feets just return them back to inches
+            payload.height = Functions.feetToInches(payload.height);
+          }
         }
-        else if (this.user?.measurementUnitId === eMeasurementUnit.Inches) {
-          // if we presented to feets just return them back to inches
-          payload.height = Functions.feetToInches(payload.height);
+        else {
+          if (this.user?.measurementUnitId === eMeasurementUnit.Inches) {
+            payload.height = Functions.feetToInches(payload.height);
+          }
         }
       }
-      else {
-        if (this.user?.measurementUnitId === eMeasurementUnit.Inches) {
-          payload.height = Functions.feetToInches(payload.height);
-        }
-      }
-    }
-
-    payload.height = payload.height <= 0 ? null : payload.height;
+  
+      payload.height = payload.height <= 0 ? null : payload.height;
+    } 
 
     this.userController.UpdatePersonalDetails(payload).toPromise()
       .then(_ => {

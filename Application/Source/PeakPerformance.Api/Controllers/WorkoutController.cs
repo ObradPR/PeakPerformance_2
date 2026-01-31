@@ -6,10 +6,10 @@ namespace PeakPerformance.Api.Controllers;
 
 public class WorkoutController(IMediator mediator) : BaseController(mediator)
 {
-    [HttpGet]
+    [HttpPost]
     [Authorize]
     [AngularMethod(typeof(ResponseWrapper<WorkoutDto>))]
-    public async Task<IActionResult> GetSingle([FromQuery] long id) => Result(await Mediator.Send(new GetSingleWorkoutQuery(id)));
+    public async Task<IActionResult> GetSingle([FromBody] WorkoutSearchOptions options) => Result(await Mediator.Send(new GetSingleWorkoutQuery(options)));
 
     [HttpGet]
     [Authorize]

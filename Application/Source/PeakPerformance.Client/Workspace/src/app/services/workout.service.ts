@@ -1,5 +1,5 @@
 import { Injectable, signal } from '@angular/core';
-import { IWorkoutDto, IWorkoutLogDto } from '../_generated/interfaces';
+import { IWorkoutDto, IWorkoutLogDto, IWorkoutSearchOptions } from '../_generated/interfaces';
 import { WorkoutController } from '../_generated/services';
 
 @Injectable({
@@ -16,7 +16,10 @@ export class WorkoutService {
     }
 
     async refreshWorkout(id: number) {
-        const res = await this.workoutController.GetSingle(id).toPromise();
+        const options = {
+            id: id
+        } as IWorkoutSearchOptions;
+        const res = await this.workoutController.GetSingle(options).toPromise();
         if (res?.isSuccess) this.workout.set(res.data);
     }
 

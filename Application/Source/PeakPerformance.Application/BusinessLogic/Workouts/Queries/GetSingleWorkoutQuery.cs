@@ -4,22 +4,25 @@ using PeakPerformance.Domain.ExerciseDbApiMap;
 
 namespace PeakPerformance.Application.BusinessLogic.Workouts.Queries;
 
-public class GetSingleWorkoutQuery(long id) : IRequest<ResponseWrapper<WorkoutDto>>
+public class GetSingleWorkoutQuery(WorkoutSearchOptions options) : IRequest<ResponseWrapper<WorkoutDto>>
 {
-    public long Id { get; set; } = id;
+    public WorkoutSearchOptions Options { get; set; } = options;
 
     public class GetSingleWorkoutQueryHandler(IDatabaseContext db, IIdentityUser identityUser, IMapper mapper) : IRequestHandler<GetSingleWorkoutQuery, ResponseWrapper<WorkoutDto>>
     {
         public async Task<ResponseWrapper<WorkoutDto>> Handle(GetSingleWorkoutQuery request, CancellationToken cancellationToken)
         {
-            //var userId = identityUser.Id;
+            if (request.Options.Id.IsNullOrEmpty())
+                return new();
+
+            var userId = request.Options.UserId ?? identityUser.Id;
 
             var model = await db.Workouts
                 .Include(_ => _.WorkoutExercises)
                     .ThenInclude(_ => _.WorkoutExerciseSets)
                  .Include(_ => _.WorkoutExercises)
                     .ThenInclude(_ => _.Exercise)
-                .FirstOrDefaultAsync(_ => _.Id == request.Id, cancellationToken)
+                .FirstOrDefaultAsync(_ => _.Id == request.Options.Id && _.UserId == userId && (request.Options.UserId == identityUser.Id || _.User.IsPrivate != true), cancellationToken)
                 ?? throw new NotFoundException();
 
             var data = mapper.Map<WorkoutDto>(model);

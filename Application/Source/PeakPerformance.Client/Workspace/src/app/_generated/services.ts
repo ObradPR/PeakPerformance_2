@@ -32,8 +32,8 @@ import { IUserDto } from './interfaces';
 import { IUserSearchOptions } from './interfaces';
 import { IChangePasswordDto } from './interfaces';
 import { IWorkoutDto } from './interfaces';
-import { IWorkoutLogDto } from './interfaces';
 import { IWorkoutSearchOptions } from './interfaces';
+import { IWorkoutLogDto } from './interfaces';
 
 @Injectable({ providedIn: 'root' }) export abstract class BaseController
 {
@@ -645,13 +645,13 @@ import { IWorkoutSearchOptions } from './interfaces';
 }
 @Injectable({ providedIn: 'root' }) export class WorkoutController extends BaseController
 {
-	public GetSingle(id: number) : Observable<IResponseWrapper<IWorkoutDto> | null>
+	public GetSingle(options: IWorkoutSearchOptions) : Observable<IResponseWrapper<IWorkoutDto> | null>
 	{
-		const body = <any>{'id': id};
-		return this.httpClient.get<IResponseWrapper<IWorkoutDto>>(
+		const body = <any>options;
+		return this.httpClient.post<IResponseWrapper<IWorkoutDto>>(
 		this.settingsService.createApiUrl('Workout/GetSingle'),
+		body,
 		{
-			params: new HttpParams({ fromObject: body }),
 			responseType: 'json',
 			observe: 'response',
 			withCredentials: true

@@ -46,6 +46,7 @@ export interface IUserDto
 	profilePictureUrl: string;
 	weightUnitId: eMeasurementUnit;
 	measurementUnitId: eMeasurementUnit;
+	isMainDetailsUpdate?: boolean;
 }
 export interface IBodyweightDto
 {
@@ -381,6 +382,7 @@ export interface IUserSearchOptions extends ISearchOptions
 }
 export interface IWorkoutSearchOptions extends ISearchOptions
 {
+	id?: number;
 	userId?: number;
 }
 export interface IBaseResponseWrapper

@@ -17,7 +17,7 @@ public class SearchWorkoutQuery(WorkoutSearchOptions options) : IRequest<Respons
             var predicates = new List<Expression<Func<Workout, bool>>>();
 
             if (userId.IsNotEmpty())
-                predicates.Add(_ => _.UserId == userId);
+                predicates.Add(_ => _.UserId == userId && (request.Options.UserId == identityUser.Id || _.User.IsPrivate != true));
 
             options.Take++; // this is for the 6th workout, details that will be used for 5th workout
 

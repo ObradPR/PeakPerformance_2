@@ -32,8 +32,11 @@ export class AuthService {
           this.signOut();
 
         this.currentUserSource.set(_!.data);
-        if (refresh) 
-          this.router.navigateByUrl(`/user/${_?.data.id}`)
+        if (refresh) {
+          if (this.router.url.startsWith('/auth')) {
+            this.router.navigateByUrl(`/user/${_?.data.id}`);
+          }
+        }
       })
       .catch(ex => { throw ex; })
       .finally(() => this.loaderService.hidePageLoader());
@@ -45,8 +48,7 @@ export class AuthService {
     const token = this.getToken();
 
     if (token) {
-      this.router.navigateByUrl(RouteConstants.ROUTE_HOME);
-      this.loadCurrentUser();
+      this.loadCurrentUser(true);
     }
   }
 

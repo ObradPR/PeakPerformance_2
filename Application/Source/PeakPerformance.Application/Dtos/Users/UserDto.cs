@@ -34,6 +34,10 @@ public class UserDto
 
     public eMeasurementUnit MeasurementUnitId { get; set; }
 
+    // Helpers
+
+    public bool? IsMainDetailsUpdate { get; set; }
+
     // methods
 
     public void ToModel(User model)
@@ -45,10 +49,13 @@ public class UserDto
         model.Description = Description;
         model.GenderId = GenderId;
         model.CountryId = CountryId;
-        model.Height = Height;
-        model.HeightMeasurementUnitId = Height == null
-          ? null
-          : MeasurementUnitId;
+        if (IsMainDetailsUpdate == true)
+        {
+            model.Height = Height;
+            model.HeightMeasurementUnitId = Height == null
+              ? null
+              : MeasurementUnitId;
+        }
         model.IsPrivate = IsPrivate;
     }
 }
