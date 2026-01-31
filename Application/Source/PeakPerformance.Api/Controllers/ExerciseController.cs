@@ -30,4 +30,21 @@ public class ExerciseController(IMediator mediator) : BaseController(mediator)
     [Authorize]
     [AngularMethod(typeof(BaseResponseWrapper))]
     public async Task<IActionResult> Delete([FromQuery] long id) => Result(await Mediator.Send(new DeleteExerciseCommand(id)));
+
+    // Selected Exercises
+
+    [HttpGet]
+    [Authorize]
+    [AngularMethod(typeof(ResponseWrapper<List<BaseExerciseDto>>))]
+    public async Task<IActionResult> GetSelectedExercises([FromQuery] long userId) => Result(await Mediator.Send(new GetSelectedExercisesQuery(userId)));
+
+    [HttpPost]
+    [Authorize]
+    [AngularMethod(typeof(BaseResponseWrapper))]
+    public async Task<IActionResult> Select([FromBody] long id) => Result(await Mediator.Send(new SelectExerciseCommand(id)));
+
+    [HttpDelete]
+    [Authorize]
+    [AngularMethod(typeof(BaseResponseWrapper))]
+    public async Task<IActionResult> Remove([FromQuery] long id) => Result(await Mediator.Send(new RemoveExerciseCommand(id)));
 }

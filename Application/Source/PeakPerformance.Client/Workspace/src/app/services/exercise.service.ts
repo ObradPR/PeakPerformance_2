@@ -39,34 +39,6 @@ export class ExerciseService {
         eExerciseChartData.TotalCardioTime,
     ];
 
-    constructor(private storageService: StorageService) {
-        this.setExercisesForComparison();
-    }
-
-    private selectedExerciseForComparison = signal<{ id: number, name: string }[]>([]); // exercise Id
-    readonly selectedExerciseForComparisonSignal = this.selectedExerciseForComparison.asReadonly();
-
-    addExerciseForComparison(id: number, name: string) {
-        if (this.selectedExerciseForComparison().find(_ => _.id === id)) {
-            return;
-        }
-
-        this.selectedExerciseForComparison.update(_ => [..._, { id: id, name: name }]);
-        this.storageService.set('exercises_comparison', JSON.stringify(this.selectedExerciseForComparison()));
-    }
-    removeExerciseForComparison(id: number) {
-        this.selectedExerciseForComparison.update(_ => _.filter(_ => _.id !== id));
-        this.storageService.set('exercises_comparison', JSON.stringify(this.selectedExerciseForComparison()));
-    }
-    private setExercisesForComparison() {
-        const item = this.storageService.get('exercises_comparison');
-        if (item === null)
-            this.storageService.set('exercises_comparison', JSON.stringify(this.selectedExerciseForComparison()));
-
-        const data = JSON.parse(this.storageService.get('exercises_comparison')!);
-        this.selectedExerciseForComparison.set(data);
-    }
-
     // Chart - Exercise
     private exerciseChart = signal<boolean>(false);
     readonly exerciseChartSignal = this.exerciseChart.asReadonly();

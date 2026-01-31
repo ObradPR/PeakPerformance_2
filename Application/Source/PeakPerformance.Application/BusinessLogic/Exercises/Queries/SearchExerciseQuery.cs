@@ -12,9 +12,6 @@ public class SearchExerciseQuery(ExerciseSearchOptions options) : IRequest<Respo
         {
             var options = request.Options;
 
-            if (options.ExerciseIds.IsNullOrEmpty())
-                return new();
-
             var userId = options.UserId ?? identityUser.Id;
 
             var predicates = new List<Expression<Func<WorkoutExercise, bool>>>();
@@ -39,6 +36,18 @@ public class SearchExerciseQuery(ExerciseSearchOptions options) : IRequest<Respo
 
             if (options.ExerciseIds.IsNotNullOrEmpty())
                 predicates.Add(_ => options.ExerciseIds.Contains(_.Exercise.Id));
+
+            if (options.TakeSelectedExercises.HasValue && options.TakeSelectedExercises == true)
+            {
+                var exerciseIds = await db.UserSelectedExercises
+                    .Take(5)
+                    .Where(_ => _.UserId == userId)
+                    .Select(_ => _.ExerciseId)
+                    .Distinct()
+                    .ToListAsync(cancellationToken);
+
+                predicates.Add(_ => exerciseIds.Contains(_.Exercise.Id));
+            }
 
             var result = await db.WorkoutExercises.SearchAsync(options, _ => _.Workout.LogDate, true, predicates, includeProperties: [
                 _ => _.Workout,

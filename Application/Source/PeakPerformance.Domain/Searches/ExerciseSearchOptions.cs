@@ -7,4 +7,6 @@ public class ExerciseSearchOptions : SearchOptions
     public eChartTimespan? ChartTimespanId { get; set; }
 
     public long[] ExerciseIds { get; set; }
+
+    public bool? TakeSelectedExercises { get; set; }
 }

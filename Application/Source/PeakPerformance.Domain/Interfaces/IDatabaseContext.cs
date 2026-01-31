@@ -30,6 +30,8 @@ public interface IDatabaseContext
 
     DbSet<WorkoutExerciseSet> WorkoutExerciseSets { get; set; }
 
+    DbSet<UserSelectedExercise> UserSelectedExercises { get; set; }
+
     // methods
 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);

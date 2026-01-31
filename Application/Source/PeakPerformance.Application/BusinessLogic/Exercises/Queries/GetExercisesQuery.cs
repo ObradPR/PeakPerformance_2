@@ -20,6 +20,18 @@ public class GetExercisesQuery(ExerciseSearchOptions options) : IRequest<Respons
             if (options.ExerciseIds.IsNotNullOrEmpty())
                 predicates.Add(_ => options.ExerciseIds.Contains(_.Id));
 
+            if (options.TakeSelectedExercises.HasValue && options.TakeSelectedExercises == true)
+            {
+                var exerciseIds = await db.UserSelectedExercises
+                    .Take(5)
+                    .Where(_ => _.UserId == request.Options.UserId)
+                    .Select(_ => _.ExerciseId)
+                    .Distinct()
+                    .ToListAsync(cancellationToken);
+
+                predicates.Add(_ => exerciseIds.Contains(_.Id));
+            }
+
             var result = await db.Exercises.SearchAsync(options, _ => _.Id, false, predicates);
 
             // TODO: you need manually to map muscle targets and instructions from db data(json, flags) to dto data (string[])

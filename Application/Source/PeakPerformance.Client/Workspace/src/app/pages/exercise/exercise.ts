@@ -5,13 +5,14 @@ import Chart from 'chart.js/auto';
 import { ExerciseController } from '../../_generated/services';
 import { eExerciseChartData, ExerciseService } from '../../services/exercise.service';
 import { ModalService } from '../../services/modal.service';
-import { IEnumProvider, IExerciseSearchOptions, IExerciseStatsDto } from '../../_generated/interfaces';
+import { IBaseExerciseDto, IEnumProvider, IExerciseDto, IExerciseSearchOptions, IExerciseStatsDto } from '../../_generated/interfaces';
 import { eChartTimespan } from '../../_generated/enums';
 import { Providers } from '../../_generated/providers';
 import { FormsModule } from '@angular/forms';
 import { DateTime } from 'luxon';
 import { SharedService } from '../../services/shared.service';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-exercise',
@@ -32,6 +33,8 @@ export class Exercise implements OnDestroy {
   dataDatasets: any[] = [];
   savedVisibility: Partial<Record<number, boolean>> = {};
 
+  selectedExercises: IBaseExerciseDto[] = [];
+
   constructor(
     private router: Router,
 
@@ -41,11 +44,13 @@ export class Exercise implements OnDestroy {
     public exerciseService: ExerciseService,
     private providers: Providers,
     private sharedService: SharedService,
+    private authService: AuthService,
   ) {
     effect(() => {
-      this.exerciseService.selectedExerciseForComparisonSignal();
+      this.exerciseService.exerciseChartSignal();
       this.getChartData();
-    });
+      this.getSelectedExercises();
+    }, { allowSignalWrites: true })
 
     this.chartTimespans = this.providers.getChartTimespans();
   }
@@ -77,23 +82,36 @@ export class Exercise implements OnDestroy {
     this.router.navigateByUrl(`/exercises/${exerciseId}`);
   }
 
+  getSelectedExercises() {
+    this.exerciseController.GetSelectedExercises(this.authService.currentUserSource()!.id).toPromise()
+      .then(_ => this.selectedExercises = _?.data ?? [])
+  }
+
   getChartData() {
     this.destroyChart();
 
     const options: any = {
       chartTimespanId: this.selectedTimespan,
-      exerciseIds: this.exerciseService.selectedExerciseForComparisonSignal().map(_ => _.id),
+      takeSelectedExercises: true
     };
 
     this.exerciseController.Search(options).toPromise()
       .then(_ => {
         if (_?.isSuccess) {
           this.chartData = _.data?.data ?? [];
-
           this.chartInit();
         }
       })
       .catch(ex => { throw ex })
+  }
+
+  removeExerciseForComparison(exerciseId: number) {
+    console.log(exerciseId);
+    this.exerciseController.Remove(exerciseId).toPromise()
+      .then(_ => {
+        this.getSelectedExercises();
+        this.getChartData();
+      });
   }
 
   private getStartDate() {

@@ -120,8 +120,11 @@ export class ExerciseModal implements IModalMethods, OnInit {
       return;
     }
     else if (this.modalService.isAddingExerciseForComparisonSignal()) {
-      this.exerciseService.addExerciseForComparison(exercise.id, exercise.name);
-      this.modalService.hideExerciseModal();
+      this.exerciseController.Select(exercise.id).toPromise()
+        .then(_ => {
+          this.modalService.hideExerciseModal();
+          this.exerciseService.triggerExerciseChart();
+        });
       return;
     }
     else {

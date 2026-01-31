@@ -19,4 +19,6 @@ public class ExerciseStatsDto
     public DateTime LogDate { get; set; } // Workout log date
 
     public ExerciseTotalDto Total { get; set; }
+
+    public List<BaseExerciseDto> SelectedExercises { get; set; }
 }

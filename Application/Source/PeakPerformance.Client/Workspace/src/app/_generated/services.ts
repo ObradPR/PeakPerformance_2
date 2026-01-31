@@ -19,6 +19,7 @@ import { IExerciseStatsDto } from './interfaces';
 import { IExerciseSearchOptions } from './interfaces';
 import { IExerciseDto } from './interfaces';
 import { IWorkoutExerciseDto } from './interfaces';
+import { IBaseExerciseDto } from './interfaces';
 import { IExerciseGoalDto } from './interfaces';
 import { IExerciseGoalSearchOptions } from './interfaces';
 import { IMeasurementDto } from './interfaces';
@@ -280,6 +281,48 @@ import { IWorkoutLogDto } from './interfaces';
 		const body = <any>{'id': id};
 		return this.httpClient.delete<IBaseResponseWrapper>(
 		this.settingsService.createApiUrl('Exercise/Delete'),
+		{
+			params: new HttpParams({ fromObject: body }),
+			responseType: 'json',
+			observe: 'response',
+			withCredentials: true
+		})
+		.pipe(map(response => response.body));
+		
+	}
+	public GetSelectedExercises(userId: number) : Observable<IResponseWrapper<IBaseExerciseDto[]> | null>
+	{
+		const body = <any>{'userId': userId};
+		return this.httpClient.get<IResponseWrapper<IBaseExerciseDto[]>>(
+		this.settingsService.createApiUrl('Exercise/GetSelectedExercises'),
+		{
+			params: new HttpParams({ fromObject: body }),
+			responseType: 'json',
+			observe: 'response',
+			withCredentials: true
+		})
+		.pipe(map(response => response.body));
+		
+	}
+	public Select(id: number) : Observable<IBaseResponseWrapper | null>
+	{
+		const body = <any>id;
+		return this.httpClient.post<IBaseResponseWrapper>(
+		this.settingsService.createApiUrl('Exercise/Select'),
+		body,
+		{
+			responseType: 'json',
+			observe: 'response',
+			withCredentials: true
+		})
+		.pipe(map(response => response.body));
+		
+	}
+	public Remove(id: number) : Observable<IBaseResponseWrapper | null>
+	{
+		const body = <any>{'id': id};
+		return this.httpClient.delete<IBaseResponseWrapper>(
+		this.settingsService.createApiUrl('Exercise/Remove'),
 		{
 			params: new HttpParams({ fromObject: body }),
 			responseType: 'json',

@@ -49,43 +49,9 @@ export interface IUserDto
 	isMainDetailsUpdate?: boolean;
 	workoutsCount?: number;
 }
-export interface IBodyweightDto
+export interface IBaseExerciseDto
 {
 	id: number;
-	value: number;
-	weightUnitId: eMeasurementUnit;
-	bodyFatPercentage?: number;
-	logDate?: Date | null;
-}
-export interface ICurrentBodyInfoDto
-{
-	bodyweight?: number;
-	bodyweightUnitId?: eMeasurementUnit;
-	bodyweightGoal?: number;
-	bodyweightGoalUnitId?: eMeasurementUnit;
-	bodyFatPercentage?: number;
-	waist?: number;
-	waistMeasurementUnitId?: eMeasurementUnit;
-	chest?: number;
-	chestMeasurementUnitId?: eMeasurementUnit;
-	thighs?: number;
-	thighsMeasurementUnitId?: eMeasurementUnit;
-	biceps?: number;
-	bicepsMeasurementUnitId?: eMeasurementUnit;
-}
-export interface IBodyweightGoalDto
-{
-	id: number;
-	target: number;
-	weightUnitId: eMeasurementUnit;
-	startDate: Date;
-	endDate: Date;
-}
-export interface ICountryDto
-{
-	id: number;
-	isO2: string;
-	isO3: string;
 	name: string;
 }
 export interface IExerciseDbApiDataDto
@@ -138,6 +104,7 @@ export interface IExerciseStatsDto
 	bodyweightUnitId?: eMeasurementUnit;
 	logDate: Date;
 	total: IExerciseTotalDto;
+	selectedExercises: IBaseExerciseDto[];
 }
 export interface IExerciseTotalDto
 {
@@ -167,6 +134,45 @@ export interface IWorkoutExerciseDto
 	primaryMuscleGroupId: number;
 	secondaryMuscleGroupId?: number;
 	sets: IWorkoutExerciseSetDto[];
+}
+export interface IBodyweightDto
+{
+	id: number;
+	value: number;
+	weightUnitId: eMeasurementUnit;
+	bodyFatPercentage?: number;
+	logDate?: Date | null;
+}
+export interface ICurrentBodyInfoDto
+{
+	bodyweight?: number;
+	bodyweightUnitId?: eMeasurementUnit;
+	bodyweightGoal?: number;
+	bodyweightGoalUnitId?: eMeasurementUnit;
+	bodyFatPercentage?: number;
+	waist?: number;
+	waistMeasurementUnitId?: eMeasurementUnit;
+	chest?: number;
+	chestMeasurementUnitId?: eMeasurementUnit;
+	thighs?: number;
+	thighsMeasurementUnitId?: eMeasurementUnit;
+	biceps?: number;
+	bicepsMeasurementUnitId?: eMeasurementUnit;
+}
+export interface IBodyweightGoalDto
+{
+	id: number;
+	target: number;
+	weightUnitId: eMeasurementUnit;
+	startDate: Date;
+	endDate: Date;
+}
+export interface ICountryDto
+{
+	id: number;
+	isO2: string;
+	isO3: string;
+	name: string;
 }
 export interface IExerciseGoalDto
 {
@@ -359,6 +365,7 @@ export interface IExerciseSearchOptions extends ISearchOptions
 	userId?: number;
 	chartTimespanId?: eChartTimespan;
 	exerciseIds: number[];
+	takeSelectedExercises?: boolean;
 }
 export interface IMeasurementGoalSearchOptions extends ISearchOptions
 {
