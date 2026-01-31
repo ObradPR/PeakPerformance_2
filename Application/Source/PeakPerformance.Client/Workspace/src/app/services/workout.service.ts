@@ -19,7 +19,8 @@ export class WorkoutService {
 
     async refreshWorkout(id: number) {
         const options = {
-            id: id
+            id: id,
+            userId: this.selectedUserId()
         } as IWorkoutSearchOptions;
         const res = await this.workoutController.GetSingle(options).toPromise();
         if (res?.isSuccess) this.workout.set(res.data);
@@ -32,6 +33,7 @@ export class WorkoutService {
         if (this.workoutLogsSignal() !== null && this.selectedUserId() === userId)
             return;
 
+        this.selectedUserId.set(userId);
         const res = await this.workoutController.GetAllWorkoutLogs(userId).toPromise();
         if (res?.isSuccess) this.workoutLogs.set(res.data);
     }

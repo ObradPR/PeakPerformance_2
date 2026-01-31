@@ -11,6 +11,7 @@ import { LoaderService } from '../../../services/loader.service';
 import { ModalService } from '../../../services/modal.service';
 import { WorkoutService } from '../../../services/workout.service';
 import { IModalMethods } from '../interfaces/modal-methods.interface';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-exercise-modal',

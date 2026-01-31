@@ -43,7 +43,6 @@ export class Home {
     if (user && user.id !== currentUser()?.id) {
       this.isCurrentUser = false;
       this.user.set(user);
-      console.log(this.user())
     }
     else {
       this.isCurrentUser = true;

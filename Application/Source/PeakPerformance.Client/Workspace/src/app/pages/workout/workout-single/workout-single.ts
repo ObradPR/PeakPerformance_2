@@ -9,6 +9,7 @@ import { ModalService } from '../../../services/modal.service';
 import { WorkoutService } from '../../../services/workout.service';
 import { WorkoutInfoStats } from "../workout-info-stats/workout-info-stats";
 import { WorkoutTemplate } from "../workout-template/workout-template";
+import { AuthService } from '../../../services/auth.service';
 
 enum eOtherWorkoutDirection {
   Previous = 1,
@@ -26,6 +27,8 @@ export class WorkoutSingle implements OnInit, AfterViewInit {
 
   private chart: Chart;
 
+  isCurrentUser: boolean = false;
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -33,6 +36,7 @@ export class WorkoutSingle implements OnInit, AfterViewInit {
     public modalService: ModalService,
     public workoutService: WorkoutService,
     private loaderService: LoaderService,
+    private authService: AuthService,
 
     private workoutController: WorkoutController,
   ) {
@@ -45,6 +49,8 @@ export class WorkoutSingle implements OnInit, AfterViewInit {
       this.workoutService.setInitialWorkout(resolvedWorkout);
     }
     this.workoutDate = new Date(this.workout()!.logDate);
+
+    this.isCurrentUser = this.workout()?.userId === this.authService.currentUserSource()?.id;
   }
 
   ngAfterViewInit(): void {
