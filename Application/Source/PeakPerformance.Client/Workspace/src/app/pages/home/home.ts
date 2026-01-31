@@ -1,5 +1,5 @@
-import { Component, Signal } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Component, signal, Signal, WritableSignal } from '@angular/core';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { DateTime } from 'luxon';
 import { eMeasurementUnit } from '../../_generated/enums';
 import { IEnumProvider, IUserDto } from '../../_generated/interfaces';
@@ -18,7 +18,8 @@ import { WorkoutsCalendar } from "../workout/workouts-calendar/workouts-calendar
   styleUrl: './home.css'
 })
 export class Home {
-  user: Signal<IUserDto | null>;
+  user: WritableSignal<IUserDto | null> = signal<IUserDto | null>(null);
+  isCurrentUser: boolean = false;
   age: number | null;
   countryIso2: string | null;
 
@@ -27,6 +28,8 @@ export class Home {
   userHeightMeasurementPreference: string = '';
 
   constructor(
+    private route: ActivatedRoute,
+
     private authService: AuthService,
     private providers: Providers,
 
@@ -34,7 +37,16 @@ export class Home {
 
     private measurementConverterPipe: MeasurementConverterPipe
   ) {
-    this.user = this.authService.currentUserSource;
+    const user = this.route.snapshot.data['user']?.data as IUserDto;
+    const currentUser = this.authService.currentUserSource;
+    if (user && user.id !== currentUser()?.id) {
+      this.isCurrentUser = false;
+      this.user.set(user);
+    }
+    else {
+      this.isCurrentUser = true;
+      this.user = currentUser;
+    }
     
     this.setUserHeight();
     this.setUserCountry();
@@ -61,9 +73,9 @@ export class Home {
 
   private setUserHeight() {
     if (!this.user()?.height) return;
-
+    
     this.measurementUnits = this.providers.getMeasurementUnits();
-
+    
     this.userHeightMeasurementPreference = this.measurementUnits.find(_ => _.id === this.user()?.measurementUnitId)!.description;
     if (this.userHeightMeasurementPreference === 'in') {
       this.userHeightMeasurementPreference = 'ft';

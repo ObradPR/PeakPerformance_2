@@ -530,6 +530,20 @@ import { IWorkoutSearchOptions } from './interfaces';
 		.pipe(map(response => response.body));
 		
 	}
+	public GetSingle(id: number) : Observable<IResponseWrapper<IUserDto> | null>
+	{
+		const body = <any>{'id': id};
+		return this.httpClient.get<IResponseWrapper<IUserDto>>(
+		this.settingsService.createApiUrl('User/GetSingle'),
+		{
+			params: new HttpParams({ fromObject: body }),
+			responseType: 'json',
+			observe: 'response',
+			withCredentials: true
+		})
+		.pipe(map(response => response.body));
+		
+	}
 	public Search(options: IUserSearchOptions) : Observable<IResponseWrapper<IPagingResult<IUserDto>> | null>
 	{
 		const body = <any>options;

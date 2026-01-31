@@ -50,7 +50,7 @@ export class RouteConstants {
   static TITLE_REGISTER = 'Register | ' + this.TITLE;
 
   // Pages
-  static ROUTE_HOME = '';
+  static ROUTE_HOME = 'user/:userId';
   static TITLE_HOME = 'Home | ' + this.TITLE;
 
   static ROUTE_BODYWEIGHT = 'bodyweight';

@@ -21,7 +21,7 @@ export class AuthService {
     private storageService: StorageService,
   ) { }
 
-  loadCurrentUser() {
+  loadCurrentUser(refresh: boolean = false) {
     const token = this.getToken();
     if (!token) return;
 
@@ -32,6 +32,8 @@ export class AuthService {
           this.signOut();
 
         this.currentUserSource.set(_!.data);
+        if (refresh) 
+          this.router.navigateByUrl(`/user/${_?.data.id}`)
       })
       .catch(ex => { throw ex; })
       .finally(() => this.loaderService.hidePageLoader());

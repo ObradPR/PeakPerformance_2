@@ -10,7 +10,12 @@ public class UserController(IMediator mediator) : BaseController(mediator)
     [HttpGet]
     [Authorize]
     [AngularMethod(typeof(ResponseWrapper<UserDto>))]
-    public async Task<IActionResult> GetCurrent() => Result(await Mediator.Send(new GetCurrentUserQuery()));
+    public async Task<IActionResult> GetCurrent() => Result(await Mediator.Send(new GetSingleUserQuery(null)));
+
+    [HttpGet]
+    [Authorize]
+    [AngularMethod(typeof(ResponseWrapper<UserDto>))]
+    public async Task<IActionResult> GetSingle([FromQuery] long id) => Result(await Mediator.Send(new GetSingleUserQuery(id)));
 
     [HttpPost]
     [Authorize]

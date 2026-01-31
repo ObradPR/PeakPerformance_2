@@ -2,16 +2,20 @@ import { Routes } from '@angular/router';
 import { RouteConstants } from './constants';
 import { authGuard } from './guards/auth.guard';
 import { workoutResolver } from './resolvers/workout.resolver';
+import { userResolver } from './resolvers/user.resolver';
 
 export const routes: Routes = [
     {
-        path: RouteConstants.ROUTE_HOME,
+        path: '',
         canActivate: [authGuard],
         children: [
             {
-                path: '',
+                path: RouteConstants.ROUTE_HOME,
                 title: RouteConstants.TITLE_HOME,
                 loadComponent: () => import('./pages/home/home').then(_ => _.Home),
+                resolve: {
+                    user: userResolver
+                }
             },
             {
                 path: RouteConstants.ROUTE_BODYWEIGHT,

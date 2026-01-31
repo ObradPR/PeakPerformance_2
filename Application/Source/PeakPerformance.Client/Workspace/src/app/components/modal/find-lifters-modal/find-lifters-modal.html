@@ -78,7 +78,7 @@
                 <!-- User list -->
                 <div class="d-flex flex-column mb-1">
                     @for (user of users.data; track $index) {
-                        <div class="user-item d-flex gap-3 align-items-center">
+                        <div class="user-item d-flex gap-3 align-items-center" (click)="selectUser(user.id)">
                           <div class="profile-image-wrapper">
                             @if (user.profilePictureUrl) {
                                <img [src]="user.profilePictureUrl" class="profile-image"/>

@@ -162,6 +162,12 @@ export class FindLiftersModal implements IModalMethods, OnInit {
     return value ?? 0;
   }
 
+  selectUser(userId: number) {
+    this.router.navigateByUrl('/', { skipLocationChange: true })
+      .then(() => this.router.navigateByUrl(`/user/${userId}`))
+      .then(() => this.modalService.hideFindLiftersModal());
+  }
+
 
   // events
 
