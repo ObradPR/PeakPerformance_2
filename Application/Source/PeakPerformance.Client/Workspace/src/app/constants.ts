@@ -62,7 +62,7 @@ export class RouteConstants {
   static ROUTE_SETTINGS = 'settings';
   static TITLE_SETTINGS = 'Settings | ' + this.TITLE;
 
-  static ROUTE_WORKOUTS = 'workouts';
+  static ROUTE_WORKOUTS = this.ROUTE_HOME + '/workouts';
   static TITLE_WORKOUTS = 'Workouts | ' + this.TITLE;
   static ROUTE_SINGLE_WORKOUT = this.ROUTE_WORKOUTS + "/:id";
 

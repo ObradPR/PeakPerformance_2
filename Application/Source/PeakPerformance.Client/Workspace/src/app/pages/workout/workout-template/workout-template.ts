@@ -23,6 +23,7 @@ export class WorkoutTemplate implements OnInit {
   workout = input<IWorkoutDto>();
   editable = input<boolean>(true);
   isFromMainWorkoutsScren = input<boolean>(false);
+  userId = input<number>(0);
 
   workoutTime: string;
   userWeightPreference: string;

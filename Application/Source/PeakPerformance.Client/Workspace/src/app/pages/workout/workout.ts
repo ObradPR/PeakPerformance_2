@@ -6,6 +6,8 @@ import { LoaderService } from '../../services/loader.service';
 import { ModalService } from '../../services/modal.service';
 import { WorkoutTemplate } from "./workout-template/workout-template";
 import { WorkoutsCalendar } from "./workouts-calendar/workouts-calendar";
+import { ActivatedRoute } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-workout',
@@ -19,12 +21,26 @@ export class Workout implements OnInit {
   first = 0;
   rows = 5;
 
+  userId: number = 0;
+  isCurrentUser: boolean = false;
+
   constructor(
+    private route: ActivatedRoute,
+
     public modalService: ModalService,
     private loaderService: LoaderService,
+    private authService: AuthService,
 
     private workoutController: WorkoutController
   ) {
+    this.userId = parseInt(this.route.snapshot.paramMap.get('userId') ?? '0') ?? 0;
+    if (this.userId !== this.authService.currentUserSource()?.id) {
+      this.isCurrentUser = false;
+    }
+    else {
+      this.isCurrentUser = true;
+    }
+
     this.getPaginatedWorkouts(this.first, this.rows);
   }
 
@@ -42,9 +58,12 @@ export class Workout implements OnInit {
   // private
 
   private getPaginatedWorkouts(skip: number, take: number) {
+    if (!this.userId) return; // TODO show toaster error
+
     this.loaderService.showPageLoader();
 
     const options = {
+      userId: this.userId,
       take: take,
       skip: skip,
       sortingOptions: [

@@ -62,7 +62,7 @@ export class WorkoutSingle implements OnInit, AfterViewInit {
       ?? 0;
 
     this.router.navigateByUrl('/', { skipLocationChange: true })
-      .then(() => this.router.navigateByUrl(`/workouts/${Number(workoutId)}`));
+      .then(() => this.router.navigateByUrl(`/user/${this.workoutService.workoutSignal()?.userId}/workouts/${Number(workoutId)}`));
   }
 
   // Update

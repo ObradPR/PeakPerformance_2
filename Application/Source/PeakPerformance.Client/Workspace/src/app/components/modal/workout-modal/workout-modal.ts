@@ -1,6 +1,6 @@
 import { Component, OnInit, output, OutputEmitterRef } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DateTime } from 'luxon';
 import { IWorkoutDto } from '../../../_generated/interfaces';
 import { WorkoutController } from '../../../_generated/services';
@@ -30,9 +30,12 @@ export class WorkoutModal extends BaseValidationComponent implements IModalMetho
 
   recentWorkouts: IWorkoutDto[] = [];
 
+  userId: number = 0;
+
   constructor(
     private fb: FormBuilder,
     private router: Router,
+    private route: ActivatedRoute,
 
     private workoutController: WorkoutController,
 
@@ -42,11 +45,15 @@ export class WorkoutModal extends BaseValidationComponent implements IModalMetho
     private workoutService: WorkoutService,
   ) {
     super();
+
+    this.userId = this.modalService.userIdSignal();
+
     this.modalType = this.modalService.workoutModalTypeSignal() === 'add' ? 'Add' : 'Edit';
     this.selectedWorkout = this.modalService.selectedWorkoutSignal();
 
     this.minLogDate = DateTime.now().minus({ months: 3 }).toISODate();
     this.maxLogDate = DateTime.now().plus({ months: 1 }).toISODate();
+
   }
 
   ngOnInit(): void {
@@ -105,7 +112,7 @@ export class WorkoutModal extends BaseValidationComponent implements IModalMetho
           this.router.navigateByUrl('/', { skipLocationChange: true })
             .then(() => {
               this.workoutService.resetWorkoutLogs();
-              this.router.navigateByUrl(`/workouts/${_.data}`);
+              this.router.navigateByUrl(`/user/${this.userId}/workouts/${_.data}`);
             });
         }
       })
