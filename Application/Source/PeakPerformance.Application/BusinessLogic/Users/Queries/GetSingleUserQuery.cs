@@ -14,7 +14,13 @@ public class GetSingleUserQuery(long? id) : IRequest<ResponseWrapper<UserDto>>
 
             var model = await db.Users.GetSingleAsync(_ => _.Id == userId, [_ => _.UserMeasurementPreferences]);
 
-            return model == null ? new() : new(mapper.Map<UserDto>(model));
+            if (model == null)
+                return new();
+
+            var result = mapper.Map<UserDto>(model);
+            result.WorkoutsCount = await db.Workouts.CountAsync(_ => _.UserId == userId && _.IsCompleted == true, cancellationToken);
+
+            return new(result);
         }
     }
 }

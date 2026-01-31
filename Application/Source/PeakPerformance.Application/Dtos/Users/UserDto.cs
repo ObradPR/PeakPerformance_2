@@ -38,6 +38,8 @@ public class UserDto
 
     public bool? IsMainDetailsUpdate { get; set; }
 
+    public int? WorkoutsCount { get; set; }
+
     // methods
 
     public void ToModel(User model)

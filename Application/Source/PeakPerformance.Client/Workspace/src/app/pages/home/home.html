@@ -40,7 +40,7 @@
               </div>
             }
           </span>
-          <span class="fs-5"><b>650</b> workouts</span>
+          <span class="fs-5"><b>{{ user()?.workoutsCount }}</b> workouts</span>
           @if(user()?.description) {
             <div style="width: 500px;">
               {{ user()!.description }}

@@ -47,6 +47,7 @@ export interface IUserDto
 	weightUnitId: eMeasurementUnit;
 	measurementUnitId: eMeasurementUnit;
 	isMainDetailsUpdate?: boolean;
+	workoutsCount?: number;
 }
 export interface IBodyweightDto
 {
