@@ -19,7 +19,7 @@ public class WorkoutController(IMediator mediator) : BaseController(mediator)
     [HttpGet]
     [Authorize]
     [AngularMethod(typeof(ResponseWrapper<IEnumerable<WorkoutLogDto>>))]
-    public async Task<IActionResult> GetAllWorkoutLogs() => Result(await Mediator.Send(new GetAllWorkoutLogsQuery()));
+    public async Task<IActionResult> GetAllWorkoutLogs([FromQuery] long userId) => Result(await Mediator.Send(new GetAllWorkoutLogsQuery(userId)));
 
     [HttpPost]
     [Authorize]

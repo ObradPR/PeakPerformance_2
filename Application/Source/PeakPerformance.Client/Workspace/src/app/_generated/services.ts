@@ -671,11 +671,13 @@ import { IWorkoutLogDto } from './interfaces';
 		.pipe(map(response => response.body));
 		
 	}
-	public GetAllWorkoutLogs() : Observable<IResponseWrapper<IWorkoutLogDto[]> | null>
+	public GetAllWorkoutLogs(userId: number) : Observable<IResponseWrapper<IWorkoutLogDto[]> | null>
 	{
+		const body = <any>{'userId': userId};
 		return this.httpClient.get<IResponseWrapper<IWorkoutLogDto[]>>(
 		this.settingsService.createApiUrl('Workout/GetAllWorkoutLogs'),
 		{
+			params: new HttpParams({ fromObject: body }),
 			responseType: 'json',
 			observe: 'response',
 			withCredentials: true

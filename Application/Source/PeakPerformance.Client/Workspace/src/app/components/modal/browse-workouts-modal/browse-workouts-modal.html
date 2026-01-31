@@ -7,7 +7,7 @@
     
     <div class="position-relative">
         <div class="my-modal-body">
-            <app-workouts-calendar [selectedDate]="selectedDate"/>
+            <app-workouts-calendar [selectedDate]="selectedDate" [userId]="modalService.userIdSignal()"/>
         </div>
     </div>
 

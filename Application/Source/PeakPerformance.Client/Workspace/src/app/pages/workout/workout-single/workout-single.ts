@@ -31,7 +31,7 @@ export class WorkoutSingle implements OnInit, AfterViewInit {
     private router: Router,
 
     public modalService: ModalService,
-    private workoutService: WorkoutService,
+    public workoutService: WorkoutService,
     private loaderService: LoaderService,
 
     private workoutController: WorkoutController,
@@ -41,7 +41,6 @@ export class WorkoutSingle implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     const resolvedWorkout = this.route.snapshot.data['workout']?.data;
-
     if (resolvedWorkout) {
       this.workoutService.setInitialWorkout(resolvedWorkout);
     }

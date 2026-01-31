@@ -38,10 +38,12 @@ export class Home {
     private measurementConverterPipe: MeasurementConverterPipe
   ) {
     const user = this.route.snapshot.data['user']?.data as IUserDto;
+    
     const currentUser = this.authService.currentUserSource;
     if (user && user.id !== currentUser()?.id) {
       this.isCurrentUser = false;
       this.user.set(user);
+      console.log(this.user())
     }
     else {
       this.isCurrentUser = true;

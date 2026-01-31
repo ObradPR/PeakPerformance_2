@@ -2,16 +2,16 @@
 
 namespace PeakPerformance.Application.BusinessLogic.Workouts.Queries;
 
-public class GetAllWorkoutLogsQuery() : IRequest<ResponseWrapper<IEnumerable<WorkoutLogDto>>>
+public class GetAllWorkoutLogsQuery(long userId) : IRequest<ResponseWrapper<IEnumerable<WorkoutLogDto>>>
 {
+    public long UserId { get; set; } = userId;
+
     public class GetAllWorkoutLogsQueryHandler(IDatabaseContext db, IIdentityUser identityUser) : IRequestHandler<GetAllWorkoutLogsQuery, ResponseWrapper<IEnumerable<WorkoutLogDto>>>
     {
         public async Task<ResponseWrapper<IEnumerable<WorkoutLogDto>>> Handle(GetAllWorkoutLogsQuery request, CancellationToken cancellationToken)
         {
-            var userId = identityUser.Id;
-
             var data = await db.Workouts
-                .Where(_ => _.UserId == userId)
+                .Where(_ => _.UserId == request.UserId)
                 .Select(_ => new WorkoutLogDto
                 {
                     Id = _.Id,

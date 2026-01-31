@@ -34,7 +34,7 @@ export class Workout implements OnInit {
     private workoutController: WorkoutController
   ) {
     this.userId = parseInt(this.route.snapshot.paramMap.get('userId') ?? '0') ?? 0;
-    console.log(this.userId, this.authService.currentUserSource());
+
     if (this.userId !== this.authService.currentUserSource()?.id) {
       this.isCurrentUser = false;
     }

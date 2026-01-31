@@ -61,7 +61,7 @@
     </div>
     
     <div class="workouts-calendar mt-4">
-        <app-workouts-calendar />
+        <app-workouts-calendar [userId]="user()!.id" />
     </div>
   }
   @else {

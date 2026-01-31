@@ -295,11 +295,13 @@ export class ModalService {
   readonly browseWorkoutsModalSignal = this.browseWorkoutsModal.asReadonly();
   readonly workoutDateSignal = this.workoutDate.asReadonly();
 
-  showBrowseWorkoutsModal(workoutDate: Date) {
+  showBrowseWorkoutsModal(workoutDate: Date, userId: number) {
     this.workoutDate.set(workoutDate)
+    this.userId.set(userId);
     this.browseWorkoutsModal.set(true);
   }
   hideBrowseWorkoutsModal() {
+    this.userId.set(0);
     this.browseWorkoutsModal.set(false);
     this.workoutDate.set(null);
   }

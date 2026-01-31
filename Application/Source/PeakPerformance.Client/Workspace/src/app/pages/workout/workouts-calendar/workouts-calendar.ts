@@ -17,6 +17,7 @@ import { WorkoutService } from '../../../services/workout.service';
 })
 export class WorkoutsCalendar implements OnInit {
   selectedDate = input<Date | null>(null);
+  userId = input<number>(0);
 
   workoutLogs: IWorkoutLogDto[] = [];
   loggedWorkoutDates: Date[] = [];
@@ -38,7 +39,7 @@ export class WorkoutsCalendar implements OnInit {
     this.loaderService.showPageLoader();
 
     this.workoutDate = this.selectedDate() ? new Date(this.selectedDate()!) : null;
-    this.workoutService.getWorkoutLogs()
+    this.workoutService.getWorkoutLogs(this.userId())
       .then(_ => {
         this.workoutLogs = this.workoutService.workoutLogsSignal() ?? [];
         this.loggedWorkoutDates = this.workoutLogs.map(_ => new Date(_.logDate));
@@ -110,7 +111,7 @@ export class WorkoutsCalendar implements OnInit {
     this.router.navigateByUrl('/', { skipLocationChange: true })
       .then(() => {
         this.modalService.hideBrowseWorkoutsModal(); // if its from the modal, if not doesn't hurt code a bit
-        this.router.navigateByUrl(`/workouts/${workoutId}`);
+        this.router.navigateByUrl(`/user/${this.userId()}/workouts/${workoutId}`);
       });
   }
 }

@@ -11,11 +11,11 @@
                 <button class="btn btn-primary" (click)="modalService.showAddWorkoutModal(userId)"><i class="fa-solid fa-calendar"></i> Add Workout</button>
             </div>
         </div>
-
-        <div class="workouts-calendar">
-            <app-workouts-calendar />
-        </div>
     }
+
+    <div class="workouts-calendar">
+        <app-workouts-calendar [userId]="userId" />
+    </div>
 
     @for (workout of workouts?.data; track workout) {
         <div class="pb-5">

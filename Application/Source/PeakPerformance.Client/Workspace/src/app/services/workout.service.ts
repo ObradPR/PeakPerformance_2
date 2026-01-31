@@ -9,6 +9,8 @@ export class WorkoutService {
     private workout = signal<IWorkoutDto | null>(null);
     readonly workoutSignal = this.workout.asReadonly();
 
+    private selectedUserId = signal<number>(0);
+
     constructor(private workoutController: WorkoutController) { }
 
     setInitialWorkout(workout: IWorkoutDto) {
@@ -26,11 +28,11 @@ export class WorkoutService {
     private workoutLogs = signal<IWorkoutLogDto[] | null>(null);
     readonly workoutLogsSignal = this.workoutLogs.asReadonly();
 
-    async getWorkoutLogs() {
-        if (this.workoutLogsSignal() !== null)
+    async getWorkoutLogs(userId: number) {
+        if (this.workoutLogsSignal() !== null && this.selectedUserId() === userId)
             return;
 
-        const res = await this.workoutController.GetAllWorkoutLogs().toPromise();
+        const res = await this.workoutController.GetAllWorkoutLogs(userId).toPromise();
         if (res?.isSuccess) this.workoutLogs.set(res.data);
     }
 
