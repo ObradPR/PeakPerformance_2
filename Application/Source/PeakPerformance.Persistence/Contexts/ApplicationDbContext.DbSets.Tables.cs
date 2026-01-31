@@ -29,4 +29,6 @@ public partial class ApplicationDbContext : IDatabaseContext
     public virtual DbSet<WorkoutExercise> WorkoutExercises { get; set; }
 
     public virtual DbSet<WorkoutExerciseSet> WorkoutExerciseSets { get; set; }
+
+    public virtual DbSet<UserSelectedExercise> UserSelectedExercises { get; set; }
 }
