@@ -101,20 +101,22 @@
                             <td>{{ row.weight | measurementConverter:row.weightUnitId }}</td>
                             <td>{{ row.reps }}</td>
                             <td>
-                                <span class="edit-dots" (click)="onOpenEditMenu(idx)">⋮</span>
-                                @if (selectedGoalMenu === idx) {
-                                    <div class="edit-menu" appClickOutside (clickOutside)="this.selectedGoalMenu = null">
-                                        <ul>
-                                            <li (click)="editExerciseGoal(row)">
-                                                <i class="fa-solid fa-pen"></i>
-                                                Edit
-                                            </li>
-                                            <li (click)="deleteExerciseGoal(row.id)" class="delete-item">
-                                                <i class="fa-solid fa-trash"></i>
-                                                Delete
-                                            </li>
-                                        </ul>
-                                    </div>
+                                @if (isCurrentUser) {
+                                    <span class="edit-dots" (click)="onOpenEditMenu(idx)">⋮</span>
+                                    @if (selectedGoalMenu === idx) {
+                                        <div class="edit-menu" appClickOutside (clickOutside)="this.selectedGoalMenu = null">
+                                            <ul>
+                                                <li (click)="editExerciseGoal(row)">
+                                                    <i class="fa-solid fa-pen"></i>
+                                                    Edit
+                                                </li>
+                                                <li (click)="deleteExerciseGoal(row.id)" class="delete-item">
+                                                    <i class="fa-solid fa-trash"></i>
+                                                    Delete
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    }
                                 }
                             </td>
                         </tr>
