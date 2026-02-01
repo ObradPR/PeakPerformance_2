@@ -34,22 +34,22 @@ export class DeactivateUserModal implements IModalMethods, OnInit {
 
   formInit(): void {
     this.form = this.fb.group({
-      notes: ['']
+      reason: ['']
     });
   }
 
   submit() {
-    // this.loaderService.showPageLoader();
+    this.loaderService.showPageLoader();
 
-    // this.userController.Deactivate(this.form.value).toPromise()
-    //   .then(_ => {
-    //     if (_?.isSuccess) {
-    //       this.authService.signOut();
-    //     }
-    //   })
-    //   .catch(ex => { throw ex; })
-    //   .finally(() => {
-    //     this.loaderService.hidePageLoader();
-    //   });
+    this.userController.Deactivate(this.form.value).toPromise()
+      .then(_ => {
+        if (_?.isSuccess) {
+          this.authService.signOut();
+        }
+      })
+      .catch(ex => { throw ex; })
+      .finally(() => {
+        this.loaderService.hidePageLoader();
+      });
   }
 }
