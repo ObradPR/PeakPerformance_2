@@ -5,279 +5,296 @@
 </div>
 
 <div class="col-12 col-lg-8 mx-auto info-wrapper">
-    <div class="col-12 my-5">
-        <div class="col-md-12">
-            <h3>Personal Details</h3>
+    @if (user && user.isActive) {
 
-            <div class="position-relative">
-                <form [formGroup]="form">
-                     <div class="position-relative">
-                        <label for="username">Username</label>
-                        <div class="input-group mb-3" validation [key]="'Username'" [errors]="errors">
-                            <input type="text" class="form-control" id="username" placeholder="Username" aria-label="Username" aria-describedby="username-addon" formControlName="username" />
+        <div class="col-12 my-5">
+            <div class="col-md-12">
+                <h3>Personal Details</h3>
+    
+                <div class="position-relative">
+                    <form [formGroup]="form">
+                         <div class="position-relative">
+                            <label for="username">Username</label>
+                            <div class="input-group mb-3" validation [key]="'Username'" [errors]="errors">
+                                <input type="text" class="form-control" id="username" placeholder="Username" aria-label="Username" aria-describedby="username-addon" formControlName="username" />
+                            </div>
                         </div>
-                    </div>
-                    <div class="position-relative">
-                        <label for="fullName">Full Name</label>
-                        <div class="input-group mb-3" validation [key]="'FullName'" [errors]="errors">
-                            <input type="text" class="form-control" id="fullName" placeholder="Full Name" aria-label="Full Name" aria-describedby="fullName-addon" formControlName="fullName" />
+                        <div class="position-relative">
+                            <label for="fullName">Full Name</label>
+                            <div class="input-group mb-3" validation [key]="'FullName'" [errors]="errors">
+                                <input type="text" class="form-control" id="fullName" placeholder="Full Name" aria-label="Full Name" aria-describedby="fullName-addon" formControlName="fullName" />
+                            </div>
                         </div>
-                    </div>
-                    <div class="position-relative">
-                        <label for="gender">Gender</label>
-                        <select id="gender" class="form-select mb-3" formControlName="genderId" validation [key]="'GenderId'" [errors]="errors">
-                            @for (gender of genders; track gender) {
-                                <option [ngValue]="gender.id">{{ gender.description }}</option>
-                            }
-                        </select>
-                    </div>
-                    <div class="position-relative">
-                        <label for="dateOfBirth">Date Of Birth</label>
-                        <div class="input-group mb-4" validation [key]="'DateOfBirth'" [errors]="errors">
-                            <span class="input-group-text" id="dateOfBirth-addon"><i class="fa-solid fa-calendar"></i></span>
-                            <input type="date" [min]="minDob" [max]="maxDob" class="form-control" id="dateOfBirth" placeholder="Date Of Birth" aria-label="Date Of Birth" aria-describedby="dateOfBirth-addon" formControlName="dateOfBirth" />
-                        </div>
-                    </div>
-                    <div class="position-relative">
-                        <label for="height">Height</label>
-                        <div class="input-group mb-3" validation [key]="'Height'" [errors]="errors">
-                            <input type="number" class="form-control" id="height" placeholder="0" aria-label="Height" aria-describedby="height-addon" formControlName="height" />
-                            <span class="input-group-text" id="height-addon">{{ this.userHeightMeasurementPreference }}</span>
-                        </div>
-                    </div>
-                    <div class="position-relative">
-                        <label for="country">Country</label>
-                        <div class="input-group mb-3" validation [key]="'CountryId'" [errors]="errors">
-
-                            <span class="input-group-text">
-                                @if(selectedIso2) {
-                                    <img  
-                                        [src]="'https://flagsapi.com/' + selectedIso2 + '/flat/32.png'"
-                                        style="height: 25px;"
-                                    />
-                                }
-                            </span>
-
-                            <select id="country" class="form-select" formControlName="countryId" (change)="onCountryChanged($event)">
-                                @for (country of countries; track country) {
-                                    <option [value]="country.id">{{ country.name }}</option>
+                        <div class="position-relative">
+                            <label for="gender">Gender</label>
+                            <select id="gender" class="form-select mb-3" formControlName="genderId" validation [key]="'GenderId'" [errors]="errors">
+                                @for (gender of genders; track gender) {
+                                    <option [ngValue]="gender.id">{{ gender.description }}</option>
                                 }
                             </select>
                         </div>
-                    </div>
-
-                    <div class="position-relative">
-                        <label for="description">Description</label>
-                        <div class="input-group mb-3" validation [key]="'Description'" [errors]="errors">
-                            <textarea class="form-control" id="description" placeholder="Something about yourself..." aria-label="Description" aria-describedby="description-addon" formControlName="description" rows="3"></textarea>
-                        </div>
-                    </div>
-                </form>
-
-                <button class="btn btn-primary" (click)="submitPersonalDetails(form, true)">Update Profile</button>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-12">
-        <div class="col-md-12">
-            <h3>Profile Photo</h3>
-
-            <div class="position-relative">
-                <form [formGroup]="formProfilePicture">
-
-                    <div class="d-flex flex-column">
-
-                        <!-- CIRCLE IMAGE WITH HOVER PENCIL -->
-                        <div class="profile-image-wrapper mb-3" (click)="fileInput.click()">
-
-                            <!-- Real Image -->
-                             @if(previewImage) {
-                                <img [src]="previewImage" class="profile-image"/>
-                             }
-                            <!-- Default User Icon -->
-                             @else {
-                                <div class="default-icon">
-                                    <i class="fa-solid fa-user"></i>
-                                </div>
-                             }
-
-                            <!-- Pencil Overlay -->
-                            <div class="edit-overlay">
-                                <i class="fa-solid fa-pen"></i>
+                        <div class="position-relative">
+                            <label for="dateOfBirth">Date Of Birth</label>
+                            <div class="input-group mb-4" validation [key]="'DateOfBirth'" [errors]="errors">
+                                <span class="input-group-text" id="dateOfBirth-addon"><i class="fa-solid fa-calendar"></i></span>
+                                <input type="date" [min]="minDob" [max]="maxDob" class="form-control" id="dateOfBirth" placeholder="Date Of Birth" aria-label="Date Of Birth" aria-describedby="dateOfBirth-addon" formControlName="dateOfBirth" />
                             </div>
                         </div>
-
-                        <!-- Hidden File Input -->
-                        <input type="file" #fileInput accept="image/*" style="display:none" (change)="onFileSelected($event)" />
-
-                        <!-- ACTION BUTTONS -->
-                        <div class="mt-2 d-flex align-items-center gap-2">
-                            <button class="btn btn-primary" type="button" (click)="submitProfilePicture()">
-                                Update Profile Picture
-                            </button>
-
-                            <!-- DELETE Picture -->
-                             @if(originalImage) {
-                                 <button class="btn btn-danger" type="button" (click)="deletePicture()">
-                                     Delete Picture
-                                 </button>
-                             }
-
-                            <!-- CANCEL CHANGES (only when user selected a new image) -->
-                             @if(hasUnsavedChange) {
-                                 <button class="btn btn-outline-secondary" type="button" (click)="cancelChanges()">
-                                     Cancel Changes
-                                 </button>
-                             }
+                        <div class="position-relative">
+                            <label for="height">Height</label>
+                            <div class="input-group mb-3" validation [key]="'Height'" [errors]="errors">
+                                <input type="number" class="form-control" id="height" placeholder="0" aria-label="Height" aria-describedby="height-addon" formControlName="height" />
+                                <span class="input-group-text" id="height-addon">{{ this.userHeightMeasurementPreference }}</span>
+                            </div>
                         </div>
-
-                    </div>
-
-                </form>
+                        <div class="position-relative">
+                            <label for="country">Country</label>
+                            <div class="input-group mb-3" validation [key]="'CountryId'" [errors]="errors">
+    
+                                <span class="input-group-text">
+                                    @if(selectedIso2) {
+                                        <img  
+                                            [src]="'https://flagsapi.com/' + selectedIso2 + '/flat/32.png'"
+                                            style="height: 25px;"
+                                        />
+                                    }
+                                </span>
+    
+                                <select id="country" class="form-select" formControlName="countryId" (change)="onCountryChanged($event)">
+                                    @for (country of countries; track country) {
+                                        <option [value]="country.id">{{ country.name }}</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+    
+                        <div class="position-relative">
+                            <label for="description">Description</label>
+                            <div class="input-group mb-3" validation [key]="'Description'" [errors]="errors">
+                                <textarea class="form-control" id="description" placeholder="Something about yourself..." aria-label="Description" aria-describedby="description-addon" formControlName="description" rows="3"></textarea>
+                            </div>
+                        </div>
+                    </form>
+    
+                    <button class="btn btn-primary" (click)="submitPersonalDetails(form, true)">Update Profile</button>
+                </div>
             </div>
         </div>
-    </div>
-
-    <div class="col-12 my-5">
-        <div class="col-md-12">
-            <h3>Sharing Settings</h3>
-
-            <div class="position-relative">
-                <form [formGroup]="formSharingSettings" class="mb-3">
-                    <div class="position-relative">
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="isPrivate" id="Public" formControlName="isPrivate" [value]="0">
-                            <label class="form-check-label" for="Public">
-                                <b>Public</b> - Share my profile with everyone
-                            </label>
+    
+        <div class="col-12">
+            <div class="col-md-12">
+                <h3>Profile Photo</h3>
+    
+                <div class="position-relative">
+                    <form [formGroup]="formProfilePicture">
+    
+                        <div class="d-flex flex-column">
+    
+                            <!-- CIRCLE IMAGE WITH HOVER PENCIL -->
+                            <div class="profile-image-wrapper mb-3" (click)="fileInput.click()">
+    
+                                <!-- Real Image -->
+                                 @if(previewImage) {
+                                    <img [src]="previewImage" class="profile-image"/>
+                                 }
+                                <!-- Default User Icon -->
+                                 @else {
+                                    <div class="default-icon">
+                                        <i class="fa-solid fa-user"></i>
+                                    </div>
+                                 }
+    
+                                <!-- Pencil Overlay -->
+                                <div class="edit-overlay">
+                                    <i class="fa-solid fa-pen"></i>
+                                </div>
+                            </div>
+    
+                            <!-- Hidden File Input -->
+                            <input type="file" #fileInput accept="image/*" style="display:none" (change)="onFileSelected($event)" />
+    
+                            <!-- ACTION BUTTONS -->
+                            <div class="mt-2 d-flex align-items-center gap-2">
+                                <button class="btn btn-primary" type="button" (click)="submitProfilePicture()">
+                                    Update Profile Picture
+                                </button>
+    
+                                <!-- DELETE Picture -->
+                                 @if(originalImage) {
+                                     <button class="btn btn-danger" type="button" (click)="deletePicture()">
+                                         Delete Picture
+                                     </button>
+                                 }
+    
+                                <!-- CANCEL CHANGES (only when user selected a new image) -->
+                                 @if(hasUnsavedChange) {
+                                     <button class="btn btn-outline-secondary" type="button" (click)="cancelChanges()">
+                                         Cancel Changes
+                                     </button>
+                                 }
+                            </div>
+    
                         </div>
-                    </div>
-                    <div class="position-relative">
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="isPrivate" id="Private" formControlName="isPrivate" [value]="1">
-                            <label class="form-check-label" for="Private">
-                                <b>Private</b> - Do not share my profile
-                            </label>
-                        </div>
-                    </div>
-                </form>
-
-                <button class="btn btn-primary" (click)="submitPersonalDetails(formSharingSettings)">Update Sharing Settings</button>
+    
+                    </form>
+                </div>
             </div>
         </div>
-    </div>
-
-    <div class="col-12">
-        <div class="col-md-12">
-            <h3 class="mb-2">Units of Measure</h3>
-
-            <div class="position-relative">
-                <form [formGroup]="formMeasurements" class="mb-3">
-                    <h4>Weight</h4>
-                    <div class="position-relative">
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="weightUnitId" id="radioWeightPounds" formControlName="weightUnitId" [value]="lbsId">
-                            <label class="form-check-label" for="radioWeightPounds">
-                                Use <b>pounds (lbs)</b> for both bodyweight and lift weight
-                            </label>
+    
+        <div class="col-12 my-5">
+            <div class="col-md-12">
+                <h3>Sharing Settings</h3>
+    
+                <div class="position-relative">
+                    <form [formGroup]="formSharingSettings" class="mb-3">
+                        <div class="position-relative">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="isPrivate" id="Public" formControlName="isPrivate" [value]="0">
+                                <label class="form-check-label" for="Public">
+                                    <b>Public</b> - Share my profile with everyone
+                                </label>
+                            </div>
                         </div>
-                    </div>
-                    <div class="position-relative">
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="weightUnitId" id="radioWeightKilos" formControlName="weightUnitId" [value]="kgId">
-                            <label class="form-check-label" for="radioWeightKilos">
-                                Use <b>kilograms (kg)</b> for both bodyweight and lift weight
-                            </label>
+                        <div class="position-relative">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="isPrivate" id="Private" formControlName="isPrivate" [value]="1">
+                                <label class="form-check-label" for="Private">
+                                    <b>Private</b> - Do not share my profile
+                                </label>
+                            </div>
                         </div>
-                    </div>
-                    <h4 class="mt-3">Size and Height</h4>
-                    <div class="position-relative">
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="measurementUnitId" id="radioMeasrurementCm" formControlName="measurementUnitId" [value]="cmId">
-                            <label class="form-check-label" for="radioMeasrurementCm">
-                                Use <b>centimeters (cm)</b> for sizes like waist circumference and height
-                            </label>
-                        </div>
-                    </div>
-                    <div class="position-relative">
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="measurementUnitId" id="radioMeasrurementInch" formControlName="measurementUnitId" [value]="inId">
-                            <label class="form-check-label" for="radioMeasrurementInch">
-                                Use <b>inches (in)</b> for sizes like waist circumference and <b>feet (ft)</b> for height
-                            </label>
-                        </div>
-                    </div>
-                </form>
-
-                <button class="btn btn-primary" (click)="submitMeasurementUnits()">Update Unit Settings</button>
+                    </form>
+    
+                    <button class="btn btn-primary" (click)="submitPersonalDetails(formSharingSettings)">Update Sharing Settings</button>
+                </div>
             </div>
         </div>
-    </div>
-
-    <div class="col-12 my-5">
-        <div class="col-md-12">
-            <h3>Account Email</h3>
-
-            <div class="position-relative">
-                <form [formGroup]="formEmail">
-                    <div class="position-relative">
-                        <label for="email">Email</label>
-                        <div class="input-group mb-3" validation [key]="'Email'" [errors]="errors">
-                            <span class="input-group-text" id="email-addon"><i class="fa-solid fa-at"></i></span>
-                            <input type="email" class="form-control" id="email" placeholder="Email" aria-label="Email" aria-describedby="email-addon" formControlName="email" />
+    
+        <div class="col-12">
+            <div class="col-md-12">
+                <h3 class="mb-2">Units of Measure</h3>
+    
+                <div class="position-relative">
+                    <form [formGroup]="formMeasurements" class="mb-3">
+                        <h4>Weight</h4>
+                        <div class="position-relative">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="weightUnitId" id="radioWeightPounds" formControlName="weightUnitId" [value]="lbsId">
+                                <label class="form-check-label" for="radioWeightPounds">
+                                    Use <b>pounds (lbs)</b> for both bodyweight and lift weight
+                                </label>
+                            </div>
                         </div>
-                    </div>
-                </form>
-
-                <button class="btn btn-primary" (click)="submitPersonalDetails(formEmail)">Change Email</button>
-            </div>
-            
-        </div>
-    </div>
-
-    <div class="col-12">
-        <div class="col-md-12">
-            <h3>Change Password</h3>
-
-            <div class="position-relative">
-                <form [formGroup]="formPassword">
-                    <div class="position-relative">
-                        <label for="oldPassword">Old Password</label>
-                        <div class="input-group mb-2" validation [key]="'OldPassword'" [errors]="errors">
-                            <input type="password" class="form-control" id="password" aria-label="Old Password" aria-describedby="oldPassword-addon" formControlName="oldPassword" />
+                        <div class="position-relative">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="weightUnitId" id="radioWeightKilos" formControlName="weightUnitId" [value]="kgId">
+                                <label class="form-check-label" for="radioWeightKilos">
+                                    Use <b>kilograms (kg)</b> for both bodyweight and lift weight
+                                </label>
+                            </div>
                         </div>
-                    </div>
-                    <div class="position-relative">
-                        <label for="newPassword">New Password</label>
-                        <div class="input-group mb-2" validation [key]="'NewPassword'" [errors]="errors">
-                            <input type="password" class="form-control" id="password" aria-label="New Password" aria-describedby="newPassword-addon" formControlName="newPassword" />
+                        <h4 class="mt-3">Size and Height</h4>
+                        <div class="position-relative">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="measurementUnitId" id="radioMeasrurementCm" formControlName="measurementUnitId" [value]="cmId">
+                                <label class="form-check-label" for="radioMeasrurementCm">
+                                    Use <b>centimeters (cm)</b> for sizes like waist circumference and height
+                                </label>
+                            </div>
                         </div>
-                    </div>
-                    <div class="position-relative">
-                        <label for="repeatPassword">Repeat Password</label>
-                        <div class="input-group mb-3" validation [key]="'RepeatPassword'" [errors]="errors">
-                            <input type="password" class="form-control" id="password" aria-label="Repeat Password" aria-describedby="repeatPassword-addon" formControlName="repeatPassword" />
+                        <div class="position-relative">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="measurementUnitId" id="radioMeasrurementInch" formControlName="measurementUnitId" [value]="inId">
+                                <label class="form-check-label" for="radioMeasrurementInch">
+                                    Use <b>inches (in)</b> for sizes like waist circumference and <b>feet (ft)</b> for height
+                                </label>
+                            </div>
                         </div>
-                    </div>
-                </form>
-
-                <button class="btn btn-primary" (click)="submitNewPassword()">Change Password</button>
-            </div>
-            
-        </div>
-    </div>
-
-    <hr>
-
-    <div class="col-12">
-        <div class="col-md-12">
-            <h3>Deactivate Account</h3>
-            <p>Deactivating your account is temporary. Your data is safely stored, your profile will be hidden, and you can reactivate your account whenever you choose.</p>
-
-            <div class="d-flex justify-content-end">
-                <button class="btn btn-danger" (click)="onAccountDeactivating()"><i class="fa-solid fa-user-slash"></i> Deactivate</button>
+                    </form>
+    
+                    <button class="btn btn-primary" (click)="submitMeasurementUnits()">Update Unit Settings</button>
+                </div>
             </div>
         </div>
-    </div>
+    
+        <div class="col-12 my-5">
+            <div class="col-md-12">
+                <h3>Account Email</h3>
+    
+                <div class="position-relative">
+                    <form [formGroup]="formEmail">
+                        <div class="position-relative">
+                            <label for="email">Email</label>
+                            <div class="input-group mb-3" validation [key]="'Email'" [errors]="errors">
+                                <span class="input-group-text" id="email-addon"><i class="fa-solid fa-at"></i></span>
+                                <input type="email" class="form-control" id="email" placeholder="Email" aria-label="Email" aria-describedby="email-addon" formControlName="email" />
+                            </div>
+                        </div>
+                    </form>
+    
+                    <button class="btn btn-primary" (click)="submitPersonalDetails(formEmail)">Change Email</button>
+                </div>
+                
+            </div>
+        </div>
+    
+        <div class="col-12">
+            <div class="col-md-12">
+                <h3>Change Password</h3>
+    
+                <div class="position-relative">
+                    <form [formGroup]="formPassword">
+                        <div class="position-relative">
+                            <label for="oldPassword">Old Password</label>
+                            <div class="input-group mb-2" validation [key]="'OldPassword'" [errors]="errors">
+                                <input type="password" class="form-control" id="password" aria-label="Old Password" aria-describedby="oldPassword-addon" formControlName="oldPassword" />
+                            </div>
+                        </div>
+                        <div class="position-relative">
+                            <label for="newPassword">New Password</label>
+                            <div class="input-group mb-2" validation [key]="'NewPassword'" [errors]="errors">
+                                <input type="password" class="form-control" id="password" aria-label="New Password" aria-describedby="newPassword-addon" formControlName="newPassword" />
+                            </div>
+                        </div>
+                        <div class="position-relative">
+                            <label for="repeatPassword">Repeat Password</label>
+                            <div class="input-group mb-3" validation [key]="'RepeatPassword'" [errors]="errors">
+                                <input type="password" class="form-control" id="password" aria-label="Repeat Password" aria-describedby="repeatPassword-addon" formControlName="repeatPassword" />
+                            </div>
+                        </div>
+                    </form>
+    
+                    <button class="btn btn-primary" (click)="submitNewPassword()">Change Password</button>
+                </div>
+                
+            </div>
+        </div>
+    
+        <hr>
+    
+        <div class="col-12">
+            <div class="col-md-12">
+                <h3>Deactivate Account</h3>
+                <p>Deactivating your account is temporary. Your data is safely stored, your profile will be hidden, and you can reactivate your account whenever you choose.</p>
+    
+                <div class="d-flex justify-content-end">
+                    <button class="btn btn-danger" (click)="onAccountDeactivating()"><i class="fa-solid fa-user-slash"></i> Deactivate</button>
+                </div>
+            </div>
+        </div>
+    }
+    @else if(user && !user.isActive) {
+        <div class="col-12">
+            <div class="col-md-12">
+                <h3>Activate Account</h3>
+                <p>Your account is currently deactivated. Activating your account will restore access to your profile, workouts, and all app features.</p>
+
+                <div class="d-flex justify-content-end">
+                <button class="btn btn-success" (click)="onAccountActivating()">
+                    <i class="fa-solid fa-user-check"></i> Activate
+                </button>
+                </div>
+            </div>
+        </div>
+    }
 </div>

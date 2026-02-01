@@ -13,6 +13,7 @@ import { FileUploadService } from '../../services/file-upload.service';
 import { LoaderService } from '../../services/loader.service';
 import { BaseValidationComponent } from '../_base/base.component/base-validation.component';
 import { ModalService } from '../../services/modal.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-settings',
@@ -59,6 +60,7 @@ export class Settings extends BaseValidationComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
+    private router: Router,
 
     private authService: AuthService,
     private providers: Providers,
@@ -345,7 +347,7 @@ export class Settings extends BaseValidationComponent implements OnInit {
           this.authService.loadCurrentUser(); // + show modal for success
       })
       .catch(ex => this.setErrors(ex))
-      .finally(() => this.loaderService.hidePageLoader())
+      .finally(() => this.loaderService.hidePageLoader());
   }
 
   // Deactivating Account
@@ -358,5 +360,19 @@ export class Settings extends BaseValidationComponent implements OnInit {
     if (!ok) return;
 
     this.modalService.showDeactivateUserModal();
+  }
+
+  // Activating Account
+
+  onAccountActivating() {
+    this.loaderService.showPageLoader();
+
+    this.userController.Activate().toPromise()
+      .then(_ => {
+        if(_?.isSuccess)
+          this.router.navigateByUrl(`/user/${this.user?.id}`);
+      })
+      .catch(ex => this.setErrors(ex))
+      .finally(() => this.loaderService.hidePageLoader());
   }
 }

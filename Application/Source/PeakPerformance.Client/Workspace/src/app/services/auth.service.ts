@@ -32,6 +32,12 @@ export class AuthService {
           this.signOut();
 
         this.currentUserSource.set(_!.data);
+
+        if (!_!.data.isActive) {
+          this.router.navigateByUrl('/settings');
+          return;
+        }
+
         if (refresh) {
           if (this.router.url.startsWith('/auth')) {
             this.router.navigateByUrl(`/user/${_?.data.id}`);

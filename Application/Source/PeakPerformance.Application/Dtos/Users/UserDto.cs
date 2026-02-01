@@ -40,6 +40,8 @@ public class UserDto
 
     public int? WorkoutsCount { get; set; }
 
+    public bool? IsActive { get; set; }
+
     // methods
 
     public void ToModel(User model)

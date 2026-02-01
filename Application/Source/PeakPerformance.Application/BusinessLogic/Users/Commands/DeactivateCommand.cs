@@ -16,8 +16,8 @@ public class DeactivateCommand(DeactivateReasonDto data) : IRequest<BaseResponse
             if (model == null)
                 return new(new Error(nameof(User), ResourceValidation.Not_Found.FormatWith(nameof(User))));
 
-            model.IsActive = false;
             model.DeactivateReason = request.Data.Reason;
+            db.Users.Remove(model);
 
             await db.SaveChangesAsync(cancellationToken);
 

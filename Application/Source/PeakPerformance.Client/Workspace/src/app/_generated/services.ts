@@ -672,6 +672,19 @@ import { IWorkoutLogDto } from './interfaces';
 		.pipe(map(response => response.body));
 		
 	}
+	public Activate() : Observable<IBaseResponseWrapper | null>
+	{
+		return this.httpClient.post<IBaseResponseWrapper>(
+		this.settingsService.createApiUrl('User/Activate'),
+		null,
+		{
+			responseType: 'json',
+			observe: 'response',
+			withCredentials: true
+		})
+		.pipe(map(response => response.body));
+		
+	}
 	public DeleteProfilePicture() : Observable<IBaseResponseWrapper | null>
 	{
 		return this.httpClient.delete<IBaseResponseWrapper>(

@@ -10,9 +10,10 @@ public class LoginCommand(LoginDto user) : IRequest<ResponseWrapper<Authorizatio
     {
         public async Task<ResponseWrapper<AuthorizationDto>> Handle(LoginCommand request, CancellationToken cancellationToken)
         {
-            var model = await db.Users.GetSingleAsync(_ => _.Username == request.User.Username, includeProperties: [
-                _ => _.UserRoles
-            ]);
+            var model = await db.Users
+                .IgnoreQueryFilters()
+                .Include(_ => _.UserRoles)
+                .FirstOrDefaultAsync(_ => _.Username == request.User.Username, cancellationToken);
 
             var verifyError = new Error(nameof(request.User), ResourceValidation.Wrong_Credentials);
 

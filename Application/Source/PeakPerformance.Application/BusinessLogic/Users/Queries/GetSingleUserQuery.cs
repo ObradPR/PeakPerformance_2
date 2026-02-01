@@ -12,13 +12,25 @@ public class GetSingleUserQuery(long? id) : IRequest<ResponseWrapper<UserDto>>
         {
             var userId = request.Id ?? identityUser.Id;
 
-            var model = await db.Users.GetSingleAsync(_ => _.Id == userId, [_ => _.UserMeasurementPreferences]);
+            var query = db.Users.AsQueryable();
+            if (request.Id == null)
+            {
+                query = query.IgnoreQueryFilters().Where(_ => _.Id == identityUser.Id);
+            }
+            else
+            {
+                query = query.Include(_ => _.UserMeasurementPreferences).Where(_ => _.Id == userId);
+            }
+
+            var model = await query.FirstOrDefaultAsync(cancellationToken);
 
             if (model == null)
                 return new();
 
             var result = mapper.Map<UserDto>(model);
-            result.WorkoutsCount = await db.Workouts.CountAsync(_ => _.UserId == userId && _.IsCompleted == true, cancellationToken);
+
+            if (model.IsActive == true)
+                result.WorkoutsCount = await db.Workouts.CountAsync(_ => _.UserId == userId && _.IsCompleted == true, cancellationToken);
 
             return new(result);
         }

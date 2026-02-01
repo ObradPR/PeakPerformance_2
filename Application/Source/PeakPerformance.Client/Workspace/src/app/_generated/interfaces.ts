@@ -52,6 +52,7 @@ export interface IUserDto
 	measurementUnitId: eMeasurementUnit;
 	isMainDetailsUpdate?: boolean;
 	workoutsCount?: number;
+	isActive?: boolean;
 }
 export interface IBaseExerciseDto
 {

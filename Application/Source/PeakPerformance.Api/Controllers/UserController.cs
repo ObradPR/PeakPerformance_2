@@ -68,6 +68,11 @@ public class UserController(IMediator mediator) : BaseController(mediator)
     [AngularMethod(typeof(BaseResponseWrapper))]
     public async Task<IActionResult> Deactivate([FromBody] DeactivateReasonDto data) => Result(await Mediator.Send(new DeactivateCommand(data)));
 
+    [HttpPost]
+    [Authorize]
+    [AngularMethod(typeof(BaseResponseWrapper))]
+    public async Task<IActionResult> Activate() => Result(await Mediator.Send(new ActivateCommand()));
+
     [HttpDelete]
     [Authorize]
     [AngularMethod(typeof(BaseResponseWrapper))]

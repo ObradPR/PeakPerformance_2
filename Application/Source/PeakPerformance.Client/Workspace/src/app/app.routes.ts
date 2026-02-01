@@ -3,11 +3,12 @@ import { RouteConstants } from './constants';
 import { authGuard } from './guards/auth.guard';
 import { workoutResolver } from './resolvers/workout.resolver';
 import { userResolver } from './resolvers/user.resolver';
+import { activeAccountGuard } from './guards/active-account.guard';
 
 export const routes: Routes = [
     {
         path: '',
-        canActivate: [authGuard],
+        canActivate: [authGuard, activeAccountGuard],
         children: [
             {
                 path: RouteConstants.ROUTE_HOME,
