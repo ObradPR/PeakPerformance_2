@@ -28,6 +28,8 @@ public class User : BaseIndexAuditedDomain<User, long>, IConfigurableEntity
 
     public bool? IsPrivate { get; set; }
 
+    public string DeactivateReason { get; set; }
+
     // Image
 
     public string ProfilePictureUrl { get; set; }
