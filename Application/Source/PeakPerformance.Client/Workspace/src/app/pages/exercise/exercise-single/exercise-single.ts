@@ -5,7 +5,7 @@ import Chart from 'chart.js/auto';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { DateTime } from 'luxon';
 import { eChartTimespan } from '../../../_generated/enums';
-import { IEnumProvider, IExerciseDto, IExerciseGoalDto, IExerciseGoalSearchOptions, IExerciseSearchOptions, IExerciseStatsDto } from '../../../_generated/interfaces';
+import { IEnumProvider, IExerciseDto, IExerciseGoalDto, IExerciseGoalSearchOptions, IExerciseSearchOptions, IExerciseStatsDto, IPagingResult, ISortingOptions } from '../../../_generated/interfaces';
 import { Providers } from '../../../_generated/providers';
 import { ExerciseController, ExerciseGoalController } from '../../../_generated/services';
 import { ShortInfoStats } from "../../../components/short-info-stats/short-info-stats";
@@ -15,11 +15,15 @@ import { eExerciseChartData, ExerciseService } from '../../../services/exercise.
 import { ModalService } from '../../../services/modal.service';
 import { QService } from '../../../services/q.service';
 import { SharedService } from '../../../services/shared.service';
+import { NgClass } from '@angular/common';
+import { UtcToLocalPipe } from '../../../pipes/utc-to-local.pipe';
+import { Paginator, PaginatorState } from 'primeng/paginator';
+import { ClickOutsideDirective } from '../../../directives/click-outside.directive';
 
 
 @Component({
   selector: 'app-exercise-single',
-  imports: [ShortInfoStats, FormsModule],
+  imports: [ShortInfoStats, FormsModule, NgClass, UtcToLocalPipe, MeasurementConverterPipe, Paginator, ClickOutsideDirective],
   templateUrl: './exercise-single.html',
   styleUrl: './exercise-single.css'
 })
@@ -36,6 +40,16 @@ export class ExerciseSingle implements OnDestroy {
 
   userId: number = 0;
   isCurrentUser: boolean = false;
+
+  goalsFirst = 0;
+  rows = 5;
+
+  paginatedGoalsData: IPagingResult<IExerciseGoalDto> = {
+    data: [],
+    total: 0
+  } as IPagingResult<IExerciseGoalDto>;
+
+  selectedGoalMenu: number | null;
 
   constructor(
     private route: ActivatedRoute,
@@ -66,6 +80,7 @@ export class ExerciseSingle implements OnDestroy {
     effect(() => {
       this.exerciseService.exerciseChartSignal();
       this.getChartData();
+      this.getPaginatedGoals(this.goalsFirst, this.rows);
     }, { allowSignalWrites: true })
 
     this.chartTimespans = this.providers.getChartTimespans();
@@ -75,8 +90,50 @@ export class ExerciseSingle implements OnDestroy {
 
   onTimespanChange = () => this.getChartData();
   onChartDataChange = () => this.chartInit();
+   onPageChange(event: PaginatorState) {
+    this.goalsFirst = event.first ?? this.goalsFirst;
+    this.rows = event.rows ?? this.rows;
+    this.getPaginatedGoals(this.goalsFirst, this.rows);
+  }
+  onOpenEditMenu(idx: number) {
+    this.selectedGoalMenu = null;
+
+    if (this.selectedGoalMenu === idx)
+      this.selectedGoalMenu = null;
+    else
+      this.selectedGoalMenu = idx;
+  }
 
   // methods
+
+  editExerciseGoal(data: IExerciseGoalDto) {
+    this.selectedGoalMenu = null;
+    this.modalService.showEditExerciseGoalModal(data);
+  }
+  deleteExerciseGoal(id: number) {
+    this.selectedGoalMenu = null;
+    this.exerciseGoalController.Delete(id).toPromise()
+      .then(_ => this.exerciseService.triggerExerciseChart())
+      .catch(ex => { throw ex; })
+  }
+
+  getPaginatedGoals(skip: number, take: number) {
+    const options = {
+      exerciseId: this.exerciseId,
+      userId: this.userId,
+      skip: skip,
+      take: take,
+      sortingOptions: [{field: 'EndDate', dir: 'desc'}] as ISortingOptions[]
+    } as IExerciseGoalSearchOptions ;
+
+    this.exerciseGoalController.Search(options).toPromise()
+      .then(_ => {
+        if (_?.data !== null) {
+          this.paginatedGoalsData = _?.data!;
+        }
+      })
+      .catch(ex => { throw ex; });
+  }
 
   getChartData() {
     this.destroyChart();

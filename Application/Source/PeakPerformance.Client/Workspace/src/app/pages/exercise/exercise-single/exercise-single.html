@@ -44,4 +44,61 @@
             <canvas id="exercises-line-chart" style="width: 100% !important;"></canvas>
         </div>
     </div>
+
+    <div class="pt-3">
+        <h3>Goals</h3>
+        <table class="data-table data-table-goals">
+            <thead>
+                <tr>
+                    <th>Start</th>
+                    <th>Finish</th>
+                    <th>Weight</th>
+                    <th>Reps</th>
+                    <th></th> <!-- Empty heading for edit dots -->
+                </tr>
+            </thead>
+            <tbody>
+                @for (row of paginatedGoalsData.data; track row; let idx = $index) {
+                    <tr [ngClass]="{'odd-row': idx % 2 !== 0}">
+                        <td>
+                            {{ row.startDate! | utcToLocal:'MMM d' }}
+                            <br/>
+                            <small>{{ row.startDate! | utcToLocal:'yyyy' }}</small>
+                        </td>
+                        <td>
+                            {{ row.endDate! | utcToLocal:'MMM d' }}
+                            <br/>
+                            <small>{{ row.endDate! | utcToLocal:'yyyy' }}</small>
+                        </td>
+                        <td>{{ row.weight | measurementConverter:row.weightUnitId }}</td>
+                        <td>{{ row.reps }}</td>
+                        <td>
+                            <span class="edit-dots" (click)="onOpenEditMenu(idx)">⋮</span>
+                            @if (selectedGoalMenu === idx) {
+                                <div class="edit-menu" appClickOutside (clickOutside)="this.selectedGoalMenu = null">
+                                    <ul>
+                                        <li (click)="editExerciseGoal(row)">
+                                            <i class="fa-solid fa-pen"></i>
+                                            Edit
+                                        </li>
+                                        <li (click)="deleteExerciseGoal(row.id)" class="delete-item">
+                                            <i class="fa-solid fa-trash"></i>
+                                            Delete
+                                        </li>
+                                    </ul>
+                                </div>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <div class="d-flex justify-content-center">
+            <p-paginator (onPageChange)="onPageChange($event)" 
+                [first]="goalsFirst" 
+                [rows]="rows" 
+                [totalRecords]="paginatedGoalsData.total"
+                [showFirstLastIcon]="false" />
+        </div>
+    </div>
 </div>
