@@ -15,7 +15,6 @@ public class GetExerciseQuery(long id) : IRequest<ResponseWrapper<ExerciseDto>>
 
             var result = await db.Exercises.FirstOrDefaultAsync(_ => _.Id == request.Id, cancellationToken);
 
-            // TODO: you need manually to map muscle targets and instructions from db data(json, flags) to dto data (string[])
             return new(mapper.Map<ExerciseDto>(result));
         }
     }

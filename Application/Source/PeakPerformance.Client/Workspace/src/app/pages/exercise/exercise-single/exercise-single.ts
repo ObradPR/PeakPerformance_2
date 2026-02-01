@@ -1,19 +1,20 @@
-import { Component, effect, OnDestroy, OnInit } from '@angular/core';
+import { Component, effect, OnDestroy } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import Chart from 'chart.js/auto';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { DateTime } from 'luxon';
 import { eChartTimespan } from '../../../_generated/enums';
-import { IEnumProvider, IExerciseGoalDto, IExerciseGoalSearchOptions, IExerciseSearchOptions, IExerciseStatsDto } from '../../../_generated/interfaces';
+import { IEnumProvider, IExerciseDto, IExerciseGoalDto, IExerciseGoalSearchOptions, IExerciseSearchOptions, IExerciseStatsDto } from '../../../_generated/interfaces';
+import { Providers } from '../../../_generated/providers';
 import { ExerciseController, ExerciseGoalController } from '../../../_generated/services';
 import { ShortInfoStats } from "../../../components/short-info-stats/short-info-stats";
-import { ModalService } from '../../../services/modal.service';
-import { SharedService } from '../../../services/shared.service';
-import { eExerciseChartData, ExerciseService } from '../../../services/exercise.service';
-import ChartDataLabels from 'chartjs-plugin-datalabels';
-import { QService } from '../../../services/q.service';
 import { MeasurementConverterPipe } from '../../../pipes/measurement-converter.pipe';
-import { FormsModule } from '@angular/forms';
-import { Providers } from '../../../_generated/providers';
+import { AuthService } from '../../../services/auth.service';
+import { eExerciseChartData, ExerciseService } from '../../../services/exercise.service';
+import { ModalService } from '../../../services/modal.service';
+import { QService } from '../../../services/q.service';
+import { SharedService } from '../../../services/shared.service';
 
 
 @Component({
@@ -22,16 +23,19 @@ import { Providers } from '../../../_generated/providers';
   templateUrl: './exercise-single.html',
   styleUrl: './exercise-single.css'
 })
-export class ExerciseSingle implements OnInit, OnDestroy {
+export class ExerciseSingle implements OnDestroy {
   private chart!: Chart;
   exerciseData: IExerciseStatsDto[] = [];
   goalData: IExerciseGoalDto[] = [];
   exerciseId: number = 0;
+  exerciseInfo: IExerciseDto | null = null;
 
   chartTimespans: IEnumProvider[] = [];
   selectedTimespan: number = eChartTimespan.Last6Months;
   selectedChartData: number = eExerciseChartData.MaxWeight;
 
+  userId: number = 0;
+  isCurrentUser: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -44,11 +48,20 @@ export class ExerciseSingle implements OnInit, OnDestroy {
     public modalService: ModalService,
     private sharedService: SharedService,
     public exerciseService: ExerciseService,
+    private authService: AuthService,
 
     private measurementConverterPipe: MeasurementConverterPipe,
   ) {
-    console.log('usao')
     this.exerciseId = parseInt(this.route.snapshot.paramMap.get('id') ?? '0') ?? 0;
+
+    this.userId = parseInt(this.route.snapshot.paramMap.get('userId') ?? '0') ?? 0;
+
+    if (this.userId !== this.authService.currentUserSource()?.id) {
+      this.isCurrentUser = false;
+    }
+    else {
+      this.isCurrentUser = true;
+    }
 
     effect(() => {
       this.exerciseService.exerciseChartSignal();
@@ -56,10 +69,6 @@ export class ExerciseSingle implements OnInit, OnDestroy {
     }, { allowSignalWrites: true })
 
     this.chartTimespans = this.providers.getChartTimespans();
-  }
-
-  ngOnInit(): void {
-    this.getChartData();
   }
 
   // events
@@ -84,7 +93,8 @@ export class ExerciseSingle implements OnInit, OnDestroy {
 
     this.$q.all([
       this.exerciseController.Search(options).toPromise(),
-      this.exerciseGoalController.Search(goalOptions).toPromise()
+      this.exerciseGoalController.Search(goalOptions).toPromise(),
+      this.exerciseController.GetSingle(this.exerciseId).toPromise(),
     ])
       .then(result => {
         if (result[0] !== null)
@@ -92,6 +102,9 @@ export class ExerciseSingle implements OnInit, OnDestroy {
 
         if (result[1] !== null)
           this.goalData = result[1]?.data?.data ?? [];
+
+        if (result[2] !== null)
+          this.exerciseInfo = result[2]?.data;
 
         this.chartInit();
       });

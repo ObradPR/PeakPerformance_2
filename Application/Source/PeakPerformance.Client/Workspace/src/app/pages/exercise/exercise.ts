@@ -1,18 +1,18 @@
 import { NgStyle, TitleCasePipe } from '@angular/common';
 import { Component, effect, OnDestroy } from '@angular/core';
-import { Router } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import Chart from 'chart.js/auto';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
+import { DateTime } from 'luxon';
+import { eChartTimespan } from '../../_generated/enums';
+import { IBaseExerciseDto, IEnumProvider, IExerciseSearchOptions, IExerciseStatsDto } from '../../_generated/interfaces';
+import { Providers } from '../../_generated/providers';
 import { ExerciseController } from '../../_generated/services';
+import { AuthService } from '../../services/auth.service';
 import { eExerciseChartData, ExerciseService } from '../../services/exercise.service';
 import { ModalService } from '../../services/modal.service';
-import { IBaseExerciseDto, IEnumProvider, IExerciseDto, IExerciseSearchOptions, IExerciseStatsDto } from '../../_generated/interfaces';
-import { eChartTimespan } from '../../_generated/enums';
-import { Providers } from '../../_generated/providers';
-import { FormsModule } from '@angular/forms';
-import { DateTime } from 'luxon';
 import { SharedService } from '../../services/shared.service';
-import ChartDataLabels from 'chartjs-plugin-datalabels';
-import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-exercise',
@@ -35,8 +35,12 @@ export class Exercise implements OnDestroy {
 
   selectedExercises: IBaseExerciseDto[] = [];
 
+  userId: number = 0;
+  isCurrentUser: boolean = false;
+
   constructor(
     private router: Router,
+    private route: ActivatedRoute,
 
     private exerciseController: ExerciseController,
 
@@ -46,6 +50,16 @@ export class Exercise implements OnDestroy {
     private sharedService: SharedService,
     private authService: AuthService,
   ) {
+    this.userId = parseInt(this.route.snapshot.paramMap.get('userId') ?? '0') ?? 0;
+
+    if (this.userId !== this.authService.currentUserSource()?.id) {
+      this.isCurrentUser = false;
+    }
+    else {
+      this.isCurrentUser = true;
+    }
+
+
     effect(() => {
       this.exerciseService.exerciseChartSignal();
       this.getChartData();
@@ -79,11 +93,11 @@ export class Exercise implements OnDestroy {
   // methods
 
   openExerciseReportPage(exerciseId: number) {
-    this.router.navigateByUrl(`/exercises/${exerciseId}`);
+    this.router.navigateByUrl(`/user/${this.userId}/exercises/${exerciseId}`);
   }
 
   getSelectedExercises() {
-    this.exerciseController.GetSelectedExercises(this.authService.currentUserSource()!.id).toPromise()
+    this.exerciseController.GetSelectedExercises(this.userId).toPromise()
       .then(_ => this.selectedExercises = _?.data ?? [])
   }
 
@@ -92,8 +106,9 @@ export class Exercise implements OnDestroy {
 
     const options: any = {
       chartTimespanId: this.selectedTimespan,
-      takeSelectedExercises: true
-    };
+      takeSelectedExercises: true,
+      userId: this.userId
+    } as IExerciseSearchOptions;
 
     this.exerciseController.Search(options).toPromise()
       .then(_ => {

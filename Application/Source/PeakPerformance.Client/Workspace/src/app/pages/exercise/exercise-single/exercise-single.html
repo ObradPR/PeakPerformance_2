@@ -1,7 +1,7 @@
 <div class="col-12 cover-img cover-img-exercises">
     <div class="info-wrapper d-flex justify-content-start align-items-center">
-        <h1 style="cursor: pointer; width: auto;" (click)="modalService.showExereciseReportModal()">
-            {{ exerciseData[0]?.name ?? '' }} <i class="fa-solid fa-angle-down"></i>
+        <h1 style="cursor: pointer; width: auto;" (click)="modalService.showExereciseReportModal(userId)">
+            {{ exerciseInfo?.name ?? '' }} <i class="fa-solid fa-angle-down"></i>
         </h1>
         <div style="margin-top: -1.5rem;" class="ms-4">
             <app-short-info-stats
@@ -14,7 +14,9 @@
 
 <div class="col-12 info-wrapper">
     <div class="d-flex justify-content-start align-items-center gap-3">
-        <button class="btn btn-secondary" (click)="modalService.showAddExerciseGoalModal(exerciseData[0]!.id)"><i class="fa-solid fa-chart-line"></i> Add Goal</button>
+        @if (isCurrentUser) {
+            <button class="btn btn-secondary" (click)="modalService.showAddExerciseGoalModal(exerciseId)"><i class="fa-solid fa-chart-line"></i> Add Goal</button>
+        }
 
         <button class="btn btn-light" (click)="modalService.showHowToExerciseModal(exerciseId)"><i class="fa-solid fa-graduation-cap"></i> How To</button>
     </div>

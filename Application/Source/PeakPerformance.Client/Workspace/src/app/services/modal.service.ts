@@ -173,6 +173,7 @@ export class ModalService {
     this.order.set(0);
     this.exerciseId.set(0);
     this.isFromExercisesScreen.set(false);
+    this.userId.set(0);
     this.isAddingExerciseForComparison.set(false);
   }
 
@@ -194,8 +195,9 @@ export class ModalService {
     this.exerciseId.set(0);
   }
 
-  showExereciseReportModal() {
+  showExereciseReportModal(userId: number) {
     this.isFromExercisesScreen.set(true);
+    this.userId.set(userId);
     this.exerciseModal.set(true);
   }
 
