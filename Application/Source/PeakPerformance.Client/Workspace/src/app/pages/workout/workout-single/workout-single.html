@@ -24,7 +24,10 @@
 
 <div class="col-12 info-wrapper">
     @if (workout()) {
-        <app-workout-template [workout]="workout()!" [editable]="isCurrentUser"/>
+        <app-workout-template 
+            [workout]="workout()!" 
+            [editable]="isCurrentUser"
+            [userId]="workout()!.userId"/>
     
         <hr>
 

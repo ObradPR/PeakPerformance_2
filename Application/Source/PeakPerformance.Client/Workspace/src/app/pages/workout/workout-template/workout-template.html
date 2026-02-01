@@ -74,7 +74,8 @@
 <app-exercises-template 
     [exercises]="workout()?.exercises ?? []"
     [editable]="editable() && !workout()?.isCompleted"
-    [workoutId]="workout()!.id"/>
+    [workoutId]="workout()!.id"
+    [userId]="userId()"/>
 
 @if (editable() && !workout()?.isCompleted) {
     <div class="row">

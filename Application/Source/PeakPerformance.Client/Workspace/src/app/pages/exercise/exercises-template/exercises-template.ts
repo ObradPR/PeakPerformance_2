@@ -7,7 +7,7 @@ import { LoaderService } from '../../../services/loader.service';
 import { ModalService } from '../../../services/modal.service';
 import { WorkoutService } from '../../../services/workout.service';
 import { SetsTemplate } from "../../set/sets-template/sets-template";
-
+import { RouterLink } from "@angular/router";
 
 export enum eOrderMove {
   Up = 1,
@@ -16,7 +16,7 @@ export enum eOrderMove {
 
 @Component({
   selector: 'app-exercises-template',
-  imports: [TitleCasePipe, SetsTemplate, ClickOutsideDirective],
+  imports: [TitleCasePipe, SetsTemplate, ClickOutsideDirective, RouterLink],
   templateUrl: './exercises-template.html',
   styleUrl: './exercises-template.css'
 })
@@ -24,6 +24,7 @@ export class ExercisesTemplate {
   exercises = input<IWorkoutExerciseDto[]>([]);
   editable = input<boolean>(true);
   workoutId = input<number>(0);
+  userId = input<number>(0);
 
   selectedExerciseMenu: number | null;
 

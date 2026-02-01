@@ -3,7 +3,12 @@
 @if (exercises().length > 0) {
     @for (exercise of exercises(); track $index; let idx = $index) {
         <div class="d-flex justify-content-between align-items-center position-relative">
-            <h3>{{ exercise.name | titlecase }}</h3>
+            <h3 
+                class="clickable"
+                [routerLink]="['/user', userId(), 'exercises', exercise.exerciseId]"
+            >
+                {{ exercise.name | titlecase }}
+            </h3>
             <span class="edit-dots edit-dots-exercise" (click)="onOpenExerciseEditMenu(idx)">⋮</span>
             @if (selectedExerciseMenu === idx) {
                 <div class="edit-menu edit-menu-exercise" appClickOutside (clickOutside)="this.selectedExerciseMenu = null">
