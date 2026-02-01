@@ -1,4 +1,5 @@
 ﻿using PeakPerformance.Application.Dtos.ExerciseGoals;
+using PeakPerformance.Domain.Exceptions;
 
 namespace PeakPerformance.Application.BusinessLogic.ExerciseGoals.Queries;
 
@@ -17,7 +18,14 @@ public class SearchExerciseGoalQuery(ExerciseGoalSearchOptions options) : IReque
             var predicates = new List<Expression<Func<ExerciseGoal, bool>>>();
 
             if (userId.IsNotEmpty())
+            {
+                if (!await db.Users.AnyAsync(_ => _.Id == userId && (userId == identityUser.Id || _.IsPrivate != true), cancellationToken))
+                {
+                    throw new ForbiddenException();
+                }
+
                 predicates.Add(_ => _.UserId == userId);
+            }
 
             if (options.ExerciseId.IsNotNullOrEmpty())
                 predicates.Add(_ => _.Exercise.Id == options.ExerciseId);

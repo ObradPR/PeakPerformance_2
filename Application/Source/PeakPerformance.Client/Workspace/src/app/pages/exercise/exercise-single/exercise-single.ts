@@ -84,11 +84,13 @@ export class ExerciseSingle implements OnDestroy {
     const options = {
       chartTimespanId: this.selectedTimespan,
       exerciseIds: [this.exerciseId],
+      userId: this.userId,
     } as IExerciseSearchOptions;
 
     const goalOptions = {
       chartTimespanId: this.selectedTimespan,
-      exerciseId: this.exerciseId
+      exerciseId: this.exerciseId,
+      userId: this.userId,
     } as IExerciseGoalSearchOptions ;
 
     this.$q.all([

@@ -1,4 +1,5 @@
 ﻿using PeakPerformance.Application.Dtos.Exercises;
+using PeakPerformance.Domain.Exceptions;
 
 namespace PeakPerformance.Application.BusinessLogic.Exercises.Queries;
 
@@ -17,7 +18,12 @@ public class SearchExerciseQuery(ExerciseSearchOptions options) : IRequest<Respo
             var predicates = new List<Expression<Func<WorkoutExercise, bool>>>();
 
             if (userId.IsNotEmpty())
-                predicates.Add(_ => _.Workout.UserId == userId);
+                if (!await db.Users.AnyAsync(_ => _.Id == userId && (userId == identityUser.Id || _.IsPrivate != true), cancellationToken))
+                {
+                    throw new ForbiddenException();
+                }
+
+            predicates.Add(_ => _.Workout.UserId == userId);
 
             if (options.ChartTimespanId.HasValue)
             {

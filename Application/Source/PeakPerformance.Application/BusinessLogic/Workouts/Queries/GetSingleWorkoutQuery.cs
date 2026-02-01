@@ -17,12 +17,17 @@ public class GetSingleWorkoutQuery(WorkoutSearchOptions options) : IRequest<Resp
 
             var userId = request.Options.UserId ?? identityUser.Id;
 
+            if (!await db.Users.AnyAsync(_ => _.Id == userId && (userId == identityUser.Id || _.IsPrivate != true), cancellationToken))
+            {
+                throw new ForbiddenException();
+            }
+
             var model = await db.Workouts
                 .Include(_ => _.WorkoutExercises)
                     .ThenInclude(_ => _.WorkoutExerciseSets)
                  .Include(_ => _.WorkoutExercises)
                     .ThenInclude(_ => _.Exercise)
-                .FirstOrDefaultAsync(_ => _.Id == request.Options.Id && _.UserId == userId && (request.Options.UserId == identityUser.Id || _.User.IsPrivate != true), cancellationToken)
+                .FirstOrDefaultAsync(_ => _.Id == request.Options.Id && _.UserId == userId, cancellationToken)
                 ?? throw new NotFoundException();
 
             var data = mapper.Map<WorkoutDto>(model);

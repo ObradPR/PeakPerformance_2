@@ -1,4 +1,5 @@
 ﻿using PeakPerformance.Application.Dtos.Workouts;
+using PeakPerformance.Domain.Exceptions;
 
 namespace PeakPerformance.Application.BusinessLogic.Workouts.Queries;
 
@@ -17,7 +18,14 @@ public class SearchWorkoutQuery(WorkoutSearchOptions options) : IRequest<Respons
             var predicates = new List<Expression<Func<Workout, bool>>>();
 
             if (userId.IsNotEmpty())
-                predicates.Add(_ => _.UserId == userId && (request.Options.UserId == identityUser.Id || _.User.IsPrivate != true));
+            {
+                if (!await db.Users.AnyAsync(_ => _.Id == userId && (userId == identityUser.Id || _.IsPrivate != true), cancellationToken))
+                {
+                    throw new ForbiddenException();
+                }
+
+                predicates.Add(_ => _.UserId == userId);
+            }
 
             options.Take++; // this is for the 6th workout, details that will be used for 5th workout
 

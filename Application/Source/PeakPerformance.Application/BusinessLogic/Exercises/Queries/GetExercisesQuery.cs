@@ -34,7 +34,6 @@ public class GetExercisesQuery(ExerciseSearchOptions options) : IRequest<Respons
 
             var result = await db.Exercises.SearchAsync(options, _ => _.Id, false, predicates);
 
-            // TODO: you need manually to map muscle targets and instructions from db data(json, flags) to dto data (string[])
             return new(new()
             {
                 Data = mapper.Map<IEnumerable<ExerciseDto>>(result.Data),

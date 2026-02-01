@@ -1,13 +1,15 @@
 import { HttpErrorResponse, HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { catchError } from 'rxjs';
 import { Constants, RouteConstants } from '../constants';
 import { ToastService } from '../services/toast.service';
+import { AuthService } from '../services/auth.service';
 
 export const errorInterceptor: HttpInterceptorFn = (req, next) => {
   const toast = inject(ToastService);
   const router = inject(Router);
+  const auth = inject(AuthService);
 
   return next(req).pipe(
     catchError((error: HttpErrorResponse) => {
@@ -39,7 +41,7 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
               router.navigateByUrl(RouteConstants.ROUTE_UNAUTHORIZED);
               break;
             case 403:
-              router.navigateByUrl(RouteConstants.ROUTE_HOME);
+              router.navigateByUrl(`/user/${auth.currentUserSource()?.id}`);
               break;
             case 404:
               router.navigateByUrl(RouteConstants.ROUTE_NOT_FOUND);

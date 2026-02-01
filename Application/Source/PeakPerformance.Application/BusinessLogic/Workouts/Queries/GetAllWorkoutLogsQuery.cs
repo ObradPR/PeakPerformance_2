@@ -1,4 +1,5 @@
 ﻿using PeakPerformance.Application.Dtos.Workouts;
+using PeakPerformance.Domain.Exceptions;
 
 namespace PeakPerformance.Application.BusinessLogic.Workouts.Queries;
 
@@ -10,6 +11,12 @@ public class GetAllWorkoutLogsQuery(long userId) : IRequest<ResponseWrapper<IEnu
     {
         public async Task<ResponseWrapper<IEnumerable<WorkoutLogDto>>> Handle(GetAllWorkoutLogsQuery request, CancellationToken cancellationToken)
         {
+            if (!await db.Users.AnyAsync(_ => _.Id == request.UserId && (request.UserId == identityUser.Id || _.IsPrivate != true), cancellationToken))
+            {
+                throw new ForbiddenException();
+            }
+
+
             var data = await db.Workouts
                 .Where(_ => _.UserId == request.UserId)
                 .Select(_ => new WorkoutLogDto
