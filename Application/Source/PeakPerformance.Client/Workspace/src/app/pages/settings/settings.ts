@@ -12,6 +12,7 @@ import { AuthService } from '../../services/auth.service';
 import { FileUploadService } from '../../services/file-upload.service';
 import { LoaderService } from '../../services/loader.service';
 import { BaseValidationComponent } from '../_base/base.component/base-validation.component';
+import { ModalService } from '../../services/modal.service';
 
 @Component({
   selector: 'app-settings',
@@ -63,6 +64,7 @@ export class Settings extends BaseValidationComponent implements OnInit {
     private providers: Providers,
     private loaderService: LoaderService,
     private fileUploadService: FileUploadService,
+    private modalService: ModalService,
 
     private countryController: CountryController,
     private userController: UserController,
@@ -344,5 +346,17 @@ export class Settings extends BaseValidationComponent implements OnInit {
       })
       .catch(ex => this.setErrors(ex))
       .finally(() => this.loaderService.hidePageLoader())
+  }
+
+  // Deactivating Account
+
+  onAccountDeactivating() {
+    const ok = window.confirm(
+      `Deactivate your account?\n\nYour profile will be hidden and you won't be able to access anything until you reactivate.`
+    );
+
+    if (!ok) return;
+
+    this.modalService.showDeactivateUserModal();
   }
 }

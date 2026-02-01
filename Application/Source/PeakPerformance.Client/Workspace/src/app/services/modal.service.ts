@@ -320,4 +320,18 @@ export class ModalService {
   hideFindLiftersModal() {
     this.findLiftersModal.set(false);
   }
+
+  // Deactivate User
+
+  private deactivateUserModal = signal<boolean>(false);
+  readonly deactivateUserModalSignal = this.deactivateUserModal.asReadonly();
+
+  showDeactivateUserModal() {
+    this.deactivateUserModal.set(true);
+  }
+
+  hideDeactivateUserModal() {
+    this.deactivateUserModal.set(false);
+  }
+
 }

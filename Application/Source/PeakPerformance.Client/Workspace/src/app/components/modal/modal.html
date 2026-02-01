@@ -44,3 +44,7 @@
 @if (modalService.findLiftersModalSignal()) {
     <app-find-lifters-modal (closeModalEvent)="modalService.hideFindLiftersModal()"></app-find-lifters-modal>
 }
+
+@if (modalService.deactivateUserModalSignal()) {
+    <app-deactivate-user-modal (closeModalEvent)="modalService.hideDeactivateUserModal()"></app-deactivate-user-modal>
+}

@@ -1,0 +1,25 @@
+<div class="my-backdrop"></div>
+<section class="my-modal sm">
+    <div class="my-modal-header">
+        <h3>Deactivate Account</h3>
+        <i class="fa-solid fa-circle-xmark" (click)="closeModal()"></i>
+    </div>
+
+    <div class="position-relative">
+        <div class="my-modal-body">
+            <form [formGroup]="form">
+                <div class="position-relative">
+                    <div class="input-group">
+                        <textarea class="form-control" id="notes" aria-label="notes" aria-describedby="notes-addon" placeholder="Tell us the reason" formControlName="notes" rows="4"></textarea>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="my-modal-footer">
+        <button class="btn btn-danger" (click)="submit()"><i class="fa-solid fa-user-slash"></i> Deactivate</button>
+        <button class="btn btn-secondary" (click)="form.get('notes')?.setValue('')">Clear</button>
+        <button class="btn btn-secondary" (click)="closeModal()">Close</button>
+    </div>
+</section>

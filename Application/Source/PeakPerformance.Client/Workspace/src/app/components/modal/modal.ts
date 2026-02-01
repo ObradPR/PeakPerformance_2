@@ -12,10 +12,11 @@ import { WorkoutModal } from "./workout-modal/workout-modal";
 import { BrowseWorkoutsModal } from "./browse-workouts-modal/browse-workouts-modal";
 import { ExerciseGoalModal } from "./exercise-goal-modal/exercise-goal-modal";
 import { FindLiftersModal } from "./find-lifters-modal/find-lifters-modal";
+import { DeactivateUserModal } from './deactivate-user-modal/deactivate-user-modal';
 
 @Component({
   selector: 'app-modal',
-  imports: [BodyweightModal, BodyweightGoalModal, MeasurementModal, MeasurementGoalModal, WorkoutModal, ExerciseModal, NotesModal, HowToExerciseModal, SetModal, BrowseWorkoutsModal, ExerciseGoalModal, FindLiftersModal],
+  imports: [BodyweightModal, BodyweightGoalModal, MeasurementModal, MeasurementGoalModal, WorkoutModal, ExerciseModal, NotesModal, HowToExerciseModal, SetModal, BrowseWorkoutsModal, ExerciseGoalModal, FindLiftersModal, DeactivateUserModal],
   templateUrl: './modal.html',
   styles: ``
 })
