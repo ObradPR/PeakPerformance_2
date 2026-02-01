@@ -254,83 +254,86 @@ export class ExerciseSingle implements OnDestroy {
     const goalDatasets: any[] = [];
     const goalValues: number[] = [];
 
-    if (this.goalData?.length) {
-      const maxGoalEntry = this.goalData
-        .reduce((max, current) => (current.weight! > max.weight! ? current : max), this.goalData[0]);
-
-      const maxGoalWeight = parseFloat(this.measurementConverterPipe.transform(maxGoalEntry.weight, maxGoalEntry.weightUnitId));
-      goalValues.push(maxGoalWeight);
-
-      this.goalData.forEach((goal, idx) => {
-        let goalData: (number | null)[] = new Array(allDates.length).fill(null);
-
-        // End date
-        const goalEndDate = DateTime.fromJSDate(new Date(goal.endDate)).toFormat('MMM dd yyyy');
-        const endIdx = allDates.indexOf(goalEndDate);
-        if (endIdx !== -1) goalData[endIdx] = parseFloat(this.measurementConverterPipe.transform(goal.weight!, goal.weightUnitId));
-
-        // Start date
-        let goalStartWeight: number | null = null;
-        const goalStartDate = DateTime.fromJSDate(new Date(goal.startDate)).toFormat('MMM dd yyyy');
-        const startIdx = allDates.indexOf(goalStartDate);
-
-        if (startIdx !== -1) {
-          const log = this.exerciseData.find(log =>
-            DateTime.fromJSDate(this.sharedService.getLocalDate(log.logDate)).toFormat('MMM dd yyyy') === goalStartDate
-          );
-          goalStartWeight = log
-            ? log.total.maxWeight!
-            : null; // setting a start of the goal to weight at that time
-        }
-
-        if (!goalStartWeight) {
-          // <
-          const closestLog = [...this.exerciseData]
-            .filter(log => this.sharedService.getLocalDate(log.logDate) < this.sharedService.getLocalDate(goal.startDate))
-            .sort((a, b) =>
-              DateTime.fromJSDate(this.sharedService.getLocalDate(b.logDate))
-                .diff(DateTime.fromJSDate(this.sharedService.getLocalDate(a.logDate)), 'milliseconds')
-                .milliseconds
-            )[0];
-          goalStartWeight = closestLog
-            ? closestLog.total.maxWeight!
-            : null; // setting a start of the goal to closest weight at that time
-
+    if (this.selectedChartData === eExerciseChartData.MaxWeight) {
+      if (this.goalData?.length) {
+        const maxGoalEntry = this.goalData
+          .reduce((max, current) => (current.weight! > max.weight! ? current : max), this.goalData[0]);
+  
+        const maxGoalWeight = parseFloat(this.measurementConverterPipe.transform(maxGoalEntry.weight, maxGoalEntry.weightUnitId));
+        goalValues.push(maxGoalWeight);
+  
+        this.goalData.forEach((goal, idx) => {
+          let goalData: (number | null)[] = new Array(allDates.length).fill(null);
+  
+          // End date
+          const goalEndDate = DateTime.fromJSDate(new Date(goal.endDate)).toFormat('MMM dd yyyy');
+          const endIdx = allDates.indexOf(goalEndDate);
+          if (endIdx !== -1) goalData[endIdx] = parseFloat(this.measurementConverterPipe.transform(goal.weight!, goal.weightUnitId));
+  
+          // Start date
+          let goalStartWeight: number | null = null;
+          const goalStartDate = DateTime.fromJSDate(new Date(goal.startDate)).toFormat('MMM dd yyyy');
+          const startIdx = allDates.indexOf(goalStartDate);
+  
+          if (startIdx !== -1) {
+            const log = this.exerciseData.find(log =>
+              DateTime.fromJSDate(this.sharedService.getLocalDate(log.logDate)).toFormat('MMM dd yyyy') === goalStartDate
+            );
+            goalStartWeight = log
+              ? log.total.maxWeight!
+              : null; // setting a start of the goal to weight at that time
+          }
+  
           if (!goalStartWeight) {
-            // >
+            // <
             const closestLog = [...this.exerciseData]
-              .filter(log => this.sharedService.getLocalDate(log.logDate) > this.sharedService.getLocalDate(goal.startDate))
+              .filter(log => this.sharedService.getLocalDate(log.logDate) < this.sharedService.getLocalDate(goal.startDate))
               .sort((a, b) =>
-                DateTime.fromJSDate(this.sharedService.getLocalDate(a.logDate))
-                  .diff(DateTime.fromJSDate(this.sharedService.getLocalDate(b.logDate)), 'milliseconds')
+                DateTime.fromJSDate(this.sharedService.getLocalDate(b.logDate))
+                  .diff(DateTime.fromJSDate(this.sharedService.getLocalDate(a.logDate)), 'milliseconds')
                   .milliseconds
               )[0];
-
-
             goalStartWeight = closestLog
               ? closestLog.total.maxWeight!
-              : null;
+              : null; // setting a start of the goal to closest weight at that time
+  
+            if (!goalStartWeight) {
+              // >
+              const closestLog = [...this.exerciseData]
+                .filter(log => this.sharedService.getLocalDate(log.logDate) > this.sharedService.getLocalDate(goal.startDate))
+                .sort((a, b) =>
+                  DateTime.fromJSDate(this.sharedService.getLocalDate(a.logDate))
+                    .diff(DateTime.fromJSDate(this.sharedService.getLocalDate(b.logDate)), 'milliseconds')
+                    .milliseconds
+                )[0];
+  
+  
+              goalStartWeight = closestLog
+                ? closestLog.total.maxWeight!
+                : null;
+            }
           }
-        }
-
-        if (startIdx !== -1 && goalStartWeight !== null) {
-          goalData[startIdx] = goalStartWeight;
-        }
-
-        // Push a separate dataset for each goal
-        goalDatasets.push({
-          label: `Goal ${idx + 1}`,
-          data: goalData,
-          backgroundColor: 'rgba(255, 0, 0, 1)',
-          borderColor: 'rgba(255, 0, 0, 1)',
-          borderWidth: 2,
-          borderDash: [10, 5],
-          fill: false,
-          tension: 0.3,
-          spanGaps: true,
+  
+          if (startIdx !== -1 && goalStartWeight !== null) {
+            goalData[startIdx] = goalStartWeight;
+          }
+  
+          // Push a separate dataset for each goal
+          goalDatasets.push({
+            label: `Goal ${idx + 1}`,
+            data: goalData,
+            backgroundColor: 'rgba(255, 0, 0, 1)',
+            borderColor: 'rgba(255, 0, 0, 1)',
+            borderWidth: 2,
+            borderDash: [10, 5],
+            fill: false,
+            tension: 0.3,
+            spanGaps: true,
+          });
         });
-      });
+      }
     }
+
 
     // max/min
 
