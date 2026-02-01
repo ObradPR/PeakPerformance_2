@@ -15,6 +15,8 @@ export class HowToExerciseModal {
   closeModalEvent: OutputEmitterRef<boolean> = output<boolean>();
   exercise: IExerciseDto | null;
 
+  muscles: string;
+
   constructor(
     private exerciseController: ExerciseController,
 
@@ -27,6 +29,8 @@ export class HowToExerciseModal {
       .then((res: any) => {
         if (res.isSuccess) {
           this.exercise = res.data;
+
+          this.muscles = this.exercise!.primaryMuscleGroups.concat(this.exercise!.secondaryMuscleGroups.filter(_ => !this.exercise!.primaryMuscleGroups.includes(_))).join(', ');
         }
       })
       .catch(ex => {

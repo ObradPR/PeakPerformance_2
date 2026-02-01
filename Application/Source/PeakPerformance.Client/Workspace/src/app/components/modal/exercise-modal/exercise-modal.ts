@@ -90,6 +90,10 @@ export class ExerciseModal implements IModalMethods, OnInit {
       })
   }
 
+  getMuscles(exercise: IExerciseDto): string {
+    return exercise!.primaryMuscleGroups.concat(exercise!.secondaryMuscleGroups.filter(_ => !exercise!.primaryMuscleGroups.includes(_))).join(', ');
+  }
+
   getExercises(search = this.search, offset = this.offset, limit = this.limit) {
     this.offset = offset;
 

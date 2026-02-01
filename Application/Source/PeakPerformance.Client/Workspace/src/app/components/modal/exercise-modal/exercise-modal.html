@@ -31,7 +31,7 @@
 
                                 <small class="exercise-muscles mt-1">
                                     <span class="exercise-target-muscles">Target Muscles:</span>
-                                    {{ (exercise.primaryMuscleGroups.concat(exercise.secondaryMuscleGroups)).join(', ') | titlecase }}
+                                    {{ getMuscles(exercise) | titlecase }}
                                 </small>
                             </div>
 
