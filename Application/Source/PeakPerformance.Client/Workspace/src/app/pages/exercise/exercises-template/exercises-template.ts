@@ -25,6 +25,7 @@ export class ExercisesTemplate {
   editable = input<boolean>(true);
   workoutId = input<number>(0);
   userId = input<number>(0);
+  showName = input<boolean>(true);
 
   selectedExerciseMenu: number | null;
 

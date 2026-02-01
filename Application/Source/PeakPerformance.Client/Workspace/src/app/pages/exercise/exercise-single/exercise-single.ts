@@ -5,9 +5,9 @@ import Chart from 'chart.js/auto';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { DateTime } from 'luxon';
 import { eChartTimespan } from '../../../_generated/enums';
-import { IEnumProvider, IExerciseDto, IExerciseGoalDto, IExerciseGoalSearchOptions, IExerciseSearchOptions, IExerciseStatsDto, IPagingResult, ISortingOptions } from '../../../_generated/interfaces';
+import { IEnumProvider, IExerciseDto, IExerciseGoalDto, IExerciseGoalSearchOptions, IExerciseSearchOptions, IExerciseStatsDto, IPagingResult, ISortingOptions, IWorkoutDto, IWorkoutExerciseDto, IWorkoutSearchOptions } from '../../../_generated/interfaces';
 import { Providers } from '../../../_generated/providers';
-import { ExerciseController, ExerciseGoalController } from '../../../_generated/services';
+import { ExerciseController, ExerciseGoalController, WorkoutController } from '../../../_generated/services';
 import { ShortInfoStats } from "../../../components/short-info-stats/short-info-stats";
 import { MeasurementConverterPipe } from '../../../pipes/measurement-converter.pipe';
 import { AuthService } from '../../../services/auth.service';
@@ -19,11 +19,12 @@ import { NgClass } from '@angular/common';
 import { UtcToLocalPipe } from '../../../pipes/utc-to-local.pipe';
 import { Paginator, PaginatorState } from 'primeng/paginator';
 import { ClickOutsideDirective } from '../../../directives/click-outside.directive';
+import { WorkoutTemplate } from "../../workout/workout-template/workout-template";
 
 
 @Component({
   selector: 'app-exercise-single',
-  imports: [ShortInfoStats, FormsModule, NgClass, UtcToLocalPipe, MeasurementConverterPipe, Paginator, ClickOutsideDirective],
+  imports: [ShortInfoStats, FormsModule, NgClass, UtcToLocalPipe, MeasurementConverterPipe, Paginator, ClickOutsideDirective, WorkoutTemplate],
   templateUrl: './exercise-single.html',
   styleUrl: './exercise-single.css'
 })
@@ -41,6 +42,14 @@ export class ExerciseSingle implements OnDestroy {
   userId: number = 0;
   isCurrentUser: boolean = false;
 
+  workoutsFirst = 0;
+  workoutsRows = 5;
+
+  workoutsData: IPagingResult<IWorkoutDto> = {
+    data: [],
+    total: 0,
+  } as IPagingResult<IWorkoutDto>;
+
   goalsFirst = 0;
   rows = 5;
 
@@ -51,11 +60,14 @@ export class ExerciseSingle implements OnDestroy {
 
   selectedGoalMenu: number | null;
 
+
+
   constructor(
     private route: ActivatedRoute,
 
     private exerciseController: ExerciseController,
     private exerciseGoalController: ExerciseGoalController,
+    private workoutController: WorkoutController,
 
     private $q: QService,
     private providers: Providers,
@@ -77,6 +89,8 @@ export class ExerciseSingle implements OnDestroy {
       this.isCurrentUser = true;
     }
 
+    this.getPaginatedWorkouts(this.workoutsFirst, this.workoutsRows);
+
     effect(() => {
       this.exerciseService.exerciseChartSignal();
       this.getChartData();
@@ -90,7 +104,7 @@ export class ExerciseSingle implements OnDestroy {
 
   onTimespanChange = () => this.getChartData();
   onChartDataChange = () => this.chartInit();
-   onPageChange(event: PaginatorState) {
+  onPageChange(event: PaginatorState) {
     this.goalsFirst = event.first ?? this.goalsFirst;
     this.rows = event.rows ?? this.rows;
     this.getPaginatedGoals(this.goalsFirst, this.rows);
@@ -102,6 +116,12 @@ export class ExerciseSingle implements OnDestroy {
       this.selectedGoalMenu = null;
     else
       this.selectedGoalMenu = idx;
+  }
+
+  onWorkoutsPageChange(event: PaginatorState) {
+    this.workoutsFirst = event.first ?? this.workoutsFirst;
+    this.workoutsRows = event.rows ?? this.workoutsRows;
+    this.getPaginatedWorkouts(this.workoutsFirst, this.workoutsRows);
   }
 
   // methods
@@ -128,9 +148,29 @@ export class ExerciseSingle implements OnDestroy {
 
     this.exerciseGoalController.Search(options).toPromise()
       .then(_ => {
-        if (_?.data !== null) {
-          this.paginatedGoalsData = _?.data!;
+        if (_?.isSuccess) {
+          this.paginatedGoalsData = _.data;
         }
+      })
+      .catch(ex => { throw ex; });
+  }
+
+  getPaginatedWorkouts(skip: number, take: number) {
+    const options = {
+      exerciseId: this.exerciseId,
+      userId: this.userId,
+      take: take,
+      skip: skip,
+      sortingOptions: [
+        { field: 'LogDate', dir: 'desc' },
+        { field: 'Id', dir: 'desc' }
+      ] as ISortingOptions[]
+    } as IWorkoutSearchOptions;
+
+    this.workoutController.Search(options).toPromise()
+      .then(_ => {
+        if(_?.isSuccess)
+          this.workoutsData = _.data;
       })
       .catch(ex => { throw ex; });
   }

@@ -45,8 +45,35 @@
         </div>
     </div>
 
+    @if (workoutsData.data.length > 0) {
+        <div class="pt-5">
+            <h3>Workouts</h3>
+
+            @for (workout of workoutsData.data; track $index) {
+                <div class="pb-5">
+                    <app-workout-template 
+                        [workout]="workout" 
+                        [editable]="false"
+                        [showRouterLink]="true"
+                        [userId]="userId"
+                        [isFromExerciseScreen]="true"/>
+                </div>
+            }
+
+            @if (workoutsData.data.length > 0) {
+                <div class="flex justify-content-center">
+                    <p-paginator (onPageChange)="onWorkoutsPageChange($event)" 
+                        [first]="workoutsFirst" 
+                        [rows]="workoutsRows" 
+                        [totalRecords]="workoutsData.total"
+                        [showFirstLastIcon]="workoutsData.total > 25" />
+                </div>
+            }
+        </div>
+    }
+
     @if (paginatedGoalsData.data.length > 0) {
-        <div class="pt-3">
+        <div class="pt-5">
             <h3>Goals</h3>
             <table class="data-table data-table-goals">
                 <thead>
@@ -99,7 +126,7 @@
                     [first]="goalsFirst" 
                     [rows]="rows" 
                     [totalRecords]="paginatedGoalsData.total"
-                    [showFirstLastIcon]="false" />
+                    [showFirstLastIcon]="paginatedGoalsData.total > 25" />
             </div>
         </div>
     }

@@ -22,8 +22,9 @@ import { ExercisesTemplate } from '../../exercise/exercises-template/exercises-t
 export class WorkoutTemplate implements OnInit {
   workout = input<IWorkoutDto>();
   editable = input<boolean>(true);
-  isFromMainWorkoutsScren = input<boolean>(false);
+  showRouterLink = input<boolean>(false);
   userId = input<number>(0);
+  isFromExerciseScreen = input<boolean>(false);
 
   workoutTime: string;
   userWeightPreference: string;

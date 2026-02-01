@@ -392,6 +392,7 @@ export interface IWorkoutSearchOptions extends ISearchOptions
 {
 	id?: number;
 	userId?: number;
+	exerciseId?: number;
 }
 export interface IBaseResponseWrapper
 {

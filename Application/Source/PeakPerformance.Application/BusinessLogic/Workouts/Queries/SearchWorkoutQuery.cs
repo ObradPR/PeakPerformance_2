@@ -27,6 +27,9 @@ public class SearchWorkoutQuery(WorkoutSearchOptions options) : IRequest<Respons
                 predicates.Add(_ => _.UserId == userId);
             }
 
+            if (options.ExerciseId.IsNotNullOrEmpty())
+                predicates.Add(_ => _.WorkoutExercises.Any(_ => _.ExerciseId == options.ExerciseId));
+
             options.Take++; // this is for the 6th workout, details that will be used for 5th workout
 
             var result = await db.Workouts.SearchAsync(options, _ => _.LogDate, true, predicates,
@@ -43,6 +46,9 @@ public class SearchWorkoutQuery(WorkoutSearchOptions options) : IRequest<Respons
 
             foreach (var workout in data)
             {
+                if (options.ExerciseId.IsNotNullOrEmpty())
+                    workout.Exercises = workout.Exercises.Where(_ => _.ExerciseId == options.ExerciseId).ToList();
+
                 var allSets = workout.Exercises.SelectMany(e => e.Sets).ToList();
                 var workingSets = allSets.Where(s => s.TypeId != eSetType.Warmup).ToList();
 
