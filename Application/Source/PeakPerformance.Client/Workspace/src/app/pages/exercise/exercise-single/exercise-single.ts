@@ -162,8 +162,11 @@ export class ExerciseSingle implements OnDestroy {
         if (result[1] !== null)
           this.goalData = result[1]?.data?.data ?? [];
 
-        if (result[2] !== null)
+        if (result[2] !== null) {
           this.exerciseInfo = result[2]?.data;
+          if (this.exerciseInfo?.isCardio === true)
+            this.selectedChartData = eExerciseChartData.TotalCardioTime;
+        }
 
         this.chartInit();
       });
