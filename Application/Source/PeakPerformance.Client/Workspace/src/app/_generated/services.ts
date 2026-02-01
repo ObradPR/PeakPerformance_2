@@ -32,6 +32,7 @@ import { IWorkoutExerciseSetDto } from './interfaces';
 import { IUserDto } from './interfaces';
 import { IUserSearchOptions } from './interfaces';
 import { IChangePasswordDto } from './interfaces';
+import { IDeactivateReasonDto } from './interfaces';
 import { IWorkoutDto } from './interfaces';
 import { IWorkoutSearchOptions } from './interfaces';
 import { IWorkoutLogDto } from './interfaces';
@@ -657,10 +658,12 @@ import { IWorkoutLogDto } from './interfaces';
 		.pipe(map(response => response.body));
 		
 	}
-	public Deactivate() : Observable<IBaseResponseWrapper | null>
+	public Deactivate(data: IDeactivateReasonDto) : Observable<IBaseResponseWrapper | null>
 	{
-		return this.httpClient.delete<IBaseResponseWrapper>(
+		const body = <any>data;
+		return this.httpClient.post<IBaseResponseWrapper>(
 		this.settingsService.createApiUrl('User/Deactivate'),
+		body,
 		{
 			responseType: 'json',
 			observe: 'response',

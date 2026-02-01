@@ -16,6 +16,10 @@ export interface IChangePasswordDto
 	newPassword: string;
 	repeatPassword: string;
 }
+export interface IDeactivateReasonDto
+{
+	reason: string;
+}
 export interface ILoginDto
 {
 	username: string;

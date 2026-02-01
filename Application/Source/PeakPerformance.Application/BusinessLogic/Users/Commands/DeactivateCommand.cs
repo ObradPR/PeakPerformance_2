@@ -1,7 +1,11 @@
-﻿namespace PeakPerformance.Application.BusinessLogic.Users.Commands;
+﻿using PeakPerformance.Application.Dtos.Users;
 
-public class DeactivateCommand() : IRequest<BaseResponseWrapper>
+namespace PeakPerformance.Application.BusinessLogic.Users.Commands;
+
+public class DeactivateCommand(DeactivateReasonDto data) : IRequest<BaseResponseWrapper>
 {
+    public DeactivateReasonDto Data { get; set; } = data;
+
     public class DeactivateCommandHandler(IDatabaseContext db, IIdentityUser identityUser)
         : IRequestHandler<DeactivateCommand, BaseResponseWrapper>
     {
@@ -13,6 +17,7 @@ public class DeactivateCommand() : IRequest<BaseResponseWrapper>
                 return new(new Error(nameof(User), ResourceValidation.Not_Found.FormatWith(nameof(User))));
 
             model.IsActive = false;
+            model.DeactivateReason = request.Data.Reason;
 
             await db.SaveChangesAsync(cancellationToken);
 
