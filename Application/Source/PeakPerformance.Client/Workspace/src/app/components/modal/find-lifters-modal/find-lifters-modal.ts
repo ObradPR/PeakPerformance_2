@@ -97,8 +97,6 @@ export class FindLiftersModal implements IModalMethods, OnInit {
   }
 
   getUsers(offset = this.offset, limit = this.limit) {
-    this.loaderService.showPageLoader();
-
     const options = {
       ...this.form.value,
       filter: this.form.value.search,
@@ -110,8 +108,7 @@ export class FindLiftersModal implements IModalMethods, OnInit {
         .then(_ => {
           if(_?.isSuccess)
             this.users = _.data;
-        })
-    .finally(() => this.loaderService.hidePageLoader())
+        });
   }
 
   getUserCountryIso2(userId: number): string | null {
@@ -189,7 +186,7 @@ export class FindLiftersModal implements IModalMethods, OnInit {
   setupFilterListener() {
     this.form.valueChanges
       .pipe(
-        debounceTime(500),
+        debounceTime(300),
         distinctUntilChanged()
       )
       .subscribe(value => {
