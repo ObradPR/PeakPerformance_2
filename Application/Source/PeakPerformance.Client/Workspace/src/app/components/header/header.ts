@@ -27,7 +27,7 @@ export class Header {
   }
 
   navigateToHome() {
-    if (!this.user()) return;
+    if (!this.user() || !this.user()?.isActive) return;
 
     this.router.navigateByUrl('/', { skipLocationChange: true })
       .then(() => {

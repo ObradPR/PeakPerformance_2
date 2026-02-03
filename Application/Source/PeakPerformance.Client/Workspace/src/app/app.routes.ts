@@ -29,11 +29,6 @@ export const routes: Routes = [
                 loadComponent: () => import('./pages/measurement/measurement').then(_ => _.Measurement)
             },
             {
-                path: RouteConstants.ROUTE_SETTINGS,
-                title: RouteConstants.TITLE_SETTINGS,
-                loadComponent: () => import('./pages/settings/settings').then(_ => _.Settings)
-            },
-            {
                 path: RouteConstants.ROUTE_WORKOUTS,
                 title: RouteConstants.TITLE_WORKOUTS,
                 loadComponent: () => import('./pages/workout/workout').then(_ => _.Workout)
@@ -57,6 +52,12 @@ export const routes: Routes = [
                 loadComponent: () => import('./pages/exercise/exercise-single/exercise-single').then(_ => _.ExerciseSingle),
             },
         ]
+    },
+    {
+        path: RouteConstants.ROUTE_SETTINGS,
+        title: RouteConstants.TITLE_SETTINGS,
+        loadComponent: () => import('./pages/settings/settings').then(_ => _.Settings),
+        canActivate: [authGuard]
     },
     ///
     /// AUTH

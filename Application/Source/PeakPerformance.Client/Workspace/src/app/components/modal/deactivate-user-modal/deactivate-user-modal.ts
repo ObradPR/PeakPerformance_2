@@ -4,6 +4,7 @@ import { UserController } from '../../../_generated/services';
 import { AuthService } from '../../../services/auth.service';
 import { LoaderService } from '../../../services/loader.service';
 import { IModalMethods } from '../interfaces/modal-methods.interface';
+import { ModalService } from '../../../services/modal.service';
 
 @Component({
   selector: 'app-deactivate-user-modal',
@@ -22,6 +23,7 @@ export class DeactivateUserModal implements IModalMethods, OnInit {
 
     private loaderService: LoaderService,
     private authService: AuthService,
+    private modalService: ModalService,
   ) { }
 
    ngOnInit(): void {
@@ -44,6 +46,7 @@ export class DeactivateUserModal implements IModalMethods, OnInit {
     this.userController.Deactivate(this.form.value).toPromise()
       .then(_ => {
         if (_?.isSuccess) {
+          this.modalService.hideDeactivateUserModal();
           this.authService.signOut();
         }
       })

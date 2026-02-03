@@ -13,16 +13,11 @@ public class GetSingleUserQuery(long? id) : IRequest<ResponseWrapper<UserDto>>
             var userId = request.Id ?? identityUser.Id;
 
             var query = db.Users.AsQueryable();
-            if (request.Id == null)
-            {
-                query = query.IgnoreQueryFilters().Where(_ => _.Id == identityUser.Id);
-            }
-            else
-            {
-                query = query.Include(_ => _.UserMeasurementPreferences).Where(_ => _.Id == userId);
-            }
+            query = request.Id == null
+                ? query.IgnoreQueryFilters().Where(_ => _.Id == identityUser.Id)
+                : query.Where(_ => _.Id == userId);
 
-            var model = await query.FirstOrDefaultAsync(cancellationToken);
+            var model = await query.Include(_ => _.UserMeasurementPreferences).FirstOrDefaultAsync(cancellationToken);
 
             if (model == null)
                 return new();

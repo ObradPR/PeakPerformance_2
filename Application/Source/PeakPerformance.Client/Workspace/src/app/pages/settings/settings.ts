@@ -370,7 +370,8 @@ export class Settings extends BaseValidationComponent implements OnInit {
     this.userController.Activate().toPromise()
       .then(_ => {
         if(_?.isSuccess)
-          this.router.navigateByUrl(`/user/${this.user?.id}`);
+          this.router.navigateByUrl('/', { skipLocationChange: true })
+            .then(() => this.authService.loadCurrentUser(true));
       })
       .catch(ex => this.setErrors(ex))
       .finally(() => this.loaderService.hidePageLoader());
