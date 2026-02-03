@@ -4,13 +4,13 @@ public class DeleteExerciseCommand(long id) : IRequest<BaseResponseWrapper>
 {
     public long Id { get; set; } = id;
 
-    public class DeleteExerciseCommandHandler(IDatabaseContext db) : IRequestHandler<DeleteExerciseCommand, BaseResponseWrapper>
+    public class DeleteExerciseCommandHandler(IDatabaseContext db, IIdentityUser identityUser) : IRequestHandler<DeleteExerciseCommand, BaseResponseWrapper>
     {
         public async Task<BaseResponseWrapper> Handle(DeleteExerciseCommand request, CancellationToken cancellationToken)
         {
             var model = await db.WorkoutExercises
                 .Include(_ => _.WorkoutExerciseSets)
-                .FirstOrDefaultAsync(_ => _.Id == request.Id, cancellationToken);
+                .FirstOrDefaultAsync(_ => _.Id == request.Id && _.Workout.UserId == identityUser.Id, cancellationToken);
 
             if (model == null)
                 return new(new Error(nameof(Exercise), ResourceValidation.Not_Found));
