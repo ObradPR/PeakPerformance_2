@@ -133,7 +133,6 @@ export class FindLiftersModal implements IModalMethods, OnInit {
 
     if (this.userHeightMeasurementPreference === 'in') {
       this.userHeightMeasurementPreference = 'ft';
-      // return Functions.inchesToFeet(parseFloat(this.measurementConverterPipe.transform(user!.height, user!.heightMeasurementUnitId)));
     }
     return this.getHeightValue(user!);
   }

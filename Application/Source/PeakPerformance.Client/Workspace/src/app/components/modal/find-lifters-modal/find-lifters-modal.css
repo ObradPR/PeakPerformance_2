@@ -14,8 +14,6 @@ p {
 
 .input-addon-static {
   width: 9%;
-  justify-content: center;
-  color: #343a40;
 }
 
 .username {
@@ -60,7 +58,6 @@ p {
     font-size: 60px;
     color: #888;
 }
-
 
 .short-info-block-find-lifters {
   margin-right: 0.5rem;

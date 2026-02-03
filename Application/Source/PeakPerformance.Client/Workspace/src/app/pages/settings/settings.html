@@ -27,16 +27,23 @@
                         </div>
                         <div class="position-relative">
                             <label for="gender">Gender</label>
-                            <select id="gender" class="form-select mb-3" formControlName="genderId" validation [key]="'GenderId'" [errors]="errors">
+                             <div class="input-group mb-3">
+                                <span class="input-group-text input-addon-static">
+                                    <i class="fa-solid fa-mars-and-venus"></i>
+                                </span>
+        
+                                <select id="gender" class="form-select" formControlName="genderId" validation [key]="'GenderId'" [errors]="errors">
                                 @for (gender of genders; track gender) {
                                     <option [ngValue]="gender.id">{{ gender.description }}</option>
                                 }
                             </select>
+                            </div>
+                            
                         </div>
                         <div class="position-relative">
                             <label for="dateOfBirth">Date Of Birth</label>
-                            <div class="input-group mb-4" validation [key]="'DateOfBirth'" [errors]="errors">
-                                <span class="input-group-text" id="dateOfBirth-addon"><i class="fa-solid fa-calendar"></i></span>
+                            <div class="input-group mb-3" validation [key]="'DateOfBirth'" [errors]="errors">
+                                <span class="input-group-text input-addon-static" id="dateOfBirth-addon"><i class="fa-solid fa-calendar"></i></span>
                                 <input type="date" [min]="minDob" [max]="maxDob" class="form-control" id="dateOfBirth" placeholder="Date Of Birth" aria-label="Date Of Birth" aria-describedby="dateOfBirth-addon" formControlName="dateOfBirth" />
                             </div>
                         </div>
@@ -44,14 +51,14 @@
                             <label for="height">Height</label>
                             <div class="input-group mb-3" validation [key]="'Height'" [errors]="errors">
                                 <input type="number" class="form-control" id="height" placeholder="0" aria-label="Height" aria-describedby="height-addon" formControlName="height" />
-                                <span class="input-group-text" id="height-addon">{{ this.userHeightMeasurementPreference }}</span>
+                                <span class="input-group-text input-addon-static" id="height-addon">{{ this.userHeightMeasurementPreference }}</span>
                             </div>
                         </div>
                         <div class="position-relative">
                             <label for="country">Country</label>
                             <div class="input-group mb-3" validation [key]="'CountryId'" [errors]="errors">
     
-                                <span class="input-group-text">
+                                <span class="input-group-text input-addon-static">
                                     @if(selectedIso2) {
                                         <img  
                                             [src]="'https://flagsapi.com/' + selectedIso2 + '/flat/32.png'"
@@ -61,6 +68,7 @@
                                 </span>
     
                                 <select id="country" class="form-select" formControlName="countryId" (change)="onCountryChanged($event)">
+                                    <option value="0"></option>
                                     @for (country of countries; track country) {
                                         <option [value]="country.id">{{ country.name }}</option>
                                     }

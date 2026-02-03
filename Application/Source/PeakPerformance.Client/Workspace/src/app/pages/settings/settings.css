@@ -44,3 +44,7 @@
 .profile-image-wrapper:hover .edit-overlay {
     opacity: 1;
 }
+
+.input-addon-static {
+  width: 9%;
+}
