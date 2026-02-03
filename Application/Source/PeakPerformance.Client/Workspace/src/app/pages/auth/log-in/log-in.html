@@ -19,7 +19,10 @@
                 <label for="password" class="form-label">Password</label>
                 <div class="input-group mb-4" validation [key]="'Password'" [errors]="errors">
                     <span class="input-group-text" id="password-addon"><i class="fa-solid fa-lock"></i></span>
-                    <input type="password" class="form-control" id="password" placeholder="Password" aria-label="Password" aria-describedby="password-addon" formControlName="password" />
+                    <input [type]="showPassword ? 'text' : 'password'" class="form-control" id="password" placeholder="Password" aria-label="Password" aria-describedby="password-addon" formControlName="password" />
+                    <span class="input-group-text password-toggle" id="password-addon" (click)="togglePasswordVisibility()">
+                        <i class="fa-solid" [ngClass]="showPassword ? 'fa-eye-slash' : 'fa-eye'"></i>
+                    </span>
                 </div>
             </div>
         </fieldset>

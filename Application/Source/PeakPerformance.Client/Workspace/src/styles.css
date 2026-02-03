@@ -286,3 +286,11 @@ input, form {
   opacity: 0.5;
   text-decoration: line-through;
 }
+
+.password-toggle {
+  cursor: pointer;
+  user-select: none;
+}
+.password-toggle:hover {
+  background-color: #f1f1f1;
+}

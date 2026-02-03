@@ -35,7 +35,10 @@
                 <label for="password" class="form-label">Password</label>
                 <div class="input-group mb-2" validation [key]="'Password'" [errors]="errors">
                     <span class="input-group-text" id="password-addon"><i class="fa-solid fa-lock"></i></span>
-                    <input type="password" class="form-control" id="password" placeholder="Password" aria-label="Password" aria-describedby="password-addon" formControlName="password" />
+                    <input [type]="showPasswords ? 'text' : 'password'" class="form-control" id="password" placeholder="Password" aria-label="Password" aria-describedby="password-addon" formControlName="password" />
+                    <span class="input-group-text password-toggle" id="password-addon" (click)="togglePasswordsVisibility()">
+                        <i class="fa-solid" [ngClass]="showPasswords ? 'fa-eye-slash' : 'fa-eye'"></i>
+                    </span>
                 </div>
             </div>
 
@@ -43,7 +46,10 @@
                 <label for="confirmPassword" class="form-label">Confirm Password</label>
                 <div class="input-group mb-2" validation [key]="'ConfirmPassword'" [errors]="errors">
                     <span class="input-group-text" id="confirmPassword-addon"><i class="fa-solid fa-lock"></i></span>
-                    <input type="password" class="form-control" id="confirmPassword" placeholder="Confirm Password" aria-label="Confirm Password" aria-describedby="confirmPassword-addon" formControlName="confirmPassword" />
+                    <input [type]="showPasswords ? 'text' : 'password'" class="form-control" id="confirmPassword" placeholder="Confirm Password" aria-label="Confirm Password" aria-describedby="confirmPassword-addon" formControlName="confirmPassword" />
+                    <span class="input-group-text password-toggle" id="confirmPassword-addon" (click)="togglePasswordsVisibility()">
+                        <i class="fa-solid" [ngClass]="showPasswords ? 'fa-eye-slash' : 'fa-eye'"></i>
+                    </span>
                 </div>
             </div>
 

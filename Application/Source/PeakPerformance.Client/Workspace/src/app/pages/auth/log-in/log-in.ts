@@ -20,6 +20,8 @@ export class LogIn extends BaseValidationComponent implements OnInit {
   override errors: Record<string, string>;
   form: FormGroup;
 
+  showPassword = false;
+
   constructor(
     private fb: FormBuilder,
 
@@ -57,5 +59,9 @@ export class LogIn extends BaseValidationComponent implements OnInit {
       })
       .catch(ex => this.setErrors(ex))
       .finally(() => this.loaderService.hidePageLoader());
+  }
+
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
   }
 }

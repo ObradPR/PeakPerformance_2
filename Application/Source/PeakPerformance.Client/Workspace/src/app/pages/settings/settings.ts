@@ -14,10 +14,11 @@ import { LoaderService } from '../../services/loader.service';
 import { BaseValidationComponent } from '../_base/base.component/base-validation.component';
 import { ModalService } from '../../services/modal.service';
 import { Router } from '@angular/router';
+import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-settings',
-  imports: [FormsModule, ReactiveFormsModule, ValidationDirective],
+  imports: [FormsModule, ReactiveFormsModule, ValidationDirective, NgClass],
   templateUrl: './settings.html',
   styleUrl: './settings.css'
 })
@@ -39,6 +40,7 @@ export class Settings extends BaseValidationComponent implements OnInit {
 
   // Password
   formPassword: FormGroup<any>;
+  showPasswords = false;
 
   // Units of measure
   formMeasurements: FormGroup<any>;
@@ -310,6 +312,10 @@ export class Settings extends BaseValidationComponent implements OnInit {
     this.formSharingSettings = this.fb.group({
       isPrivate: [this.user?.isPrivate ? 1 : 0]
     });
+  }
+
+  togglePasswordsVisibility() {
+    this.showPasswords = !this.showPasswords;
   }
 
   // Profile Picture

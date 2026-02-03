@@ -23,6 +23,8 @@ export class Register extends BaseValidationComponent implements OnInit {
   minDob: string;
   maxDob: string;
 
+  showPasswords = false;
+
   constructor(
     private fb: FormBuilder,
 
@@ -66,5 +68,9 @@ export class Register extends BaseValidationComponent implements OnInit {
       })
       .catch(ex => this.setErrors(ex))
       .finally(() => this.loaderService.hidePageLoader());
+  }
+
+  togglePasswordsVisibility() {
+    this.showPasswords = !this.showPasswords;
   }
 }

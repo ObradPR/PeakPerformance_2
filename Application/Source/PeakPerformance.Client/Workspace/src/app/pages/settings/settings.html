@@ -16,19 +16,21 @@
                          <div class="position-relative">
                             <label for="username">Username</label>
                             <div class="input-group mb-3" validation [key]="'Username'" [errors]="errors">
+                                <span class="input-group-text" id="username-addon"><i class="fa-solid fa-user"></i></span>
                                 <input type="text" class="form-control" id="username" placeholder="Username" aria-label="Username" aria-describedby="username-addon" formControlName="username" />
                             </div>
                         </div>
                         <div class="position-relative">
                             <label for="fullName">Full Name</label>
                             <div class="input-group mb-3" validation [key]="'FullName'" [errors]="errors">
+                                <span class="input-group-text" id="fullName-addon"><i class="fa-solid fa-address-card"></i></span>
                                 <input type="text" class="form-control" id="fullName" placeholder="Full Name" aria-label="Full Name" aria-describedby="fullName-addon" formControlName="fullName" />
                             </div>
                         </div>
                         <div class="position-relative">
                             <label for="gender">Gender</label>
                              <div class="input-group mb-3">
-                                <span class="input-group-text input-addon-static">
+                                <span class="input-group-text">
                                     <i class="fa-solid fa-mars-and-venus"></i>
                                 </span>
         
@@ -43,7 +45,7 @@
                         <div class="position-relative">
                             <label for="dateOfBirth">Date Of Birth</label>
                             <div class="input-group mb-3" validation [key]="'DateOfBirth'" [errors]="errors">
-                                <span class="input-group-text input-addon-static" id="dateOfBirth-addon"><i class="fa-solid fa-calendar"></i></span>
+                                <span class="input-group-text" id="dateOfBirth-addon"><i class="fa-solid fa-calendar"></i></span>
                                 <input type="date" [min]="minDob" [max]="maxDob" class="form-control" id="dateOfBirth" placeholder="Date Of Birth" aria-label="Date Of Birth" aria-describedby="dateOfBirth-addon" formControlName="dateOfBirth" />
                             </div>
                         </div>
@@ -51,7 +53,7 @@
                             <label for="height">Height</label>
                             <div class="input-group mb-3" validation [key]="'Height'" [errors]="errors">
                                 <input type="number" class="form-control" id="height" placeholder="0" aria-label="Height" aria-describedby="height-addon" formControlName="height" />
-                                <span class="input-group-text input-addon-static" id="height-addon">{{ this.userHeightMeasurementPreference }}</span>
+                                <span class="input-group-text" id="height-addon">{{ this.userHeightMeasurementPreference }}</span>
                             </div>
                         </div>
                         <div class="position-relative">
@@ -64,6 +66,9 @@
                                             [src]="'https://flagsapi.com/' + selectedIso2 + '/flat/32.png'"
                                             style="height: 25px;"
                                         />
+                                    }
+                                    @else {
+                                        <i class="fa-solid fa-flag"></i>
                                     }
                                 </span>
     
@@ -234,7 +239,7 @@
                         <div class="position-relative">
                             <label for="email">Email</label>
                             <div class="input-group mb-3" validation [key]="'Email'" [errors]="errors">
-                                <span class="input-group-text" id="email-addon"><i class="fa-solid fa-at"></i></span>
+                                <span class="input-group-text" id="email-addon"><i class="fa-solid fa-envelope"></i></span>
                                 <input type="email" class="form-control" id="email" placeholder="Email" aria-label="Email" aria-describedby="email-addon" formControlName="email" />
                             </div>
                         </div>
@@ -255,19 +260,31 @@
                         <div class="position-relative">
                             <label for="oldPassword">Old Password</label>
                             <div class="input-group mb-2" validation [key]="'OldPassword'" [errors]="errors">
-                                <input type="password" class="form-control" id="password" aria-label="Old Password" aria-describedby="oldPassword-addon" formControlName="oldPassword" />
+                                <span class="input-group-text" id="password-addon"><i class="fa-solid fa-lock"></i></span>
+                                <input [type]="showPasswords ? 'text' : 'password'" class="form-control" id="password" aria-label="Old Password" aria-describedby="oldPassword-addon" formControlName="oldPassword" />
+                                <span class="input-group-text password-toggle" id="oldPassword-addon" (click)="togglePasswordsVisibility()">
+                                    <i class="fa-solid" [ngClass]="showPasswords ? 'fa-eye-slash' : 'fa-eye'"></i>
+                                </span>
                             </div>
                         </div>
                         <div class="position-relative">
                             <label for="newPassword">New Password</label>
                             <div class="input-group mb-2" validation [key]="'NewPassword'" [errors]="errors">
-                                <input type="password" class="form-control" id="password" aria-label="New Password" aria-describedby="newPassword-addon" formControlName="newPassword" />
+                                <span class="input-group-text" id="password-addon"><i class="fa-solid fa-lock"></i></span>
+                                <input [type]="showPasswords ? 'text' : 'password'" class="form-control" id="password" aria-label="New Password" aria-describedby="newPassword-addon" formControlName="newPassword" />
+                                <span class="input-group-text password-toggle" id="newPassword-addon" (click)="togglePasswordsVisibility()">
+                                    <i class="fa-solid" [ngClass]="showPasswords ? 'fa-eye-slash' : 'fa-eye'"></i>
+                                </span>
                             </div>
                         </div>
                         <div class="position-relative">
                             <label for="repeatPassword">Repeat Password</label>
                             <div class="input-group mb-3" validation [key]="'RepeatPassword'" [errors]="errors">
-                                <input type="password" class="form-control" id="password" aria-label="Repeat Password" aria-describedby="repeatPassword-addon" formControlName="repeatPassword" />
+                                <span class="input-group-text" id="password-addon"><i class="fa-solid fa-lock"></i></span>
+                                <input [type]="showPasswords ? 'text' : 'password'" class="form-control" id="password" aria-label="Repeat Password" aria-describedby="repeatPassword-addon" formControlName="repeatPassword" />
+                                <span class="input-group-text password-toggle" id="repeatPassword-addon" (click)="togglePasswordsVisibility()">
+                                    <i class="fa-solid" [ngClass]="showPasswords ? 'fa-eye-slash' : 'fa-eye'"></i>
+                                </span>
                             </div>
                         </div>
                     </form>
