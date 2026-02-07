@@ -18,4 +18,12 @@ textarea {
     .exercise-name {
         font-size: 1.15em;
     }
+
+    textarea {
+        font-size: 0.7em;
+    }
+
+    .form-control {
+        padding: 0.3rem 0.5rem;
+    }
 }

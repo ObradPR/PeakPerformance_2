@@ -7,7 +7,7 @@
         {{ showRouterLink() ? (workout()!.logDate | date:'dd MMMM yyyy') + ' - ' : '' }}
         {{ workout()!.name }}
         @if (workout()?.isCompleted) {
-            <i class="fa-solid fa-circle-check" style="font-size: 1.5rem;"></i>
+            <i class="fa-solid fa-circle-check workout-completed-icon"></i>
         }
     </h2>
     @if (editable() && !workout()?.isCompleted) {

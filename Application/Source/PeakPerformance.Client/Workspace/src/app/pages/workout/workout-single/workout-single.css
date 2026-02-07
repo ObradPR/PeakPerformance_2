@@ -16,3 +16,9 @@ span {
 .complete-msg-wrapper p {
     color: #ffffff;
 }
+
+@media (max-width: 696px) {
+  .cover-img-workout span {
+    font-size: 0.9em;
+  }
+}

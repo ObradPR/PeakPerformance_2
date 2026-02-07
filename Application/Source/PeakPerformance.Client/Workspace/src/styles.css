@@ -100,6 +100,21 @@ input, form {
 .my-modal.md {
   width: 850px;
 }
+@media (max-width: 870px) {
+  .my-modal.md {
+    width: 670px;
+  }
+}
+@media (max-width: 696px) {
+  .my-modal.md {
+    width: 450px;
+  }
+}
+@media (max-width: 470px) {
+  .my-modal.md {
+    width: 350px;
+  }
+}
 .my-modal.lg {
   width: 1350px;
 }

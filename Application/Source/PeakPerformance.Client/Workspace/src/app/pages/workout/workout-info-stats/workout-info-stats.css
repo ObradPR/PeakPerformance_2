@@ -12,3 +12,17 @@
 .workout-info-stats small.fail {
     color: var(--bs-danger);
 }
+
+@media (max-width: 570px) {
+    .workout-info-stats {
+        padding: 0.5rem;
+    }
+
+    p {
+        font-size: 0.8em;
+    }
+
+    small {
+        font-size: 0.7em;
+    }
+}
