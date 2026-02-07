@@ -1,126 +1,128 @@
-<table class="data-table mb-3">
-    <thead>
-        @if (exercise()!.isStrength) {
-            <th>Weight</th>
-        }
-        @if (!exercise()!.isCardio) {
-            <th>Reps</th>
-        }
-        @if (exercise()!.isCardio) {
-            <th>Duration</th>
-        }
-        @if (hasAnyRpe(exercise()!)) {
-            <th>RPE</th>
-        }
-        @if (hasAnyType(exercise()!)) {
-            <th>Type</th>
-        }
-        @if (hasAnyRest(exercise()!)) {
-            <th>Rest</th>
-        }
-        @if (editable()) {
-            <th class="text-end"></th>
-        }
-    </thead>
-    <tbody>
-        @for (set of exercise()!.sets; track set; let idx = $index) {
-            <tr class="position-relative" [class.warmup]="set.typeId === 1">
-                @if (exercise()!.isStrength) {
-                    <td [class.warmup-text]="set.typeId === 1">
-                        {{ getSetPrefix(set.typeId) }}
-                        {{ set.weight | measurementConverter:set.weightUnitId }}
-                    </td>
-                }
-                @if (!exercise()!.isCardio) {
-                    <td [class.warmup-text]="set.typeId === 1">
-                        {{ exercise()!.isBodyweight ? getSetPrefix(set.typeId) : '' }}
-                        {{ set.reps }}
-                    </td>
-                }
-                @if (exercise()!.isCardio) {
-                    <td>{{ set.durationMinutes }} min</td>
-                }
-                @if (hasAnyRpe(exercise()!)) {
-                    <td>
-                        <span
-                            [ngStyle]="{
-                                'background-color': getSetRpeById(set.rpeTypeId)?.bgColor,
-                                'color': set.rpeTypeId && set.rpeTypeId > 0 ? '#fff' : '',
-                                'padding': set.rpeTypeId && set.rpeTypeId > 0 ? '0.3rem 0.5rem' : ''
-                            }"
-                            style="border-radius: 3px;">
-                            {{ set.rpeTypeId && set.rpeTypeId > 0 ? set.rpeTypeId : '-' }}
-                        </span>
-                    </td>
-                }
-                @if (hasAnyType(exercise()!)) {
-                    <td>
-                        <span
-                            style="border-radius: 3px;"
-                            [ngStyle]="{
-                                'background-color': isFullBackground(set.typeId)
-                                    ? getSetTypeById(set.typeId)?.bgColor
-                                    : '',
-                                'color': isColoredTextOnly(set.typeId)
-                                    ? getSetTypeById(set.typeId)?.bgColor
-                                    : isFullBackground(set.typeId)
-                                    ? '#fff'
-                                    : '',
-                                'padding': isFullBackground(set.typeId)
-                                    ? '0.2rem 0.4rem'
-                                    : '0'
-                            }"
-                        >
-                            {{ set.typeId && set.typeId > 0 ? getSetTypeById(set.typeId)?.description?.slice(0, 1) : '-' }}
-                        </span>
-                    </td>
-                }
-                @if (hasAnyRest(exercise()!)) {
-                    <td [class.warmup-text]="set.typeId === 1">{{ set.rest ? set.rest + ' s' : '-' }}</td>
-                }
-                @if (editable()) {
-                    <td class="text-end">
-                        <span class="edit-dots edit-dots-set" (click)="onOpenSetEditMenu(set.id)">⋮</span>
-                        @if (selectedSetMenu === set.id) {
-                            <div class="edit-menu edit-menu-set" appClickOutside (clickOutside)="this.selectedSetMenu = null">
-                                <ul>
-                                    <li (click)="editSet(set, exercise()!)">
-                                        <i class="fa-solid fa-pen"></i>
-                                        Edit
-                                    </li>
-                                    @if (exercise()!.sets.length > 1) {
-                                        <hr>
-                                    }
-                                        @if (set !== exercise()!.sets[0]) {
-                                        <li (click)="moveSet(set, 1)">
-                                            <i class="fa-solid fa-arrow-up"></i>
-                                            Move Earlier
-                                        </li>
-                                    }
-                                    @if (set !== exercise()!.sets[exercise()!.sets.length - 1]) {
-                                        <li (click)="moveSet(set, 2)">
-                                            <i class="fa-solid fa-arrow-down"></i>
-                                            Move Later
-                                        </li>
-                                    }
-                                    <hr>
-                                    <li (click)="deleteSet(set.id)" class="delete-item">
-                                        <i class="fa-solid fa-trash"></i>
-                                        Delete Set
-                                    </li>
-                                </ul>
-                            </div>
-                        }
-                    </td>
-                }
-            </tr>
-            @if (set.notes) {
-            <tr>
-                <td class="p-1" [attr.colspan]="getTotalColumns(exercise()!)">
-                    <textarea class="form-control" [name]="'set-notes-' + idx" [id]="'set-notes-' + idx" readonly rows="1" (focus)="editSet(set, exercise()!)">{{ set.notes }}</textarea>
-                </td>
-            </tr>
+<div class="table-wrapper">
+    <table class="data-table mb-3">
+        <thead>
+            @if (exercise()!.isStrength) {
+                <th>Weight</th>
             }
-        }
-    </tbody>
-</table>
+            @if (!exercise()!.isCardio) {
+                <th>Reps</th>
+            }
+            @if (exercise()!.isCardio) {
+                <th>Duration</th>
+            }
+            @if (hasAnyRpe(exercise()!)) {
+                <th>RPE</th>
+            }
+            @if (hasAnyType(exercise()!)) {
+                <th>Type</th>
+            }
+            @if (hasAnyRest(exercise()!)) {
+                <th>Rest</th>
+            }
+            @if (editable()) {
+                <th class="text-end"></th>
+            }
+        </thead>
+        <tbody>
+            @for (set of exercise()!.sets; track set; let idx = $index) {
+                <tr class="position-relative" [class.warmup]="set.typeId === 1">
+                    @if (exercise()!.isStrength) {
+                        <td [class.warmup-text]="set.typeId === 1">
+                            {{ getSetPrefix(set.typeId) }}
+                            {{ set.weight | measurementConverter:set.weightUnitId }}
+                        </td>
+                    }
+                    @if (!exercise()!.isCardio) {
+                        <td [class.warmup-text]="set.typeId === 1">
+                            {{ exercise()!.isBodyweight ? getSetPrefix(set.typeId) : '' }}
+                            {{ set.reps }}
+                        </td>
+                    }
+                    @if (exercise()!.isCardio) {
+                        <td>{{ set.durationMinutes }} min</td>
+                    }
+                    @if (hasAnyRpe(exercise()!)) {
+                        <td>
+                            <span
+                                [ngStyle]="{
+                                    'background-color': getSetRpeById(set.rpeTypeId)?.bgColor,
+                                    'color': set.rpeTypeId && set.rpeTypeId > 0 ? '#fff' : '',
+                                    'padding': set.rpeTypeId && set.rpeTypeId > 0 ? '0.3rem 0.5rem' : ''
+                                }"
+                                style="border-radius: 3px;">
+                                {{ set.rpeTypeId && set.rpeTypeId > 0 ? set.rpeTypeId : '-' }}
+                            </span>
+                        </td>
+                    }
+                    @if (hasAnyType(exercise()!)) {
+                        <td>
+                            <span
+                                style="border-radius: 3px;"
+                                [ngStyle]="{
+                                    'background-color': isFullBackground(set.typeId)
+                                        ? getSetTypeById(set.typeId)?.bgColor
+                                        : '',
+                                    'color': isColoredTextOnly(set.typeId)
+                                        ? getSetTypeById(set.typeId)?.bgColor
+                                        : isFullBackground(set.typeId)
+                                        ? '#fff'
+                                        : '',
+                                    'padding': isFullBackground(set.typeId)
+                                        ? '0.2rem 0.4rem'
+                                        : '0'
+                                }"
+                            >
+                                {{ set.typeId && set.typeId > 0 ? getSetTypeById(set.typeId)?.description?.slice(0, 1) : '-' }}
+                            </span>
+                        </td>
+                    }
+                    @if (hasAnyRest(exercise()!)) {
+                        <td [class.warmup-text]="set.typeId === 1">{{ set.rest ? set.rest + ' s' : '-' }}</td>
+                    }
+                    @if (editable()) {
+                        <td class="text-end">
+                            <span class="edit-dots edit-dots-set" (click)="onOpenSetEditMenu(set.id)">⋮</span>
+                            @if (selectedSetMenu === set.id) {
+                                <div class="edit-menu edit-menu-set" appClickOutside (clickOutside)="this.selectedSetMenu = null">
+                                    <ul>
+                                        <li (click)="editSet(set, exercise()!)">
+                                            <i class="fa-solid fa-pen"></i>
+                                            Edit
+                                        </li>
+                                        @if (exercise()!.sets.length > 1) {
+                                            <hr>
+                                        }
+                                            @if (set !== exercise()!.sets[0]) {
+                                            <li (click)="moveSet(set, 1)">
+                                                <i class="fa-solid fa-arrow-up"></i>
+                                                Move Earlier
+                                            </li>
+                                        }
+                                        @if (set !== exercise()!.sets[exercise()!.sets.length - 1]) {
+                                            <li (click)="moveSet(set, 2)">
+                                                <i class="fa-solid fa-arrow-down"></i>
+                                                Move Later
+                                            </li>
+                                        }
+                                        <hr>
+                                        <li (click)="deleteSet(set.id)" class="delete-item">
+                                            <i class="fa-solid fa-trash"></i>
+                                            Delete Set
+                                        </li>
+                                    </ul>
+                                </div>
+                            }
+                        </td>
+                    }
+                </tr>
+                @if (set.notes) {
+                <tr>
+                    <td class="p-1" [attr.colspan]="getTotalColumns(exercise()!)">
+                        <textarea class="form-control" [name]="'set-notes-' + idx" [id]="'set-notes-' + idx" readonly rows="1" (focus)="editSet(set, exercise()!)">{{ set.notes }}</textarea>
+                    </td>
+                </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>

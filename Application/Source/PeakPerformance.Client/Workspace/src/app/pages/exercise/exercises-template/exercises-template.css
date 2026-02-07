@@ -14,3 +14,8 @@ textarea {
     font-size: 0.9rem;
 }
 
+@media (max-width: 696px) {
+    .exercise-name {
+        font-size: 1.15em;
+    }
+}

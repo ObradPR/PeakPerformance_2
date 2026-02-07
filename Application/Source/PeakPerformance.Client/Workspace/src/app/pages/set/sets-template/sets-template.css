@@ -31,3 +31,31 @@ textarea {
     font-style: italic;
     color: rgba(0, 0, 0, 0.5);
 }
+
+.table-wrapper {
+    overflow-x: auto;
+    width: 100%;
+    max-width: 100%;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+@media (max-width: 696px) {
+    .data-table {
+        font-size: 0.8em !important;
+    }
+
+    .data-table td {
+        font-size: 0.8rem !important;
+    }
+    
+    textarea {
+        font-size: 0.85em;
+    }
+
+    .form-control {
+        padding: 0.3rem 0.5rem;
+    }
+}

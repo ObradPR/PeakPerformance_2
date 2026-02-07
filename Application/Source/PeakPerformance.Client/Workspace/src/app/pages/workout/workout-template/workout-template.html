@@ -1,5 +1,6 @@
 <div class="d-flex justify-content-between align-items-center position-relative">
     <h2 
+        class="workout-name"
         [class.clickable]="showRouterLink()" 
         [routerLink]="showRouterLink() ? ['/user', userId(), 'workouts', workout()!.id] : null"
     >

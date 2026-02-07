@@ -22,3 +22,14 @@
 .short-info-block .block-item.fail {
   background-color: var(--bs-danger);
 }
+
+
+@media (max-width: 696px) {
+  .short-info-block .block-item {
+    padding: 0.3rem;
+  }
+
+  small {
+    font-size: 0.75em;
+  }
+}
