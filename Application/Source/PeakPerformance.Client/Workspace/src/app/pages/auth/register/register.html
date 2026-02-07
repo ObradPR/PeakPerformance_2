@@ -9,7 +9,7 @@
         <fieldset validation [key]="'User'" [errors]="errors">
             <div class="position-relative">
                 <label for="username" class="form-label">Username</label>
-                <div class="input-group mb-2" validation [key]="'Username'" [errors]="errors">
+                <div class="input-group mb-3" validation [key]="'Username'" [errors]="errors">
                     <span class="input-group-text" id="username-addon"><i class="fa-solid fa-user"></i></span>
                     <input type="text" class="form-control" id="username" placeholder="Username" aria-label="Username" aria-describedby="username-addon" formControlName="username" />
                 </div>
@@ -17,7 +17,7 @@
 
             <div class="position-relative">
                 <label for="fullName" class="form-label">Full Name</label>
-                <div class="input-group mb-2" validation [key]="'FullName'" [errors]="errors">
+                <div class="input-group mb-3" validation [key]="'FullName'" [errors]="errors">
                     <span class="input-group-text" id="fullName-addon"><i class="fa-solid fa-address-card"></i></span>
                     <input type="text" class="form-control" id="fullName" placeholder="FullName" aria-label="FullName" aria-describedby="fullName-addon" formControlName="fullName" />
                 </div>
@@ -25,7 +25,7 @@
 
              <div class="position-relative">
                 <label for="email" class="form-label">Email</label>
-                <div class="input-group mb-2" validation [key]="'Email'" [errors]="errors">
+                <div class="input-group mb-3" validation [key]="'Email'" [errors]="errors">
                     <span class="input-group-text" id="email-addon"><i class="fa-solid fa-envelope"></i></span>
                     <input type="email" class="form-control" id="email" placeholder="Email" aria-label="Email" aria-describedby="email-addon" formControlName="email" />
                 </div>
@@ -33,7 +33,7 @@
 
             <div class="position-relative">
                 <label for="password" class="form-label">Password</label>
-                <div class="input-group mb-2" validation [key]="'Password'" [errors]="errors">
+                <div class="input-group mb-3" validation [key]="'Password'" [errors]="errors">
                     <span class="input-group-text" id="password-addon"><i class="fa-solid fa-lock"></i></span>
                     <input [type]="showPasswords ? 'text' : 'password'" class="form-control" id="password" placeholder="Password" aria-label="Password" aria-describedby="password-addon" formControlName="password" />
                     <span class="input-group-text password-toggle" id="password-addon" (click)="togglePasswordsVisibility()">
@@ -44,7 +44,7 @@
 
              <div class="position-relative">
                 <label for="confirmPassword" class="form-label">Confirm Password</label>
-                <div class="input-group mb-2" validation [key]="'ConfirmPassword'" [errors]="errors">
+                <div class="input-group mb-3" validation [key]="'ConfirmPassword'" [errors]="errors">
                     <span class="input-group-text" id="confirmPassword-addon"><i class="fa-solid fa-lock"></i></span>
                     <input [type]="showPasswords ? 'text' : 'password'" class="form-control" id="confirmPassword" placeholder="Confirm Password" aria-label="Confirm Password" aria-describedby="confirmPassword-addon" formControlName="confirmPassword" />
                     <span class="input-group-text password-toggle" id="confirmPassword-addon" (click)="togglePasswordsVisibility()">

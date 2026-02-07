@@ -1,6 +1,6 @@
 <div class="col-12 cover-img">
     <div class="info-wrapper info-wrapper-banner">
-      <div class="d-flex justify-content-start gap-3 align-items-center">
+      <div class="d-flex justify-content-start gap-3 align-items-center cover-container">
         <div class="profile-image-wrapper">
           @if(user()?.profilePictureUrl) {
             <img [src]="user()!.profilePictureUrl" class="profile-image"/>
@@ -13,8 +13,8 @@
         </div>
 
         <div class="profile-info d-flex flex-column justify-content-start gap-1">
-          <h1>{{ user()?.username }}</h1>
-          <p class="fs-6">{{ user()?.fullName }}</p>
+          <h1 class="username-title">{{ user()?.username }}</h1>
+          <p class="fs-6 name-title">{{ user()?.fullName }}</p>
           <span class="d-flex">
             @if (countryIso2) {
               <div class="short-info-block-home">
@@ -40,9 +40,15 @@
               </div>
             }
           </span>
-          <span class="fs-5"><b>{{ user()?.workoutsCount }}</b> workouts</span>
+          @if (user()?.workoutsCount) {
+            <span class="fs-5 workouts-count">
+              <b>
+                {{ user()?.workoutsCount }}
+              </b> workouts
+            </span>
+          }
           @if(user()?.description) {
-            <div style="width: 500px;">
+            <div class="user-description">
               {{ user()!.description }}
             </div>
           }
@@ -53,7 +59,7 @@
 
 <div class="col-12 info-wrapper">
   @if (isCurrentUser || (!isCurrentUser && !user()?.isPrivate)) {
-    <div class="d-flex justify-content-start gap-2">
+    <div class="d-flex justify-content-start gap-2 flex-wrap">
         <button class="btn btn-light" [routerLink]="'/user/' + user()!.id + '/workouts/'"><i class="fa-solid fa-dumbbell"></i> Workouts</button>
         <button class="btn btn-light" [routerLink]="'/user/' + user()!.id + '/exercises/'"><i class="fa-solid fa-chart-bar"></i> Exercises</button>
 

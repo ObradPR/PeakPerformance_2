@@ -294,3 +294,13 @@ input, form {
 .password-toggle:hover {
   background-color: #f1f1f1;
 }
+
+@media (max-width: 696px) {
+  .btn {
+    font-size: 0.8em;
+  }
+
+  .form-control, .form-label {
+    font-size: 0.8em;
+  }
+}

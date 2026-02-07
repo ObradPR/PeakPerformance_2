@@ -42,6 +42,10 @@
   font-size: 0.85em;
 }
 
+.user-description {
+  width: 500px;
+}
+
 .workouts-calendar {
   width: 25%;
   min-height: 45dvh;
@@ -54,6 +58,16 @@
 @media (max-width: 1520px) {
   .workouts-calendar {
     width: 35%;
+  }
+}
+@media (max-width: 1380px) {
+  .info-wrapper {
+    padding: 1rem 8rem;
+  }
+}
+@media (max-width: 1150px) {
+  .info-wrapper {
+    padding: 1rem 2rem;
   }
 }
 @media (max-width: 960px) {
@@ -83,10 +97,59 @@
   ::ng-deep .p-datepicker-header {
     padding: 0.25rem !important;
   }
+
+  .username-title {
+    font-size: 1.3em;
+  }
+
+  .name-title {
+    font-size: 1.1em !important;
+  }
+
+  .workouts-count {
+    font-size: 1em !important;
+  }
+
+  .user-description {
+    font-size: 0.7em;
+    width: auto;
+  }
+
+  .profile-image-wrapper {
+    width: 30%;
+    height: auto;
+  }
+
+  .short-info-block-home {
+    padding: 0.08rem 0.3rem;
+    font-size: 0.75em;
+  }
+
+}
+@media (max-width: 660px) {
+  .info-wrapper {
+    padding: 1rem 1rem;
+  }
 }
 @media (max-width: 530px) {
   .workouts-calendar {
     width: 100%;
+  }
+
+  .profile-image-wrapper {
+    width: 30%;
+  }
+
+  .cover-container {
+    flex-direction: column;
+  }
+
+  .profile-info {
+    align-items: center;
+  }
+
+  .user-description {
+    text-align: center;
   }
 }
 @media (max-width: 420px) {
@@ -95,7 +158,10 @@
     transform-origin: top left;
   }
 
-  
+  ::ng-deep .p-datepicker .p-datepicker-panel {
+    min-width: 130%;
+  }
+
 }
 @media (max-width: 390px) {
   ::ng-deep .p-datepicker {
