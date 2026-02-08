@@ -11,7 +11,11 @@ public class RegistrationCommand(RegistrationDto user) : IRequest<ResponseWrappe
     {
         public async Task<ResponseWrapper<AuthorizationDto>> Handle(RegistrationCommand request, CancellationToken cancellationToken)
         {
-            if (await db.Users.IgnoreQueryFilters().AnyAsync(_ => _.Username == request.User.Username || _.Email.ToLower() == request.User.Email.ToLower(), cancellationToken))
+            if (
+                await db.Users
+                .IgnoreQueryFilters()
+                .AnyAsync(_ => _.Username == request.User.Username || _.Email == request.User.Email, cancellationToken)
+            )
                 return new(new Error(nameof(User), ResourceValidation.In_Use.FormatWith("Email or Username")));
 
             var model = new User();
