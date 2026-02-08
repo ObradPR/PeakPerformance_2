@@ -310,6 +310,10 @@ input, form {
   background-color: #f1f1f1;
 }
 
+.input-group-text img {
+  height: 25px;
+}
+
 @media (max-width: 696px) {
   .btn,
   .form-control, 
@@ -317,5 +321,9 @@ input, form {
   .form-select, 
   .input-group-text {
     font-size: 0.8em;
+  }
+
+  .input-group-text img {
+    height: 20px;
   }
 }
