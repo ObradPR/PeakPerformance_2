@@ -311,11 +311,11 @@ input, form {
 }
 
 @media (max-width: 696px) {
-  .btn {
-    font-size: 0.8em;
-  }
-
-  .form-control, .form-label {
+  .btn,
+  .form-control, 
+  .form-label, 
+  .form-select, 
+  .input-group-text {
     font-size: 0.8em;
   }
 }

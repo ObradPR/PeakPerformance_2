@@ -15,11 +15,11 @@
 
     <div class="d-flex flex-column pt-5">
         <h3>Exercise Comparison</h3>
-        <div class="d-flex justify-content-start align-items-center">
+        <div class="d-flex justify-content-start align-items-center flex-wrap gap-3">
             <p class="mb-0">Selected exercises ({{ selectedExercises.length }}/5): </p>
 
             @for (exercise of selectedExercises; track exercise) {
-                <div class="d-flex justify-content-between align-items-center ms-3 chip" (click)="openExerciseReportPage(exercise.id)">
+                <div class="d-flex justify-content-between align-items-center chip" (click)="openExerciseReportPage(exercise.id)">
                     <small class="clickable">{{ exercise.name | titlecase }}</small>
                     @if (isCurrentUser) {
                         <div class="remove-mark d-flex justify-content-center align-items-center">
