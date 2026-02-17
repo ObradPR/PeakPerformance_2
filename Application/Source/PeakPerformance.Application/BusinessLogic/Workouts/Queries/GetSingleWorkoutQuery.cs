@@ -104,7 +104,7 @@ public class GetSingleWorkoutQuery(WorkoutSearchOptions options) : IRequest<Resp
 
                     var volume = exercise.Sets.Where(_ => _.TypeId != eSetType.Warmup).Sum(_ => exercise.IsStrength == true
                         ? _.Reps * _.Weight.Value.ConvertUnitValue(_.WeightUnitId.Value, userMeasurementUnitId)                     // Strength
-                        : _.Reps * data.Bodyweight.Value.ConvertUnitValue(data.BodyweightUnitId.Value, userMeasurementUnitId));     // Bodyweight
+                        : data.Bodyweight.HasValue ? _.Reps * data.Bodyweight.Value.ConvertUnitValue(data.BodyweightUnitId.Value, userMeasurementUnitId) : 0);     // Bodyweight
 
                     if (volume == null)
                         continue;

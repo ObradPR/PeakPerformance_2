@@ -20,10 +20,10 @@ public class GetSelectedExercisesQuery(long userId) : IRequest<ResponseWrapper<I
             }
 
             var result = await db.UserSelectedExercises
-                    .Take(5)
                     .Where(_ => _.UserId == request.UserId)
                     .Select(_ => new BaseExerciseDto { Id = _.ExerciseId, Name = _.Exercise.Name })
                     .Distinct()
+                    .Take(5)
                     .ToListAsync(cancellationToken);
 
             return new(mapper.Map<IEnumerable<BaseExerciseDto>>(result));

@@ -143,8 +143,6 @@ export class Settings extends BaseValidationComponent implements OnInit {
     const file: File = event.target.files[0];
     if (!file) return;
 
-    console.log(file);
-
     this.formProfilePicture.patchValue({ profileImage: file });
     this.hasUnsavedChange = true;
 
@@ -213,6 +211,11 @@ export class Settings extends BaseValidationComponent implements OnInit {
           }
         }
       }
+      else {
+        if (this.user?.measurementUnitId === eMeasurementUnit.Inches) {
+          payload.height = Functions.feetToInches(payload.height!);
+        }
+      }
   
       payload.height = payload.height <= 0 ? null : payload.height;
     } 
@@ -243,6 +246,12 @@ export class Settings extends BaseValidationComponent implements OnInit {
       }
       else if (this.user?.measurementUnitId === eMeasurementUnit.Inches) {
         value = Functions.inchesToFeet(value!);
+      }
+    }
+    else {
+      if (this.user?.measurementUnitId === eMeasurementUnit.Inches) {
+        console.log('usao u else', value);
+        value = Functions.feetToInches(value!);
       }
     }
 

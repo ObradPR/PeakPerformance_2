@@ -3,6 +3,6 @@
     <p class="mb-0 fw-bold">{{ value() }}</p>
     <small [ngClass]="textClass">
         <i class="fa-solid" [ngClass]="iconClass"></i>
-        {{ ' ' + diff() }}
+        {{ ' ' + diff() ? diff() : '0' }}
     </small>
 </div>

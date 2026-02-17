@@ -68,8 +68,6 @@ export class SetsTemplate {
       .finally(() => this.loaderService.hidePageLoader());
   }
   moveSet(set: IWorkoutExerciseSetDto, move: eOrderMove) {
-    this.loaderService.showPageLoader();
-
     if (move === eOrderMove.Up) {
       set.order--;
     }
@@ -83,8 +81,7 @@ export class SetsTemplate {
           this.workoutService.refreshWorkout(this.workoutId());
         }
       })
-      .catch(ex => console.log(ex))
-      .finally(() => this.loaderService.hidePageLoader());
+      .catch(ex => console.log(ex));
   }
 
   // helpers
