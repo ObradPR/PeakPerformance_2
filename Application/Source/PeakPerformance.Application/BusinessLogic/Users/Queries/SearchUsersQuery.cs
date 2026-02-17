@@ -17,6 +17,9 @@ public class SearchUsersQuery(UserSearchOptions options) : IRequest<ResponseWrap
             if (options.UserId.IsNotNullOrEmpty())
                 predicates.Add(_ => _.Id == options.UserId);
 
+            if (options.IncludeCurrent != true)
+                predicates.Add(_ => _.Id != identityUser.Id);
+
             if (options.Filter.IsNotNullOrWhiteSpace())
                 predicates.Add(_ => _.Username.Contains(options.Filter) || _.FullName.Contains(options.Filter));
 

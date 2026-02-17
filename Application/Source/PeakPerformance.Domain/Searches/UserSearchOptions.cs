@@ -9,4 +9,6 @@ public class UserSearchOptions : SearchOptions
     public eAgeRange? AgeRangeId { get; set; }
 
     public long? CountryId { get; set; }
+
+    public bool? IncludeCurrent { get; set; }
 }

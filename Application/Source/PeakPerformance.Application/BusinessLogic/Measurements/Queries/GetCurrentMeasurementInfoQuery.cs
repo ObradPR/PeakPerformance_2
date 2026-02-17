@@ -12,12 +12,14 @@ public class GetCurrentMeasurementInfoQuery() : IRequest<ResponseWrapper<Current
             var userId = identityUser.Id;
 
             var waist = await db.Measurements
+                .Where(_ => _.UserId == userId)
                 .Where(_ => _.BodyPartId == eBodyPart.Waist)
                 .Select(_ => new { _.Size, _.MeasurementUnitId, _.LogDate })
                 .OrderByDescending(_ => _.LogDate)
                 .FirstOrDefaultAsync(cancellationToken);
 
             var chest = await db.Measurements
+                .Where(_ => _.UserId == userId)
                 .Where(_ => _.BodyPartId == eBodyPart.Chest)
                 .Select(_ => new { _.Size, _.MeasurementUnitId, _.LogDate })
                 .OrderByDescending(_ => _.LogDate)
@@ -26,11 +28,13 @@ public class GetCurrentMeasurementInfoQuery() : IRequest<ResponseWrapper<Current
             var thighParts = new[] { eBodyPart.LeftThigh, eBodyPart.RightThigh };
 
             var latestThighLog = await db.Measurements
+                .Where(_ => _.UserId == userId)
                 .Where(_ => thighParts.Contains(_.BodyPartId))
                 .OrderByDescending(_ => _.LogDate)
                 .Select(_ => _.LogDate)
                 .FirstOrDefaultAsync(cancellationToken);
             var thighs = await db.Measurements
+                .Where(_ => _.UserId == userId)
                 .Where(_ => thighParts.Contains(_.BodyPartId) && _.LogDate == latestThighLog)
                 .Select(_ => new { _.Size, _.MeasurementUnitId })
                 .ToListAsync(cancellationToken);
@@ -38,11 +42,13 @@ public class GetCurrentMeasurementInfoQuery() : IRequest<ResponseWrapper<Current
             var bicepParts = new[] { eBodyPart.LeftBicep, eBodyPart.RightBicep };
 
             var latestBicepLog = await db.Measurements
+                .Where(_ => _.UserId == userId)
                 .Where(_ => bicepParts.Contains(_.BodyPartId))
                 .OrderByDescending(_ => _.LogDate)
                 .Select(_ => _.LogDate)
                 .FirstOrDefaultAsync(cancellationToken);
             var biceps = await db.Measurements
+                .Where(_ => _.UserId == userId)
                 .Where(_ => bicepParts.Contains(_.BodyPartId) && _.LogDate == latestBicepLog)
                 .Select(_ => new { _.Size, _.MeasurementUnitId })
                 .ToListAsync(cancellationToken);

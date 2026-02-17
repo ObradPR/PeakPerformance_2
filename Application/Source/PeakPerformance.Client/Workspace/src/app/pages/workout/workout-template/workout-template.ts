@@ -65,7 +65,7 @@ export class WorkoutTemplate implements OnInit {
   deleteWorkout() {
     this.selectedWorkoutMenu = false;
     this.workoutController.Delete(this.workout()!.id).toPromise()
-      .then(_ => this.router.navigateByUrl("/workouts"))
+      .then(_ => this.router.navigateByUrl(`/user/${this.workout()?.userId}/workouts`))
       .catch(ex => { throw ex; })
   }
 

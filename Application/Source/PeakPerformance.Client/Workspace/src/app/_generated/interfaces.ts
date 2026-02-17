@@ -392,6 +392,7 @@ export interface IUserSearchOptions extends ISearchOptions
 	genderId?: eUserGender;
 	ageRangeId?: eAgeRange;
 	countryId?: number;
+	includeCurrent?: boolean;
 }
 export interface IWorkoutSearchOptions extends ISearchOptions
 {
