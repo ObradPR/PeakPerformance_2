@@ -1,20 +1,25 @@
 import { Component, OnInit } from '@angular/core';
 import { Paginator, PaginatorState } from 'primeng/paginator';
-import { ICountryDto, IPagingResult, IUserDto, IUserSearchOptions } from '../../../_generated/interfaces';
+import { ICountryDto, IEnumProvider, IPagingResult, IUserDto, IUserSearchOptions } from '../../../_generated/interfaces';
 import { CountryController, UserController } from '../../../_generated/services';
 import { LoaderService } from '../../../services/loader.service';
 import { CommonModule } from '@angular/common';
 import { DateTime } from 'luxon';
 import { EnumNamePipe } from '../../../pipes/enum-name.pipe';
 import { AuthService } from '../../../services/auth.service';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Providers } from '../../../_generated/providers';
+import { debounceTime, distinctUntilChanged } from 'rxjs';
 
 @Component({
   selector: 'app-admin-users',
-  imports: [Paginator, CommonModule, EnumNamePipe],
+  imports: [Paginator, CommonModule, EnumNamePipe, FormsModule, ReactiveFormsModule],
   templateUrl: './admin-users.html',
   styleUrl: './admin-users.css'
 })
 export class AdminUsers implements OnInit {
+  form: FormGroup<any>;
+
   currentUserId: number | undefined;
   countries: ICountryDto[];
   users: IPagingResult<IUserDto> = {
@@ -25,19 +30,41 @@ export class AdminUsers implements OnInit {
   first = 0;
   rows = 25;
 
+  genders: IEnumProvider[] = [];
+  ageRanges: IEnumProvider[] = [];
+
   constructor(
+    private fb: FormBuilder,
+
     private loaderService: LoaderService,
     private authService: AuthService,
-
+    private providers: Providers,
+    
     private countryController: CountryController,
     private userController: UserController,
-  ) {}
+  ) {
+    this.genders = this.providers.getUserGenders();
+    this.ageRanges = this.providers.getAgeRanges();
+  }
 
   ngOnInit(): void {
+    this.formInit();
+    this.setupFilterListener();
+
     this.currentUserId = this.authService.currentUserSource()?.id;
 
     this.getUsers(this.first, this.rows);
     this.getCountries();
+  }
+
+  private formInit() {
+    this.form = this.fb.group({
+      userId: [],
+      search: [],
+      ageRangeId: [],
+      genderId: [],
+      countryId: [],
+    })
   }
 
   // events
@@ -54,6 +81,8 @@ export class AdminUsers implements OnInit {
     this.loaderService.showPageLoader();
 
     const options = {
+      ...this.form.value,
+      filter: this.form.value.search,
       includeCurrent: true,
       take,
       skip,
@@ -94,5 +123,17 @@ export class AdminUsers implements OnInit {
   getUserCountryIso2(userId: number): string | null {
     const country = this.countries.find(c => c.id === this.users.data.find(u => u.id === userId)?.countryId);
     return country?.isO2 ?? null;
+  }
+
+  setupFilterListener() {
+    this.form.valueChanges
+      .pipe(
+        debounceTime(300),
+        distinctUntilChanged()
+      )
+      .subscribe(value => {
+        this.first = 0;
+        this.getUsers(this.first, this.rows);
+      })
   }
 }

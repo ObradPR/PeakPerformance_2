@@ -1,13 +1,13 @@
 <table class="data-table">
   <thead>
-      <tr>
-          <th>Id</th>
+      <tr >
+          <th style="width: 100px;">Id</th>
           <th>Full Name</th>
           <th>Username</th>
           <th>Email</th>
-          <th>Age</th>
-          <th>Gender</th>
-          <th>Country</th>
+          <th style="width: 100px;">Age</th>
+          <th style="width: 100px;">Gender</th>
+          <th style="width: 100px;">Country</th>
           <th>Is Private</th>
           <!-- add more for deactivate action and reason -->
 
@@ -15,6 +15,38 @@
       </tr>
   </thead>
   <tbody>
+      <tr [formGroup]="form">
+        <td>
+          <input type="number" class="form-control" id="userId" [placeholder]="currentUserId" formControlName="userId" />
+        </td>
+        <td colspan="3">
+          <input type="search" class="form-control" id="search" placeholder="Search..." formControlName="search" />
+        </td>
+        <td>
+          <select id="ageRange" class="form-select" formControlName="ageRangeId">
+              @for (range of ageRanges; track $index) {
+                  <option [ngValue]="range.id">{{ range.description }}</option>
+              }
+          </select>
+        </td>
+        <td>
+          <select id="gender" class="form-select" formControlName="genderId">
+              @for (gender of genders; track gender) {
+                  <option [ngValue]="gender.id">{{ gender.description }}</option>
+              }
+          </select>
+        </td>
+        <td>
+          <select id="country" class="form-select" formControlName="countryId">
+            <option value="0"></option>
+              @for (country of countries; track country) {
+                  <option [value]="country.id">{{ country.name }}</option>
+              }
+          </select>
+        </td>
+        <td></td>
+        <td></td>
+      </tr>
       @for (user of users.data; track $index; let idx = $index) {
           <tr [ngClass]="{
             'odd-row': idx % 2 !== 0,
@@ -24,9 +56,9 @@
               <td>{{ user.fullName }}</td>
               <td>{{ user.username }}</td>
               <td>{{ user.email }}</td>
-              <td>{{ getUserAge(user.dateOfBirth) }}</td>
-              <td>{{ user.genderId | enumName:'UserGenders' }}</td>
-              <td>
+              <td class="text-center">{{ getUserAge(user.dateOfBirth) }}</td>
+              <td class="text-center">{{ user.genderId | enumName:'UserGenders' }}</td>
+              <td class="text-center">
                 @if (user.countryId) {
                   <img  
                       [src]="'https://flagsapi.com/' + getUserCountryIso2(user.id) + '/flat/32.png'"
@@ -34,7 +66,7 @@
                   />
                 }
               </td>
-              <td>{{ user.isPrivate ? 'true' : 'false' }}</td>
+              <td class="text-center">{{ user.isPrivate ? 'true' : 'false' }}</td>
 
               <td>nesto za deactivate</td>
           </tr>
