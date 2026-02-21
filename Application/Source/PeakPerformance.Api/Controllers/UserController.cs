@@ -71,7 +71,7 @@ public class UserController(IMediator mediator) : BaseController(mediator)
     [HttpPost]
     [Authorize]
     [AngularMethod(typeof(BaseResponseWrapper))]
-    public async Task<IActionResult> Activate() => Result(await Mediator.Send(new ActivateCommand()));
+    public async Task<IActionResult> Activate() => Result(await Mediator.Send(new ActivateCommand(null)));
 
     [HttpDelete]
     [Authorize]
@@ -88,5 +88,5 @@ public class UserController(IMediator mediator) : BaseController(mediator)
     [HttpPost]
     [Authorize]
     [AngularMethod(typeof(BaseResponseWrapper))]
-    public async Task<IActionResult> ActivateUser() => Result(await Mediator.Send(new ActivateCommand()));
+    public async Task<IActionResult> ActivateUser([FromBody] long userId) => Result(await Mediator.Send(new ActivateCommand(userId)));
 }

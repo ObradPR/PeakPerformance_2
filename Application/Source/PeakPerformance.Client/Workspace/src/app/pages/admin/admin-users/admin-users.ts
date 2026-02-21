@@ -152,4 +152,12 @@ export class AdminUsers implements OnInit {
 
     this.modalService.showDeactivateUserModal(userId);
   }
+
+  onAccountActivating(userId: number, reason: string) {
+    const ok = window.confirm(`Activate account?`);
+
+    if (!ok) return;
+
+    this.modalService.showActivateUserModal(userId, reason);
+  }
 }

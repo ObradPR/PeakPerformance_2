@@ -75,7 +75,8 @@
                   </button>
                 }
                 @else if (!user.isActive) {
-                  <button class="btn btn-sm btn-success" style="width: 85px;">
+                  <button class="btn btn-sm btn-success" style="width: 85px;"
+                    (click)="onAccountActivating(user.id, user.deactivateReason)">
                     Activate
                   </button>
                 }

@@ -325,8 +325,11 @@ export class ModalService {
 
   private deactivateUserModal = signal<boolean>(false);
   readonly deactivateUserModalSignal = this.deactivateUserModal.asReadonly();
+
   private reload = signal<boolean>(false);
   readonly reloadSignal = this.reload.asReadonly();
+  private deactivateReason = signal<string>('');
+  readonly deactivateReasonSignal = this.deactivateReason.asReadonly();
 
   showDeactivateUserModal(userId: number = 0) {
     this.userId.set(userId);
@@ -336,7 +339,14 @@ export class ModalService {
   hideDeactivateUserModal() {
     this.deactivateUserModal.set(false);
     this.userId.set(0);
+    this.deactivateReason.set('');
     this.reload.set(!this.reload())
+  }
+
+  showActivateUserModal(userId: number, deactivateReason: string) {
+    this.userId.set(userId);
+    this.deactivateReason.set(deactivateReason);
+    this.deactivateUserModal.set(true);
   }
 
 }

@@ -711,11 +711,12 @@ import { IWorkoutLogDto } from './interfaces';
 		.pipe(map(response => response.body));
 		
 	}
-	public ActivateUser() : Observable<IBaseResponseWrapper | null>
+	public ActivateUser(userId: number) : Observable<IBaseResponseWrapper | null>
 	{
+		const body = <any>userId;
 		return this.httpClient.post<IBaseResponseWrapper>(
 		this.settingsService.createApiUrl('User/ActivateUser'),
-		null,
+		body,
 		{
 			responseType: 'json',
 			observe: 'response',

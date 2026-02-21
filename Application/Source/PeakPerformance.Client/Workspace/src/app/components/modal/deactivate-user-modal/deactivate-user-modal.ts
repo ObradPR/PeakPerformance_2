@@ -19,6 +19,8 @@ export class DeactivateUserModal implements IModalMethods, OnInit {
 
   userId: number = 0;
 
+  isActivation: boolean = false;
+
   constructor(
     private fb: FormBuilder,
 
@@ -29,9 +31,11 @@ export class DeactivateUserModal implements IModalMethods, OnInit {
     private modalService: ModalService,
   ) { }
 
-   ngOnInit(): void {
+  ngOnInit(): void {
     this.formInit();
     this.userId = this.modalService.userIdSignal();
+    if (this.modalService.deactivateReasonSignal())
+      this.isActivation = true;
   }
 
   closeModal(): void {
@@ -40,8 +44,23 @@ export class DeactivateUserModal implements IModalMethods, OnInit {
 
   formInit(): void {
     this.form = this.fb.group({
-      reason: ['']
+      reason: [this.modalService.deactivateReasonSignal()]
     });
+  }
+
+  activate() {
+    this.loaderService.showPageLoader();
+
+    this.userController.ActivateUser(this.userId).toPromise()
+      .then(_ => {
+        if(_?.isSuccess)
+          this.modalService.hideDeactivateUserModal();
+
+      })
+      .catch(ex => { throw ex; })
+      .finally(() => {
+        this.loaderService.hidePageLoader();
+      });
   }
 
   submit() {
