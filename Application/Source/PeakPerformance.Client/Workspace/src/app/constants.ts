@@ -49,6 +49,10 @@ export class RouteConstants {
   static ROUTE_REGISTER = 'register';
   static TITLE_REGISTER = 'Register | ' + this.TITLE;
 
+  // Admin
+  static ROUTE_ADMIN = 'admin';
+  static TITLE_ADMIN = 'admin';
+
   // Pages
   static ROUTE_HOME = 'user/:userId';
   static TITLE_HOME = 'Home | ' + this.TITLE;

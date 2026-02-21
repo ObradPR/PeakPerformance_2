@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { PageLoader } from './components/page-loader/page-loader'
-import { AuthService } from './services/auth.service';
 import { ToastModule } from 'primeng/toast';
-import { Header } from "./components/header/header";
 import { Footer } from "./components/footer/footer";
+import { Header } from "./components/header/header";
 import { Modal } from './components/modal/modal';
+import { PageLoader } from './components/page-loader/page-loader';
+import { AuthService } from './services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -13,10 +13,8 @@ import { Modal } from './components/modal/modal';
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
-export class App implements OnInit {
-  constructor(private authService: AuthService) { }
-
-  ngOnInit(): void {
+export class App {
+  constructor(private authService: AuthService) { 
     this.authService.loadCurrentUser(true);
   }
 }

@@ -24,6 +24,8 @@ public class UserDto
 
     public bool? IsPrivate { get; set; }
 
+    public List<UserRoleDto> Roles { get; set; }
+
     // Image
 
     public string ProfilePictureUrl { get; set; }

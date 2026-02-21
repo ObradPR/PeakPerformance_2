@@ -4,6 +4,7 @@ import { authGuard } from './guards/auth.guard';
 import { workoutResolver } from './resolvers/workout.resolver';
 import { userResolver } from './resolvers/user.resolver';
 import { activeAccountGuard } from './guards/active-account.guard';
+import { adminGuard } from './guards/admin.guard';
 
 export const routes: Routes = [
     {
@@ -58,6 +59,12 @@ export const routes: Routes = [
         title: RouteConstants.TITLE_SETTINGS,
         loadComponent: () => import('./pages/settings/settings').then(_ => _.Settings),
         canActivate: [authGuard]
+    },
+    {
+        path: RouteConstants.ROUTE_ADMIN,
+        title: RouteConstants.TITLE_ADMIN,
+        loadComponent: () => import('./pages/admin/admin').then(_ => _.Admin),
+        canActivate: [authGuard, adminGuard]
     },
     ///
     /// AUTH

@@ -1,5 +1,6 @@
 import { eUserGender } from './enums';
 import { eMeasurementUnit } from './enums';
+import { eSystemRole } from './enums';
 import { eBodyPart } from './enums';
 import { eSetRpeType } from './enums';
 import { eSetType } from './enums';
@@ -47,12 +48,18 @@ export interface IUserDto
 	height?: number;
 	heightMeasurementUnitId?: eMeasurementUnit;
 	isPrivate?: boolean;
+	roles: IUserRoleDto[];
 	profilePictureUrl: string;
 	weightUnitId: eMeasurementUnit;
 	measurementUnitId: eMeasurementUnit;
 	isMainDetailsUpdate?: boolean;
 	workoutsCount?: number;
 	isActive?: boolean;
+}
+export interface IUserRoleDto
+{
+	userId: number;
+	roleId: eSystemRole;
 }
 export interface IBaseExerciseDto
 {

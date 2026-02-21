@@ -6,6 +6,7 @@ import { StorageService } from './storage.service';
 import { Constants, RouteConstants } from '../constants';
 import { DateTime } from 'luxon';
 import { Router } from '@angular/router';
+import { firstValueFrom } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -55,6 +56,26 @@ export class AuthService {
 
     if (token) {
       this.loadCurrentUser(true);
+    }
+  }
+
+  async loadCurrentUserForGuard(): Promise<IUserDto | null> {
+    const token = this.getToken();
+    if (!token) return null;
+
+    try {
+      const res = await firstValueFrom(this.userController.GetCurrent());
+      const user = res?.data ?? null;
+
+      if (!user) {
+        this.signOut();
+        return null;
+      }
+
+      this.currentUserSource.set(user);
+      return user;
+    } catch {
+      return null;
     }
   }
 
