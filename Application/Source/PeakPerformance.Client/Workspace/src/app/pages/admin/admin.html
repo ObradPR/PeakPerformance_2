@@ -1,1 +1,23 @@
-<p>admin works!</p>
+<div class="col-12 info-wrapper">
+  <div class="bottom-data">
+    <div class="d-flex align-items-center">
+      @for(tab of tabs; track $index; let idx = $index) {
+          <div [ngClass]="{'tab': true, 'active': selectedTab === idx}" (click)="onSelectTab(idx)">
+              @if (tab.iconClass) {
+                  <i [class]="tab.iconClass"></i>
+              }
+              {{ tab.label }}
+          </div>
+      }
+        <!-- Empty filler div for the remaining space -->
+        <div class="filler"></div>
+    </div>
+
+    @if (selectedTab === 0) {
+      <app-admin-users></app-admin-users>
+    }
+    @else if (selectedTab === 1) {
+
+    }
+  </div>
+</div>

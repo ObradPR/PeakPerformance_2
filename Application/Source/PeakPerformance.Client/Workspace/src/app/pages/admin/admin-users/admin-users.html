@@ -1,0 +1,50 @@
+<table class="data-table">
+  <thead>
+      <tr>
+          <th>Id</th>
+          <th>Full Name</th>
+          <th>Username</th>
+          <th>Email</th>
+          <th>Age</th>
+          <th>Gender</th>
+          <th>Country</th>
+          <th>Is Private</th>
+          <!-- add more for deactivate action and reason -->
+
+          <th></th> <!-- Empty heading for edit dots -->
+      </tr>
+  </thead>
+  <tbody>
+      @for (user of users.data; track $index; let idx = $index) {
+          <tr [ngClass]="{
+            'odd-row': idx % 2 !== 0,
+            'current-user': user.id === currentUserId
+            }">
+              <td>{{ user.id }}</td>
+              <td>{{ user.fullName }}</td>
+              <td>{{ user.username }}</td>
+              <td>{{ user.email }}</td>
+              <td>{{ getUserAge(user.dateOfBirth) }}</td>
+              <td>{{ user.genderId | enumName:'UserGenders' }}</td>
+              <td>
+                @if (user.countryId) {
+                  <img  
+                      [src]="'https://flagsapi.com/' + getUserCountryIso2(user.id) + '/flat/32.png'"
+                      style="height: 20px;"
+                  />
+                }
+              </td>
+              <td>{{ user.isPrivate ? 'true' : 'false' }}</td>
+
+              <td>nesto za deactivate</td>
+          </tr>
+      }
+  </tbody>
+</table>
+<div class="flex justify-content-center">
+    <p-paginator (onPageChange)="onPageChange($event)" 
+        [first]="first" 
+        [rows]="rows" 
+        [totalRecords]="users.total"
+        [showFirstLastIcon]="false" />
+</div>
