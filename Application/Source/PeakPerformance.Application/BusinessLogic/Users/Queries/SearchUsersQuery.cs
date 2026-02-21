@@ -48,7 +48,13 @@ public class SearchUsersQuery(UserSearchOptions options) : IRequest<ResponseWrap
                     predicates.Add(_ => _.DateOfBirth <= today.AddYears(-70));
             }
 
-            var result = await db.Users.SearchAsync(options, _ => _.CreatedOn, true, predicates);
+            var query = db.Users.AsQueryable();
+
+            if (options.IncludeAll == true)
+                query = query.IgnoreQueryFilters();
+
+            var result = await db.Users.SearchAsync(options, _ => _.CreatedOn, true, predicates,
+                queryTransformer: _ => options.IncludeAll == true ? _.IgnoreQueryFilters() : _);
 
             return new(new()
             {

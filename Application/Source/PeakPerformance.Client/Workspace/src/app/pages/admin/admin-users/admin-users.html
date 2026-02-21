@@ -5,13 +5,11 @@
           <th>Full Name</th>
           <th>Username</th>
           <th>Email</th>
-          <th style="width: 100px;">Age</th>
-          <th style="width: 100px;">Gender</th>
-          <th style="width: 100px;">Country</th>
-          <th>Is Private</th>
-          <!-- add more for deactivate action and reason -->
-
-          <th></th> <!-- Empty heading for edit dots -->
+          <th class="text-center" style="width: 100px;">Age</th>
+          <th class="text-center" style="width: 100px;">Gender</th>
+          <th class="text-center" style="width: 100px;">Country</th>
+          <th class="text-center">Is Private</th>
+          <th class="text-center">Status</th>
       </tr>
   </thead>
   <tbody>
@@ -50,7 +48,8 @@
       @for (user of users.data; track $index; let idx = $index) {
           <tr [ngClass]="{
             'odd-row': idx % 2 !== 0,
-            'current-user': user.id === currentUserId
+            'current-user': user.id === currentUserId,
+            'deactivated': user.isActive !== true
             }">
               <td>{{ user.id }}</td>
               <td>{{ user.fullName }}</td>
@@ -68,7 +67,19 @@
               </td>
               <td class="text-center">{{ user.isPrivate ? 'true' : 'false' }}</td>
 
-              <td>nesto za deactivate</td>
+              <td class="text-center">
+                @if (user.isActive) {
+                  <button class="btn btn-sm btn-danger" style="width: 85px;"
+                    (click)="onAccountDeactivating(user.id)">
+                    Deactivate
+                  </button>
+                }
+                @else if (!user.isActive) {
+                  <button class="btn btn-sm btn-success" style="width: 85px;">
+                    Activate
+                  </button>
+                }
+              </td>
           </tr>
       }
   </tbody>

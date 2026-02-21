@@ -325,13 +325,18 @@ export class ModalService {
 
   private deactivateUserModal = signal<boolean>(false);
   readonly deactivateUserModalSignal = this.deactivateUserModal.asReadonly();
+  private reload = signal<boolean>(false);
+  readonly reloadSignal = this.reload.asReadonly();
 
-  showDeactivateUserModal() {
+  showDeactivateUserModal(userId: number = 0) {
+    this.userId.set(userId);
     this.deactivateUserModal.set(true);
   }
 
   hideDeactivateUserModal() {
     this.deactivateUserModal.set(false);
+    this.userId.set(0);
+    this.reload.set(!this.reload())
   }
 
 }

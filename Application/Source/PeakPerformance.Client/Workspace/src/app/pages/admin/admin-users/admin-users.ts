@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, effect, OnInit } from '@angular/core';
 import { Paginator, PaginatorState } from 'primeng/paginator';
 import { ICountryDto, IEnumProvider, IPagingResult, IUserDto, IUserSearchOptions } from '../../../_generated/interfaces';
 import { CountryController, UserController } from '../../../_generated/services';
@@ -10,6 +10,7 @@ import { AuthService } from '../../../services/auth.service';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Providers } from '../../../_generated/providers';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
+import { ModalService } from '../../../services/modal.service';
 
 @Component({
   selector: 'app-admin-users',
@@ -39,12 +40,18 @@ export class AdminUsers implements OnInit {
     private loaderService: LoaderService,
     private authService: AuthService,
     private providers: Providers,
+    private modalService: ModalService,
     
     private countryController: CountryController,
     private userController: UserController,
   ) {
     this.genders = this.providers.getUserGenders();
     this.ageRanges = this.providers.getAgeRanges();
+
+    effect(() => {
+      this.modalService.reloadSignal();
+      this.getUsers(this.first, this.rows);
+    }, { allowSignalWrites: true })
   }
 
   ngOnInit(): void {
@@ -52,8 +59,6 @@ export class AdminUsers implements OnInit {
     this.setupFilterListener();
 
     this.currentUserId = this.authService.currentUserSource()?.id;
-
-    this.getUsers(this.first, this.rows);
     this.getCountries();
   }
 
@@ -84,9 +89,10 @@ export class AdminUsers implements OnInit {
       ...this.form.value,
       filter: this.form.value.search,
       includeCurrent: true,
+      includeAll: true,
       take,
       skip,
-      sortingOptions: [{ field: 'Id', dir: 'asc' }]
+      sortingOptions: [{ field: 'IsActive', dir: 'desc'}, { field: 'Id', dir: 'asc' }]
     } as IUserSearchOptions;
 
     this.userController.Search(options).toPromise()
@@ -135,5 +141,15 @@ export class AdminUsers implements OnInit {
         this.first = 0;
         this.getUsers(this.first, this.rows);
       })
+  }
+
+  // Deactivating Account
+
+  onAccountDeactivating(userId: number) {
+    const ok = window.confirm(`Deactivate account?`);
+
+    if (!ok) return;
+
+    this.modalService.showDeactivateUserModal(userId);
   }
 }

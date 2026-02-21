@@ -19,6 +19,7 @@ export interface IChangePasswordDto
 }
 export interface IDeactivateReasonDto
 {
+	userId?: number;
 	reason: string;
 }
 export interface ILoginDto
@@ -49,6 +50,7 @@ export interface IUserDto
 	heightMeasurementUnitId?: eMeasurementUnit;
 	isPrivate?: boolean;
 	roles: IUserRoleDto[];
+	deactivateReason: string;
 	profilePictureUrl: string;
 	weightUnitId: eMeasurementUnit;
 	measurementUnitId: eMeasurementUnit;
@@ -400,6 +402,7 @@ export interface IUserSearchOptions extends ISearchOptions
 	ageRangeId?: eAgeRange;
 	countryId?: number;
 	includeCurrent?: boolean;
+	includeAll?: boolean;
 }
 export interface IWorkoutSearchOptions extends ISearchOptions
 {

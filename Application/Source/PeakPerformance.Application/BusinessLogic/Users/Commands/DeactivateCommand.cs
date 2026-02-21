@@ -11,7 +11,11 @@ public class DeactivateCommand(DeactivateReasonDto data) : IRequest<BaseResponse
     {
         public async Task<BaseResponseWrapper> Handle(DeactivateCommand request, CancellationToken cancellationToken)
         {
-            var model = await db.Users.FirstOrDefaultAsync(_ => _.Id == identityUser.Id, cancellationToken);
+            var userId = identityUser.HasRole([eSystemRole.Admin]) && request.Data.UserId.HasValue
+                ? request.Data.UserId.Value
+                : identityUser.Id;
+
+            var model = await db.Users.FirstOrDefaultAsync(_ => _.Id == userId, cancellationToken);
 
             if (model == null)
                 return new(new Error(nameof(User), ResourceValidation.Not_Found.FormatWith(nameof(User))));

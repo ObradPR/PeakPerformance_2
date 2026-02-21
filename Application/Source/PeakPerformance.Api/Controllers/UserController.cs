@@ -77,4 +77,16 @@ public class UserController(IMediator mediator) : BaseController(mediator)
     [Authorize]
     [AngularMethod(typeof(BaseResponseWrapper))]
     public async Task<IActionResult> DeleteProfilePicture() => Result(await Mediator.Send(new DeleteProfilePictureCommand()));
+
+    // Admin
+
+    [HttpPost]
+    [Authorize]
+    [AngularMethod(typeof(BaseResponseWrapper))]
+    public async Task<IActionResult> DeactivateUser([FromBody] DeactivateReasonDto data) => Result(await Mediator.Send(new DeactivateCommand(data)));
+
+    [HttpPost]
+    [Authorize]
+    [AngularMethod(typeof(BaseResponseWrapper))]
+    public async Task<IActionResult> ActivateUser() => Result(await Mediator.Send(new ActivateCommand()));
 }

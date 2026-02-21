@@ -100,21 +100,24 @@ public static partial class Extensions
         where TEntity : class
         => await dbSet.GetQueryable(predicate, 0, includeProperties).LongCountAsync();
 
-    public static async Task<PagingResult<TEntity>> SearchAsync<TProperty, TEntity>(this DbSet<TEntity> dbSet, SearchOptions options, Expression<Func<TEntity, TProperty>> defaultOrder, bool desc, List<Expression<Func<TEntity, bool>>> predicates, params Expression<Func<TEntity, object>>[] includeProperties)
+    public static async Task<PagingResult<TEntity>> SearchAsync<TProperty, TEntity>(this DbSet<TEntity> dbSet, SearchOptions options, Expression<Func<TEntity, TProperty>> defaultOrder, bool desc, List<Expression<Func<TEntity, bool>>> predicates, Func<IQueryable<TEntity>, IQueryable<TEntity>> queryTransformer = null, params Expression<Func<TEntity, object>>[] includeProperties)
         where TEntity : class
-        => await dbSet.SearchAsync(default, options, defaultOrder, desc, _ => _, predicates, includeProperties);
+        => await dbSet.SearchAsync(default, options, defaultOrder, desc, _ => _, predicates, queryTransformer, includeProperties);
 
     public static async Task<PagingResult<TEntity>> SearchAsync<TProperty, TEntity>(this DbSet<TEntity> dbSet, CancellationToken cancellationToken, SearchOptions options, Expression<Func<TEntity, TProperty>> defaultOrder, bool desc, List<Expression<Func<TEntity, bool>>> predicates, params Expression<Func<TEntity, object>>[] includeProperties)
         where TEntity : class
-        => await dbSet.SearchAsync(cancellationToken, options, defaultOrder, desc, _ => _, predicates, includeProperties);
+        => await dbSet.SearchAsync(cancellationToken, options, defaultOrder, desc, _ => _, predicates, null, includeProperties);
 
     public static async Task<PagingResult<TResult>> SearchAsync<TResult, TProperty, TEntity>(this DbSet<TEntity> dbSet, SearchOptions options, Expression<Func<TEntity, TProperty>> defaultOrder, bool desc, Expression<Func<TEntity, TResult>> select, List<Expression<Func<TEntity, bool>>> predicates, params Expression<Func<TEntity, object>>[] includeProperties)
         where TEntity : class
-        => await dbSet.SearchAsync(default, options, defaultOrder, desc, select, predicates, includeProperties);
+        => await dbSet.SearchAsync(default, options, defaultOrder, desc, select, predicates, null, includeProperties);
 
-    public static async Task<PagingResult<TResult>> SearchAsync<TResult, TProperty, TEntity>(this DbSet<TEntity> dbSet, CancellationToken cancellationToken, SearchOptions options, Expression<Func<TEntity, TProperty>> defaultOrder, bool desc, Expression<Func<TEntity, TResult>> select, List<Expression<Func<TEntity, bool>>> predicates, params Expression<Func<TEntity, object>>[] includeProperties) where TEntity : class
+    public static async Task<PagingResult<TResult>> SearchAsync<TResult, TProperty, TEntity>(this DbSet<TEntity> dbSet, CancellationToken cancellationToken, SearchOptions options, Expression<Func<TEntity, TProperty>> defaultOrder, bool desc, Expression<Func<TEntity, TResult>> select, List<Expression<Func<TEntity, bool>>> predicates, Func<IQueryable<TEntity>, IQueryable<TEntity>> queryTransformer = null, params Expression<Func<TEntity, object>>[] includeProperties) where TEntity : class
     {
         var query = dbSet.AsQueryable();
+
+        if (queryTransformer != null)
+            query = queryTransformer(query);
 
         if (predicates != null)
             query = predicates.Aggregate(query, (current, expression) => current.Where(expression));

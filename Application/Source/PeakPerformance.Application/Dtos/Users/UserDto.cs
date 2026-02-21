@@ -26,6 +26,8 @@ public class UserDto
 
     public List<UserRoleDto> Roles { get; set; }
 
+    public string DeactivateReason { get; set; }
+
     // Image
 
     public string ProfilePictureUrl { get; set; }

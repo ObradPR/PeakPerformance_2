@@ -5,6 +5,7 @@ import { AuthService } from '../../../services/auth.service';
 import { LoaderService } from '../../../services/loader.service';
 import { IModalMethods } from '../interfaces/modal-methods.interface';
 import { ModalService } from '../../../services/modal.service';
+import { IDeactivateReasonDto } from '../../../_generated/interfaces';
 
 @Component({
   selector: 'app-deactivate-user-modal',
@@ -15,6 +16,8 @@ import { ModalService } from '../../../services/modal.service';
 export class DeactivateUserModal implements IModalMethods, OnInit {
   closeModalEvent: OutputEmitterRef<boolean> = output<boolean>();
   form: FormGroup<any>;
+
+  userId: number = 0;
 
   constructor(
     private fb: FormBuilder,
@@ -28,6 +31,7 @@ export class DeactivateUserModal implements IModalMethods, OnInit {
 
    ngOnInit(): void {
     this.formInit();
+    this.userId = this.modalService.userIdSignal();
   }
 
   closeModal(): void {
@@ -43,11 +47,26 @@ export class DeactivateUserModal implements IModalMethods, OnInit {
   submit() {
     this.loaderService.showPageLoader();
 
-    this.userController.Deactivate(this.form.value).toPromise()
+    let method;
+
+    if (this.userId) {
+      const payload = {
+        ...this.form.value,
+        userId: this.userId
+      } as IDeactivateReasonDto;
+      method = this.userController.DeactivateUser(payload);
+    }
+    else {
+      method = this.userController.Deactivate(this.form.value);
+    }
+
+    method.toPromise()
       .then(_ => {
         if (_?.isSuccess) {
+          if (!this.userId)
+            this.authService.signOut();
+
           this.modalService.hideDeactivateUserModal();
-          this.authService.signOut();
         }
       })
       .catch(ex => { throw ex; })

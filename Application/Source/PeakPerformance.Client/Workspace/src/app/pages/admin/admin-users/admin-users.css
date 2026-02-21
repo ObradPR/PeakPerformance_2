@@ -1,3 +1,8 @@
 .current-user {
   background-color: #feffb5;
 }
+
+.deactivated {
+  font-style: italic;
+  color: #a3a3a3;
+}

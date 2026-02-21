@@ -11,4 +11,6 @@ public class UserSearchOptions : SearchOptions
     public long? CountryId { get; set; }
 
     public bool? IncludeCurrent { get; set; }
+
+    public bool? IncludeAll { get; set; }
 }
