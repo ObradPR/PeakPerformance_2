@@ -333,6 +333,20 @@ import { IWorkoutLogDto } from './interfaces';
 		.pipe(map(response => response.body));
 		
 	}
+	public AdminSearch(options: IExerciseSearchOptions) : Observable<IResponseWrapper<IPagingResult<IExerciseDto>> | null>
+	{
+		const body = <any>options;
+		return this.httpClient.post<IResponseWrapper<IPagingResult<IExerciseDto>>>(
+		this.settingsService.createApiUrl('Exercise/AdminSearch'),
+		body,
+		{
+			responseType: 'json',
+			observe: 'response',
+			withCredentials: true
+		})
+		.pipe(map(response => response.body));
+		
+	}
 	constructor (httpClient: HttpClient, settingsService: SettingsService)
 	{
 		super(httpClient, settingsService);

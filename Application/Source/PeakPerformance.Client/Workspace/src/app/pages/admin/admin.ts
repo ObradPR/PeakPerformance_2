@@ -1,16 +1,17 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { AdminUsers } from "./admin-users/admin-users";
+import { AdminExercise } from './admin-exercise/admin-exercise';
 
 @Component({
   selector: 'app-admin',
-  imports: [CommonModule, AdminUsers],
+  imports: [CommonModule, AdminUsers, AdminExercise],
   templateUrl: './admin.html',
   styleUrl: './admin.css'
 })
 export class Admin {
   
-  selectedTab: number = 0;
+  selectedTab: number = 1;
   tabs = [
     {
       label: 'Users',

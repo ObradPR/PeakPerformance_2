@@ -47,4 +47,11 @@ public class ExerciseController(IMediator mediator) : BaseController(mediator)
     [Authorize]
     [AngularMethod(typeof(BaseResponseWrapper))]
     public async Task<IActionResult> Remove([FromQuery] long id) => Result(await Mediator.Send(new RemoveExerciseCommand(id)));
+
+    // Admin
+
+    [HttpPost]
+    [Authorize]
+    [AngularMethod(typeof(ResponseWrapper<PagingResult<ExerciseDto>>))]
+    public async Task<IActionResult> AdminSearch([FromBody] ExerciseSearchOptions options) => Result(await Mediator.Send(new AdminSearchExerciseQuery(options)));
 }

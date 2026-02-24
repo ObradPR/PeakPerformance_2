@@ -2,6 +2,8 @@
 
 public class ExerciseSearchOptions : SearchOptions
 {
+    public long? Id { get; set; }
+
     public long? UserId { get; set; }
 
     public eChartTimespan? ChartTimespanId { get; set; }

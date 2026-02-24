@@ -376,6 +376,7 @@ export interface IExerciseGoalSearchOptions extends ISearchOptions
 }
 export interface IExerciseSearchOptions extends ISearchOptions
 {
+	id?: number;
 	userId?: number;
 	chartTimespanId?: eChartTimespan;
 	exerciseIds: number[];
