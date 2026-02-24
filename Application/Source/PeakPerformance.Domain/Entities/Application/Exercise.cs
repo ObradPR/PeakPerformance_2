@@ -26,6 +26,12 @@ public class Exercise : BaseDomain<long>, IConfigurableEntity
 
     public eMuscleGroup? SecondaryMuscleGroupId { get; set; }
 
+    // Image
+
+    public string ProfilePictureUrl { get; set; }
+
+    public string PublicId { get; set; }
+
     //
     // Relationships
     //
@@ -48,8 +54,6 @@ public class Exercise : BaseDomain<long>, IConfigurableEntity
     {
         builder.Entity<Exercise>(_ =>
         {
-            _.HasIndex(_ => _.ApiExerciseId).IsUnique();
-            _.Property(_ => _.ApiExerciseId).IsRequired();
             _.HasIndex(_ => _.Name).IsUnique();
             _.Property(_ => _.Name).IsRequired();
         });
