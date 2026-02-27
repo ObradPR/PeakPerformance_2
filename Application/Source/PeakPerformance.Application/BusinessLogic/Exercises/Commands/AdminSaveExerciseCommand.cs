@@ -16,6 +16,11 @@ public class AdminSaveExerciseCommand(ExerciseDto data, FileInformationDto file)
     {
         public async Task<BaseResponseWrapper> Handle(AdminSaveExerciseCommand request, CancellationToken cancellationToken)
         {
+            if (!identityUser.HasRole([eSystemRole.Admin]))
+            {
+                throw new ForbiddenException();
+            }
+
             if (request.Data == null)
                 return new(new Error(nameof(Exercise), ResourceValidation.Required.FormatWith(nameof(Exercise))));
 

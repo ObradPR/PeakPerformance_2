@@ -1,4 +1,5 @@
-﻿using PeakPerformance.Application.BusinessLogic.Users.Commands;
+﻿using PeakPerformance.Api.Attributes;
+using PeakPerformance.Application.BusinessLogic.Users.Commands;
 using PeakPerformance.Application.BusinessLogic.Users.Queries;
 using PeakPerformance.Application.Dtos._Base;
 using PeakPerformance.Application.Dtos.Users;
@@ -81,12 +82,12 @@ public class UserController(IMediator mediator) : BaseController(mediator)
     // Admin
 
     [HttpPost]
-    [Authorize]
+    [Authorization(eSystemRole.Admin)]
     [AngularMethod(typeof(BaseResponseWrapper))]
     public async Task<IActionResult> DeactivateUser([FromBody] DeactivateReasonDto data) => Result(await Mediator.Send(new DeactivateCommand(data)));
 
     [HttpPost]
-    [Authorize]
+    [Authorization(eSystemRole.Admin)]
     [AngularMethod(typeof(BaseResponseWrapper))]
     public async Task<IActionResult> ActivateUser([FromBody] long userId) => Result(await Mediator.Send(new ActivateCommand(userId)));
 }

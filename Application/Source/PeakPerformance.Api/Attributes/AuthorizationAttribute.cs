@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc.Filters;
 using PeakPerformance.Common.Extensions;
-using PeakPerformance.Domain.Enums;
 using PeakPerformance.Domain.Exceptions;
 using PeakPerformance.Domain.Interfaces;
 
 namespace PeakPerformance.Api.Attributes;
 
+[AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
 public class AuthorizationAttribute(params eSystemRole[] roles) : Attribute, IAuthorizationFilter
 {
     private readonly eSystemRole[] _roles = roles;

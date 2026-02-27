@@ -1,4 +1,5 @@
-﻿using PeakPerformance.Application.BusinessLogic.Exercises.Commands;
+﻿using PeakPerformance.Api.Attributes;
+using PeakPerformance.Application.BusinessLogic.Exercises.Commands;
 using PeakPerformance.Application.BusinessLogic.Exercises.Queries;
 using PeakPerformance.Application.Dtos._Base;
 using PeakPerformance.Application.Dtos.Exercises;
@@ -53,12 +54,12 @@ public class ExerciseController(IMediator mediator) : BaseController(mediator)
     // Admin
 
     [HttpPost]
-    [Authorize]
+    [Authorization(eSystemRole.Admin)]
     [AngularMethod(typeof(ResponseWrapper<PagingResult<ExerciseDto>>))]
     public async Task<IActionResult> AdminSearch([FromBody] ExerciseSearchOptions options) => Result(await Mediator.Send(new AdminSearchExerciseQuery(options)));
 
     [HttpPost]
-    [Authorize]
+    [Authorization(eSystemRole.Admin)]
     [AngularMethod(typeof(BaseResponseWrapper))]
     public async Task<IActionResult> AdminSave([FromForm] string dataJson)
     {
