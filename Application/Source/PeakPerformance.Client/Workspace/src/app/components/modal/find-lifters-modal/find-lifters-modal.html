@@ -111,9 +111,9 @@
                                   {{ user.genderId | enumName:'UserGenders'}}
                                 </div>
                               }
-                              @if (getUserAge(user.id)) {
+                              @if (user.dateOfBirth) {
                                 <div class="short-info-block-find-lifters">
-                                  {{ getUserAge(user.id) + ' yso' }}
+                                  {{ user.dateOfBirth | age }} yso
                                 </div>
                               }
                               @if(user.height) {

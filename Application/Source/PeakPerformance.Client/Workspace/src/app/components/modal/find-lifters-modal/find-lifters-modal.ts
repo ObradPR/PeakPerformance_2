@@ -15,10 +15,11 @@ import { AuthService } from '../../../services/auth.service';
 import { Functions } from '../../../functions';
 import { MeasurementConverterPipe } from '../../../pipes/measurement-converter.pipe';
 import { eMeasurementUnit } from '../../../_generated/enums';
+import { AgePipe } from '../../../pipes/age.pipe';
 
 @Component({
   selector: 'app-find-lifters-modal',
-  imports: [FormsModule, ReactiveFormsModule, Paginator, EnumNamePipe],
+  imports: [FormsModule, ReactiveFormsModule, Paginator, EnumNamePipe, AgePipe],
   templateUrl: './find-lifters-modal.html',
   styleUrl: './find-lifters-modal.css'
 })
@@ -114,16 +115,6 @@ export class FindLiftersModal implements IModalMethods, OnInit {
   getUserCountryIso2(userId: number): string | null {
     const country = this.countries.find(c => c.id === this.users.data.find(u => u.id === userId)?.countryId);
     return country?.isO2 ?? null;
-  }
-
-  getUserAge(userId: number): number | null {
-    const user = this.users.data.find(_ => _.id === userId);
-
-    if (!user?.dateOfBirth) return null;
-
-    return Math.floor(
-      DateTime.now().diff(DateTime.fromJSDate(new Date(user!.dateOfBirth)), 'years').years
-    );
   }
 
   getUserHeight(userId: number): number | null {

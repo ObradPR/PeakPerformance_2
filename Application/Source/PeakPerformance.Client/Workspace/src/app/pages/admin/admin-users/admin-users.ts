@@ -11,10 +11,11 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angul
 import { Providers } from '../../../_generated/providers';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
 import { ModalService } from '../../../services/modal.service';
+import { AgePipe } from '../../../pipes/age.pipe';
 
 @Component({
   selector: 'app-admin-users',
-  imports: [Paginator, CommonModule, EnumNamePipe, FormsModule, ReactiveFormsModule],
+  imports: [Paginator, CommonModule, EnumNamePipe, FormsModule, ReactiveFormsModule, AgePipe],
   templateUrl: './admin-users.html',
   styleUrl: './admin-users.css'
 })
@@ -116,14 +117,6 @@ export class AdminUsers implements OnInit {
           this.countries = _.data;
         }
       });
-  }
-
-  getUserAge(dob: string | Date): string {
-    if (!dob) return '';
-    
-    return Math.floor(
-      DateTime.now().diff(DateTime.fromJSDate(new Date(dob)), 'years').years
-    ).toString();
   }
 
   getUserCountryIso2(userId: number): string | null {

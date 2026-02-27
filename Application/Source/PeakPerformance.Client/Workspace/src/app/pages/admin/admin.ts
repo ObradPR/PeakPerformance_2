@@ -11,7 +11,7 @@ import { AdminExercise } from './admin-exercise/admin-exercise';
 })
 export class Admin {
   
-  selectedTab: number = 1;
+  selectedTab: number = 0;
   tabs = [
     {
       label: 'Users',

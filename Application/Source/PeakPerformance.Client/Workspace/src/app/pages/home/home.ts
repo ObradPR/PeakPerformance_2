@@ -10,17 +10,17 @@ import { EnumNamePipe } from "../../pipes/enum-name.pipe";
 import { MeasurementConverterPipe } from '../../pipes/measurement-converter.pipe';
 import { AuthService } from '../../services/auth.service';
 import { WorkoutsCalendar } from "../workout/workouts-calendar/workouts-calendar";
+import { AgePipe } from '../../pipes/age.pipe';
 
 @Component({
   selector: 'app-home',
-  imports: [EnumNamePipe, RouterLink, WorkoutsCalendar],
+  imports: [EnumNamePipe, RouterLink, WorkoutsCalendar, AgePipe],
   templateUrl: './home.html',
   styleUrl: './home.css'
 })
 export class Home {
   user: WritableSignal<IUserDto | null> = signal<IUserDto | null>(null);
   isCurrentUser: boolean = false;
-  age: number | null;
   countryIso2: string | null;
 
   measurementUnits: IEnumProvider[] = [];
@@ -51,7 +51,6 @@ export class Home {
     
     this.setUserHeight();
     this.setUserCountry();
-    this.setUserAge();
   }
 
   private setUserCountry() {
@@ -62,14 +61,6 @@ export class Home {
            this.countryIso2 = _.data.isO2;
         }
       });
-  }
-
-  private setUserAge() {
-    if (!this.user()?.dateOfBirth) return;
-
-    this.age = Math.floor(
-      DateTime.now().diff(DateTime.fromJSDate(new Date(this.user()!.dateOfBirth)), 'years').years
-    );
   }
 
   private setUserHeight() {
