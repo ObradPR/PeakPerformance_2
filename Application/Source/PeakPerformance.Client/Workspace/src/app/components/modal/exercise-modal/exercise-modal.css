@@ -19,6 +19,14 @@
     height: 60px;
 }
 
+.exercise-icon {
+    width: 60px;
+    height: 60px;
+    background-color: #dadada;
+    border-radius: 50%;
+    font-size: 1.7em;
+}
+
 .exercise-title {
     color: var(--bs-blue);
     font-weight: 500;

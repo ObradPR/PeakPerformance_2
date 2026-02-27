@@ -25,11 +25,17 @@
                             [value]="muscles"/>
                     </div>
             
-                    <img 
-                        class="mx-auto" 
-                        [src]="'https://static.exercisedb.dev/media/' + exercise.apiExerciseId + '.gif'" 
-                        [alt]="exercise.name" 
-                        style="width: 220px;" />
+                    @if (exercise.apiExerciseId || exercise.pictureUrl) {
+                        <img 
+                            class="exercise-gif mx-auto" 
+                            [src]="exercise.apiExerciseId ? ('https://static.exercisedb.dev/media/' + exercise.apiExerciseId + '.gif') : exercise.pictureUrl" 
+                            [alt]="exercise.name"/>
+                    }
+                    @else {
+                        <div class="mx-auto exercise-icon d-flex justify-content-center align-items-center">
+                            <i class="fa fa-dumbbell"></i>
+                        </div>
+                    }
         
                     <div class="mt-3">
                         @for (step of exercise.instructions; track $index; let idx = $index) {

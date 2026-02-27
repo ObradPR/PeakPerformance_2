@@ -1,0 +1,12 @@
+
+.exercise-gif {
+  width: 220px;
+}
+
+.exercise-icon {
+  width: 220px;
+  height: 220px;
+  background-color: #dadada;
+  border-radius: 50%;
+  font-size: 5em;
+}
