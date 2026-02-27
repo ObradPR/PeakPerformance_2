@@ -1,0 +1,117 @@
+<div class="my-backdrop"></div>
+<section class="my-modal md">
+    <div class="my-modal-header">
+        <h3>{{ modalType }} Exercise</h3>
+        <i class="fa-solid fa-circle-xmark" (click)="closeModal()"></i>
+    </div>
+
+    <div class="my-modal-body">
+        <form [formGroup]="form">
+            <h4>Image</h4>
+            <div class="d-flex flex-column">
+    
+                <!-- CIRCLE IMAGE WITH HOVER PENCIL -->
+                <div class="image-wrapper mb-1" (click)="fileInput.click()">
+
+                    <!-- Real Image -->
+                      @if(previewImage) {
+                        <img [src]="previewImage" class="image"/>
+                      }
+                    <!-- Default User Icon -->
+                      @else {
+                        <div class="default-icon">
+                            <i class="fa-solid fa-dumbbell"></i>
+                        </div>
+                      }
+
+                    <!-- Pencil Overlay -->
+                    <div class="edit-overlay">
+                        <i class="fa-solid fa-pen"></i>
+                    </div>
+                </div>
+
+                <!-- Hidden File Input -->
+                <input type="file" #fileInput accept="image/*" style="display:none" (change)="onFileSelected($event)" />
+
+                <!-- ACTION BUTTONS -->
+                <div class="mt-2 d-flex align-items-center flex-wrap gap-2">
+                    <!-- DELETE Picture -->
+                      @if(originalImage) {
+                          <button class="btn btn-danger" type="button" (click)="deletePicture()">
+                              Delete Picture
+                          </button>
+                      }
+
+                    <!-- CANCEL CHANGES (only when user selected a new image) -->
+                      @if(hasUnsavedChange) {
+                          <button class="btn btn-outline-secondary" type="button" (click)="cancelChanges()">
+                              Cancel Changes
+                          </button>
+                      }
+                </div>
+
+            </div>
+            <p><i class="fa-solid fa-circle-info"></i> Or insert a open source api id, that will load the gif</p>
+            <div class="position-relative">
+                <label for="apiExerciseId">Api Exercise Id</label>
+                <div class="input-group mb-3" validation [key]="'ApiExerciseId'" [errors]="errors">
+                     <input type="text" class="form-control" id="apiExerciseId" placeholder="Api Gif Id" formControlName="apiExerciseId" />
+                </div>
+            </div>
+            <h4>Details</h4>
+            <div class="position-relative">
+                <label for="name">Name</label>
+                <div class="input-group mb-3" validation [key]="'Name'" [errors]="errors">
+                     <input type="text" class="form-control" id="name" placeholder="" formControlName="name" />
+                </div>
+            </div>
+            <div class="position-relative">
+                <label for="equipmentName">Equipment Name</label>
+                <div class="input-group mb-3" validation [key]="'EquipmentName'" [errors]="errors">
+                     <input type="text" class="form-control" id="equipmentName" placeholder="" formControlName="equipmentName" />
+                </div>
+            </div>
+            <div class="position-relative">
+                <label for="bodyPart">Body Part</label>
+                <div class="input-group mb-3" validation [key]="'BodyPart'" [errors]="errors">
+                     <input type="text" class="form-control" id="bodyPart" placeholder="" formControlName="bodyPart" />
+                </div>
+            </div>
+            <div class="position-relative">
+                <label for="instructions">Instructions</label>
+                <div class="input-group mb-3" validation [key]="'Instructions'" [errors]="errors">
+                    <textarea class="form-control" id="instructions" placeholder="" formControlName="instructions" rows="5"></textarea>
+                </div>
+            </div>
+            <div class="position-relative">
+              <label for="exerciseTypeId">Type</label>
+              <select id="exerciseTypeId" class="form-select mb-3" formControlName="exerciseTypeId">
+                @for (type of providers.getExerciseTypes(); track $index) {
+                    <option [ngValue]="type.id">{{ type.description }}</option>
+                }
+              </select>
+            </div>
+            <div class="position-relative">
+              <label for="primaryMuscleGroupIds">Primary Muscle Groups</label>
+              <select id="primaryMuscleGroupIds" class="form-select mb-3" multiple [size]="providers.getMuscleGroups().length" formControlName="primaryMuscleGroupIds" validation [key]="'PrimaryMuscleGroupIds'" [errors]="errors">
+                 @for (type of providers.getMuscleGroups(); track $index) {
+                    <option [ngValue]="type.id">{{ type.description }}</option>
+                }
+              </select>
+            </div>
+             <div class="position-relative">
+              <label for="secondaryMuscleGroupIds">Secondary Muscle Groups</label>
+              <select id="secondaryMuscleGroupIds" class="form-select mb-2" multiple [size]="providers.getMuscleGroups().length" formControlName="secondaryMuscleGroupIds" validation [key]="'SecondaryMuscleGroupIds'" [errors]="errors">
+                 @for (type of providers.getMuscleGroups(); track $index) {
+                    <option [ngValue]="type.id">{{ type.description }}</option>
+                }
+              </select>
+            </div>
+        </form>
+    </div>
+
+    <div class="my-modal-footer">
+        <button class="btn btn-primary" (click)="submit()">Save</button>
+        <button class="btn btn-secondary" (click)="closeModal()">Close</button>
+    </div>
+</section>

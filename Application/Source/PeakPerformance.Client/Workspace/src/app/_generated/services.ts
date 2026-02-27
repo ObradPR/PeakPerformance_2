@@ -347,6 +347,20 @@ import { IWorkoutLogDto } from './interfaces';
 		.pipe(map(response => response.body));
 		
 	}
+	public AdminSave(dataJson: FormData) : Observable<IBaseResponseWrapper | null>
+	{
+		const body = <any>dataJson;
+		return this.httpClient.post<IBaseResponseWrapper>(
+		this.settingsService.createApiUrl('Exercise/AdminSave'),
+		body,
+		{
+			responseType: 'json',
+			observe: 'response',
+			withCredentials: true
+		})
+		.pipe(map(response => response.body));
+		
+	}
 	constructor (httpClient: HttpClient, settingsService: SettingsService)
 	{
 		super(httpClient, settingsService);

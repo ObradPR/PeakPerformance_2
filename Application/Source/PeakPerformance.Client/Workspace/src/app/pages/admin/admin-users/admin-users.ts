@@ -29,7 +29,7 @@ export class AdminUsers implements OnInit {
   };
 
   first = 0;
-  rows = 15;
+  rows = 14;
 
   genders: IEnumProvider[] = [];
   ageRanges: IEnumProvider[] = [];

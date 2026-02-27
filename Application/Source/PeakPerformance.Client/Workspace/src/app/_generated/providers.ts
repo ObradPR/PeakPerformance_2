@@ -86,4 +86,24 @@ import { IEnumProvider } from './interfaces';
 		    { id: 6, name: 'Age_70_plus', description: '70+', bgColor: '' }
 		];
 	}
+	getExerciseTypes() : IEnumProvider[]
+	{
+		return [
+		    { id: 1, name: 'Strength', description: 'Strength', bgColor: '' },
+		    { id: 2, name: 'Bodyweight', description: 'Bodyweight', bgColor: '' },
+		    { id: 3, name: 'Cardio', description: 'Cardio', bgColor: '' }
+		];
+	}
+	getMuscleGroups() : IEnumProvider[]
+	{
+		return [
+		    { id: 0, name: 'None', description: '', bgColor: '' },
+		    { id: 1, name: 'Back', description: 'Back', bgColor: '' },
+		    { id: 2, name: 'Arms', description: 'Arms', bgColor: '' },
+		    { id: 4, name: 'Chest', description: 'Chest', bgColor: '' },
+		    { id: 8, name: 'Shoulders', description: 'Shoulders', bgColor: '' },
+		    { id: 16, name: 'Legs', description: 'Legs', bgColor: '' },
+		    { id: 32, name: 'Core', description: 'Core', bgColor: '' }
+		];
+	}
 }

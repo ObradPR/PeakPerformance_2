@@ -28,12 +28,26 @@ export enum eChartTimespan {
 	Last12Months = 12,
 	AllTime = 100
 }
+export enum eExerciseType {
+	Strength = 1,
+	Bodyweight = 2,
+	Cardio = 3
+}
 export enum eMeasurementUnit {
 	NotSet = 0,
 	Kilograms = 1,
 	Pounds = 2,
 	Centimeters = 3,
 	Inches = 4
+}
+export enum eMuscleGroup {
+	None = 0,
+	Back = 1,
+	Arms = 2,
+	Chest = 4,
+	Shoulders = 8,
+	Legs = 16,
+	Core = 32
 }
 export enum eSetRpeType {
 	NotSet = 0,

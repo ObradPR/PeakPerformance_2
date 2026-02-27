@@ -28,7 +28,7 @@ public class Exercise : BaseDomain<long>, IConfigurableEntity
 
     // Image
 
-    public string ProfilePictureUrl { get; set; }
+    public string PictureUrl { get; set; }
 
     public string PublicId { get; set; }
 

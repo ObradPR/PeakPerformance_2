@@ -1,5 +1,5 @@
 import { Injectable, signal } from '@angular/core';
-import { IBodyweightDto, IBodyweightGoalDto, IExerciseGoalDto, IMeasurementDto, IMeasurementGoalDto, IWorkoutDto, IWorkoutExerciseDto, IWorkoutExerciseSetDto } from '../_generated/interfaces';
+import { IBodyweightDto, IBodyweightGoalDto, IExerciseDto, IExerciseGoalDto, IMeasurementDto, IMeasurementGoalDto, IWorkoutDto, IWorkoutExerciseDto, IWorkoutExerciseSetDto } from '../_generated/interfaces';
 import { single } from 'rxjs';
 
 export type TModal = 'add' | 'edit';
@@ -347,6 +347,35 @@ export class ModalService {
     this.userId.set(userId);
     this.deactivateReason.set(deactivateReason);
     this.deactivateUserModal.set(true);
+  }
+
+  // Admin Exercise
+
+  private adminExerciseModal = signal<boolean>(false);
+  private adminExerciseModalType = signal<TModal | null>(null);
+  private adminSelectedExercise = signal<IExerciseDto | null>(null);
+
+  
+  readonly adminExerciseModalSignal = this.adminExerciseModal.asReadonly();
+  readonly adminExerciseModalTypeSignal = this.adminExerciseModalType.asReadonly();
+  readonly adminSelectedExerciseSignal = this.adminSelectedExercise.asReadonly();
+
+
+  showAdminExerciseCreateModal() {
+    this.adminExerciseModalType.set('add');
+    this.adminExerciseModal.set(true);
+  }
+
+  showAdminExerciseEditModal(exercise: IExerciseDto) {
+    this.adminExerciseModalType.set('edit');
+    this.adminSelectedExercise.set(exercise);
+    this.adminExerciseModal.set(true);
+  }
+
+  hideAdminExerciseModal() {
+    this.adminExerciseModal.set(false);
+    this.adminSelectedExercise.set(null);
+    this.reload.set(!this.reload())
   }
 
 }

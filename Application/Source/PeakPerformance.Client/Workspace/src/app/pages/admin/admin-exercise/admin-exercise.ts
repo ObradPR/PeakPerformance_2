@@ -22,20 +22,18 @@ export class AdminExercise implements OnInit {
   };
 
   first = 0;
-  rows = 15;
+  rows = 13;
 
   constructor(
     private fb: FormBuilder,
 
     private loaderService: LoaderService,
-    // private authService: AuthService,
-    // private providers: Providers,
-    private modalService: ModalService,
+    public modalService: ModalService,
     
     private exerciseController: ExerciseController,
   ) {
     effect(() => {
-      // this.modalService.reloadSignal();
+      this.modalService.reloadSignal();
       this.getExercises(this.first, this.rows);
     }, { allowSignalWrites: true })
   }
@@ -93,5 +91,13 @@ export class AdminExercise implements OnInit {
         this.first = 0;
         this.getExercises(this.first, this.rows);
       });
+  }
+
+  onEditExercise(exercise: IExerciseDto) {
+    const ok = window.confirm(`Are you sure you want to edit existing exercise?`);
+
+    if (!ok) return;
+
+    this.modalService.showAdminExerciseEditModal(exercise);
   }
 }

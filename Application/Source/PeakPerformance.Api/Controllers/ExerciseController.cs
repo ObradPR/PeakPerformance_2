@@ -1,6 +1,8 @@
 ﻿using PeakPerformance.Application.BusinessLogic.Exercises.Commands;
 using PeakPerformance.Application.BusinessLogic.Exercises.Queries;
+using PeakPerformance.Application.Dtos._Base;
 using PeakPerformance.Application.Dtos.Exercises;
+using PeakPerformance.Common.Extensions;
 
 namespace PeakPerformance.Api.Controllers;
 
@@ -54,4 +56,34 @@ public class ExerciseController(IMediator mediator) : BaseController(mediator)
     [Authorize]
     [AngularMethod(typeof(ResponseWrapper<PagingResult<ExerciseDto>>))]
     public async Task<IActionResult> AdminSearch([FromBody] ExerciseSearchOptions options) => Result(await Mediator.Send(new AdminSearchExerciseQuery(options)));
+
+    [HttpPost]
+    [Authorize]
+    [AngularMethod(typeof(BaseResponseWrapper))]
+    public async Task<IActionResult> AdminSave([FromForm] string dataJson)
+    {
+        var data = dataJson.DeserializeJsonObject<ExerciseDto>();
+
+        FileInformationDto[] fileDtos = [];
+
+        if (HttpContext.Request.Form.Files.Count != 0)
+        {
+            var fileReads = HttpContext.Request.Form.Files.Select(async file =>
+            {
+                using var stream = new MemoryStream();
+                await file.CopyToAsync(stream);
+                return new FileInformationDto
+                {
+                    FileName = file.Name,
+                    Type = file.ContentType,
+                    Buffer = stream.ToArray(),
+                    Size = file.Length
+                };
+            });
+
+            fileDtos = await Task.WhenAll(fileReads);
+        }
+
+        return Result(await Mediator.Send(new AdminSaveExerciseCommand(data, fileDtos.FirstOrDefault())));
+    }
 }

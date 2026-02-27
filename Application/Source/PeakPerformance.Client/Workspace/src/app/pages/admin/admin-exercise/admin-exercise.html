@@ -22,7 +22,8 @@
               <td>{{ exercise.apiExerciseId }}</td>
               <td>{{ exercise.name }}</td>
               <td class="text-center">
-                <button class="btn btn-sm btn-primary">
+                <button class="btn btn-sm btn-primary"
+                  (click)="onEditExercise(exercise)">
                   <i class="fa-solid fa-pen-to-square"></i> Edit
                 </button>
               </td>
@@ -36,4 +37,9 @@
         [rows]="rows" 
         [totalRecords]="exercises.total"
         [showFirstLastIcon]="false" />
+</div>
+<div class="text-end">
+  <button class="btn btn-success" (click)="modalService.showAdminExerciseCreateModal()">
+    <i class="fa-solid fa-plus"></i> New
+  </button>
 </div>

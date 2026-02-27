@@ -22,4 +22,10 @@ public enum Providers
 
     [EnumProvider<eAgeRange>]
     AgeRanges,
+
+    [EnumProvider<eExerciseType>]
+    ExerciseTypes,
+
+    [EnumProvider<eMuscleGroup>]
+    MuscleGroups,
 }

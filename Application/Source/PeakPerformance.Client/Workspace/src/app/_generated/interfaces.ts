@@ -1,6 +1,8 @@
 import { eUserGender } from './enums';
 import { eMeasurementUnit } from './enums';
 import { eSystemRole } from './enums';
+import { eExerciseType } from './enums';
+import { eMuscleGroup } from './enums';
 import { eBodyPart } from './enums';
 import { eSetRpeType } from './enums';
 import { eSetType } from './enums';
@@ -104,8 +106,13 @@ export interface IExerciseDto
 	isCardio?: boolean;
 	isBodyweight?: boolean;
 	isStrength?: boolean;
+	exerciseTypeId?: eExerciseType;
 	primaryMuscleGroups: string[];
+	primaryMuscleGroupIds: eMuscleGroup[];
 	secondaryMuscleGroups: string[];
+	secondaryMuscleGroupIds: eMuscleGroup[];
+	pictureUrl: string;
+	removePicture?: boolean;
 }
 export interface IExerciseStatsDto
 {
@@ -145,8 +152,8 @@ export interface IWorkoutExerciseDto
 	notes: string;
 	order: number;
 	workoutId: number;
-	primaryMuscleGroupId: number;
-	secondaryMuscleGroupId?: number;
+	primaryMuscleGroupId: eMuscleGroup;
+	secondaryMuscleGroupId?: eMuscleGroup;
 	sets: IWorkoutExerciseSetDto[];
 }
 export interface IBodyweightDto

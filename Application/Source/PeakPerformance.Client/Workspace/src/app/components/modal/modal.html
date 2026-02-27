@@ -48,3 +48,7 @@
 @if (modalService.deactivateUserModalSignal()) {
     <app-deactivate-user-modal (closeModalEvent)="modalService.hideDeactivateUserModal()"></app-deactivate-user-modal>
 }
+
+@if (modalService.adminExerciseModalSignal()) {
+    <app-admin-exercise-modal (closeModalEvent)="modalService.hideAdminExerciseModal()"></app-admin-exercise-modal>
+}

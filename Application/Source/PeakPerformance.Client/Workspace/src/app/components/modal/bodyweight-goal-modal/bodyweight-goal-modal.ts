@@ -27,7 +27,7 @@ export class BodyweightGoalModal extends BaseValidationComponent implements IMod
 
   userWeightPreference: eMeasurementUnit | undefined;
   selectedBodyweightGoal: IBodyweightGoalDto | null = null;
-  modalType: string;;
+  modalType: string;
 
   constructor(
     private fb: FormBuilder,
